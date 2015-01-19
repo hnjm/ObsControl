@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-using IP9212_switch;
+using ASCOM;
+using ASCOM.DeviceInterface;
+using ASCOM.Utilities;
 
 namespace ObservatoryCenter
 {
@@ -19,15 +21,29 @@ namespace ObservatoryCenter
         public Process CCDAP = new Process();
         public Process Planetarium = new Process();
 
-        internal IP9212_switch_class IP9212;
-
         public ASCOM.DriverAccess.Telescope objTelescope = null;
         public ASCOM.DriverAccess.Dome objDome = null;
         public ASCOM.DriverAccess.Switch objSwitch = null;
 
+        public string SWITCH_DRIVER_NAME = "";
         public string DOME_DRIVER_NAME = "";
         public string TELESCOPE_DRIVER_NAME = "";
-        public string SWITCH_DRIVER_NAME = "";
+
+        /// <summary>
+        /// Property holds current shutter status
+        /// </summary>
+        internal ShutterState CurrentSutterStatus
+        {
+            get{
+                if (objDome != null)
+                    return objDome.ShutterStatus;
+                else
+                {
+                    return ShutterState.shutterError;
+                }
+
+            }
+        }
 
         #region
         internal byte POWER_MAIN_PORT=6;
@@ -35,12 +51,20 @@ namespace ObservatoryCenter
         internal byte POWER_ROOF_PORT = 3;
         #endregion
 
-
-        public ObservatoryControls(IP9212_switch_class IP9212_ref)
+        /// <summary>
+        /// Conctructor
+        /// </summary>
+        public ObservatoryControls()
         {
-            IP9212=IP9212_ref;
+            //for debug
+            SWITCH_DRIVER_NAME = "SwitchSim.Switch";
+            DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
+            TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
+
+
         }
 
+#region Programs Controlling
         public void startPlanetarium()
         {
             Planetarium.StartInfo.FileName = PlanetariumPath;
@@ -64,11 +88,36 @@ namespace ObservatoryCenter
             CCDAP.StartInfo.UseShellExecute = false;
             CCDAP.Start();
         }
+#endregion Program controlling
+
+        public bool connectSwitch()
+        {
+            objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
+            objSwitch.Connected = true;
+
+            return objSwitch.Connected;
+        }
+
+        public bool connectTelescope()
+        {
+            objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
+            objTelescope.Connected = true;
+
+            return objTelescope.Connected;
+        }
+
+        public bool connectDome()
+        {
+            objDome= new ASCOM.DriverAccess.Dome(DOME_DRIVER_NAME);
+            objDome.Connected = true;
+
+            return objDome.Connected;
+        }
 
         public bool startCheckSwitch()
         {
             //check if can be connected
-            if (!IP9212.checkLink_forced())
+            if (!objSwitch.Connected)
             {
                 //Log.AddMessage("startSwitch","Cann't connect to switch. Check your settings");
                 System.Windows.Forms.MessageBox.Show("Cann't connect to switch. Check your settings");
@@ -78,34 +127,7 @@ namespace ObservatoryCenter
         }
 
 
-        public bool connectSwitch()
-        {
-            //for debug
-            SWITCH_DRIVER_NAME = "SwitchSim.Switch";
-
-            objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
-            objSwitch.Connected = true;
-            
-            return true;
-        }
-
-        public bool connectTelescope()
-        {
-
-            
-            return true;
-        }
-
-
-        public bool connectDome()
-        {
-
-
-            return true;
-        }
-
-
-        #region Power controlling
+#region Power controlling
 
         public bool MainPower(bool state)
         {
@@ -115,7 +137,7 @@ namespace ObservatoryCenter
         }
 
 
-        #endregion
+#endregion Power controlling
 
 
 

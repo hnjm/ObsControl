@@ -35,6 +35,11 @@
             this.tabPageWeather = new System.Windows.Forms.TabPage();
             this.tabPageAllsky = new System.Windows.Forms.TabPage();
             this.tabPageCameras = new System.Windows.Forms.TabPage();
+            this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.labelDriverId = new System.Windows.Forms.Label();
+            this.buttonConnect = new System.Windows.Forms.Button();
+            this.buttonChoose = new System.Windows.Forms.Button();
             this.annunciatorPanel1 = new ASCOM.Controls.AnnunciatorPanel();
             this.annunciator1 = new ASCOM.Controls.Annunciator();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -57,24 +62,25 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.animateRoof = new System.Windows.Forms.Timer(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
-            this.ledIndicator3 = new ASCOM.Controls.LedIndicator();
+            this.ledSwitchIndicator = new ASCOM.Controls.LedIndicator();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnStopRoof = new System.Windows.Forms.Button();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tabPageSettings = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.labelDriverId = new System.Windows.Forms.Label();
-            this.buttonConnect = new System.Windows.Forms.Button();
-            this.buttonChoose = new System.Windows.Forms.Button();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
+            this.tabPageSettings.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.annunciatorPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tabPageSettings.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -88,7 +94,7 @@
             this.tabControl1.Controls.Add(this.tabPageCameras);
             this.tabControl1.Controls.Add(this.tabPageSettings);
             this.tabControl1.Location = new System.Drawing.Point(345, 1);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(641, 609);
@@ -97,9 +103,9 @@
             // tabPageControl
             // 
             this.tabPageControl.Location = new System.Drawing.Point(4, 25);
-            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Name = "tabPageControl";
-            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Size = new System.Drawing.Size(633, 580);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Control";
@@ -108,9 +114,9 @@
             // tabPageWeather
             // 
             this.tabPageWeather.Location = new System.Drawing.Point(4, 25);
-            this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageWeather.Name = "tabPageWeather";
-            this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageWeather.Size = new System.Drawing.Size(633, 580);
             this.tabPageWeather.TabIndex = 1;
             this.tabPageWeather.Text = "Weather";
@@ -119,7 +125,7 @@
             // tabPageAllsky
             // 
             this.tabPageAllsky.Location = new System.Drawing.Point(4, 25);
-            this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageAllsky.Name = "tabPageAllsky";
             this.tabPageAllsky.Size = new System.Drawing.Size(633, 580);
             this.tabPageAllsky.TabIndex = 2;
@@ -129,19 +135,75 @@
             // tabPageCameras
             // 
             this.tabPageCameras.Location = new System.Drawing.Point(4, 25);
-            this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageCameras.Name = "tabPageCameras";
             this.tabPageCameras.Size = new System.Drawing.Size(633, 580);
             this.tabPageCameras.TabIndex = 3;
             this.tabPageCameras.Text = "Cameras";
             this.tabPageCameras.UseVisualStyleBackColor = true;
             // 
+            // tabPageSettings
+            // 
+            this.tabPageSettings.Controls.Add(this.groupBox4);
+            this.tabPageSettings.Location = new System.Drawing.Point(4, 25);
+            this.tabPageSettings.Name = "tabPageSettings";
+            this.tabPageSettings.Size = new System.Drawing.Size(633, 580);
+            this.tabPageSettings.TabIndex = 4;
+            this.tabPageSettings.Text = "Settings";
+            this.tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.labelDriverId);
+            this.groupBox4.Controls.Add(this.buttonConnect);
+            this.groupBox4.Controls.Add(this.buttonChoose);
+            this.groupBox4.Location = new System.Drawing.Point(3, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(605, 68);
+            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Switch";
+            // 
+            // labelDriverId
+            // 
+            this.labelDriverId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelDriverId.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.labelDriverId.Location = new System.Drawing.Point(7, 18);
+            this.labelDriverId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDriverId.Name = "labelDriverId";
+            this.labelDriverId.Size = new System.Drawing.Size(317, 25);
+            this.labelDriverId.TabIndex = 5;
+            this.labelDriverId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // buttonConnect
+            // 
+            this.buttonConnect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.buttonConnect.Location = new System.Drawing.Point(436, 16);
+            this.buttonConnect.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonConnect.Name = "buttonConnect";
+            this.buttonConnect.Size = new System.Drawing.Size(96, 28);
+            this.buttonConnect.TabIndex = 4;
+            this.buttonConnect.Text = "Connect";
+            this.buttonConnect.UseVisualStyleBackColor = true;
+            // 
+            // buttonChoose
+            // 
+            this.buttonChoose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.buttonChoose.Location = new System.Drawing.Point(332, 16);
+            this.buttonChoose.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonChoose.Name = "buttonChoose";
+            this.buttonChoose.Size = new System.Drawing.Size(96, 28);
+            this.buttonChoose.TabIndex = 3;
+            this.buttonChoose.Text = "Choose";
+            this.buttonChoose.UseVisualStyleBackColor = true;
+            this.buttonChoose.Click += new System.EventHandler(this.buttonChoose_Click);
+            // 
             // annunciatorPanel1
             // 
             this.annunciatorPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.annunciatorPanel1.Controls.Add(this.annunciator1);
             this.annunciatorPanel1.Location = new System.Drawing.Point(11, 165);
-            this.annunciatorPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.annunciatorPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.annunciatorPanel1.Name = "annunciatorPanel1";
             this.annunciatorPanel1.Size = new System.Drawing.Size(297, 31);
             this.annunciatorPanel1.TabIndex = 5;
@@ -166,6 +228,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ledSwitchIndicator);
             this.groupBox1.Controls.Add(this.btnPowerAll);
             this.groupBox1.Controls.Add(this.ledIndicator2);
             this.groupBox1.Controls.Add(this.ledIndicator1);
@@ -176,9 +239,9 @@
             this.groupBox1.Controls.Add(this.btnFocuserPower);
             this.groupBox1.Controls.Add(this.btnTelescopePower);
             this.groupBox1.Location = new System.Drawing.Point(7, 214);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(328, 198);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -290,7 +353,7 @@
             // btnStartAll
             // 
             this.btnStartAll.Location = new System.Drawing.Point(56, 37);
-            this.btnStartAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStartAll.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartAll.Name = "btnStartAll";
             this.btnStartAll.Size = new System.Drawing.Size(176, 41);
             this.btnStartAll.TabIndex = 3;
@@ -302,7 +365,7 @@
             // 
             this.btnOpenRoof.Enabled = false;
             this.btnOpenRoof.Location = new System.Drawing.Point(215, 129);
-            this.btnOpenRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOpenRoof.Margin = new System.Windows.Forms.Padding(4);
             this.btnOpenRoof.Name = "btnOpenRoof";
             this.btnOpenRoof.Size = new System.Drawing.Size(93, 28);
             this.btnOpenRoof.TabIndex = 2;
@@ -314,7 +377,7 @@
             // 
             this.btnCloseRoof.Enabled = false;
             this.btnCloseRoof.Location = new System.Drawing.Point(11, 129);
-            this.btnCloseRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCloseRoof.Margin = new System.Windows.Forms.Padding(4);
             this.btnCloseRoof.Name = "btnCloseRoof";
             this.btnCloseRoof.Size = new System.Drawing.Size(93, 30);
             this.btnCloseRoof.TabIndex = 1;
@@ -356,10 +419,16 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 623);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3,
+            this.toolStripStatusLabel4,
+            this.toolStripStatusLabel5});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 620);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(989, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(989, 25);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -370,24 +439,24 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.ledIndicator3);
             this.panel4.Controls.Add(this.groupBox3);
             this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.groupBox1);
             this.panel4.Location = new System.Drawing.Point(4, 1);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(341, 608);
             this.panel4.TabIndex = 2;
             // 
-            // ledIndicator3
+            // ledSwitchIndicator
             // 
-            this.ledIndicator3.LabelText = "LED";
-            this.ledIndicator3.Location = new System.Drawing.Point(61, 421);
-            this.ledIndicator3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ledIndicator3.Name = "ledIndicator3";
-            this.ledIndicator3.Size = new System.Drawing.Size(75, 20);
-            this.ledIndicator3.TabIndex = 4;
+            this.ledSwitchIndicator.LabelText = "";
+            this.ledSwitchIndicator.Location = new System.Drawing.Point(56, 1);
+            this.ledSwitchIndicator.Margin = new System.Windows.Forms.Padding(4);
+            this.ledSwitchIndicator.Name = "ledSwitchIndicator";
+            this.ledSwitchIndicator.Size = new System.Drawing.Size(30, 20);
+            this.ledSwitchIndicator.Status = ASCOM.Controls.TrafficLight.Red;
+            this.ledSwitchIndicator.TabIndex = 4;
             // 
             // groupBox3
             // 
@@ -397,9 +466,9 @@
             this.groupBox3.Controls.Add(this.btnOpenRoof);
             this.groupBox3.Controls.Add(this.shapeContainer2);
             this.groupBox3.Location = new System.Drawing.Point(7, 4);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(328, 203);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
@@ -409,7 +478,7 @@
             // 
             this.btnStopRoof.Enabled = false;
             this.btnStopRoof.Location = new System.Drawing.Point(129, 129);
-            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4);
             this.btnStopRoof.Name = "btnStopRoof";
             this.btnStopRoof.Size = new System.Drawing.Size(61, 30);
             this.btnStopRoof.TabIndex = 1;
@@ -435,69 +504,43 @@
             // 
             this.groupBox2.Controls.Add(this.btnStartAll);
             this.groupBox2.Location = new System.Drawing.Point(7, 492);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(328, 110);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Software";
             // 
-            // tabPageSettings
+            // toolStripStatusLabel1
             // 
-            this.tabPageSettings.Controls.Add(this.groupBox4);
-            this.tabPageSettings.Location = new System.Drawing.Point(4, 25);
-            this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Size = new System.Drawing.Size(633, 580);
-            this.tabPageSettings.TabIndex = 4;
-            this.tabPageSettings.Text = "Settings";
-            this.tabPageSettings.UseVisualStyleBackColor = true;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(63, 20);
+            this.toolStripStatusLabel1.Text = "SWITCH";
             // 
-            // groupBox4
+            // toolStripStatusLabel2
             // 
-            this.groupBox4.Controls.Add(this.labelDriverId);
-            this.groupBox4.Controls.Add(this.buttonConnect);
-            this.groupBox4.Controls.Add(this.buttonChoose);
-            this.groupBox4.Location = new System.Drawing.Point(3, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(605, 68);
-            this.groupBox4.TabIndex = 0;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Switch";
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 20);
+            this.toolStripStatusLabel2.Text = "DOME";
             // 
-            // labelDriverId
+            // toolStripStatusLabel3
             // 
-            this.labelDriverId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelDriverId.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelDriverId.Location = new System.Drawing.Point(7, 18);
-            this.labelDriverId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelDriverId.Name = "labelDriverId";
-            this.labelDriverId.Size = new System.Drawing.Size(317, 25);
-            this.labelDriverId.TabIndex = 5;
-            this.labelDriverId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(84, 20);
+            this.toolStripStatusLabel3.Text = "TELESCOPE";
             // 
-            // buttonConnect
+            // toolStripStatusLabel4
             // 
-            this.buttonConnect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonConnect.Location = new System.Drawing.Point(436, 16);
-            this.buttonConnect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(96, 28);
-            this.buttonConnect.TabIndex = 4;
-            this.buttonConnect.Text = "Connect";
-            this.buttonConnect.UseVisualStyleBackColor = true;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(71, 20);
+            this.toolStripStatusLabel4.Text = "FOCUSER";
             // 
-            // buttonChoose
+            // toolStripStatusLabel5
             // 
-            this.buttonChoose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonChoose.Location = new System.Drawing.Point(332, 16);
-            this.buttonChoose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buttonChoose.Name = "buttonChoose";
-            this.buttonChoose.Size = new System.Drawing.Size(96, 28);
-            this.buttonChoose.TabIndex = 3;
-            this.buttonChoose.Text = "Choose";
-            this.buttonChoose.UseVisualStyleBackColor = true;
-            this.buttonChoose.Click += new System.EventHandler(this.buttonChoose_Click);
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(68, 20);
+            this.toolStripStatusLabel5.Text = "CAMERA";
             // 
             // MainForm
             // 
@@ -508,20 +551,22 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
+            this.tabPageSettings.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.annunciatorPanel1.ResumeLayout(false);
             this.annunciatorPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.tabPageSettings.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -560,12 +605,17 @@
         private System.Windows.Forms.Button btnPowerAll;
         private ASCOM.Controls.LedIndicator ledIndicator2;
         private System.Windows.Forms.Button btnHeating;
-        private ASCOM.Controls.LedIndicator ledIndicator3;
+        private ASCOM.Controls.LedIndicator ledSwitchIndicator;
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label labelDriverId;
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.Button buttonChoose;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
     }
 }
 

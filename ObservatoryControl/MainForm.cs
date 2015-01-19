@@ -9,24 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
-
-//using IP9212_switch;
+using System.Configuration;
 
 using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
-using ASCOM.RollOffRoof_IP9212;
 
 namespace ObservatoryCenter
 {
     public partial class MainForm : Form
     {
-        //internal static IP9212_switch_class IP9212;
-        internal static ASCOM.DriverAccess.Dome RollOffDriverId;
         
         public ObservatoryControls ObsControl;
-
-        string DomeDriverId = "ASCOM.IP9212_rolloffroof2.Dome";
 
         private Point ROOF_startPos;
         private int ROOF_endPos = 80;
@@ -39,27 +33,19 @@ namespace ObservatoryCenter
 
         private string prev_direction="";
 
-        /// <summary>
-        /// Property holds current shutter status
-        /// </summary>
-        internal ShutterState CurrentSutterStatus;
-
 
         public MainForm()
         {
             InitializeComponent();
-            IP9212 = new IP9212_switch_class();
-            ObsControl = new ObservatoryControls(IP9212);
-
-            ObsControl.connectSwitch();
-
-            //IP9212_rolloffroof = new ASCOM.DriverAccess.Dome(DomeDriverId);
-            //""
+            ObsControl = new ObservatoryControls();
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SwitchCon=ObsControl.connectSwitch();
+            DomeCon = ObsControl.connectDome();
+            
             //init graphic elements
             ROOF_startPos = rectRoof.Location;
 
@@ -71,14 +57,13 @@ namespace ObservatoryCenter
                 //chkHeater.Enabled = true;
                 //chkRoofPower.Enabled = true;
 
-                IP9212_rolloffroof.Connected = true;
-                
-                CurrentSutterStatus= IP9212_rolloffroof.ShutterStatus;
-                if (CurrentSutterStatus == ShutterState.shutterClosed)
+                ObsControl.objDome.Connected = true;
+
+                if (ObsControl.CurrentSutterStatus == ShutterState.shutterClosed)
                 {
                     drawClosed();
                 }
-                else if (CurrentSutterStatus == ShutterState.shutterOpen)
+                else if (ObsControl.CurrentSutterStatus == ShutterState.shutterOpen)
                 {
                     drawOpened();
                 }
@@ -122,7 +107,7 @@ namespace ObservatoryCenter
                 if (tickCount > waitTicksBeforeCheck)
                 {
                     //Roof was opened?
-                    if (!(IP9212_rolloffroof.ShutterStatus == ShutterState.shutterOpen))
+                    if (!(ObsControl.CurrentSutterStatus == ShutterState.shutterOpen))
                     {
                         //check - if this is too long?
                         if (tickCount < maxAnimationCounts)
@@ -172,7 +157,7 @@ namespace ObservatoryCenter
 
         private void drawStoped()
         {
-            ShutterState curShutState = IP9212_rolloffroof.ShutterStatus;
+            ShutterState curShutState = ObsControl.CurrentSutterStatus;
             if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing)) 
             {
             
@@ -269,10 +254,10 @@ namespace ObservatoryCenter
             ledTelescopeNCameraPower.Status = ASCOM.Controls.TrafficLight.Yellow;
             ledTelescopeNCameraPower.CadenceUpdate(true);
 
-            ledIndicator3.Status = ASCOM.Controls.TrafficLight.Yellow;
-            ledIndicator3.Refresh();
-            ledIndicator3.Update();
-            ledIndicator3.Enabled=true;
+            ledSwitchIndicator.Status = ASCOM.Controls.TrafficLight.Yellow;
+            ledSwitchIndicator.Refresh();
+            ledSwitchIndicator.Update();
+            ledSwitchIndicator.Enabled=true;
 
         }
 

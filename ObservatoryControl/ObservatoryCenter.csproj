@@ -7,9 +7,9 @@
     <ProjectGuid>{D60368F3-AD27-459E-BBF8-07944FB4BE5D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ObservatoryControl</RootNamespace>
-    <AssemblyName>ObservatoryControl</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>ObservatoryCenter</RootNamespace>
+    <AssemblyName>ObservatoryCenter</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -140,12 +140,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IP9212_switch\IP9212_switch.csproj">
-      <Project>{9cc6401c-f96d-4423-8c3b-19997cc3f1c8}</Project>
-      <Name>IP9212_switch</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Image1.png" />
