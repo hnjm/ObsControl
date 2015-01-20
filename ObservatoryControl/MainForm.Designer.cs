@@ -60,18 +60,18 @@
             this.rectRoof = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.rectBase = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatus_Switch = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatus_Dome = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatus_Telescope = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatus_Focuser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatus_Camera = new System.Windows.Forms.ToolStripStatusLabel();
             this.animateRoof = new System.Windows.Forms.Timer(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
-            this.ledSwitchIndicator = new ASCOM.Controls.LedIndicator();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnStopRoof = new System.Windows.Forms.Button();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mainTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -228,7 +228,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.ledSwitchIndicator);
             this.groupBox1.Controls.Add(this.btnPowerAll);
             this.groupBox1.Controls.Add(this.ledIndicator2);
             this.groupBox1.Controls.Add(this.ledIndicator1);
@@ -249,10 +248,10 @@
             // 
             // btnPowerAll
             // 
-            this.btnPowerAll.Location = new System.Drawing.Point(257, 22);
+            this.btnPowerAll.Location = new System.Drawing.Point(7, 100);
             this.btnPowerAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPowerAll.Name = "btnPowerAll";
-            this.btnPowerAll.Size = new System.Drawing.Size(67, 115);
+            this.btnPowerAll.Size = new System.Drawing.Size(314, 28);
             this.btnPowerAll.TabIndex = 7;
             this.btnPowerAll.Text = "Power all";
             this.btnPowerAll.UseVisualStyleBackColor = true;
@@ -262,7 +261,7 @@
             this.ledIndicator2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ledIndicator2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ledIndicator2.LabelText = "";
-            this.ledIndicator2.Location = new System.Drawing.Point(65, 166);
+            this.ledIndicator2.Location = new System.Drawing.Point(13, 156);
             this.ledIndicator2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ledIndicator2.Name = "ledIndicator2";
             this.ledIndicator2.Size = new System.Drawing.Size(21, 15);
@@ -274,7 +273,7 @@
             this.ledIndicator1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ledIndicator1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ledIndicator1.LabelText = "";
-            this.ledIndicator1.Location = new System.Drawing.Point(65, 113);
+            this.ledIndicator1.Location = new System.Drawing.Point(180, 31);
             this.ledIndicator1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ledIndicator1.Name = "ledIndicator1";
             this.ledIndicator1.Size = new System.Drawing.Size(21, 15);
@@ -286,7 +285,7 @@
             this.ledFocuserPower.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ledFocuserPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ledFocuserPower.LabelText = "";
-            this.ledFocuserPower.Location = new System.Drawing.Point(65, 73);
+            this.ledFocuserPower.Location = new System.Drawing.Point(13, 72);
             this.ledFocuserPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ledFocuserPower.Name = "ledFocuserPower";
             this.ledFocuserPower.Size = new System.Drawing.Size(21, 15);
@@ -298,7 +297,7 @@
             this.ledTelescopeNCameraPower.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ledTelescopeNCameraPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ledTelescopeNCameraPower.LabelText = "";
-            this.ledTelescopeNCameraPower.Location = new System.Drawing.Point(65, 32);
+            this.ledTelescopeNCameraPower.Location = new System.Drawing.Point(13, 32);
             this.ledTelescopeNCameraPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ledTelescopeNCameraPower.Name = "ledTelescopeNCameraPower";
             this.ledTelescopeNCameraPower.Size = new System.Drawing.Size(21, 15);
@@ -308,10 +307,10 @@
             // btnHeating
             // 
             this.btnHeating.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnHeating.Location = new System.Drawing.Point(43, 156);
+            this.btnHeating.Location = new System.Drawing.Point(7, 147);
             this.btnHeating.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnHeating.Name = "btnHeating";
-            this.btnHeating.Size = new System.Drawing.Size(189, 34);
+            this.btnHeating.Size = new System.Drawing.Size(147, 34);
             this.btnHeating.TabIndex = 6;
             this.btnHeating.Text = "Heating";
             this.btnHeating.UseVisualStyleBackColor = false;
@@ -319,10 +318,10 @@
             // btnRoofPower
             // 
             this.btnRoofPower.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnRoofPower.Location = new System.Drawing.Point(43, 103);
+            this.btnRoofPower.Location = new System.Drawing.Point(174, 22);
             this.btnRoofPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRoofPower.Name = "btnRoofPower";
-            this.btnRoofPower.Size = new System.Drawing.Size(189, 34);
+            this.btnRoofPower.Size = new System.Drawing.Size(147, 34);
             this.btnRoofPower.TabIndex = 6;
             this.btnRoofPower.Text = "Roof power";
             this.btnRoofPower.UseVisualStyleBackColor = false;
@@ -330,10 +329,10 @@
             // btnFocuserPower
             // 
             this.btnFocuserPower.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnFocuserPower.Location = new System.Drawing.Point(43, 63);
+            this.btnFocuserPower.Location = new System.Drawing.Point(7, 62);
             this.btnFocuserPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnFocuserPower.Name = "btnFocuserPower";
-            this.btnFocuserPower.Size = new System.Drawing.Size(189, 34);
+            this.btnFocuserPower.Size = new System.Drawing.Size(147, 34);
             this.btnFocuserPower.TabIndex = 6;
             this.btnFocuserPower.Text = "Focuser";
             this.btnFocuserPower.UseVisualStyleBackColor = false;
@@ -341,10 +340,10 @@
             // btnTelescopePower
             // 
             this.btnTelescopePower.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnTelescopePower.Location = new System.Drawing.Point(43, 22);
+            this.btnTelescopePower.Location = new System.Drawing.Point(7, 22);
             this.btnTelescopePower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTelescopePower.Name = "btnTelescopePower";
-            this.btnTelescopePower.Size = new System.Drawing.Size(189, 34);
+            this.btnTelescopePower.Size = new System.Drawing.Size(147, 34);
             this.btnTelescopePower.TabIndex = 6;
             this.btnTelescopePower.Text = "Main power";
             this.btnTelescopePower.UseVisualStyleBackColor = false;
@@ -420,17 +419,47 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2,
-            this.toolStripStatusLabel3,
-            this.toolStripStatusLabel4,
-            this.toolStripStatusLabel5});
+            this.toolStripStatus_Switch,
+            this.toolStripStatus_Dome,
+            this.toolStripStatus_Telescope,
+            this.toolStripStatus_Focuser,
+            this.toolStripStatus_Camera});
             this.statusStrip1.Location = new System.Drawing.Point(0, 620);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
             this.statusStrip1.Size = new System.Drawing.Size(989, 25);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatus_Switch
+            // 
+            this.toolStripStatus_Switch.Name = "toolStripStatus_Switch";
+            this.toolStripStatus_Switch.Size = new System.Drawing.Size(63, 20);
+            this.toolStripStatus_Switch.Text = "SWITCH";
+            // 
+            // toolStripStatus_Dome
+            // 
+            this.toolStripStatus_Dome.Name = "toolStripStatus_Dome";
+            this.toolStripStatus_Dome.Size = new System.Drawing.Size(52, 20);
+            this.toolStripStatus_Dome.Text = "DOME";
+            // 
+            // toolStripStatus_Telescope
+            // 
+            this.toolStripStatus_Telescope.Name = "toolStripStatus_Telescope";
+            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(84, 20);
+            this.toolStripStatus_Telescope.Text = "TELESCOPE";
+            // 
+            // toolStripStatus_Focuser
+            // 
+            this.toolStripStatus_Focuser.Name = "toolStripStatus_Focuser";
+            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(71, 20);
+            this.toolStripStatus_Focuser.Text = "FOCUSER";
+            // 
+            // toolStripStatus_Camera
+            // 
+            this.toolStripStatus_Camera.Name = "toolStripStatus_Camera";
+            this.toolStripStatus_Camera.Size = new System.Drawing.Size(68, 20);
+            this.toolStripStatus_Camera.Text = "CAMERA";
             // 
             // animateRoof
             // 
@@ -447,16 +476,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(341, 608);
             this.panel4.TabIndex = 2;
-            // 
-            // ledSwitchIndicator
-            // 
-            this.ledSwitchIndicator.LabelText = "";
-            this.ledSwitchIndicator.Location = new System.Drawing.Point(56, 1);
-            this.ledSwitchIndicator.Margin = new System.Windows.Forms.Padding(4);
-            this.ledSwitchIndicator.Name = "ledSwitchIndicator";
-            this.ledSwitchIndicator.Size = new System.Drawing.Size(30, 20);
-            this.ledSwitchIndicator.Status = ASCOM.Controls.TrafficLight.Red;
-            this.ledSwitchIndicator.TabIndex = 4;
             // 
             // groupBox3
             // 
@@ -511,36 +530,6 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Software";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(63, 20);
-            this.toolStripStatusLabel1.Text = "SWITCH";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 20);
-            this.toolStripStatusLabel2.Text = "DOME";
-            // 
-            // toolStripStatusLabel3
-            // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(84, 20);
-            this.toolStripStatusLabel3.Text = "TELESCOPE";
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(71, 20);
-            this.toolStripStatusLabel4.Text = "FOCUSER";
-            // 
-            // toolStripStatusLabel5
-            // 
-            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(68, 20);
-            this.toolStripStatusLabel5.Text = "CAMERA";
             // 
             // MainForm
             // 
@@ -605,17 +594,17 @@
         private System.Windows.Forms.Button btnPowerAll;
         private ASCOM.Controls.LedIndicator ledIndicator2;
         private System.Windows.Forms.Button btnHeating;
-        private ASCOM.Controls.LedIndicator ledSwitchIndicator;
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label labelDriverId;
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.Button buttonChoose;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Switch;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Dome;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Telescope;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Focuser;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Camera;
+        private System.Windows.Forms.Timer mainTimer;
     }
 }
 

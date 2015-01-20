@@ -24,6 +24,8 @@ namespace ObservatoryCenter
         public ASCOM.DriverAccess.Telescope objTelescope = null;
         public ASCOM.DriverAccess.Dome objDome = null;
         public ASCOM.DriverAccess.Switch objSwitch = null;
+        public ASCOM.DriverAccess.Focuser objFocuser = null;
+        public ASCOM.DriverAccess.Camera objCamera = null;
 
         public string SWITCH_DRIVER_NAME = "";
         public string DOME_DRIVER_NAME = "";

@@ -43,9 +43,12 @@ namespace ObservatoryCenter
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SwitchCon=ObsControl.connectSwitch();
-            DomeCon = ObsControl.connectDome();
-            
+            //Connect Main Devices
+            ObsControl.connectSwitch();
+            ObsControl.connectDome();
+
+            UpdateASCOMStatus();
+
             //init graphic elements
             ROOF_startPos = rectRoof.Location;
 
@@ -72,7 +75,63 @@ namespace ObservatoryCenter
 
             }
         }
-        
+
+
+        //Status markers
+        private void UpdateASCOMStatus()
+        {
+            if (ObsControl.objSwitch != null && ObsControl.objSwitch.Connected)
+            {
+                toolStripStatus_Switch.ForeColor = Color.Black;
+            }
+            else
+            {
+                toolStripStatus_Switch.ForeColor = Color.Gray;
+            }
+
+            //DOME
+            if (ObsControl.objDome != null && ObsControl.objDome.Connected)
+            {
+                toolStripStatus_Dome.ForeColor = Color.Black;
+            }
+            else
+            {
+                toolStripStatus_Dome.ForeColor = Color.Gray;
+            }
+
+            //TELESCOPE
+            if (ObsControl.objTelescope != null && ObsControl.objTelescope.Connected)
+            {
+                toolStripStatus_Telescope.ForeColor = Color.Blue;
+            }
+            else
+            {
+                toolStripStatus_Telescope.ForeColor = Color.Gray;
+            }
+
+            //FOCUSER
+            if (ObsControl.objFocuser != null && ObsControl.objFocuser.Connected)
+            {
+                toolStripStatus_Focuser.ForeColor = Color.Blue;
+            }
+            else
+            {
+                toolStripStatus_Focuser.ForeColor = Color.Gray;
+            }
+
+            //CAMERA
+            if (ObsControl.objCamera != null && ObsControl.objCamera.Connected)
+            {
+                toolStripStatus_Camera.ForeColor = Color.Blue;
+            }
+            else
+            {
+                toolStripStatus_Camera.ForeColor = Color.Gray;
+            }
+
+        }
+
+
         private void btnOpenRoof_Click(object sender, EventArgs e)
         {
             rectRoof.Left = ROOF_startPos.X;
