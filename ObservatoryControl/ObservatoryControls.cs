@@ -9,6 +9,8 @@ using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
 
+using MaxIm;
+
 namespace ObservatoryCenter
 {
     public class ObservatoryControls
@@ -31,6 +33,8 @@ namespace ObservatoryCenter
         public string DOME_DRIVER_NAME = "";
         public string TELESCOPE_DRIVER_NAME = "";
 
+        public MaxIm.CCDCamera CCDCamera;
+
         /// <summary>
         /// Property holds current shutter status
         /// </summary>
@@ -48,9 +52,11 @@ namespace ObservatoryCenter
         }
 
         #region
-        internal byte POWER_MAIN_PORT=6;
-        internal byte POWER_FOCUSER_PORT = 8;
-        internal byte POWER_ROOF_PORT = 3;
+        public byte POWER_MOUNT_PORT = 6;
+        public byte POWER_CAMERA_PORT = 5;
+        public byte POWER_FOCUSER_PORT = 3;
+        public byte POWER_ROOFPOWER_PORT = 2;
+        public byte POWER_ROOFSWITCH_PORT = 4;
         #endregion
 
         /// <summary>
@@ -62,8 +68,6 @@ namespace ObservatoryCenter
             SWITCH_DRIVER_NAME = "SwitchSim.Switch";
             DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
             TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
-
-
         }
 
 #region Programs Controlling
@@ -121,7 +125,6 @@ namespace ObservatoryCenter
             //check if can be connected
             if (!objSwitch.Connected)
             {
-                //Log.AddMessage("startSwitch","Cann't connect to switch. Check your settings");
                 System.Windows.Forms.MessageBox.Show("Cann't connect to switch. Check your settings");
                 return false;
             }
@@ -134,7 +137,7 @@ namespace ObservatoryCenter
         public bool MainPower(bool state)
         {
             Logging.Log("Main power switching "+(state?"ON":"OFF"),2);
-            objSwitch.SetSwitch(POWER_MAIN_PORT, state);
+            objSwitch.SetSwitch(POWER_MOUNT_PORT, state);
             return true;
         }
 
@@ -142,6 +145,12 @@ namespace ObservatoryCenter
 #endregion Power controlling
 
 
-
+        #region Maxim controls
+        public void ConnectCamera()
+        {
+            CCDCamera = new MaxIm.CCDCamera();
+            CCDCamera.LinkEnabled = true;
+        }
+        #endregion Maxim controls
     }
 }

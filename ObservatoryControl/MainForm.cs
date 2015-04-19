@@ -22,64 +22,46 @@ namespace ObservatoryCenter
         
         public ObservatoryControls ObsControl;
 
-        private Point ROOF_startPos;
-        private int ROOF_endPos = 80;
-        private int ROOF_incPos_module = 5;
-        private int ROOF_incPos;
+        /// <summary>
+        /// Link to preferences form + functions for loading parameters
+        /// </summary>
+        public SettingsForm SetForm;
 
-        private int tickCount=0;
-        private int waitTicksBeforeCheck = 30;
-        private int maxAnimationCounts = 50;
-
-        private string prev_direction="";
-
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
+            
             ObsControl = new ObservatoryControls();
-
+            SetForm = new SettingsForm(this);
         }
 
+        /// <summary>
+        /// Main form load event - startup actions take place here
+        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Connect Main Devices
+            //Connect Devices, which are general adapters (no need to power or control something)
             ObsControl.connectSwitch();
             ObsControl.connectDome();
 
-            UpdateASCOMStatus();
+            //Update visual interface statuses
+            UpdateStatusbarASCOMStatus();
 
             //init graphic elements
             ROOF_startPos = rectRoof.Location;
-
-            //read data
-            if (ObsControl.startCheckSwitch())
-            {
-                //chkTelescopeCamera.Enabled = true;
-                //chkFocuser.Enabled = true;
-                //chkHeater.Enabled = true;
-                //chkRoofPower.Enabled = true;
-
-                ObsControl.objDome.Connected = true;
-
-                if (ObsControl.CurrentSutterStatus == ShutterState.shutterClosed)
-                {
-                    drawClosed();
-                }
-                else if (ObsControl.CurrentSutterStatus == ShutterState.shutterOpen)
-                {
-                    drawOpened();
-                }
-                rectRoof.BackColor = Color.LightSeaGreen;
-                rectBase.BackColor = Color.Turquoise;
-
-            }
+            //Update visual Roof Status
+            UpdateRoofPicture();
         }
 
-
-        //Status markers
-        private void UpdateASCOMStatus()
+        /// <summary>
+        /// Updates markers in status bar
+        /// </summary>
+        private void UpdateStatusbarASCOMStatus()
         {
+            //SWITCH
             if (ObsControl.objSwitch != null && ObsControl.objSwitch.Connected)
             {
                 toolStripStatus_Switch.ForeColor = Color.Black;
@@ -132,148 +114,6 @@ namespace ObservatoryCenter
         }
 
 
-        private void btnOpenRoof_Click(object sender, EventArgs e)
-        {
-            rectRoof.Left = ROOF_startPos.X;
-            ROOF_incPos = ROOF_incPos_module;
-
-            prev_direction = "open";
-            startAnimation();
-        }
-
-        private void btnCloseRoof_Click(object sender, EventArgs e)
-        {
-            rectRoof.Left = ROOF_startPos.X + ROOF_endPos;
-            ROOF_incPos = -ROOF_incPos_module;
-
-            prev_direction = "close";
-            startAnimation();
-        }
-
-        private void btnStopRoof_Click(object sender, EventArgs e)
-        {
-            drawStoped();
-            stopAnimation();
-        }
-
-        private void animateRoof_Tick(object sender, EventArgs e)
-        {
-            tickCount++;
-            rectRoof.Location = new Point(rectRoof.Left + ROOF_incPos, rectRoof.Top);
-            if (ROOF_incPos > 0)
-            {
-                //open animation
-                if (tickCount > waitTicksBeforeCheck)
-                {
-                    //Roof was opened?
-                    if (!(ObsControl.CurrentSutterStatus == ShutterState.shutterOpen))
-                    {
-                        //check - if this is too long?
-                        if (tickCount < maxAnimationCounts)
-                        {
-                            //restart animation
-                            btnOpenRoof_Click(null, null);
-                        }
-                        else
-                        {
-                            //signal error
-                            drawStoped();
-                            AlarmRoofMoving("open");
-                        }
-                    }
-                    else
-                    {
-                        drawOpened();
-                        stopAnimation();
-                    }
-                }
-            }
-            else
-            {
-                //close animation
-                if (rectRoof.Left < ROOF_startPos.X + ROOF_incPos_module*2)
-                {
-                    rectRoof.Left = ROOF_startPos.X;
-                    stopAnimation();
-                }
-            }
-        }
-
-        private void drawOpened()
-        {
-            rectRoof.Left = ROOF_startPos.X + ROOF_endPos;
-            btnCloseRoof.Enabled = true;
-            btnOpenRoof.Enabled = false;
-            btnStopRoof.Enabled = false;
-        }
-        private void drawClosed()
-        {
-            rectRoof.Left = ROOF_startPos.X;
-            btnCloseRoof.Enabled = false;
-            btnOpenRoof.Enabled = true;
-            btnStopRoof.Enabled = false;
-        }
-
-        private void drawStoped()
-        {
-            ShutterState curShutState = ObsControl.CurrentSutterStatus;
-            if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing)) 
-            {
-            
-                rectRoof.Left = ROOF_startPos.X + Convert.ToInt16(Math.Round((double)ROOF_endPos/2));
-                if (prev_direction == "open")
-                {
-                    btnCloseRoof.Enabled = true;
-                    btnOpenRoof.Enabled = false;
-                    btnStopRoof.Enabled = false;
-                }
-                else if (prev_direction == "close") 
-                { 
-                    btnCloseRoof.Enabled = false;
-                    btnOpenRoof.Enabled = true;
-                    btnStopRoof.Enabled = false;
-                }
-            }
-            else if (curShutState == ShutterState.shutterOpen) 
-            {
-                drawOpened();
-            }
-            else if (curShutState == ShutterState.shutterClosed) 
-            {
-                drawClosed();
-            }
-        }
-
-
-        private void startAnimation()
-        {
-            btnCloseRoof.Enabled = false;
-            btnOpenRoof.Enabled = false;
-            btnStopRoof.Enabled = true;
-
-            animateRoof.Enabled = true;
-
-            rectRoof.BackColor = Color.WhiteSmoke;
-            rectBase.BackColor = Color.WhiteSmoke;
-        }
-        
-        private void stopAnimation()
-        {
-            animateRoof.Enabled = false;
-            
-            rectRoof.BackColor = Color.LightSeaGreen;
-            rectBase.BackColor= Color.Turquoise;
-
-            tickCount = 0;
-        }
-
-        private void AlarmRoofMoving(string MoveType)
-        {
-            animateRoof.Enabled = false;
-            System.Windows.Forms.MessageBox.Show("Roof oppening is too long!");
-
-        }
-
         private void btnStartAll_Click(object sender, EventArgs e)
         {
             //ObsControl.startMaximDL();
@@ -281,44 +121,63 @@ namespace ObservatoryCenter
             //ObsControl.startPlanetarium();
         }
 
-        private void annunciatorPanel1_Click(object sender, EventArgs e)
-        {
-            annunciator1.Cadence = ASCOM.Controls.CadencePattern.BlinkSlow;
-        }
-
-        private void panel1_Click(object sender, EventArgs e)
-        {
-            ledTelescopeNCameraPower.Status = ASCOM.Controls.TrafficLight.Green;
-            ledTelescopeNCameraPower.Cadence = ASCOM.Controls.CadencePattern.SteadyOn;
-
-        }
-
-        private void ovalShape1_Click(object sender, EventArgs e)
-        {
-        }
 
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
-            bool SwitchState=(ledTelescopeNCameraPower.Status==ASCOM.Controls.TrafficLight.Green);
-
+            //get current state
+            bool SwitchState=(ledTelescopePower.Status==ASCOM.Controls.TrafficLight.Green);
             SwitchState=!SwitchState;
 
+            //toggle
             ObsControl.MainPower(SwitchState);
 
+            //display new status
             if (SwitchState)
-                ledTelescopeNCameraPower.Status = ASCOM.Controls.TrafficLight.Green;
+                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Green;
             else
-                ledTelescopeNCameraPower.Status = ASCOM.Controls.TrafficLight.Red;
+                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Red;
 
-            ledTelescopeNCameraPower.Status = ASCOM.Controls.TrafficLight.Yellow;
-            ledTelescopeNCameraPower.CadenceUpdate(true);
+            ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Yellow;
+            ledTelescopePower.CadenceUpdate(true);
 
-            ledSwitchIndicator.Status = ASCOM.Controls.TrafficLight.Yellow;
+            /*ledSwitchIndicator.Status = ASCOM.Controls.TrafficLight.Yellow;
             ledSwitchIndicator.Refresh();
             ledSwitchIndicator.Update();
-            ledSwitchIndicator.Enabled=true;
+            ledSwitchIndicator.Enabled=true;*/
 
         }
+
+
+        private void btnRoofPower_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCameraPower_Click(object sender, EventArgs e)
+        {
+            //get current state
+            bool SwitchState = (ledTelescopePower.Status == ASCOM.Controls.TrafficLight.Green);
+            SwitchState = !SwitchState;
+
+            //toggle
+            ObsControl.MainPower(SwitchState);
+
+            //display new status
+            if (SwitchState)
+                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Green;
+            else
+                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Red;
+
+            ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Yellow;
+            ledTelescopePower.CadenceUpdate(true);
+
+        }
+
+        private void btnFocuserPower_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void buttonChoose_Click(object sender, EventArgs e)
         {
@@ -326,6 +185,52 @@ namespace ObservatoryCenter
         }
 
 
+
+
+        /// <summary>
+        /// Used to load all prameters during startup
+        /// </summary>
+        public void LoadParams()
+        {
+            Logging.Log("Loading saved parameters",3);
+            try
+            {
+                ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
+                ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
+                ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
+
+                ObsControl.POWER_MOUNT_PORT = Convert.ToByte(Properties.Settings.Default.SwitchMountPort);
+                ObsControl.POWER_CAMERA_PORT = Convert.ToByte(Properties.Settings.Default.SwitchCameraPort);
+                ObsControl.POWER_FOCUSER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchFocuserPort);
+                ObsControl.POWER_ROOFPOWER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchRoofPowerPort);
+                ObsControl.POWER_ROOFSWITCH_PORT = Convert.ToByte(Properties.Settings.Default.SwitchRoofSwitchPort);
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "Error loading params. ";
+                FullMessage += "IOException source: " + ex.Data + " | " + ex.Message + " | " + messstr;
+
+                Logging.Log(FullMessage);
+            }
+            Logging.Log("Loading saved parameters end", 3);
+
+
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            SetForm.ShowDialog();
+        }
 
 
 

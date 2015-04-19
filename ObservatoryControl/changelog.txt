@@ -1,0 +1,10 @@
+﻿Observatory control software
+Copyright by Emchenko Boris 2014-2015
+http://astromania.info
+
+0.1.2 [19.04.2015]
+- Searching for structure model
+- Structurising code
+
+0.1.1
+Receive this version from previuos attempt
