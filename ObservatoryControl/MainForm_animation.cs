@@ -66,7 +66,8 @@ namespace ObservatoryCenter
             ROOF_incPos = ROOF_incPos_module;
 
             prev_direction = "open";
-            startAnimation();
+
+            if (ObsControl.RoofOpen()) startAnimation();
         }
 
         private void btnCloseRoof_Click(object sender, EventArgs e)
@@ -75,7 +76,8 @@ namespace ObservatoryCenter
             ROOF_incPos = -ROOF_incPos_module;
 
             prev_direction = "close";
-            startAnimation();
+
+            if (ObsControl.RoofClose()) startAnimation();
         }
 
         private void btnStopRoof_Click(object sender, EventArgs e)

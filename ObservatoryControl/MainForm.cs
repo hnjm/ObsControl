@@ -27,6 +27,9 @@ namespace ObservatoryCenter
         /// </summary>
         public SettingsForm SetForm;
 
+        Color OnColor = Color.DarkSeaGreen;
+        Color OffColor = Color.Tomato;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -49,6 +52,7 @@ namespace ObservatoryCenter
 
             //Update visual interface statuses
             UpdateStatusbarASCOMStatus();
+            UpdateButtonsStatus();
 
             //init graphic elements
             ROOF_startPos = rectRoof.Location;
@@ -113,6 +117,17 @@ namespace ObservatoryCenter
 
         }
 
+        /// <summary>
+        /// Updates buttons status
+        /// </summary>
+        private void UpdateButtonsStatus()
+        {
+            btnTelescopePower.BackColor = (ObsControl.MountPower ? OnColor : OffColor);
+            btnCameraPower.BackColor = (ObsControl.CameraPower ? OnColor : OffColor);
+            btnFocuserPower.BackColor = (ObsControl.FocusPower ? OnColor : OffColor);
+            btnRoofPower.BackColor = (ObsControl.RoofPower ? OnColor : OffColor);
+
+        }
 
         private void btnStartAll_Click(object sender, EventArgs e)
         {
@@ -125,57 +140,55 @@ namespace ObservatoryCenter
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
             //get current state
-            bool SwitchState=(ledTelescopePower.Status==ASCOM.Controls.TrafficLight.Green);
-            SwitchState=!SwitchState;
+            bool SwitchState = (((Button)sender).BackColor == OnColor);
+            SwitchState = !SwitchState;
 
             //toggle
-            ObsControl.MainPower(SwitchState);
+            ObsControl.MountPower=SwitchState;
 
             //display new status
-            if (SwitchState)
-                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Green;
-            else
-                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Red;
-
-            ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Yellow;
-            ledTelescopePower.CadenceUpdate(true);
-
-            /*ledSwitchIndicator.Status = ASCOM.Controls.TrafficLight.Yellow;
-            ledSwitchIndicator.Refresh();
-            ledSwitchIndicator.Update();
-            ledSwitchIndicator.Enabled=true;*/
-
+            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
         }
 
 
         private void btnRoofPower_Click(object sender, EventArgs e)
         {
+            //get current state
+            bool SwitchState = (((Button)sender).BackColor == OnColor);
+            SwitchState = !SwitchState;
+
+            //toggle
+            ObsControl.RoofPower=SwitchState;
+
+            //display new status
+            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
 
         }
 
         private void btnCameraPower_Click(object sender, EventArgs e)
         {
             //get current state
-            bool SwitchState = (ledTelescopePower.Status == ASCOM.Controls.TrafficLight.Green);
+            bool SwitchState = (((Button)sender).BackColor == OnColor);
             SwitchState = !SwitchState;
 
             //toggle
-            ObsControl.MainPower(SwitchState);
+            ObsControl.CameraPower=SwitchState;
 
             //display new status
-            if (SwitchState)
-                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Green;
-            else
-                ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Red;
-
-            ledTelescopePower.Status = ASCOM.Controls.TrafficLight.Yellow;
-            ledTelescopePower.CadenceUpdate(true);
-
+            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
         }
 
         private void btnFocuserPower_Click(object sender, EventArgs e)
         {
+            //get current state
+            bool SwitchState = (((Button)sender).BackColor == OnColor);
+            SwitchState = !SwitchState;
 
+            //toggle
+            ObsControl.FocusPower=SwitchState;
+
+            //display new status
+            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
         }
 
 

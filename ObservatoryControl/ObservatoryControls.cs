@@ -134,16 +134,90 @@ namespace ObservatoryCenter
 
 #region Power controlling
 
-        public bool MainPower(bool state)
+        public bool MountPower
         {
-            Logging.Log("Main power switching "+(state?"ON":"OFF"),2);
-            objSwitch.SetSwitch(POWER_MOUNT_PORT, state);
-            return true;
+            get
+            {
+                Logging.Log("Mount power get", 2);
+                return objSwitch.GetSwitch(POWER_MOUNT_PORT);
+            }
+            set{
+                Logging.Log("Mount power switching "+(value?"ON":"OFF"),2);
+                objSwitch.SetSwitch(POWER_MOUNT_PORT, value);
+            }
+        }
+
+        public bool CameraPower
+        {
+            get{
+                Logging.Log("Camera power get", 2);
+                return objSwitch.GetSwitch(POWER_CAMERA_PORT);
+            }
+            set{
+                Logging.Log("Camera power switching " + (value ? "ON" : "OFF"), 2);
+                objSwitch.SetSwitch(POWER_CAMERA_PORT, value);
+            }
+        }
+
+        public bool FocusPower
+        {
+            get{
+                Logging.Log("Focus power get", 2);
+                return objSwitch.GetSwitch(POWER_FOCUSER_PORT);
+            }
+            set{
+                Logging.Log("Focus power switching " + (value ? "ON" : "OFF"), 2);
+                objSwitch.SetSwitch(POWER_FOCUSER_PORT, value);
+            }
+        }
+        
+        public bool RoofPower
+        {
+            get{
+                Logging.Log("Roof power get", 2);
+                return objSwitch.GetSwitch(POWER_ROOFPOWER_PORT);
+            }
+            set{
+                Logging.Log("Roof power switching " + (value ? "ON" : "OFF"), 2);
+                objSwitch.SetSwitch(POWER_ROOFPOWER_PORT, value);
+            }
         }
 
 
 #endregion Power controlling
 
+#region Roof control
+        public bool RoofOpen()
+        {
+            Logging.Log("Trying to open roof", 1);
+
+            //Check if power is connected
+            if (!objSwitch.GetSwitch(POWER_ROOFPOWER_PORT))
+            {
+                Logging.Log("Roof power switched off", 1);
+                return false;
+            }
+
+            objDome.OpenShutter();
+            return true;
+        }
+
+        public bool RoofClose()
+        {
+            Logging.Log("Trying to close roof", 1);
+
+            //Check if power is connected
+            if (!objSwitch.GetSwitch(POWER_ROOFPOWER_PORT))
+            {
+                Logging.Log("Roof power switched off", 1);
+                return false;
+            }
+
+            objDome.CloseShutter();
+            return true;
+        }
+
+#endregion Roof control end
 
         #region Maxim controls
         public void ConnectCamera()
