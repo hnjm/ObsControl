@@ -64,6 +64,7 @@
             this.toolStripStatus_Telescope = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Focuser = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Camera = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatus_Connection = new System.Windows.Forms.ToolStripStatusLabel();
             this.animateRoof = new System.Windows.Forms.Timer(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -71,6 +72,7 @@
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.mainTimer = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -413,7 +415,8 @@
             this.toolStripStatus_Dome,
             this.toolStripStatus_Telescope,
             this.toolStripStatus_Focuser,
-            this.toolStripStatus_Camera});
+            this.toolStripStatus_Camera,
+            this.toolStripStatus_Connection});
             this.statusStrip1.Location = new System.Drawing.Point(0, 620);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
@@ -450,6 +453,13 @@
             this.toolStripStatus_Camera.Name = "toolStripStatus_Camera";
             this.toolStripStatus_Camera.Size = new System.Drawing.Size(68, 20);
             this.toolStripStatus_Camera.Text = "CAMERA";
+            // 
+            // toolStripStatus_Connection
+            // 
+            this.toolStripStatus_Connection.AutoSize = false;
+            this.toolStripStatus_Connection.Name = "toolStripStatus_Connection";
+            this.toolStripStatus_Connection.Size = new System.Drawing.Size(200, 20);
+            this.toolStripStatus_Connection.Text = "CONNECTION: Listening";
             // 
             // animateRoof
             // 
@@ -520,6 +530,10 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Software";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // MainForm
             // 
@@ -594,6 +608,8 @@
         private System.Windows.Forms.Timer mainTimer;
         private System.Windows.Forms.Button btnCameraPower;
         private System.Windows.Forms.Button btnSettings;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        public System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Connection;
     }
 }
 

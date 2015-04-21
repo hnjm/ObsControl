@@ -15,6 +15,8 @@ using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
 
+
+
 namespace ObservatoryCenter
 {
     public partial class MainForm : Form
@@ -29,6 +31,8 @@ namespace ObservatoryCenter
 
         Color OnColor = Color.DarkSeaGreen;
         Color OffColor = Color.Tomato;
+
+        public SocketServerClass SocketServer;
 
         /// <summary>
         /// Constructor
@@ -58,7 +62,22 @@ namespace ObservatoryCenter
             ROOF_startPos = rectRoof.Location;
             //Update visual Roof Status
             UpdateRoofPicture();
+
+            //Start tcp server
+            if (true)
+            {
+                SocketServer = new SocketServerClass(this);
+                backgroundWorker1.RunWorkerAsync();
+                toolStripStatus_Connection.Text = "CONNECTION: 0";
+                toolStripStatus_Connection.ForeColor = Color.Black;
+            }
+            else
+            {
+                toolStripStatus_Connection.Text = "CONNECTION";
+                toolStripStatus_Connection.ForeColor = Color.Gray;
+            }
         }
+
 
         /// <summary>
         /// Updates markers in status bar
@@ -243,6 +262,11 @@ namespace ObservatoryCenter
         private void btnSettings_Click(object sender, EventArgs e)
         {
             SetForm.ShowDialog();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            SocketServer.ListenSocket();
         }
 
 
