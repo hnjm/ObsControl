@@ -41,7 +41,7 @@ namespace ObservatoryCenter
         {
             InitializeComponent();
             
-            ObsControl = new ObservatoryControls();
+            ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
         }
 
@@ -64,16 +64,15 @@ namespace ObservatoryCenter
             UpdateRoofPicture();
 
             //Start tcp server
+            SocketServer = new SocketServerClass(this);
+            toolStripStatus_Connection.Text = "CONNECTIONS: 0";
             if (true)
             {
-                SocketServer = new SocketServerClass(this);
                 backgroundWorker1.RunWorkerAsync();
-                toolStripStatus_Connection.Text = "CONNECTION: 0";
                 toolStripStatus_Connection.ForeColor = Color.Black;
             }
             else
             {
-                toolStripStatus_Connection.Text = "CONNECTION";
                 toolStripStatus_Connection.ForeColor = Color.Gray;
             }
         }
@@ -150,9 +149,7 @@ namespace ObservatoryCenter
 
         private void btnStartAll_Click(object sender, EventArgs e)
         {
-            //ObsControl.startMaximDL();
-            ObsControl.startCCDAP();
-            //ObsControl.startPlanetarium();
+            ObsControl.StartUpObservatory();
         }
 
 
@@ -267,6 +264,12 @@ namespace ObservatoryCenter
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             SocketServer.ListenSocket();
+        }
+
+        private void btnBeforeImaging_Click(object sender, EventArgs e)
+        {
+            /// Prepare Imaging run scenario
+            //ObsControl.?
         }
 
 

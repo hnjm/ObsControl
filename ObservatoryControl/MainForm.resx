@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>591, 21</value>
+  </metadata>
+  <data name="btnStartAll.ToolTip" xml:space="preserve">
+    <value>1.	Включить питание
+2.	Запустить MaximDL
+3.	Подключить камеры
+4.	Включить холодильник
+5.	Подключить телескоп
+6.	Запустить FocusMax
+7.	Подключить фокусер в MaximDL через FocusMax
+8.	Запустить CdC
+9.	Подключить телескоп в CdC
+10.	Запустить CCDAP</value>
+  </data>
   <metadata name="lineShape2.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>171, 26, 0, 48</value>
   </metadata>

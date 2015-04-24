@@ -2,6 +2,9 @@
 Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
+0.1.6 [24.04.2015]
+- Prepare scenario
+
 0.1.5 [23.04.2015]
 - Multi client connections
 - Command interpretator for socket commands

@@ -71,8 +71,10 @@
             this.btnStopRoof = new System.Windows.Forms.Button();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnBeforeImaging = new System.Windows.Forms.Button();
             this.mainTimer = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -343,12 +345,13 @@
             // 
             // btnStartAll
             // 
-            this.btnStartAll.Location = new System.Drawing.Point(56, 37);
+            this.btnStartAll.Location = new System.Drawing.Point(11, 23);
             this.btnStartAll.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartAll.Name = "btnStartAll";
-            this.btnStartAll.Size = new System.Drawing.Size(176, 41);
+            this.btnStartAll.Size = new System.Drawing.Size(176, 59);
             this.btnStartAll.TabIndex = 3;
-            this.btnStartAll.Text = "Start All";
+            this.btnStartAll.Text = "Prepare";
+            this.toolTip1.SetToolTip(this.btnStartAll, resources.GetString("btnStartAll.ToolTip"));
             this.btnStartAll.UseVisualStyleBackColor = true;
             this.btnStartAll.Click += new System.EventHandler(this.btnStartAll_Click);
             // 
@@ -459,7 +462,7 @@
             this.toolStripStatus_Connection.AutoSize = false;
             this.toolStripStatus_Connection.Name = "toolStripStatus_Connection";
             this.toolStripStatus_Connection.Size = new System.Drawing.Size(200, 20);
-            this.toolStripStatus_Connection.Text = "CONNECTION: Listening";
+            this.toolStripStatus_Connection.Text = "CONNECTIONS: 0";
             // 
             // animateRoof
             // 
@@ -521,15 +524,29 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnBeforeImaging);
             this.groupBox2.Controls.Add(this.btnStartAll);
-            this.groupBox2.Location = new System.Drawing.Point(7, 492);
+            this.groupBox2.Location = new System.Drawing.Point(7, 420);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(328, 110);
+            this.groupBox2.Size = new System.Drawing.Size(328, 182);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Software";
+            this.groupBox2.Text = "Scenarios";
+            // 
+            // btnBeforeImaging
+            // 
+            this.btnBeforeImaging.Location = new System.Drawing.Point(11, 133);
+            this.btnBeforeImaging.Margin = new System.Windows.Forms.Padding(4);
+            this.btnBeforeImaging.Name = "btnBeforeImaging";
+            this.btnBeforeImaging.Size = new System.Drawing.Size(143, 41);
+            this.btnBeforeImaging.TabIndex = 3;
+            this.btnBeforeImaging.Text = "Preapare Imaging";
+            this.toolTip1.SetToolTip(this.btnBeforeImaging, "Предсъемочный цикл:\r\n1.\tОткрыть крышу\r\n2.\tПодвигать фокусером туда сюда (300 ед)\r" +
+        "\n3.\tВыключить ИК подсветку камеры\r\n4.\tЗапустить CCDAP\r\n");
+            this.btnBeforeImaging.UseVisualStyleBackColor = true;
+            this.btnBeforeImaging.Click += new System.EventHandler(this.btnBeforeImaging_Click);
             // 
             // backgroundWorker1
             // 
@@ -610,6 +627,8 @@
         private System.Windows.Forms.Button btnSettings;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         public System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Connection;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnBeforeImaging;
     }
 }
 

@@ -43,16 +43,23 @@ namespace ObservatoryCenter
         
         public void ListenSocket()
         {
-            listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            listenerSocket.Bind(new IPEndPoint(serverIP, serverPort));
-            listenerSocket.Listen(200);
-            while (true)
+            try
             {
-                // Программа приостановлена. Ожидаем входящего соединения
-                Socket handler = listenerSocket.Accept();
-                
-                //Входящее соединение необходимо обработать
-                initClientConnection(handler);
+                listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                listenerSocket.Bind(new IPEndPoint(serverIP, serverPort));
+                listenerSocket.Listen(200);
+                while (true)
+                {
+                    // Программа приостановлена. Ожидаем входящего соединения
+                    Socket handler = listenerSocket.Accept();
+
+                    //Входящее соединение необходимо обработать
+                    initClientConnection(handler);
+                }
+            }
+            catch (Exception Ex)
+            {
+                Logging.Log("Server connection errror!" + Ex.Message);
             }
         }
 
@@ -70,12 +77,12 @@ namespace ObservatoryCenter
             NewClient.CreateNewClientManager(curSocket);
 
             //Отображаем кол-во соединений в форме
-            ParentMainForm.toolStripStatus_Connection.Text = "CONNECTION: " + clientsList.Count;
+            ParentMainForm.toolStripStatus_Connection.Text = "CONNECTIONS: " + clientsList.Count;
 
 
         }
 
-        public void SocketClient(IPAddress ipAddr, Int32 port, string message)
+        public void MakeClientConnectionToServer(IPAddress ipAddr, Int32 port, string message)
         {
             // Буфер для входящих данных
             byte[] bytes = new byte[1024];

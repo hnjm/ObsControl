@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Net;
 
 using ASCOM;
 using ASCOM.DeviceInterface;
@@ -15,13 +16,22 @@ namespace ObservatoryCenter
 {
     public class ObservatoryControls
     {
-        public string PlanetariumPath=@"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe" ;
+        /// <summary>
+        /// Back link to form
+        /// </summary>
+        public MainForm ParentMainForm;
+        
+        public string PlanetariumPath=@"c:\Program Files (x86)\Ciel\skychart.exe";
         public string MaximDLPath=@"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe" ;
         public string CCDAPPath=@"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
+        public string FocusMaxPath = @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 
-        public Process MaximDL = new Process();
-        public Process CCDAP = new Process();
-        public Process Planetarium = new Process();
+        public Process MaximDL_Process = new Process();
+        public Process CCDAP_Process = new Process();
+        public Process CdC_Process = new Process();
+        public Process FocusMax_Process = new Process();
+
+        public MaximControls MaximObj;
 
         public ASCOM.DriverAccess.Telescope objTelescope = null;
         public ASCOM.DriverAccess.Dome objDome = null;
@@ -33,7 +43,7 @@ namespace ObservatoryCenter
         public string DOME_DRIVER_NAME = "";
         public string TELESCOPE_DRIVER_NAME = "";
 
-        public MaxIm.CCDCamera CCDCamera;
+        public Int32 CdC_PORT = 3292;
 
         /// <summary>
         /// Property holds current shutter status
@@ -62,37 +72,59 @@ namespace ObservatoryCenter
         /// <summary>
         /// Conctructor
         /// </summary>
-        public ObservatoryControls()
+        public ObservatoryControls(MainForm MF)
         {
+            ParentMainForm=MF;
+
             //for debug
             SWITCH_DRIVER_NAME = "SwitchSim.Switch";
             DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
             TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
+
+            MaximObj = new MaximControls();
         }
 
-#region Programs Controlling
+#region Programs Controlling  ///////////////////////////////////////////////////////////////////
         public void startPlanetarium()
         {
-            Planetarium.StartInfo.FileName = PlanetariumPath;
-            Planetarium.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            Planetarium.StartInfo.UseShellExecute = false;
-            Planetarium.Start();
+            CdC_Process.StartInfo.FileName = PlanetariumPath;
+            CdC_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            CdC_Process.StartInfo.UseShellExecute = false;
+            CdC_Process.Start();
         }
 
         public void startMaximDL()
         {
-            MaximDL.StartInfo.FileName = MaximDLPath;
-            MaximDL.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            MaximDL.StartInfo.UseShellExecute = false;
-            MaximDL.Start();
+            MaximDL_Process.StartInfo.FileName = MaximDLPath;
+            MaximDL_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            MaximDL_Process.StartInfo.UseShellExecute = false;
+            MaximDL_Process.Start();
+
+            MaximObj.Init();
         }
 
         public void startCCDAP()
         {
-            CCDAP.StartInfo.FileName = CCDAPPath;
-            CCDAP.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            CCDAP.StartInfo.UseShellExecute = false;
-            CCDAP.Start();
+            CCDAP_Process.StartInfo.FileName = CCDAPPath;
+            CCDAP_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            CCDAP_Process.StartInfo.UseShellExecute = false;
+            CCDAP_Process.Start();
+        }
+
+        public void startFocusMax()
+        {
+            try
+            {
+                FocusMax_Process.StartInfo.FileName = FocusMaxPath;
+                FocusMax_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                FocusMax_Process.StartInfo.UseShellExecute = false;
+                FocusMax_Process.Start();
+                Logging.Log("FocusMax started", 0);
+            }
+            catch (Exception Ex)
+            {
+                Logging.Log("FocusMax failed", 0);
+            }
         }
 #endregion Program controlling
 
@@ -132,7 +164,7 @@ namespace ObservatoryCenter
         }
 
 
-#region Power controlling
+#region Power controlling ////////////////////////////////////////////////////////////////////////////////////////////
 
         public bool MountPower
         {
@@ -186,7 +218,7 @@ namespace ObservatoryCenter
 
 #endregion Power controlling
 
-#region Roof control
+#region Roof control //////////////////////////////////////////////////////////////////////////////////////////
         public bool RoofOpen()
         {
             Logging.Log("Trying to open roof", 1);
@@ -219,12 +251,55 @@ namespace ObservatoryCenter
 
 #endregion Roof control end
 
-        #region Maxim controls
-        public void ConnectCamera()
+#region CdC controls /////////////////////////////////////////////////////
+        public void CdC_connectTelescope()
         {
-            CCDCamera = new MaxIm.CCDCamera();
-            CCDCamera.LinkEnabled = true;
+            ParentMainForm.SocketServer.MakeClientConnectionToServer(IPAddress.Parse("127.0.0.1"), CdC_PORT, "CONNECTTELESCOPE");
         }
-        #endregion Maxim controls
+#endregion CdC controls
+
+#region Scenarios section ////////////////////////////////////////////////////////
+        /// <summary>
+        /// Init observatory activity 
+        /// </summary>
+        public void StartUpObservatory()
+        {
+
+            //1. Switch on power
+            MountPower = true;
+            CameraPower = true;
+            FocusPower = true;
+
+            //2. Run MaximDL
+            startMaximDL();
+
+            //3. Run FocusMax
+            startFocusMax();
+
+            //4. CameraConnect
+            MaximObj.ConnectCamera();
+
+            //5. Set camera cooler
+            MaximObj.SetCameraCooling();
+
+            //6. Connect telescope to Maxim
+            MaximObj.ConnectTelescope();
+
+            //7. Connect focuser in Maxim to FocusMax
+            MaximObj.ConnectFocuser();
+
+            //8. Run Cartes du Ciel
+            startPlanetarium();
+
+            //9. Connect telescope in Cartes du Ciel
+            CdC_connectTelescope();
+
+            //10. Connect telescope in Cartes du Ciel
+            startCCDAP();
+        
+        }
+
+
+#endregion Scenarios
     }
 }
