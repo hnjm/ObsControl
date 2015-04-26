@@ -35,6 +35,13 @@ namespace ObservatoryCenter
         public SocketServerClass SocketServer;
 
         /// <summary>
+        /// For logging window
+        /// </summary>
+        private bool AutoScrollLogFlag = true;
+        private Int32 caretPos = 0;
+        public Int32 MAX_LOG_LINES = 500;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public MainForm()
@@ -51,8 +58,8 @@ namespace ObservatoryCenter
         private void Form1_Load(object sender, EventArgs e)
         {
             //Connect Devices, which are general adapters (no need to power or control something)
-            ObsControl.connectSwitch();
-            ObsControl.connectDome();
+            ObsControl.connectSwitch = true;
+            ObsControl.connectDome = true; ;
 
             //Update visual interface statuses
             UpdateStatusbarASCOMStatus();
@@ -68,7 +75,7 @@ namespace ObservatoryCenter
             toolStripStatus_Connection.Text = "CONNECTIONS: 0";
             if (true)
             {
-                backgroundWorker1.RunWorkerAsync();
+                backgroundWorker_SocketServer.RunWorkerAsync();
                 toolStripStatus_Connection.ForeColor = Color.Black;
             }
             else
@@ -221,7 +228,7 @@ namespace ObservatoryCenter
         /// </summary>
         public void LoadParams()
         {
-            Logging.Log("Loading saved parameters",3);
+            Logging.AddLog("Loading saved parameters",3);
             try
             {
                 ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
@@ -249,9 +256,9 @@ namespace ObservatoryCenter
                 string FullMessage = "Error loading params. ";
                 FullMessage += "IOException source: " + ex.Data + " | " + ex.Message + " | " + messstr;
 
-                Logging.Log(FullMessage);
+                Logging.AddLog(FullMessage,1,Highlight.Error);
             }
-            Logging.Log("Loading saved parameters end", 3);
+            Logging.AddLog("Loading saved parameters end", 3);
 
 
         }
@@ -270,9 +277,20 @@ namespace ObservatoryCenter
         {
             /// Prepare Imaging run scenario
             //ObsControl.?
+
         }
 
+        private void logRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            string LogAppend = Logging.DumpToString(1);
+            txtLog.AppendText(LogAppend);
 
+            Logging.DumpToFile(Logging.DEBUG_LEVEL);
+        }
+        
+        public void AppendLogText(string St)
+        {
+        }
 
     }
 }

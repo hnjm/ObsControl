@@ -6,6 +6,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Collections;
+using System.Diagnostics;
 
 namespace ObservatoryCenter
 {
@@ -59,16 +60,16 @@ namespace ObservatoryCenter
             }
             catch (Exception Ex)
             {
-                Logging.Log("Server connection errror!" + Ex.Message);
+                Logging.AddLog("Server connection errror [" + Ex.Message+"]",0,Highlight.Error);
             }
         }
 
         public void initClientConnection(Socket curSocket)
         {
-            Logging.Log("Connection from " + curSocket.RemoteEndPoint + " accepted");
+            Logging.AddLog("Connection from " + curSocket.RemoteEndPoint + " accepted",1);
 
             //Создаем объект для обработки клиента
-            ClientManager NewClient=new ClientManager();
+            ClientManager NewClient=new ClientManager(ParentMainForm);
             
             //Добавляем его в список
             clientsList.Add(NewClient);
@@ -91,31 +92,49 @@ namespace ObservatoryCenter
             //IPAddress ipAddr = Dns.GetHostEntry("localhost").AddressList[0];
             //IPAddress localAddr = IPAddress.Parse("127.0.0.1"); 
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
-
+            
             Socket sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-            // Соединяем сокет с удаленной точкой
-            sender.Connect(ipEndPoint);
+            try
+            {
+                // Соединяем сокет с удаленной точкой
+                sender.Connect(ipEndPoint);
+                Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), 2);
+                byte[] msg = Encoding.UTF8.GetBytes(message);
 
-            Logging.Log("Connected to "+ sender.RemoteEndPoint.ToString(),2);
-            byte[] msg = Encoding.UTF8.GetBytes(message);
+                // Отправляем данные через сокет
+                int bytesSent = sender.Send(msg);
 
-            // Отправляем данные через сокет
-            int bytesSent = sender.Send(msg);
+                // Получаем ответ от сервера
+                int bytesRec = sender.Receive(bytes);
 
-            // Получаем ответ от сервера
-            int bytesRec = sender.Receive(bytes);
+                string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                Logging.AddLog("Response from server: " + responseMess,2);
 
-            string responseMess=Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            Logging.Log("Response from server: " + responseMess);
+                // Освобождаем сокет
+                sender.Shutdown(SocketShutdown.Both);
+                sender.Close();
+            }
+            catch (Exception Ex)
+            {
+                StackTrace st = new StackTrace(Ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
 
-            /*// Используем рекурсию для неоднократного вызова SendMessageFromSocket()
-            if (message.IndexOf("<TheEnd>") == -1)
-                SendMessageFromSocket(port);
-            */
-            // Освобождаем сокет
-            sender.Shutdown(SocketShutdown.Both);
-            sender.Close();
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MakeClientConnectionToServer socket connection failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + Ex.Data + " " + Ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, 0, Highlight.Error);
+                Logging.AddLog(FullMessage,1,Highlight.Error);
+            }
         }
 
     }
@@ -135,11 +154,18 @@ namespace ObservatoryCenter
         /// </summary>
         Thread curThread;
 
+        /// <summary>
+        /// Back link to form
+        /// </summary>
+        public MainForm ParentMainForm;
+
+
         // Буфер для входящих данных
         byte[] bytes = new byte[1024];
 
-        public ClientManager()
+        public ClientManager(MainForm MF)
         {
+            ParentMainForm = MF;
         }
 
         public void CreateNewClientManager(Socket NewClient)
@@ -165,9 +191,9 @@ namespace ObservatoryCenter
                 int bytesRec = ClientSocket.Receive(bytes);
 
                 string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                Logging.Log("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + responseMess);
+                Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + responseMess,1);
 
-                string cmdMess=CommandInterpretator(responseMess);
+                string cmdMess=SocketCommandInterpretator(responseMess);
 
                 byte[] msg2 = Encoding.UTF8.GetBytes(cmdMess + "\n\r");
                 ClientSocket.Send(msg2);
@@ -178,7 +204,7 @@ namespace ObservatoryCenter
             //ParentMainForm.toolStripStatus_Connection.Text = "CONNECTION: " + clientsList.Count;
         }
 
-        public string CommandInterpretator(string cmd)
+        public string SocketCommandInterpretator(string cmd)
         {
             string msg = "";
             
@@ -186,14 +212,22 @@ namespace ObservatoryCenter
             {
                 case "TheEnd":
                 // Освобождаем сокет
-                    Logging.Log("Client [" + ClientSocket.RemoteEndPoint + "] has ended connection");
+                    Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "] has ended connection",1);
                     ClientSocket.Shutdown(SocketShutdown.Both);
                     ClientSocket.Close();
                     msg = "";
                     break;
                 default:
-                    Logging.Log("Client [" + ClientSocket.RemoteEndPoint + "]: " + "Unknown command [" + cmd + "]");
-                    msg = "Client [" + ClientSocket.RemoteEndPoint + "]: Unknown command [" + cmd + "]";
+                    if (ParentMainForm.ObsControl.CommandParser.ParseSingleCommand(cmd))
+                    {
+                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run", 1, Highlight.Normal);
+                        msg = "Command [" + cmd + "] was run";
+                    }
+                    else
+                    {
+                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "Unknown command [" + cmd + "]", 1, Highlight.Error);
+                        msg = "Unknown command [" + cmd + "]";
+                    }
                     break;
             }
 

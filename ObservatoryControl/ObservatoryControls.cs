@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
 
 using ASCOM;
 using ASCOM.DeviceInterface;
@@ -20,8 +21,9 @@ namespace ObservatoryCenter
         /// Back link to form
         /// </summary>
         public MainForm ParentMainForm;
-        
-        public string PlanetariumPath=@"c:\Program Files (x86)\Ciel\skychart.exe";
+
+        public static string CdC_ProcessName = "skychart.exe";
+        public string PlanetariumPath = @"c:\Program Files (x86)\Ciel\" + CdC_ProcessName;
         public string MaximDLPath=@"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe" ;
         public string CCDAPPath=@"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
         public string FocusMaxPath = @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
@@ -46,22 +48,12 @@ namespace ObservatoryCenter
         public Int32 CdC_PORT = 3292;
 
         /// <summary>
-        /// Property holds current shutter status
+        /// Command dictionary for interpretator
         /// </summary>
-        internal ShutterState CurrentSutterStatus
-        {
-            get{
-                if (objDome != null)
-                    return objDome.ShutterStatus;
-                else
-                {
-                    return ShutterState.shutterError;
-                }
+        Dictionary<string, Action> Commands;
+        public CommandInterpretator CommandParser;
 
-            }
-        }
-
-        #region
+        #region switch ports
         public byte POWER_MOUNT_PORT = 6;
         public byte POWER_CAMERA_PORT = 5;
         public byte POWER_FOCUSER_PORT = 3;
@@ -76,39 +68,59 @@ namespace ObservatoryCenter
         {
             ParentMainForm=MF;
 
+            InitComandInterpretator();
+            CommandParser = new CommandInterpretator(Commands);
+
             //for debug
             SWITCH_DRIVER_NAME = "SwitchSim.Switch";
             DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
             TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
 
-            MaximObj = new MaximControls();
+            MaximObj = new MaximControls(ParentMainForm);
         }
 
 #region Programs Controlling  ///////////////////////////////////////////////////////////////////
         public void startPlanetarium()
         {
-            CdC_Process.StartInfo.FileName = PlanetariumPath;
-            CdC_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            CdC_Process.StartInfo.UseShellExecute = false;
-            CdC_Process.Start();
+            if (Process.GetProcessesByName(CdC_ProcessName).Length ==0)
+            {
+                CdC_Process.StartInfo.FileName = PlanetariumPath;
+                CdC_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                CdC_Process.StartInfo.UseShellExecute = false;
+                CdC_Process.StartInfo.Arguments = "--unique";
+                CdC_Process.Start();
+                Logging.AddLog("CdC started", 0);
+
+            }
         }
 
         public void startMaximDL()
         {
-            MaximDL_Process.StartInfo.FileName = MaximDLPath;
+            /*MaximDL_Process.StartInfo.FileName = MaximDLPath;
             MaximDL_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
             MaximDL_Process.StartInfo.UseShellExecute = false;
             MaximDL_Process.Start();
 
+            MaximDL_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
+            */
             MaximObj.Init();
         }
 
         public void startCCDAP()
         {
-            CCDAP_Process.StartInfo.FileName = CCDAPPath;
-            CCDAP_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            CCDAP_Process.StartInfo.UseShellExecute = false;
-            CCDAP_Process.Start();
+            try
+            {
+                CCDAP_Process.StartInfo.FileName = CCDAPPath;
+                CCDAP_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                CCDAP_Process.StartInfo.UseShellExecute = false;
+                CCDAP_Process.Start();
+                Logging.AddLog("CCDAP started", 0);
+
+            }
+            catch (Exception Ex)
+            {
+                Logging.AddLog("CCDAP starting error! " + Ex.Message, 0, Highlight.Error);
+            }
         }
 
         public void startFocusMax()
@@ -119,37 +131,83 @@ namespace ObservatoryCenter
                 FocusMax_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
                 FocusMax_Process.StartInfo.UseShellExecute = false;
                 FocusMax_Process.Start();
-                Logging.Log("FocusMax started", 0);
+
+                FocusMax_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
+                Logging.AddLog("FocusMax started", 0);
+                Thread.Sleep(1000);
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Logging.Log("FocusMax failed", 0);
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL set camera cooling failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("FocusMax failed", 0, Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
+
             }
         }
 #endregion Program controlling
 
-        public bool connectSwitch()
-        {
-            objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
-            objSwitch.Connected = true;
+#region ASCOM Device Drivers controlling  ///////////////////////////////////////////////////////////////////
 
-            return objSwitch.Connected;
+        public bool connectSwitch
+        {
+            set
+            {
+                if (objSwitch == null) objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
+                objSwitch.Connected = true;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
+            }
+            get
+            {
+                bool ret = objSwitch.Connected;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + ret, 2);
+                return ret;
+            }
         }
 
-        public bool connectTelescope()
+        public bool connectTelescope
         {
-            objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
-            objTelescope.Connected = true;
-
-            return objTelescope.Connected;
+            set
+            {
+                if (objTelescope == null) objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
+                objTelescope.Connected = true;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
+            }
+            get
+            {
+                bool ret=objTelescope.Connected;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": "+ret, 2);
+                return ret;
+            }
         }
 
-        public bool connectDome()
+        public bool connectDome
         {
-            objDome= new ASCOM.DriverAccess.Dome(DOME_DRIVER_NAME);
-            objDome.Connected = true;
-
-            return objDome.Connected;
+            set
+            {
+                if (objDome == null) objDome= new ASCOM.DriverAccess.Dome(DOME_DRIVER_NAME);
+                objDome.Connected = true;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
+            }
+            get
+            {
+                bool ret=objDome.Connected;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": "+ret, 2);
+                return ret;
+            }
         }
 
         public bool startCheckSwitch()
@@ -162,7 +220,7 @@ namespace ObservatoryCenter
             }
             return true;
         }
-
+#endregion ASCOM Device Drivers controlling
 
 #region Power controlling ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -170,11 +228,11 @@ namespace ObservatoryCenter
         {
             get
             {
-                Logging.Log("Mount power get", 2);
+                Logging.AddLog("Mount power get", 2);
                 return objSwitch.GetSwitch(POWER_MOUNT_PORT);
             }
             set{
-                Logging.Log("Mount power switching "+(value?"ON":"OFF"),2);
+                Logging.AddLog("Mount power switching "+(value?"ON":"OFF"),2);
                 objSwitch.SetSwitch(POWER_MOUNT_PORT, value);
             }
         }
@@ -182,11 +240,11 @@ namespace ObservatoryCenter
         public bool CameraPower
         {
             get{
-                Logging.Log("Camera power get", 2);
+                Logging.AddLog("Camera power get", 3);
                 return objSwitch.GetSwitch(POWER_CAMERA_PORT);
             }
             set{
-                Logging.Log("Camera power switching " + (value ? "ON" : "OFF"), 2);
+                Logging.AddLog("Camera power switching " + (value ? "ON" : "OFF"), 3);
                 objSwitch.SetSwitch(POWER_CAMERA_PORT, value);
             }
         }
@@ -194,11 +252,11 @@ namespace ObservatoryCenter
         public bool FocusPower
         {
             get{
-                Logging.Log("Focus power get", 2);
+                Logging.AddLog("Focus power get", 3);
                 return objSwitch.GetSwitch(POWER_FOCUSER_PORT);
             }
             set{
-                Logging.Log("Focus power switching " + (value ? "ON" : "OFF"), 2);
+                Logging.AddLog("Focus power switching " + (value ? "ON" : "OFF"), 3);
                 objSwitch.SetSwitch(POWER_FOCUSER_PORT, value);
             }
         }
@@ -206,27 +264,65 @@ namespace ObservatoryCenter
         public bool RoofPower
         {
             get{
-                Logging.Log("Roof power get", 2);
+                Logging.AddLog("Roof power get", 3);
                 return objSwitch.GetSwitch(POWER_ROOFPOWER_PORT);
             }
             set{
-                Logging.Log("Roof power switching " + (value ? "ON" : "OFF"), 2);
+                Logging.AddLog("Roof power switching " + (value ? "ON" : "OFF"), 3);
                 objSwitch.SetSwitch(POWER_ROOFPOWER_PORT, value);
             }
         }
 
+
+        public void PowerMountOn()
+        {
+            MountPower = true;
+        }
+        public void PowerMountOff()
+        {
+            MountPower = false;
+        }
+
+        public void PowerCameraOn()
+        {
+            CameraPower=true;
+        }
+        public void PowerCameraOff()
+        {
+            CameraPower=false;
+        }
+
+        public void PowerFocuserOn()
+        {
+            FocusPower=true;
+        }
+        public void PowerFocuserOff()
+        {
+            FocusPower=false;
+        }
+            
+        public void PowerRoofOn()
+        {
+            RoofPower = true;
+        }
+        public void PowerRoofOff()
+        {
+            RoofPower = false;
+        }
+
+            
 
 #endregion Power controlling
 
 #region Roof control //////////////////////////////////////////////////////////////////////////////////////////
         public bool RoofOpen()
         {
-            Logging.Log("Trying to open roof", 1);
+            Logging.AddLog("Trying to open roof", 1);
 
             //Check if power is connected
             if (!objSwitch.GetSwitch(POWER_ROOFPOWER_PORT))
             {
-                Logging.Log("Roof power switched off", 1);
+                Logging.AddLog("Roof power switched off", 1);
                 return false;
             }
 
@@ -236,12 +332,12 @@ namespace ObservatoryCenter
 
         public bool RoofClose()
         {
-            Logging.Log("Trying to close roof", 1);
+            Logging.AddLog("Trying to close roof", 1);
 
             //Check if power is connected
             if (!objSwitch.GetSwitch(POWER_ROOFPOWER_PORT))
             {
-                Logging.Log("Roof power switched off", 1);
+                Logging.AddLog("Roof power switched off", 1);
                 return false;
             }
 
@@ -266,40 +362,75 @@ namespace ObservatoryCenter
         {
 
             //1. Switch on power
-            MountPower = true;
-            CameraPower = true;
-            FocusPower = true;
+            CommandParser.ParseSingleCommand("POWER_MOUNT_ON");
+            CommandParser.ParseSingleCommand("POWER_CAMERA_ON");
+            CommandParser.ParseSingleCommand("POWER_FOCUSER_ON");
 
             //2. Run MaximDL
-            startMaximDL();
+            CommandParser.ParseSingleCommand("MAXIM_RUN");
+            ParentMainForm.AppendLogText("MaximDL started");
 
             //3. Run FocusMax
-            startFocusMax();
+            CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
+            ParentMainForm.AppendLogText("FocusMax started");
 
             //4. CameraConnect
-            MaximObj.ConnectCamera();
+            CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
+            ParentMainForm.AppendLogText("Camera connected");
 
             //5. Set camera cooler
-            MaximObj.SetCameraCooling();
+            CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
 
             //6. Connect telescope to Maxim
-            MaximObj.ConnectTelescope();
+            CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
 
             //7. Connect focuser in Maxim to FocusMax
-            MaximObj.ConnectFocuser();
+            CommandParser.ParseSingleCommand("MAXIM_FOCUSER_CONNECT");
 
             //8. Run Cartes du Ciel
-            startPlanetarium();
+            CommandParser.ParseSingleCommand("CdC_RUN");
 
             //9. Connect telescope in Cartes du Ciel
-            CdC_connectTelescope();
+            CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
 
-            //10. Connect telescope in Cartes du Ciel
-            startCCDAP();
+            //10. Start CCDAP
+            CommandParser.ParseSingleCommand("CCDAP_RUN");
         
         }
 
 
 #endregion Scenarios
+
+        /// <summary>
+        /// Init command interpretator
+        /// </summary>
+        public void InitComandInterpretator()
+        {
+            Commands = new Dictionary<string, Action>();
+            Commands.Add("MAXIM_RUN", () => this.startMaximDL());
+            Commands.Add("FOCUSMAX_RUN", () => this.startFocusMax());
+            Commands.Add("CdC_RUN", () => this.startPlanetarium());
+            Commands.Add("CCDAP_RUN", () => this.startCCDAP());
+
+            Commands.Add("POWER_MOUNT_ON", () => this.PowerMountOn());
+            Commands.Add("POWER_MOUNT_OFF", () => this.PowerMountOff());
+
+            Commands.Add("POWER_CAMERA_ON", () => this.PowerCameraOn());
+            Commands.Add("POWER_CAMERA_OFF", () => this.PowerCameraOff());
+
+            Commands.Add("POWER_FOCUSER_ON", () => this.PowerFocuserOn());
+            Commands.Add("POWER_FOCUSER_OFF", () => this.PowerFocuserOff());
+
+            Commands.Add("POWER_ROOF_ON", () => this.PowerRoofOn());
+            Commands.Add("POWER_ROOF_OFF", () => this.PowerRoofOff());
+
+            Commands.Add("MAXIM_CAMERA_CONNECT", () => MaximObj.ConnectCamera());
+            Commands.Add("MAXIM_CAMERA_SETCOOLING", () => MaximObj.SetCameraCooling());
+            Commands.Add("MAXIM_TELESCOPE_CONNECT", () => MaximObj.ConnectTelescope());
+            Commands.Add("MAXIM_FOCUSER_CONNECT", () => MaximObj.ConnectFocuser());
+
+            Commands.Add("CdC_TELESCOPE_CONNECT", () => this.CdC_connectTelescope());
+        }
+    
     }
 }

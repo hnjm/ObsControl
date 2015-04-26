@@ -40,11 +40,11 @@ namespace ObservatoryCenter
             //Draw roof status
             if (ObsControl.objDome.Connected)
             {
-                if (ObsControl.CurrentSutterStatus == ShutterState.shutterClosed)
+                if (ObsControl.objDome.ShutterStatus == ShutterState.shutterClosed)
                 {
                     drawClosed();
                 }
-                else if (ObsControl.CurrentSutterStatus == ShutterState.shutterOpen)
+                else if (ObsControl.objDome.ShutterStatus == ShutterState.shutterOpen)
                 {
                     drawOpened();
                 }
@@ -96,7 +96,7 @@ namespace ObservatoryCenter
                 if (tickCount > waitTicksBeforeCheck)
                 {
                     //Roof was opened?
-                    if (!(ObsControl.CurrentSutterStatus == ShutterState.shutterOpen))
+                    if (!(ObsControl.objDome.ShutterStatus == ShutterState.shutterOpen))
                     {
                         //check - if this is too long?
                         if (tickCount < maxAnimationCounts)
@@ -146,7 +146,7 @@ namespace ObservatoryCenter
 
         private void drawStoped()
         {
-            ShutterState curShutState = ObsControl.CurrentSutterStatus;
+            ShutterState curShutState = ObsControl.objDome.ShutterStatus;
             if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing))
             {
 

@@ -82,7 +82,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.Log(FullMessage);
+                Logging.AddLog(FullMessage,1,Highlight.Error);
             }
 
 

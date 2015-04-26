@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.txtLog = new System.Windows.Forms.RichTextBox();
             this.tabPageWeather = new System.Windows.Forms.TabPage();
             this.tabPageAllsky = new System.Windows.Forms.TabPage();
             this.tabPageCameras = new System.Windows.Forms.TabPage();
@@ -73,9 +74,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnBeforeImaging = new System.Windows.Forms.Button();
             this.mainTimer = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker_SocketServer = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.logRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
+            this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.annunciatorPanel1.SuspendLayout();
@@ -84,6 +89,7 @@
             this.panel4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -96,23 +102,33 @@
             this.tabControl1.Controls.Add(this.tabPageAllsky);
             this.tabControl1.Controls.Add(this.tabPageCameras);
             this.tabControl1.Controls.Add(this.tabPageSettings);
-            this.tabControl1.Location = new System.Drawing.Point(345, 1);
+            this.tabControl1.Location = new System.Drawing.Point(345, 237);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(641, 609);
+            this.tabControl1.Size = new System.Drawing.Size(641, 373);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageControl
             // 
+            this.tabPageControl.Controls.Add(this.txtLog);
             this.tabPageControl.Location = new System.Drawing.Point(4, 25);
             this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Name = "tabPageControl";
             this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageControl.Size = new System.Drawing.Size(633, 580);
+            this.tabPageControl.Size = new System.Drawing.Size(633, 344);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Control";
             this.tabPageControl.UseVisualStyleBackColor = true;
+            // 
+            // txtLog
+            // 
+            this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtLog.Location = new System.Drawing.Point(3, 3);
+            this.txtLog.Name = "txtLog";
+            this.txtLog.Size = new System.Drawing.Size(623, 334);
+            this.txtLog.TabIndex = 0;
+            this.txtLog.Text = "";
             // 
             // tabPageWeather
             // 
@@ -120,7 +136,7 @@
             this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageWeather.Name = "tabPageWeather";
             this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageWeather.Size = new System.Drawing.Size(633, 580);
+            this.tabPageWeather.Size = new System.Drawing.Size(633, 344);
             this.tabPageWeather.TabIndex = 1;
             this.tabPageWeather.Text = "Weather";
             this.tabPageWeather.UseVisualStyleBackColor = true;
@@ -130,7 +146,7 @@
             this.tabPageAllsky.Location = new System.Drawing.Point(4, 25);
             this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageAllsky.Name = "tabPageAllsky";
-            this.tabPageAllsky.Size = new System.Drawing.Size(633, 580);
+            this.tabPageAllsky.Size = new System.Drawing.Size(633, 344);
             this.tabPageAllsky.TabIndex = 2;
             this.tabPageAllsky.Text = "AllSky";
             this.tabPageAllsky.UseVisualStyleBackColor = true;
@@ -140,7 +156,7 @@
             this.tabPageCameras.Location = new System.Drawing.Point(4, 25);
             this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageCameras.Name = "tabPageCameras";
-            this.tabPageCameras.Size = new System.Drawing.Size(633, 580);
+            this.tabPageCameras.Size = new System.Drawing.Size(633, 344);
             this.tabPageCameras.TabIndex = 3;
             this.tabPageCameras.Text = "Cameras";
             this.tabPageCameras.UseVisualStyleBackColor = true;
@@ -152,7 +168,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 25);
             this.tabPageSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Size = new System.Drawing.Size(633, 580);
+            this.tabPageSettings.Size = new System.Drawing.Size(633, 344);
             this.tabPageSettings.TabIndex = 4;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -548,15 +564,39 @@
             this.btnBeforeImaging.UseVisualStyleBackColor = true;
             this.btnBeforeImaging.Click += new System.EventHandler(this.btnBeforeImaging_Click);
             // 
-            // backgroundWorker1
+            // backgroundWorker_SocketServer
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker_SocketServer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.groupBox5);
+            this.panel1.Location = new System.Drawing.Point(345, 1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(644, 235);
+            this.panel1.TabIndex = 3;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Location = new System.Drawing.Point(11, 4);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(638, 207);
+            this.groupBox5.TabIndex = 0;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Camera";
+            // 
+            // logRefreshTimer
+            // 
+            this.logRefreshTimer.Enabled = true;
+            this.logRefreshTimer.Interval = 500;
+            this.logRefreshTimer.Tick += new System.EventHandler(this.logRefreshTimer_Tick);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(989, 645);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
@@ -567,6 +607,7 @@
             this.Text = "Observatory Control";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
+            this.tabPageControl.ResumeLayout(false);
             this.tabPageSettings.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.annunciatorPanel1.ResumeLayout(false);
@@ -577,6 +618,7 @@
             this.panel4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -625,10 +667,14 @@
         private System.Windows.Forms.Timer mainTimer;
         private System.Windows.Forms.Button btnCameraPower;
         private System.Windows.Forms.Button btnSettings;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_SocketServer;
         public System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Connection;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnBeforeImaging;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RichTextBox txtLog;
+        private System.Windows.Forms.Timer logRefreshTimer;
     }
 }
 

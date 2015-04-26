@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Threading;
+
 using System.Diagnostics;
 
 namespace ObservatoryCenter
@@ -12,8 +14,12 @@ namespace ObservatoryCenter
         public MaxIm.Application MaximApplicationObj;
         public MaxIm.CCDCamera CCDCamera;
 
-        public MaximControls()
+        MainForm ParentMainForm;
+
+
+        public MaximControls(MainForm MF)
         {
+            MainForm ParentMainForm = MF;
         }
 
         /// <summary>
@@ -23,17 +29,18 @@ namespace ObservatoryCenter
         {
             CCDCamera = new MaxIm.CCDCamera();
             MaximApplicationObj = new MaxIm.Application();
+            Logging.AddLog("MaximDL started", 0);
         }
 
 
-        #region Maxim controls
         public void ConnectCamera()
         {
             if (CCDCamera==null) CCDCamera = new MaxIm.CCDCamera();
             try
             {
                 CCDCamera.LinkEnabled = true;
-                Logging.Log("Camera connected",0);
+                Logging.AddLog("Camera connected",0);
+                Thread.Sleep(1000);
             }
             catch(Exception ex)
             {
@@ -52,8 +59,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.Log("Camera connection failed! " + ex.Message, 0);
-                Logging.Log(FullMessage);
+                Logging.AddLog("Camera connection failed [" + ex.Message+"]", 0, Highlight.Error);
+                Logging.AddLog(FullMessage,2,Highlight.Error);
             }
         }
 
@@ -63,6 +70,8 @@ namespace ObservatoryCenter
             try
             {
                 MaximApplicationObj.TelescopeConnected = true;
+                Logging.AddLog("Telescope connected", 0);
+                Thread.Sleep(1000);
             }
             catch(Exception ex)
             {
@@ -81,8 +90,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.Log("Telescope connection failed! " + ex.Message, 0);
-                Logging.Log(FullMessage);
+                Logging.AddLog("Telescope connection failed [" + ex.Message+"]", 0,Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
             }
         }
 
@@ -91,6 +100,8 @@ namespace ObservatoryCenter
             if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
             try{
                 MaximApplicationObj.FocuserConnected = true;
+                Logging.AddLog("Focuser in MaximDL connected", 0);
+                Thread.Sleep(1000);
             }
             catch (Exception ex)
             {
@@ -109,17 +120,21 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.Log("Focuser connection failed! " + ex.Message, 0);
-                Logging.Log(FullMessage);
+                Logging.AddLog("Focuser connection failed [" + ex.Message+"]", 0, Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
             }
         }
 
         public void SetCameraCooling()
         {
+            double SetTemp=-30.0;
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try{
                 CCDCamera.CoolerOn = true;
-                CCDCamera.TemperatureSetpoint = -30; ////////
+                CCDCamera.TemperatureSetpoint = SetTemp; ////////
+                Logging.AddLog("Cooler set to " + SetTemp+" deg", 0);
+
+                //ParentMainForm.AppendLogText("Cooler set to " + SetTemp+" deg");
             }
             catch(Exception ex)
             {
@@ -138,10 +153,9 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.Log("Set camera cooling failed! " + ex.Message, 0);
-                Logging.Log(FullMessage);
+                Logging.AddLog("Set camera cooling failed [" + ex.Message+"]", 0, Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
             }
         }
-        #endregion Maxim controls
     }
 }
