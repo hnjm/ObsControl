@@ -78,6 +78,11 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.txtCameraStatus = new System.Windows.Forms.TextBox();
+            this.txtCameraTemp = new System.Windows.Forms.TextBox();
+            this.txtCameraCoolerPower = new System.Windows.Forms.TextBox();
+            this.txtCameraSetPoint = new System.Windows.Forms.TextBox();
+            this.txtCameraName = new System.Windows.Forms.TextBox();
             this.logRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
@@ -90,6 +95,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -313,7 +319,7 @@
             // 
             // btnCameraPower
             // 
-            this.btnCameraPower.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnCameraPower.BackColor = System.Drawing.Color.Tomato;
             this.btnCameraPower.Location = new System.Drawing.Point(173, 62);
             this.btnCameraPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCameraPower.Name = "btnCameraPower";
@@ -337,7 +343,7 @@
             // 
             // btnFocuserPower
             // 
-            this.btnFocuserPower.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnFocuserPower.BackColor = System.Drawing.Color.Tomato;
             this.btnFocuserPower.Location = new System.Drawing.Point(7, 62);
             this.btnFocuserPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnFocuserPower.Name = "btnFocuserPower";
@@ -349,7 +355,7 @@
             // 
             // btnTelescopePower
             // 
-            this.btnTelescopePower.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnTelescopePower.BackColor = System.Drawing.Color.Tomato;
             this.btnTelescopePower.Location = new System.Drawing.Point(7, 22);
             this.btnTelescopePower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTelescopePower.Name = "btnTelescopePower";
@@ -564,6 +570,12 @@
             this.btnBeforeImaging.UseVisualStyleBackColor = true;
             this.btnBeforeImaging.Click += new System.EventHandler(this.btnBeforeImaging_Click);
             // 
+            // mainTimer
+            // 
+            this.mainTimer.Enabled = true;
+            this.mainTimer.Interval = 1000;
+            this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
+            // 
             // backgroundWorker_SocketServer
             // 
             this.backgroundWorker_SocketServer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
@@ -578,12 +590,60 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.txtCameraStatus);
+            this.groupBox5.Controls.Add(this.txtCameraTemp);
+            this.groupBox5.Controls.Add(this.txtCameraCoolerPower);
+            this.groupBox5.Controls.Add(this.txtCameraSetPoint);
+            this.groupBox5.Controls.Add(this.txtCameraName);
             this.groupBox5.Location = new System.Drawing.Point(11, 4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(638, 207);
+            this.groupBox5.Size = new System.Drawing.Size(630, 207);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
+            // 
+            // txtCameraStatus
+            // 
+            this.txtCameraStatus.Location = new System.Drawing.Point(6, 47);
+            this.txtCameraStatus.Name = "txtCameraStatus";
+            this.txtCameraStatus.Size = new System.Drawing.Size(468, 22);
+            this.txtCameraStatus.TabIndex = 1;
+            // 
+            // txtCameraTemp
+            // 
+            this.txtCameraTemp.BackColor = System.Drawing.Color.Tomato;
+            this.txtCameraTemp.Location = new System.Drawing.Point(268, 19);
+            this.txtCameraTemp.Name = "txtCameraTemp";
+            this.txtCameraTemp.ReadOnly = true;
+            this.txtCameraTemp.Size = new System.Drawing.Size(100, 22);
+            this.txtCameraTemp.TabIndex = 0;
+            // 
+            // txtCameraCoolerPower
+            // 
+            this.txtCameraCoolerPower.BackColor = System.Drawing.Color.Tomato;
+            this.txtCameraCoolerPower.Location = new System.Drawing.Point(374, 19);
+            this.txtCameraCoolerPower.Name = "txtCameraCoolerPower";
+            this.txtCameraCoolerPower.ReadOnly = true;
+            this.txtCameraCoolerPower.Size = new System.Drawing.Size(100, 22);
+            this.txtCameraCoolerPower.TabIndex = 0;
+            // 
+            // txtCameraSetPoint
+            // 
+            this.txtCameraSetPoint.BackColor = System.Drawing.Color.Tomato;
+            this.txtCameraSetPoint.Location = new System.Drawing.Point(162, 19);
+            this.txtCameraSetPoint.Name = "txtCameraSetPoint";
+            this.txtCameraSetPoint.ReadOnly = true;
+            this.txtCameraSetPoint.Size = new System.Drawing.Size(100, 22);
+            this.txtCameraSetPoint.TabIndex = 0;
+            // 
+            // txtCameraName
+            // 
+            this.txtCameraName.BackColor = System.Drawing.Color.Tomato;
+            this.txtCameraName.Location = new System.Drawing.Point(6, 19);
+            this.txtCameraName.Name = "txtCameraName";
+            this.txtCameraName.ReadOnly = true;
+            this.txtCameraName.Size = new System.Drawing.Size(150, 22);
+            this.txtCameraName.TabIndex = 0;
             // 
             // logRefreshTimer
             // 
@@ -619,6 +679,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -675,6 +737,11 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.Timer logRefreshTimer;
+        private System.Windows.Forms.TextBox txtCameraSetPoint;
+        private System.Windows.Forms.TextBox txtCameraName;
+        private System.Windows.Forms.TextBox txtCameraStatus;
+        private System.Windows.Forms.TextBox txtCameraTemp;
+        private System.Windows.Forms.TextBox txtCameraCoolerPower;
     }
 }
 

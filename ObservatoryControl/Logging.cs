@@ -95,19 +95,27 @@ namespace ObservatoryCenter
 
             if (LogListNew.Count > 0)
             {
-                using (StreamWriter LogFile = new StreamWriter(LogFileFullName, true))
+                try
                 {
-                    for (var i = 0; i < LogListNew.Count; i++)
+                    using (StreamWriter LogFile = new StreamWriter(LogFileFullName, true))
                     {
-                        // if current log level is less then DebugLevel
-                        if (LogListNew[i].LogLevel <= LogLevel)
+                        for (var i = 0; i < LogListNew.Count; i++)
                         {
-                            LogFile.Write("{0} {1}", LogListNew[i].Time.ToShortDateString(), LogListNew[i].Time.ToLongTimeString());
-                            LogFile.WriteLine(": {0}", LogListNew[i].Message);
+                            // if current log level is less then DebugLevel
+                            if (LogListNew[i].LogLevel <= LogLevel)
+                            {
+                                LogFile.Write("{0} {1}", LogListNew[i].Time.ToShortDateString(), LogListNew[i].Time.ToLongTimeString());
+                                LogFile.WriteLine(": {0}", LogListNew[i].Message);
+                            }
                         }
                     }
                 }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Log write error [" + Ex.Message + "]");
+                }
             }
+
         }
 
         /// <summary>

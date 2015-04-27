@@ -2,9 +2,13 @@
 Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
+0.2.1 [26.04.2015]
+- UI improvments (correct status displaying)
+- camera status
+
 0.2 [26.04.2015]
-- Unoversal command interpretator (for any input0
-- compleatly rewritten log mechanizm
+- Universal command interpretator (for any input)
+- completly rewritten log mechanizm
 
 0.1.6 [24.04.2015]
 - Prepare scenario

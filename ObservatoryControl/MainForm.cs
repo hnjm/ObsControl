@@ -63,7 +63,7 @@ namespace ObservatoryCenter
 
             //Update visual interface statuses
             UpdateStatusbarASCOMStatus();
-            UpdateButtonsStatus();
+            UpdatePowerButtonsStatus();
 
             //init graphic elements
             ROOF_startPos = rectRoof.Location;
@@ -111,7 +111,7 @@ namespace ObservatoryCenter
             }
 
             //TELESCOPE
-            if (ObsControl.objTelescope != null && ObsControl.objTelescope.Connected)
+            if (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.TelescopeConnected)
             {
                 toolStripStatus_Telescope.ForeColor = Color.Blue;
             }
@@ -121,7 +121,7 @@ namespace ObservatoryCenter
             }
 
             //FOCUSER
-            if (ObsControl.objFocuser != null && ObsControl.objFocuser.Connected)
+            if (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected)
             {
                 toolStripStatus_Focuser.ForeColor = Color.Blue;
             }
@@ -131,7 +131,7 @@ namespace ObservatoryCenter
             }
 
             //CAMERA
-            if (ObsControl.objCamera != null && ObsControl.objCamera.Connected)
+            if (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
             }
@@ -145,14 +145,40 @@ namespace ObservatoryCenter
         /// <summary>
         /// Updates buttons status
         /// </summary>
-        private void UpdateButtonsStatus()
+        private void UpdatePowerButtonsStatus()
         {
             btnTelescopePower.BackColor = (ObsControl.MountPower ? OnColor : OffColor);
             btnCameraPower.BackColor = (ObsControl.CameraPower ? OnColor : OffColor);
             btnFocuserPower.BackColor = (ObsControl.FocusPower ? OnColor : OffColor);
             btnRoofPower.BackColor = (ObsControl.RoofPower ? OnColor : OffColor);
-
         }
+
+        /// <summary>
+        /// Updates CCD camera status
+        /// </summary>
+        private void UpdateCCDCameraFieldsStatus()
+        {
+            if (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled)
+            {
+                txtCameraTemp.Text = ObsControl.MaximObj.GetCameraTemp().ToString();
+                txtCameraSetPoint.Text = ObsControl.MaximObj.CameraSetTemp.ToString();
+                txtCameraCoolerPower.Text = ObsControl.MaximObj.GetCoolerPower().ToString();
+                txtCameraStatus.Text = ObsControl.MaximObj.GetCameraStatus();
+
+                txtCameraName.BackColor = OnColor;
+                txtCameraTemp.BackColor = OnColor;
+                txtCameraSetPoint.BackColor = OnColor;
+                txtCameraCoolerPower.BackColor = OnColor;
+            }
+            else
+            {
+                txtCameraName.BackColor = OffColor;
+                txtCameraTemp.BackColor = OffColor;
+                txtCameraSetPoint.BackColor = OffColor;
+                txtCameraCoolerPower.BackColor = OffColor;
+            }
+        }
+
 
         private void btnStartAll_Click(object sender, EventArgs e)
         {
@@ -186,6 +212,9 @@ namespace ObservatoryCenter
             //display new status
             ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
 
+
+            /////
+            txtCameraName.BackColor = (SwitchState ? OnColor : OffColor);
         }
 
         private void btnCameraPower_Click(object sender, EventArgs e)
@@ -290,6 +319,13 @@ namespace ObservatoryCenter
         
         public void AppendLogText(string St)
         {
+        }
+
+        private void mainTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateCCDCameraFieldsStatus();
+            UpdatePowerButtonsStatus();
+            UpdateStatusbarASCOMStatus();
         }
 
     }

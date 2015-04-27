@@ -16,6 +16,7 @@ namespace ObservatoryCenter
 
         MainForm ParentMainForm;
 
+        public double CameraSetTemp = -30;
 
         public MaximControls(MainForm MF)
         {
@@ -120,23 +121,24 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Focuser connection failed [" + ex.Message+"]", 0, Highlight.Error);
+                Logging.AddLog("MaximDL focuser connection failed [" + ex.Message+"]", 0, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
             }
         }
 
         public void SetCameraCooling()
         {
-            double SetTemp=-30.0;
+            CameraSetTemp = -30.0;
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
-            try{
+            try
+            {
                 CCDCamera.CoolerOn = true;
-                CCDCamera.TemperatureSetpoint = SetTemp; ////////
-                Logging.AddLog("Cooler set to " + SetTemp+" deg", 0);
+                CCDCamera.TemperatureSetpoint = CameraSetTemp; ////////
+                Logging.AddLog("Cooler set to " + CameraSetTemp + " deg", 0);
 
                 //ParentMainForm.AppendLogText("Cooler set to " + SetTemp+" deg");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 StackTrace st = new StackTrace(ex, true);
                 StackFrame[] frames = st.GetFrames();
@@ -153,9 +155,105 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Set camera cooling failed [" + ex.Message+"]", 0, Highlight.Error);
+                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", 0, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
             }
+        }
+        
+        public double GetCameraTemp()
+        {
+            double getTemp = 200.0;
+            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            try{
+                getTemp = CCDCamera.Temperature;
+                Logging.AddLog("Camera temp is " + getTemp + " deg", 3);
+            }
+            catch(Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL get camera temp failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("Get camera temp failed [" + ex.Message+"]", 0, Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
+            }
+            return getTemp;
+        }
+
+        public short GetCoolerPower()
+        {
+            short getPower = -1;
+            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            try
+            {
+                getPower = CCDCamera.CoolerPower;
+                Logging.AddLog("Camera cooler power is " + getPower + "%", 3);
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL get camera cooler power failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", 0, Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
+            }
+            return getPower;
+        }
+
+
+        public string GetCameraStatus()
+        {
+            MaxIm.CameraStatusCode camStatus = MaxIm.CameraStatusCode.csError;
+            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            try
+            {
+                camStatus = CCDCamera.CameraStatus;
+                Logging.AddLog("Camera status is " + camStatus.ToString() + "", 3);
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL get camera status failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("Get camera status failed [" + ex.Message + "]", 0, Highlight.Error);
+                Logging.AddLog(FullMessage, 2, Highlight.Error);
+            }
+            return camStatus.ToString();
         }
     }
 }

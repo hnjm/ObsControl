@@ -151,7 +151,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Image1.png" />
     <Content Include="changelog.txt" />
     <None Include="Resources\logo.png" />
     <None Include="Resources\favicon.ico" />
