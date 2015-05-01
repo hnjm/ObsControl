@@ -33,6 +33,8 @@ namespace ObservatoryCenter
         private MainForm ParentMainForm;
         ResourceManager LocRM;
 
+        private double TempRoofDuration=0;
+
         public SettingsForm(MainForm MF)
         {
             ParentMainForm = MF;
@@ -43,7 +45,7 @@ namespace ObservatoryCenter
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-
+            TempRoofDuration = ParentMainForm.RoofDuration;
         }
         
         private void btnOk_Click(object sender, EventArgs e)
@@ -60,6 +62,12 @@ namespace ObservatoryCenter
                 ParentMainForm.ObsControl.POWER_FOCUSER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchFocuserPort);
                 ParentMainForm.ObsControl.POWER_ROOFPOWER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchRoofPowerPort);
                 ParentMainForm.ObsControl.POWER_ROOFSWITCH_PORT = Convert.ToByte(Properties.Settings.Default.SwitchRoofSwitchPort);
+
+                ParentMainForm.RoofDuration = Convert.ToInt16(Properties.Settings.Default.RoofDuration);
+                if (TempRoofDuration != ParentMainForm.RoofDuration) { Properties.Settings.Default.RoofDurationMeasurementsCount = 1; } //reset automatic duration count if duration was manually changed
+
+                //Commit changes
+                Properties.Settings.Default.Save();
                 
                 this.Close();
             }

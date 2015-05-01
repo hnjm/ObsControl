@@ -66,7 +66,7 @@
             this.toolStripStatus_Focuser = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Camera = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Connection = new System.Windows.Forms.ToolStripStatusLabel();
-            this.animateRoof = new System.Windows.Forms.Timer(this.components);
+            this.animateRoofTimer = new System.Windows.Forms.Timer(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnStopRoof = new System.Windows.Forms.Button();
@@ -486,10 +486,10 @@
             this.toolStripStatus_Connection.Size = new System.Drawing.Size(200, 20);
             this.toolStripStatus_Connection.Text = "CONNECTIONS: 0";
             // 
-            // animateRoof
+            // animateRoofTimer
             // 
-            this.animateRoof.Interval = 1000;
-            this.animateRoof.Tick += new System.EventHandler(this.animateRoof_Tick);
+            this.animateRoofTimer.Interval = 1000;
+            this.animateRoofTimer.Tick += new System.EventHandler(this.animateRoof_Tick);
             // 
             // panel4
             // 
@@ -698,7 +698,7 @@
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
         private Microsoft.VisualBasic.PowerPacks.RectangleShape rectRoof;
         private Microsoft.VisualBasic.PowerPacks.RectangleShape rectBase;
-        private System.Windows.Forms.Timer animateRoof;
+        private System.Windows.Forms.Timer animateRoofTimer;
         private System.Windows.Forms.Button btnStartAll;
         private System.Windows.Forms.Button btnOpenRoof;
         private System.Windows.Forms.GroupBox groupBox1;

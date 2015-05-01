@@ -22,111 +22,179 @@ namespace ObservatoryCenter
     /// </summary>
     public partial class MainForm
     {
+        public double RoofDuration=30; //sec. Actual value is read from settings
+        public int RoofDurationCount = 1; //Actual value is read from settings
+        internal int RoofDurationInTicks; // roof duration recalculated to tickss
 
-        private Point ROOF_startPos;
-        private int ROOF_endPos = 80;
-        private int ROOF_incPos_module = 5;
-        private int ROOF_incPos;
+        //Main animation constants
+        public double waitTicksBeforeCheckTolerance = 0.10; //10% - used to calculate  waitTicksBeforeCheck = RoofDuration*(1 - waitTicksBeforeCheckTolerance)
+        public double maxAnimationCountsTolerance = 0.10; //10% - used to calculate    maxAnimationCounts   = RoofDuration*(1 + axAnimationCountsTolerance)
+
+        private Point ROOF_startPos;    //roof starting coordinate, would be auto initialized
+        public int ROOF_endPos = 80;   //roof ending X coordinate
+        
+        private double ROOF_incPos_module = 1.0; //increament speed by modulus (pixels per tick). Autocalculated
+        private double ROOF_incPos; //ROOF_incPos_module with sign ("+" open, "-" close)
+        private double curXCoord=0;
 
         private int tickCount = 0;
-        private int waitTicksBeforeCheck = 30;
-        private int maxAnimationCounts = 50;
+        private int waitTicksBeforeCheck; //would be auto set during startAnimation procudre
+        private int maxAnimationCounts; //would be auto set during startAnimation procudre
 
         private string prev_direction = "";
         
-        
-        private void UpdateRoofPicture()
-        {
-            //Draw roof status
-            if (ObsControl.objDome.Connected)
-            {
-                if (ObsControl.objDome.ShutterStatus == ShutterState.shutterClosed)
-                {
-                    drawClosed();
-                }
-                else if (ObsControl.objDome.ShutterStatus == ShutterState.shutterOpen)
-                {
-                    drawOpened();
-                }
-                rectRoof.BackColor = Color.LightSeaGreen;
-                rectBase.BackColor = Color.Turquoise;
-            }
-            else
-            {
-                drawClosed();
-                rectRoof.BackColor = Color.WhiteSmoke;
-                rectBase.BackColor = Color.WhiteSmoke;
-            }
-        }
 
-
+        /// <summary>
+        /// Init Roof Opening routine
+        /// </summary>
         private void btnOpenRoof_Click(object sender, EventArgs e)
         {
+            //calc ticks
+            RoofDurationInTicks= (int)Math.Round(RoofDuration * (1000.0 / animateRoofTimer.Interval));
+            waitTicksBeforeCheck = (int)Math.Floor(RoofDuration * (1000.0 / animateRoofTimer.Interval) * (1 - waitTicksBeforeCheckTolerance));
+            maxAnimationCounts = (int)Math.Ceiling(RoofDuration * (1000.0 / animateRoofTimer.Interval) * (1 + maxAnimationCountsTolerance));
+            ROOF_incPos_module = ROOF_endPos / (RoofDuration * (1000.0 / animateRoofTimer.Interval));
+
             rectRoof.Left = ROOF_startPos.X;
             ROOF_incPos = ROOF_incPos_module;
+            curXCoord = rectRoof.Left;
 
             prev_direction = "open";
 
-            if (ObsControl.RoofOpen()) startAnimation();
+            bool RFflag=ObsControl.RoofOpen();  //start OPENING. true if was started
+            if (RFflag) startAnimation();       //start animation
         }
 
+        /// <summary>
+        /// Init close roof routine
+        /// </summary>
         private void btnCloseRoof_Click(object sender, EventArgs e)
         {
+            //calc ticks
+            waitTicksBeforeCheck = (int)Math.Floor(RoofDuration * (1000.0 / animateRoofTimer.Interval) * (1 - waitTicksBeforeCheckTolerance));
+            maxAnimationCounts = (int)Math.Ceiling(RoofDuration * (1000.0 / animateRoofTimer.Interval) * (1 + maxAnimationCountsTolerance));
+            ROOF_incPos_module = ROOF_endPos / (RoofDuration * (1000.0 / animateRoofTimer.Interval));
+
             rectRoof.Left = ROOF_startPos.X + ROOF_endPos;
             ROOF_incPos = -ROOF_incPos_module;
+            curXCoord = rectRoof.Left;
 
             prev_direction = "close";
 
-            if (ObsControl.RoofClose()) startAnimation();
+            bool RFflag=ObsControl.RoofClose();
+            if (RFflag) startAnimation();
         }
 
+        /// <summary>
+        /// Stop roof. As for now - stops only animation
+        /// </summary>
         private void btnStopRoof_Click(object sender, EventArgs e)
         {
+            //
             drawStoped();
             stopAnimation();
         }
 
+        private void startAnimation()
+        {
+            btnCloseRoof.Enabled = false;
+            btnOpenRoof.Enabled = false;
+            btnStopRoof.Enabled = true;
+
+            animateRoofTimer.Enabled = true;
+
+            rectRoof.BackColor = Color.WhiteSmoke;
+            rectBase.BackColor = Color.WhiteSmoke;
+        }
+
+        private void stopAnimation()
+        {
+            animateRoofTimer.Enabled = false;
+
+            rectRoof.BackColor = Color.LightSeaGreen;
+            rectBase.BackColor = Color.Turquoise;
+
+            tickCount = 0;
+        }
+
+        /// <summary>
+        /// Roof opening/closing main tick
+        /// </summary>
         private void animateRoof_Tick(object sender, EventArgs e)
         {
             tickCount++;
-            rectRoof.Location = new Point(rectRoof.Left + ROOF_incPos, rectRoof.Top);
-            if (ROOF_incPos > 0)
+            curXCoord += ROOF_incPos;
+            rectRoof.Location = new Point((int)Math.Round(curXCoord), rectRoof.Top);
+                
+            //Was enough time passed to start cheking actual roof status?
+            if (tickCount > waitTicksBeforeCheck)
             {
-                //open animation
-                if (tickCount > waitTicksBeforeCheck)
+                //Roof was opened/closed?
+                if (((ROOF_incPos > 0) && ObsControl.objDome.ShutterStatus != ShutterState.shutterOpen) ||
+                    ((ROOF_incPos < 0) && ObsControl.objDome.ShutterStatus != ShutterState.shutterClosed))
+
                 {
-                    //Roof was opened?
-                    if (!(ObsControl.objDome.ShutterStatus == ShutterState.shutterOpen))
+                //Not yet
+
+                    //check - if this is too long?
+                    if (tickCount < RoofDurationInTicks)
                     {
-                        //check - if this is too long?
-                        if (tickCount < maxAnimationCounts)
-                        {
-                            //restart animation
+                        //normal duration wasn't reached, do nothing - continue animation
+                    }
+                    else if (tickCount < maxAnimationCounts)
+                    {
+                        //restart animation
+                        if (ROOF_incPos > 0){
                             btnOpenRoof_Click(null, null);
-                        }
-                        else
-                        {
-                            //signal error
-                            drawStoped();
-                            AlarmRoofMoving("open");
+                        }else{
+                            btnCloseRoof_Click(null, null);
                         }
                     }
                     else
                     {
-                        drawOpened();
-                        stopAnimation();
+                        //signal error
+                        drawStoped();
+                        if (ROOF_incPos > 0){
+                            AlarmRoofMoving("open");
+                        }else{
+                            AlarmRoofMoving("clos");
+                        }
                     }
                 }
+                else
+                {
+                //finished - closed/opened
+                    //calc and save statistic
+                    TimeSpan SinceStartPassed = DateTime.Now.Subtract(ObsControl.RoofRoutine_StartTime);
+                    ObsControl.curRoofRoutineDuration_Seconds = (int)Math.Round(SinceStartPassed.TotalSeconds, 0);
+                    RoofDuration = (RoofDuration * RoofDurationCount + ObsControl.curRoofRoutineDuration_Seconds) / (RoofDurationCount+1); //calc new roof duration
+                    Properties.Settings.Default.RoofDuration = Convert.ToDecimal(RoofDuration);
+                    Properties.Settings.Default.RoofDurationMeasurementsCount = RoofDurationCount+1;
+                    Properties.Settings.Default.Save();
+
+                    if (ROOF_incPos > 0)
+                    {
+                        drawOpened();
+                        Logging.AddLog("Roof was opened in " + ObsControl.curRoofRoutineDuration_Seconds + " sec");
+                    }
+                    else
+                    {
+                        drawClosed();
+                        Logging.AddLog("Roof was closed in " + ObsControl.curRoofRoutineDuration_Seconds + " sec");
+                    }
+                    stopAnimation();
+                }
+                
             }
-            else
+            /*else
             {
                 //close animation
                 if (rectRoof.Left < ROOF_startPos.X + ROOF_incPos_module * 2)
                 {
                     rectRoof.Left = ROOF_startPos.X;
                     stopAnimation();
-                }
-            }
+                } 
+            } */
         }
 
         private void drawOpened()
@@ -143,13 +211,11 @@ namespace ObservatoryCenter
             btnOpenRoof.Enabled = true;
             btnStopRoof.Enabled = false;
         }
-
         private void drawStoped()
         {
             ShutterState curShutState = ObsControl.objDome.ShutterStatus;
             if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing))
             {
-
                 rectRoof.Left = ROOF_startPos.X + Convert.ToInt16(Math.Round((double)ROOF_endPos / 2));
                 if (prev_direction == "open")
                 {
@@ -175,32 +241,11 @@ namespace ObservatoryCenter
         }
 
 
-        private void startAnimation()
-        {
-            btnCloseRoof.Enabled = false;
-            btnOpenRoof.Enabled = false;
-            btnStopRoof.Enabled = true;
-
-            animateRoof.Enabled = true;
-
-            rectRoof.BackColor = Color.WhiteSmoke;
-            rectBase.BackColor = Color.WhiteSmoke;
-        }
-
-        private void stopAnimation()
-        {
-            animateRoof.Enabled = false;
-
-            rectRoof.BackColor = Color.LightSeaGreen;
-            rectBase.BackColor = Color.Turquoise;
-
-            tickCount = 0;
-        }
 
         private void AlarmRoofMoving(string MoveType)
         {
-            animateRoof.Enabled = false;
-            System.Windows.Forms.MessageBox.Show("Roof oppening is too long!");
+            animateRoofTimer.Enabled = false;
+            System.Windows.Forms.MessageBox.Show("Roof " + (MoveType) + "ing is too long!");
 
         }
 
@@ -208,5 +253,35 @@ namespace ObservatoryCenter
         {
             annunciator1.Cadence = ASCOM.Controls.CadencePattern.BlinkSlow;
         }
+
+        /// <summary>
+        /// Draw roof position whenever needed
+        /// as for now called only once - form_load
+        /// </summary>
+        private void UpdateRoofPicture()
+        {
+            //Draw roof status
+            if (ObsControl.objDome.Connected)
+            {
+                if (ObsControl.objDome.ShutterStatus == ShutterState.shutterClosed)
+                {
+                    drawClosed();
+                }
+                else if (ObsControl.objDome.ShutterStatus == ShutterState.shutterOpen)
+                {
+                    drawOpened();
+                }
+                rectRoof.BackColor = Color.LightSeaGreen;
+                rectBase.BackColor = Color.Turquoise;
+            }
+            else
+            {
+                drawClosed();
+                rectRoof.BackColor = Color.WhiteSmoke;
+                rectBase.BackColor = Color.WhiteSmoke;
+            }
+        }
+    
+    
     }
 }

@@ -47,6 +47,10 @@ namespace ObservatoryCenter
 
         public Int32 CdC_PORT = 3292;
 
+        internal DateTime RoofRoutine_StartTime;
+        internal int curRoofRoutineDuration_Seconds;
+
+
         /// <summary>
         /// Command dictionary for interpretator
         /// </summary>
@@ -315,6 +319,10 @@ namespace ObservatoryCenter
 #endregion Power controlling
 
 #region Roof control //////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Open roof
+        /// </summary>
+        /// <returns></returns>
         public bool RoofOpen()
         {
             Logging.AddLog("Trying to open roof", 1);
@@ -326,6 +334,9 @@ namespace ObservatoryCenter
                 return false;
             }
 
+            RoofRoutine_StartTime=DateTime.Now;
+
+            //open dome
             objDome.OpenShutter();
             return true;
         }
@@ -340,6 +351,8 @@ namespace ObservatoryCenter
                 Logging.AddLog("Roof power switched off", 1);
                 return false;
             }
+
+            RoofRoutine_StartTime = DateTime.Now;
 
             objDome.CloseShutter();
             return true;
