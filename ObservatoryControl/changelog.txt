@@ -3,6 +3,7 @@ Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
 to do:
+- mount status
 - parsing CCDAP activity and send it to server
 - reading data from weatherstation
 - network command reading and responding
@@ -11,6 +12,9 @@ to do:
 - web platform for remote control
 - check internet connection (ping) during startup
 
+0.3.0 [02.05.15]
+- telescope status
+- telescope drawing
 
 0.2.2 [01.05.2015]
 - animation mechanizm rewritten

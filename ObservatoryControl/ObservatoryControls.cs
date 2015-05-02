@@ -187,8 +187,13 @@ namespace ObservatoryCenter
             set
             {
                 if (objTelescope == null) objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
-                objTelescope.Connected = true;
+                objTelescope.Connected = value;
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
+                if (!value)
+                {
+                    objTelescope.Dispose();
+                    objTelescope = null;
+                }
             }
             get
             {

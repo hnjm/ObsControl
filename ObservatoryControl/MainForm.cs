@@ -111,9 +111,16 @@ namespace ObservatoryCenter
             }
 
             //TELESCOPE
-            if (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.TelescopeConnected)
+            bool Tprog=(ObsControl.objTelescope != null && ObsControl.connectTelescope);
+            bool Tmaxim=(ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.TelescopeConnected);
+            bool Tcdc=false;
+            if (Tprog && Tmaxim && Tcdc)
             {
                 toolStripStatus_Telescope.ForeColor = Color.Blue;
+            }
+            else if (Tprog || Tmaxim || Tcdc)
+            {
+                toolStripStatus_Telescope.ForeColor = Color.MediumOrchid;
             }
             else
             {
@@ -176,6 +183,42 @@ namespace ObservatoryCenter
                 txtCameraTemp.BackColor = OffColor;
                 txtCameraSetPoint.BackColor = OffColor;
                 txtCameraCoolerPower.BackColor = OffColor;
+            }
+        }
+
+        /// <summary>
+        /// Update Telescope Fields and Draw
+        /// </summary>
+        private void UpdateTelescopeStatus()
+        {
+            if (ObsControl.objTelescope != null)
+            {
+                txtTelescopeAz.Enabled = true;
+                txtTelescopeAlt.Enabled = true;
+                txtTelescopeRA.Enabled = true;
+                txtTelescopeDec.Enabled = true;
+                btnPark.Enabled = true;
+
+                //update fields
+                txtTelescopeAz.Text = Convert.ToString(ObsControl.objTelescope.Azimuth);
+                txtTelescopeAlt.Text = Convert.ToString(ObsControl.objTelescope.Altitude);
+                txtTelescopeRA.Text = Convert.ToString(ObsControl.objTelescope.RightAscension);
+                txtTelescopeDec.Text = Convert.ToString(ObsControl.objTelescope.Declination);
+
+                //Redraw
+                angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection);
+                panelTelescopeV.Invalidate();
+                angelAlt = (Int16)(Math.Round(360-ObsControl.objTelescope.Altitude));
+                panelTelescopeH.Invalidate();
+            }
+            else
+            {
+                txtTelescopeAz.Enabled = false;
+                txtTelescopeAlt.Enabled = false;
+                txtTelescopeRA.Enabled = false;
+                txtTelescopeDec.Enabled = false;
+
+                btnPark.Enabled = false;
             }
         }
 
@@ -329,7 +372,23 @@ namespace ObservatoryCenter
             UpdateCCDCameraFieldsStatus();
             UpdatePowerButtonsStatus();
             UpdateStatusbarASCOMStatus();
+            UpdateTelescopeStatus();
         }
 
+        private void btnConnectTelescope_Click(object sender, EventArgs e)
+        {
+            if (btnConnectTelescope.Text == "Connect")
+            {
+                ObsControl.connectTelescope = true;
+                btnConnectTelescope.Text = "Diconnect";
+            }
+            else
+            {
+                ObsControl.connectTelescope = false;
+                btnConnectTelescope.Text = "Connect";
+            }
+        }
+       
+   
     }
 }
