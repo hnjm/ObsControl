@@ -604,7 +604,7 @@
             this.groupBox5.Controls.Add(this.txtCameraName);
             this.groupBox5.Location = new System.Drawing.Point(346, 5);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(486, 225);
+            this.groupBox5.Size = new System.Drawing.Size(486, 245);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
@@ -672,16 +672,16 @@
             this.groupBoxTelescope.Controls.Add(this.label1);
             this.groupBoxTelescope.Controls.Add(this.panelTelescopeH);
             this.groupBoxTelescope.Controls.Add(this.panelTelescopeV);
-            this.groupBoxTelescope.Location = new System.Drawing.Point(903, 1);
+            this.groupBoxTelescope.Location = new System.Drawing.Point(985, 1);
             this.groupBoxTelescope.Name = "groupBoxTelescope";
-            this.groupBoxTelescope.Size = new System.Drawing.Size(452, 310);
+            this.groupBoxTelescope.Size = new System.Drawing.Size(366, 249);
             this.groupBoxTelescope.TabIndex = 3;
             this.groupBoxTelescope.TabStop = false;
             this.groupBoxTelescope.Text = "Telescope";
             // 
             // btnConnectTelescope
             // 
-            this.btnConnectTelescope.Location = new System.Drawing.Point(19, 225);
+            this.btnConnectTelescope.Location = new System.Drawing.Point(18, 206);
             this.btnConnectTelescope.Name = "btnConnectTelescope";
             this.btnConnectTelescope.Size = new System.Drawing.Size(135, 31);
             this.btnConnectTelescope.TabIndex = 7;
@@ -691,7 +691,7 @@
             // 
             // btnPark
             // 
-            this.btnPark.Location = new System.Drawing.Point(18, 158);
+            this.btnPark.Location = new System.Drawing.Point(18, 144);
             this.btnPark.Name = "btnPark";
             this.btnPark.Size = new System.Drawing.Size(135, 31);
             this.btnPark.TabIndex = 7;
@@ -765,18 +765,18 @@
             // panelTelescopeH
             // 
             this.panelTelescopeH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTelescopeH.Location = new System.Drawing.Point(263, 199);
+            this.panelTelescopeH.Location = new System.Drawing.Point(170, 158);
             this.panelTelescopeH.Name = "panelTelescopeH";
-            this.panelTelescopeH.Size = new System.Drawing.Size(180, 105);
+            this.panelTelescopeH.Size = new System.Drawing.Size(180, 79);
             this.panelTelescopeH.TabIndex = 4;
             this.panelTelescopeH.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeH_Paint);
             // 
             // panelTelescopeV
             // 
             this.panelTelescopeV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTelescopeV.Location = new System.Drawing.Point(282, 11);
+            this.panelTelescopeV.Location = new System.Drawing.Point(170, 11);
             this.panelTelescopeV.Name = "panelTelescopeV";
-            this.panelTelescopeV.Size = new System.Drawing.Size(100, 120);
+            this.panelTelescopeV.Size = new System.Drawing.Size(178, 120);
             this.panelTelescopeV.TabIndex = 4;
             this.panelTelescopeV.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeV_Paint);
             // 

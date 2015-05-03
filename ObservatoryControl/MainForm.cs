@@ -200,7 +200,9 @@ namespace ObservatoryCenter
                 btnPark.Enabled = true;
 
                 //update fields
-                txtTelescopeAz.Text = Convert.ToString(ObsControl.objTelescope.Azimuth);
+                
+                //txtTelescopeAz.Text = Convert.ToString(Math.Truncate(ObsControl.objTelescope.Azimuth)) + " " + Convert.ToString(Math.Truncatse(ObsControl.objTelescope.Azimuth));
+                txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
                 txtTelescopeAlt.Text = Convert.ToString(ObsControl.objTelescope.Altitude);
                 txtTelescopeRA.Text = Convert.ToString(ObsControl.objTelescope.RightAscension);
                 txtTelescopeDec.Text = Convert.ToString(ObsControl.objTelescope.Declination);
@@ -381,11 +383,13 @@ namespace ObservatoryCenter
             {
                 ObsControl.connectTelescope = true;
                 btnConnectTelescope.Text = "Diconnect";
+                btnConnectTelescope.BackColor = OnColor;
             }
             else
             {
                 ObsControl.connectTelescope = false;
                 btnConnectTelescope.Text = "Connect";
+                btnConnectTelescope.BackColor = OffColor;
             }
         }
        

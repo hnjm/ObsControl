@@ -299,11 +299,6 @@ namespace ObservatoryCenter
 
         Point TelescopeVertical_startPos = new Point(50, 50);
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-        }
-
-
         private void panelTelescopeV_Paint(object sender, PaintEventArgs e)
         {
             DrawTelescopeV((Panel)sender);
@@ -316,27 +311,32 @@ namespace ObservatoryCenter
 
         private void DrawTelescopeV(Panel pannelV)
         {
-            Graphics graphicsObj = pannelV.CreateGraphics();
-            Pen myPen = new Pen(Color.Red, 2);
-            
+            //calculate size parameters
             TelW=(Int16)Math.Round(pannelV.Width*0.25);
             Tel2W = (Int16)Math.Round(TelW * 0.6);
             TelH=(Int16)Math.Round(pannelV.Height/2 * 0.9);
             Tel2H = (Int16)Math.Round(TelH * 0.15);
             
+            //calculate pos parameters
             TelescopeVertical_startPos.X=(pannelV.Width-TelW)/2;
             TelescopeVertical_startPos.Y = (pannelV.Height - TelH) / 2;
 
+            //create rectangles
             TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X, TelescopeVertical_startPos.Y, TelW, TelH - Tel2H);
             TelescopeVertical2 = new Rectangle((pannelV.Width - Tel2W) / 2, TelescopeVertical_startPos.Y + TelH - Tel2H, Tel2W, Tel2H);
 
+            //graph objects
+            Graphics graphicsObj = pannelV.CreateGraphics();
+            Pen myPen = new Pen(Color.Red, 2);
+
             //the central point of the rotation
-            graphicsObj.TranslateTransform(TelescopeVertical.X + 15, TelescopeVertical.Y + 50);
+            graphicsObj.TranslateTransform(pannelV.Width / 2, pannelV.Height/2);
             //rotation procedure
             graphicsObj.RotateTransform(angelAz);
+            //return transformation to start
+            graphicsObj.TranslateTransform(-(pannelV.Width / 2), -(pannelV.Height / 2));
 
-            graphicsObj.TranslateTransform(-(TelescopeVertical.X + 15), -(TelescopeVertical.Y + 50));
-
+            //draw rectangles
             graphicsObj.DrawRectangle(myPen, TelescopeVertical);
             graphicsObj.DrawRectangle(myPen, TelescopeVertical2);
         }

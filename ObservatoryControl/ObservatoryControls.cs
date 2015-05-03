@@ -50,6 +50,7 @@ namespace ObservatoryCenter
         internal DateTime RoofRoutine_StartTime;
         internal int curRoofRoutineDuration_Seconds;
 
+        public ASCOM.Utilities.Util ASCOMUtils=new ASCOM.Utilities.Util();
 
         /// <summary>
         /// Command dictionary for interpretator
