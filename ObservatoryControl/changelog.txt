@@ -12,6 +12,9 @@ to do:
 - web platform for remote control
 - check internet connection (ping) during startup
 
+0.3.1 [04.05.15]
+- telescope drawing at once correct
+
 0.3.0 [02.05.15]
 - telescope status
 - telescope drawing

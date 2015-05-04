@@ -84,6 +84,7 @@
             this.txtCameraName = new System.Windows.Forms.TextBox();
             this.logRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTelescope = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnConnectTelescope = new System.Windows.Forms.Button();
             this.btnTrack = new System.Windows.Forms.Button();
             this.btnPark = new System.Windows.Forms.Button();
@@ -98,7 +99,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
@@ -123,21 +123,19 @@
             this.tabControl1.Controls.Add(this.tabPageAllsky);
             this.tabControl1.Controls.Add(this.tabPageCameras);
             this.tabControl1.Controls.Add(this.tabPageSettings);
-            this.tabControl1.Location = new System.Drawing.Point(345, 297);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Location = new System.Drawing.Point(259, 241);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1010, 460);
+            this.tabControl1.Size = new System.Drawing.Size(758, 374);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageControl
             // 
             this.tabPageControl.Controls.Add(this.txtLog);
-            this.tabPageControl.Location = new System.Drawing.Point(4, 25);
-            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageControl.Location = new System.Drawing.Point(4, 22);
             this.tabPageControl.Name = "tabPageControl";
-            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageControl.Size = new System.Drawing.Size(1002, 431);
+            this.tabPageControl.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageControl.Size = new System.Drawing.Size(750, 348);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Control";
             this.tabPageControl.UseVisualStyleBackColor = true;
@@ -148,39 +146,37 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLog.Location = new System.Drawing.Point(3, 3);
+            this.txtLog.Location = new System.Drawing.Point(2, 2);
+            this.txtLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(992, 421);
+            this.txtLog.Size = new System.Drawing.Size(745, 343);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "";
             // 
             // tabPageWeather
             // 
-            this.tabPageWeather.Location = new System.Drawing.Point(4, 25);
-            this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageWeather.Location = new System.Drawing.Point(4, 22);
             this.tabPageWeather.Name = "tabPageWeather";
-            this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageWeather.Size = new System.Drawing.Size(1002, 431);
+            this.tabPageWeather.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageWeather.Size = new System.Drawing.Size(750, 348);
             this.tabPageWeather.TabIndex = 1;
             this.tabPageWeather.Text = "Weather";
             this.tabPageWeather.UseVisualStyleBackColor = true;
             // 
             // tabPageAllsky
             // 
-            this.tabPageAllsky.Location = new System.Drawing.Point(4, 25);
-            this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageAllsky.Location = new System.Drawing.Point(4, 22);
             this.tabPageAllsky.Name = "tabPageAllsky";
-            this.tabPageAllsky.Size = new System.Drawing.Size(1002, 431);
+            this.tabPageAllsky.Size = new System.Drawing.Size(750, 348);
             this.tabPageAllsky.TabIndex = 2;
             this.tabPageAllsky.Text = "AllSky";
             this.tabPageAllsky.UseVisualStyleBackColor = true;
             // 
             // tabPageCameras
             // 
-            this.tabPageCameras.Location = new System.Drawing.Point(4, 25);
-            this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageCameras.Location = new System.Drawing.Point(4, 22);
             this.tabPageCameras.Name = "tabPageCameras";
-            this.tabPageCameras.Size = new System.Drawing.Size(1002, 431);
+            this.tabPageCameras.Size = new System.Drawing.Size(750, 348);
             this.tabPageCameras.TabIndex = 3;
             this.tabPageCameras.Text = "Cameras";
             this.tabPageCameras.UseVisualStyleBackColor = true;
@@ -189,20 +185,19 @@
             // 
             this.tabPageSettings.Controls.Add(this.btnSettings);
             this.tabPageSettings.Controls.Add(this.groupBox4);
-            this.tabPageSettings.Location = new System.Drawing.Point(4, 25);
-            this.tabPageSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPageSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Size = new System.Drawing.Size(1002, 431);
+            this.tabPageSettings.Size = new System.Drawing.Size(750, 348);
             this.tabPageSettings.TabIndex = 4;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(185, 137);
-            this.btnSettings.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSettings.Location = new System.Drawing.Point(139, 111);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(205, 76);
+            this.btnSettings.Size = new System.Drawing.Size(154, 62);
             this.btnSettings.TabIndex = 1;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
@@ -213,11 +208,11 @@
             this.groupBox4.Controls.Add(this.labelDriverId);
             this.groupBox4.Controls.Add(this.buttonConnect);
             this.groupBox4.Controls.Add(this.buttonChoose);
-            this.groupBox4.Location = new System.Drawing.Point(3, 2);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox4.Location = new System.Drawing.Point(2, 2);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox4.Size = new System.Drawing.Size(605, 68);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox4.Size = new System.Drawing.Size(454, 55);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Switch";
@@ -226,20 +221,18 @@
             // 
             this.labelDriverId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelDriverId.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelDriverId.Location = new System.Drawing.Point(7, 18);
-            this.labelDriverId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDriverId.Location = new System.Drawing.Point(5, 15);
             this.labelDriverId.Name = "labelDriverId";
-            this.labelDriverId.Size = new System.Drawing.Size(317, 25);
+            this.labelDriverId.Size = new System.Drawing.Size(238, 21);
             this.labelDriverId.TabIndex = 5;
             this.labelDriverId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // buttonConnect
             // 
             this.buttonConnect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonConnect.Location = new System.Drawing.Point(436, 16);
-            this.buttonConnect.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonConnect.Location = new System.Drawing.Point(327, 13);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(96, 28);
+            this.buttonConnect.Size = new System.Drawing.Size(72, 23);
             this.buttonConnect.TabIndex = 4;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
@@ -247,10 +240,9 @@
             // buttonChoose
             // 
             this.buttonChoose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonChoose.Location = new System.Drawing.Point(332, 16);
-            this.buttonChoose.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonChoose.Location = new System.Drawing.Point(249, 13);
             this.buttonChoose.Name = "buttonChoose";
-            this.buttonChoose.Size = new System.Drawing.Size(96, 28);
+            this.buttonChoose.Size = new System.Drawing.Size(72, 23);
             this.buttonChoose.TabIndex = 3;
             this.buttonChoose.Text = "Choose";
             this.buttonChoose.UseVisualStyleBackColor = true;
@@ -260,10 +252,9 @@
             // 
             this.annunciatorPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.annunciatorPanel1.Controls.Add(this.annunciator1);
-            this.annunciatorPanel1.Location = new System.Drawing.Point(11, 165);
-            this.annunciatorPanel1.Margin = new System.Windows.Forms.Padding(4);
+            this.annunciatorPanel1.Location = new System.Drawing.Point(8, 134);
             this.annunciatorPanel1.Name = "annunciatorPanel1";
-            this.annunciatorPanel1.Size = new System.Drawing.Size(297, 31);
+            this.annunciatorPanel1.Size = new System.Drawing.Size(223, 25);
             this.annunciatorPanel1.TabIndex = 5;
             this.annunciatorPanel1.Click += new System.EventHandler(this.annunciatorPanel1_Click);
             // 
@@ -276,11 +267,10 @@
             this.annunciator1.Font = new System.Drawing.Font("Consolas", 10F);
             this.annunciator1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(4)))), ((int)(((byte)(4)))));
             this.annunciator1.InactiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(4)))), ((int)(((byte)(4)))));
-            this.annunciator1.Location = new System.Drawing.Point(4, 0);
-            this.annunciator1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.annunciator1.Location = new System.Drawing.Point(3, 0);
             this.annunciator1.Mute = false;
             this.annunciator1.Name = "annunciator1";
-            this.annunciator1.Size = new System.Drawing.Size(117, 20);
+            this.annunciator1.Size = new System.Drawing.Size(104, 17);
             this.annunciator1.TabIndex = 4;
             this.annunciator1.Text = "annunciator1";
             // 
@@ -293,21 +283,19 @@
             this.groupBox1.Controls.Add(this.btnRoofPower);
             this.groupBox1.Controls.Add(this.btnFocuserPower);
             this.groupBox1.Controls.Add(this.btnTelescopePower);
-            this.groupBox1.Location = new System.Drawing.Point(7, 214);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(5, 174);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(328, 198);
+            this.groupBox1.Size = new System.Drawing.Size(246, 161);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Power";
             // 
             // btnPowerAll
             // 
-            this.btnPowerAll.Location = new System.Drawing.Point(7, 100);
-            this.btnPowerAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnPowerAll.Location = new System.Drawing.Point(5, 81);
+            this.btnPowerAll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPowerAll.Name = "btnPowerAll";
-            this.btnPowerAll.Size = new System.Drawing.Size(315, 28);
+            this.btnPowerAll.Size = new System.Drawing.Size(236, 23);
             this.btnPowerAll.TabIndex = 7;
             this.btnPowerAll.Text = "Power all";
             this.btnPowerAll.UseVisualStyleBackColor = true;
@@ -315,10 +303,10 @@
             // btnHeating
             // 
             this.btnHeating.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnHeating.Location = new System.Drawing.Point(7, 146);
-            this.btnHeating.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnHeating.Location = new System.Drawing.Point(5, 119);
+            this.btnHeating.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnHeating.Name = "btnHeating";
-            this.btnHeating.Size = new System.Drawing.Size(147, 34);
+            this.btnHeating.Size = new System.Drawing.Size(110, 28);
             this.btnHeating.TabIndex = 6;
             this.btnHeating.Text = "Heating";
             this.btnHeating.UseVisualStyleBackColor = false;
@@ -328,20 +316,20 @@
             this.ledIndicator2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ledIndicator2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ledIndicator2.LabelText = "";
-            this.ledIndicator2.Location = new System.Drawing.Point(13, 156);
-            this.ledIndicator2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ledIndicator2.Location = new System.Drawing.Point(10, 127);
+            this.ledIndicator2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ledIndicator2.Name = "ledIndicator2";
-            this.ledIndicator2.Size = new System.Drawing.Size(21, 15);
+            this.ledIndicator2.Size = new System.Drawing.Size(16, 12);
             this.ledIndicator2.Status = ASCOM.Controls.TrafficLight.Red;
             this.ledIndicator2.TabIndex = 5;
             // 
             // btnCameraPower
             // 
             this.btnCameraPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnCameraPower.Location = new System.Drawing.Point(173, 62);
-            this.btnCameraPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCameraPower.Location = new System.Drawing.Point(130, 50);
+            this.btnCameraPower.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCameraPower.Name = "btnCameraPower";
-            this.btnCameraPower.Size = new System.Drawing.Size(147, 34);
+            this.btnCameraPower.Size = new System.Drawing.Size(110, 28);
             this.btnCameraPower.TabIndex = 6;
             this.btnCameraPower.Text = "Camera power";
             this.btnCameraPower.UseVisualStyleBackColor = false;
@@ -350,10 +338,10 @@
             // btnRoofPower
             // 
             this.btnRoofPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnRoofPower.Location = new System.Drawing.Point(173, 22);
-            this.btnRoofPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRoofPower.Location = new System.Drawing.Point(130, 18);
+            this.btnRoofPower.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRoofPower.Name = "btnRoofPower";
-            this.btnRoofPower.Size = new System.Drawing.Size(147, 34);
+            this.btnRoofPower.Size = new System.Drawing.Size(110, 28);
             this.btnRoofPower.TabIndex = 6;
             this.btnRoofPower.Text = "Roof power";
             this.btnRoofPower.UseVisualStyleBackColor = false;
@@ -362,10 +350,10 @@
             // btnFocuserPower
             // 
             this.btnFocuserPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnFocuserPower.Location = new System.Drawing.Point(7, 62);
-            this.btnFocuserPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnFocuserPower.Location = new System.Drawing.Point(5, 50);
+            this.btnFocuserPower.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnFocuserPower.Name = "btnFocuserPower";
-            this.btnFocuserPower.Size = new System.Drawing.Size(147, 34);
+            this.btnFocuserPower.Size = new System.Drawing.Size(110, 28);
             this.btnFocuserPower.TabIndex = 6;
             this.btnFocuserPower.Text = "Focuser";
             this.btnFocuserPower.UseVisualStyleBackColor = false;
@@ -374,10 +362,10 @@
             // btnTelescopePower
             // 
             this.btnTelescopePower.BackColor = System.Drawing.Color.Tomato;
-            this.btnTelescopePower.Location = new System.Drawing.Point(7, 22);
-            this.btnTelescopePower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnTelescopePower.Location = new System.Drawing.Point(5, 18);
+            this.btnTelescopePower.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnTelescopePower.Name = "btnTelescopePower";
-            this.btnTelescopePower.Size = new System.Drawing.Size(147, 34);
+            this.btnTelescopePower.Size = new System.Drawing.Size(110, 28);
             this.btnTelescopePower.TabIndex = 6;
             this.btnTelescopePower.Text = "Mount power";
             this.btnTelescopePower.UseVisualStyleBackColor = false;
@@ -385,10 +373,9 @@
             // 
             // btnStartAll
             // 
-            this.btnStartAll.Location = new System.Drawing.Point(11, 23);
-            this.btnStartAll.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStartAll.Location = new System.Drawing.Point(8, 19);
             this.btnStartAll.Name = "btnStartAll";
-            this.btnStartAll.Size = new System.Drawing.Size(176, 59);
+            this.btnStartAll.Size = new System.Drawing.Size(132, 48);
             this.btnStartAll.TabIndex = 3;
             this.btnStartAll.Text = "Prepare";
             this.toolTip1.SetToolTip(this.btnStartAll, resources.GetString("btnStartAll.ToolTip"));
@@ -398,10 +385,9 @@
             // btnOpenRoof
             // 
             this.btnOpenRoof.Enabled = false;
-            this.btnOpenRoof.Location = new System.Drawing.Point(215, 129);
-            this.btnOpenRoof.Margin = new System.Windows.Forms.Padding(4);
+            this.btnOpenRoof.Location = new System.Drawing.Point(161, 105);
             this.btnOpenRoof.Name = "btnOpenRoof";
-            this.btnOpenRoof.Size = new System.Drawing.Size(93, 28);
+            this.btnOpenRoof.Size = new System.Drawing.Size(70, 23);
             this.btnOpenRoof.TabIndex = 2;
             this.btnOpenRoof.Text = "Open roof";
             this.btnOpenRoof.UseVisualStyleBackColor = true;
@@ -410,10 +396,9 @@
             // btnCloseRoof
             // 
             this.btnCloseRoof.Enabled = false;
-            this.btnCloseRoof.Location = new System.Drawing.Point(11, 129);
-            this.btnCloseRoof.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCloseRoof.Location = new System.Drawing.Point(8, 105);
             this.btnCloseRoof.Name = "btnCloseRoof";
-            this.btnCloseRoof.Size = new System.Drawing.Size(93, 30);
+            this.btnCloseRoof.Size = new System.Drawing.Size(70, 24);
             this.btnCloseRoof.TabIndex = 1;
             this.btnCloseRoof.Text = "Close roof";
             this.btnCloseRoof.UseVisualStyleBackColor = true;
@@ -460,41 +445,40 @@
             this.toolStripStatus_Focuser,
             this.toolStripStatus_Camera,
             this.toolStripStatus_Connection});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 767);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 619);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1358, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(1018, 25);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatus_Switch
             // 
             this.toolStripStatus_Switch.Name = "toolStripStatus_Switch";
-            this.toolStripStatus_Switch.Size = new System.Drawing.Size(63, 20);
+            this.toolStripStatus_Switch.Size = new System.Drawing.Size(51, 20);
             this.toolStripStatus_Switch.Text = "SWITCH";
             // 
             // toolStripStatus_Dome
             // 
             this.toolStripStatus_Dome.Name = "toolStripStatus_Dome";
-            this.toolStripStatus_Dome.Size = new System.Drawing.Size(52, 20);
+            this.toolStripStatus_Dome.Size = new System.Drawing.Size(41, 20);
             this.toolStripStatus_Dome.Text = "DOME";
             // 
             // toolStripStatus_Telescope
             // 
             this.toolStripStatus_Telescope.Name = "toolStripStatus_Telescope";
-            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(84, 20);
+            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(68, 20);
             this.toolStripStatus_Telescope.Text = "TELESCOPE";
             // 
             // toolStripStatus_Focuser
             // 
             this.toolStripStatus_Focuser.Name = "toolStripStatus_Focuser";
-            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(71, 20);
+            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(57, 20);
             this.toolStripStatus_Focuser.Text = "FOCUSER";
             // 
             // toolStripStatus_Camera
             // 
             this.toolStripStatus_Camera.Name = "toolStripStatus_Camera";
-            this.toolStripStatus_Camera.Size = new System.Drawing.Size(68, 20);
+            this.toolStripStatus_Camera.Size = new System.Drawing.Size(55, 20);
             this.toolStripStatus_Camera.Text = "CAMERA";
             // 
             // toolStripStatus_Connection
@@ -514,10 +498,9 @@
             this.panel4.Controls.Add(this.groupBoxRoof);
             this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.groupBox1);
-            this.panel4.Location = new System.Drawing.Point(4, 1);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4);
+            this.panel4.Location = new System.Drawing.Point(3, 1);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(341, 608);
+            this.panel4.Size = new System.Drawing.Size(256, 494);
             this.panel4.TabIndex = 2;
             // 
             // groupBoxRoof
@@ -527,11 +510,9 @@
             this.groupBoxRoof.Controls.Add(this.btnCloseRoof);
             this.groupBoxRoof.Controls.Add(this.btnOpenRoof);
             this.groupBoxRoof.Controls.Add(this.shapeContainer2);
-            this.groupBoxRoof.Location = new System.Drawing.Point(7, 4);
-            this.groupBoxRoof.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxRoof.Location = new System.Drawing.Point(5, 3);
             this.groupBoxRoof.Name = "groupBoxRoof";
-            this.groupBoxRoof.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxRoof.Size = new System.Drawing.Size(328, 203);
+            this.groupBoxRoof.Size = new System.Drawing.Size(246, 165);
             this.groupBoxRoof.TabIndex = 3;
             this.groupBoxRoof.TabStop = false;
             this.groupBoxRoof.Text = "Roof";
@@ -539,10 +520,9 @@
             // btnStopRoof
             // 
             this.btnStopRoof.Enabled = false;
-            this.btnStopRoof.Location = new System.Drawing.Point(129, 129);
-            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4);
+            this.btnStopRoof.Location = new System.Drawing.Point(97, 105);
             this.btnStopRoof.Name = "btnStopRoof";
-            this.btnStopRoof.Size = new System.Drawing.Size(61, 30);
+            this.btnStopRoof.Size = new System.Drawing.Size(46, 24);
             this.btnStopRoof.TabIndex = 1;
             this.btnStopRoof.Text = "Stop";
             this.btnStopRoof.UseVisualStyleBackColor = true;
@@ -550,7 +530,7 @@
             // 
             // shapeContainer2
             // 
-            this.shapeContainer2.Location = new System.Drawing.Point(4, 19);
+            this.shapeContainer2.Location = new System.Drawing.Point(3, 16);
             this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer2.Name = "shapeContainer2";
             this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
@@ -558,7 +538,7 @@
             this.lineShape1,
             this.rectRoof,
             this.rectBase});
-            this.shapeContainer2.Size = new System.Drawing.Size(320, 180);
+            this.shapeContainer2.Size = new System.Drawing.Size(240, 146);
             this.shapeContainer2.TabIndex = 0;
             this.shapeContainer2.TabStop = false;
             // 
@@ -566,21 +546,18 @@
             // 
             this.groupBox2.Controls.Add(this.btnBeforeImaging);
             this.groupBox2.Controls.Add(this.btnStartAll);
-            this.groupBox2.Location = new System.Drawing.Point(7, 420);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Location = new System.Drawing.Point(5, 341);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(328, 182);
+            this.groupBox2.Size = new System.Drawing.Size(246, 148);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Scenarios";
             // 
             // btnBeforeImaging
             // 
-            this.btnBeforeImaging.Location = new System.Drawing.Point(11, 133);
-            this.btnBeforeImaging.Margin = new System.Windows.Forms.Padding(4);
+            this.btnBeforeImaging.Location = new System.Drawing.Point(8, 108);
             this.btnBeforeImaging.Name = "btnBeforeImaging";
-            this.btnBeforeImaging.Size = new System.Drawing.Size(143, 41);
+            this.btnBeforeImaging.Size = new System.Drawing.Size(107, 33);
             this.btnBeforeImaging.TabIndex = 3;
             this.btnBeforeImaging.Text = "Preapare Imaging";
             this.toolTip1.SetToolTip(this.btnBeforeImaging, "Предсъемочный цикл:\r\n1.\tОткрыть крышу\r\n2.\tПодвигать фокусером туда сюда (300 ед)\r" +
@@ -605,54 +582,61 @@
             this.groupBox5.Controls.Add(this.txtCameraCoolerPower);
             this.groupBox5.Controls.Add(this.txtCameraSetPoint);
             this.groupBox5.Controls.Add(this.txtCameraName);
-            this.groupBox5.Location = new System.Drawing.Point(346, 5);
+            this.groupBox5.Location = new System.Drawing.Point(260, 4);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(486, 245);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Size = new System.Drawing.Size(364, 199);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
             // 
             // txtCameraStatus
             // 
-            this.txtCameraStatus.Location = new System.Drawing.Point(6, 47);
+            this.txtCameraStatus.Location = new System.Drawing.Point(4, 38);
+            this.txtCameraStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCameraStatus.Name = "txtCameraStatus";
-            this.txtCameraStatus.Size = new System.Drawing.Size(468, 22);
+            this.txtCameraStatus.Size = new System.Drawing.Size(352, 20);
             this.txtCameraStatus.TabIndex = 1;
             // 
             // txtCameraTemp
             // 
             this.txtCameraTemp.BackColor = System.Drawing.Color.Tomato;
-            this.txtCameraTemp.Location = new System.Drawing.Point(268, 19);
+            this.txtCameraTemp.Location = new System.Drawing.Point(201, 15);
+            this.txtCameraTemp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCameraTemp.Name = "txtCameraTemp";
             this.txtCameraTemp.ReadOnly = true;
-            this.txtCameraTemp.Size = new System.Drawing.Size(100, 22);
+            this.txtCameraTemp.Size = new System.Drawing.Size(76, 20);
             this.txtCameraTemp.TabIndex = 0;
             // 
             // txtCameraCoolerPower
             // 
             this.txtCameraCoolerPower.BackColor = System.Drawing.Color.Tomato;
-            this.txtCameraCoolerPower.Location = new System.Drawing.Point(374, 19);
+            this.txtCameraCoolerPower.Location = new System.Drawing.Point(280, 15);
+            this.txtCameraCoolerPower.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCameraCoolerPower.Name = "txtCameraCoolerPower";
             this.txtCameraCoolerPower.ReadOnly = true;
-            this.txtCameraCoolerPower.Size = new System.Drawing.Size(100, 22);
+            this.txtCameraCoolerPower.Size = new System.Drawing.Size(76, 20);
             this.txtCameraCoolerPower.TabIndex = 0;
             // 
             // txtCameraSetPoint
             // 
             this.txtCameraSetPoint.BackColor = System.Drawing.Color.Tomato;
-            this.txtCameraSetPoint.Location = new System.Drawing.Point(162, 19);
+            this.txtCameraSetPoint.Location = new System.Drawing.Point(122, 15);
+            this.txtCameraSetPoint.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCameraSetPoint.Name = "txtCameraSetPoint";
             this.txtCameraSetPoint.ReadOnly = true;
-            this.txtCameraSetPoint.Size = new System.Drawing.Size(100, 22);
+            this.txtCameraSetPoint.Size = new System.Drawing.Size(76, 20);
             this.txtCameraSetPoint.TabIndex = 0;
             // 
             // txtCameraName
             // 
             this.txtCameraName.BackColor = System.Drawing.Color.Tomato;
-            this.txtCameraName.Location = new System.Drawing.Point(6, 19);
+            this.txtCameraName.Location = new System.Drawing.Point(4, 15);
+            this.txtCameraName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCameraName.Name = "txtCameraName";
             this.txtCameraName.ReadOnly = true;
-            this.txtCameraName.Size = new System.Drawing.Size(150, 22);
+            this.txtCameraName.Size = new System.Drawing.Size(114, 20);
             this.txtCameraName.TabIndex = 0;
             // 
             // logRefreshTimer
@@ -678,18 +662,32 @@
             this.groupBoxTelescope.Controls.Add(this.label1);
             this.groupBoxTelescope.Controls.Add(this.panelTelescopeH);
             this.groupBoxTelescope.Controls.Add(this.panelTelescopeV);
-            this.groupBoxTelescope.Location = new System.Drawing.Point(985, 1);
+            this.groupBoxTelescope.Location = new System.Drawing.Point(739, 1);
+            this.groupBoxTelescope.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBoxTelescope.Name = "groupBoxTelescope";
-            this.groupBoxTelescope.Size = new System.Drawing.Size(366, 249);
+            this.groupBoxTelescope.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBoxTelescope.Size = new System.Drawing.Size(274, 202);
             this.groupBoxTelescope.TabIndex = 3;
             this.groupBoxTelescope.TabStop = false;
             this.groupBoxTelescope.Text = "Telescope";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(163, 108);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(56, 19);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // btnConnectTelescope
             // 
-            this.btnConnectTelescope.Location = new System.Drawing.Point(18, 206);
+            this.btnConnectTelescope.Location = new System.Drawing.Point(14, 167);
+            this.btnConnectTelescope.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnConnectTelescope.Name = "btnConnectTelescope";
-            this.btnConnectTelescope.Size = new System.Drawing.Size(135, 31);
+            this.btnConnectTelescope.Size = new System.Drawing.Size(101, 25);
             this.btnConnectTelescope.TabIndex = 7;
             this.btnConnectTelescope.Text = "Connect";
             this.btnConnectTelescope.UseVisualStyleBackColor = true;
@@ -697,133 +695,135 @@
             // 
             // btnTrack
             // 
-            this.btnTrack.Location = new System.Drawing.Point(88, 144);
+            this.btnTrack.Location = new System.Drawing.Point(66, 117);
+            this.btnTrack.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnTrack.Name = "btnTrack";
-            this.btnTrack.Size = new System.Drawing.Size(65, 29);
+            this.btnTrack.Size = new System.Drawing.Size(49, 24);
             this.btnTrack.TabIndex = 7;
             this.btnTrack.Text = "Track";
             this.btnTrack.UseVisualStyleBackColor = true;
             // 
             // btnPark
             // 
-            this.btnPark.Location = new System.Drawing.Point(18, 144);
+            this.btnPark.Location = new System.Drawing.Point(14, 117);
+            this.btnPark.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPark.Name = "btnPark";
-            this.btnPark.Size = new System.Drawing.Size(65, 29);
+            this.btnPark.Size = new System.Drawing.Size(49, 24);
             this.btnPark.TabIndex = 7;
             this.btnPark.Text = "Park";
             this.btnPark.UseVisualStyleBackColor = true;
             // 
             // txtPierSide
             // 
-            this.txtPierSide.Location = new System.Drawing.Point(18, 178);
+            this.txtPierSide.Location = new System.Drawing.Point(14, 145);
+            this.txtPierSide.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtPierSide.Name = "txtPierSide";
-            this.txtPierSide.Size = new System.Drawing.Size(135, 22);
+            this.txtPierSide.Size = new System.Drawing.Size(102, 20);
             this.txtPierSide.TabIndex = 6;
             // 
             // txtTelescopeDec
             // 
-            this.txtTelescopeDec.Location = new System.Drawing.Point(54, 116);
+            this.txtTelescopeDec.Location = new System.Drawing.Point(40, 94);
+            this.txtTelescopeDec.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTelescopeDec.Name = "txtTelescopeDec";
-            this.txtTelescopeDec.Size = new System.Drawing.Size(100, 22);
+            this.txtTelescopeDec.Size = new System.Drawing.Size(76, 20);
             this.txtTelescopeDec.TabIndex = 6;
             // 
             // txtTelescopeAlt
             // 
-            this.txtTelescopeAlt.Location = new System.Drawing.Point(54, 54);
+            this.txtTelescopeAlt.Location = new System.Drawing.Point(40, 44);
+            this.txtTelescopeAlt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTelescopeAlt.Name = "txtTelescopeAlt";
-            this.txtTelescopeAlt.Size = new System.Drawing.Size(100, 22);
+            this.txtTelescopeAlt.Size = new System.Drawing.Size(76, 20);
             this.txtTelescopeAlt.TabIndex = 6;
             // 
             // txtTelescopeRA
             // 
-            this.txtTelescopeRA.Location = new System.Drawing.Point(54, 90);
+            this.txtTelescopeRA.Location = new System.Drawing.Point(40, 73);
+            this.txtTelescopeRA.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTelescopeRA.Name = "txtTelescopeRA";
-            this.txtTelescopeRA.Size = new System.Drawing.Size(100, 22);
+            this.txtTelescopeRA.Size = new System.Drawing.Size(76, 20);
             this.txtTelescopeRA.TabIndex = 6;
             // 
             // txtTelescopeAz
             // 
-            this.txtTelescopeAz.Location = new System.Drawing.Point(54, 28);
+            this.txtTelescopeAz.Location = new System.Drawing.Point(40, 23);
+            this.txtTelescopeAz.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTelescopeAz.Name = "txtTelescopeAz";
-            this.txtTelescopeAz.Size = new System.Drawing.Size(100, 22);
+            this.txtTelescopeAz.Size = new System.Drawing.Size(76, 20);
             this.txtTelescopeAz.TabIndex = 6;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 118);
+            this.label4.Location = new System.Drawing.Point(11, 96);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 17);
+            this.label4.Size = new System.Drawing.Size(27, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Dec";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 90);
+            this.label3.Location = new System.Drawing.Point(11, 73);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(27, 17);
+            this.label3.Size = new System.Drawing.Size(22, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "RA";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 56);
+            this.label2.Location = new System.Drawing.Point(11, 46);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(24, 17);
+            this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Alt";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 28);
+            this.label1.Location = new System.Drawing.Point(11, 23);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(24, 17);
+            this.label1.Size = new System.Drawing.Size(19, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Az";
             // 
             // panelTelescopeH
             // 
             this.panelTelescopeH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTelescopeH.Location = new System.Drawing.Point(170, 158);
+            this.panelTelescopeH.Location = new System.Drawing.Point(128, 128);
+            this.panelTelescopeH.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panelTelescopeH.Name = "panelTelescopeH";
-            this.panelTelescopeH.Size = new System.Drawing.Size(180, 79);
+            this.panelTelescopeH.Size = new System.Drawing.Size(136, 65);
             this.panelTelescopeH.TabIndex = 4;
             this.panelTelescopeH.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeH_Paint);
             // 
             // panelTelescopeV
             // 
             this.panelTelescopeV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTelescopeV.Location = new System.Drawing.Point(170, 11);
+            this.panelTelescopeV.Location = new System.Drawing.Point(128, 9);
+            this.panelTelescopeV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panelTelescopeV.Name = "panelTelescopeV";
-            this.panelTelescopeV.Size = new System.Drawing.Size(178, 120);
+            this.panelTelescopeV.Size = new System.Drawing.Size(134, 98);
             this.panelTelescopeV.TabIndex = 4;
             this.panelTelescopeV.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeV_Paint);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(217, 133);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1358, 792);
+            this.ClientSize = new System.Drawing.Size(1018, 644);
             this.Controls.Add(this.groupBoxTelescope);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";

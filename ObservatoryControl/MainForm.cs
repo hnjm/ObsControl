@@ -241,19 +241,38 @@ namespace ObservatoryCenter
                 if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
                 {
                     txtPierSide.Text = "East, looking West";
+                    PoinitingSide = false;
+                    VAzAdjust = 180;
                 }
                 else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
                 {
                     txtPierSide.Text = "West, looking East";
+                    PoinitingSide = true;
+                    VAzAdjust = 0;
                 }
                 else
                 {
                     txtPierSide.Text = "Unknown";
                 }
+
                 //Redraw
-                angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection);
+                angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection + VAzAdjust);
                 panelTelescopeV.Invalidate();
-                angelAlt = (Int16)(Math.Round(-ObsControl.objTelescope.Altitude));
+
+                if (PoinitingSide)
+                {
+                    angelAlt = (Int16)(Math.Round(ObsControl.objTelescope.Altitude+180));
+                }
+                else
+                {
+                    angelAlt = (Int16)(Math.Round(ObsControl.objTelescope.Altitude));
+                }
+                //HTelescope Az corrections
+                if (ObsControl.objTelescope.Azimuth < 90 || ObsControl.objTelescope.Azimuth > 270)
+                {
+                    angelAlt = 180-angelAlt;
+                }
+
                 panelTelescopeH.Invalidate();
             }
             else
@@ -445,7 +464,7 @@ namespace ObservatoryCenter
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            PoinitingSide = !PoinitingSide;
         }
        
    

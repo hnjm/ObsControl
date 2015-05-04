@@ -290,8 +290,9 @@ namespace ObservatoryCenter
 #region //////// DRAW TELESCOPE ////////////////////////////////////////////////////////////////////////////////
 
         Int16 angelAz = 0;
-        Int16 angelAlt = -45;
+        int angelAlt = -45;
         bool PoinitingSide = true; //true - direct (west side), false - rear (east side)
+        Int16 VAzAdjust = 0; //adjust for pierflip (vertical)
 
         public Int16 NorthAzimuthCorrection = 0;
         Rectangle TelescopeVertical, TelescopeVertical2, MountRect;
@@ -330,22 +331,26 @@ namespace ObservatoryCenter
             PierV_startPos.Y = (pannelV.Height - PierVSize) / 2-3;
 
             TelescopeVertical_startPos.X = (pannelV.Width - TelH) / 2;
-            if (PoinitingSide)
-            {
-                TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
-            }
-            else
-            {
-                TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
-            }
+            TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
+            TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
 
             //create rectangles
             MountRect = new Rectangle(PierV_startPos.X, PierV_startPos.Y, PierVSize, PierVSize);
-            TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X + Tel2H, TelescopeVertical_startPos.Y, TelH - Tel2H, TelW);
-            TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X), TelescopeVertical_startPos.Y + (TelW - Tel2W)/2, Tel2H, Tel2W);
+            if (PoinitingSide)
+            {
+                TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X + Tel2H, TelescopeVertical_startPos.Y, TelH - Tel2H, TelW);
+                TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+            }
+            else
+            {
+                TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X, TelescopeVertical_startPos.Y, TelH - Tel2H, TelW);
+                TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X + TelH-Tel2H), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+            }
 
             //graph objects
             Graphics graphicsObj = pannelV.CreateGraphics();
+            graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
             Pen myPen = new Pen(Color.Red, 2);
 
             //the central point of the rotation
@@ -366,15 +371,24 @@ namespace ObservatoryCenter
             
             //calculate pos parameters
             TelescopeHoriz_startPos.X = (pannelH.Width - TelH) / 2;
-            TelescopeHoriz_startPos.Y = (pannelH.Height - TelW) / 3;
+            TelescopeHoriz_startPos.Y = (pannelH.Height - TelW) / 2;
 
             //create rectangles
-            TelescopeHoriz = new Rectangle(TelescopeHoriz_startPos.X + Tel2H, TelescopeHoriz_startPos.Y, TelH - Tel2H, TelW);
-            TelescopeHoriz2 = new Rectangle((TelescopeHoriz_startPos.X), TelescopeHoriz_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+            if (PoinitingSide)
+            {
+                TelescopeHoriz = new Rectangle(TelescopeHoriz_startPos.X + Tel2H, TelescopeHoriz_startPos.Y, TelH - Tel2H, TelW);
+                TelescopeHoriz2 = new Rectangle((TelescopeHoriz_startPos.X), TelescopeHoriz_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+            }
+            else
+            {
+                TelescopeHoriz = new Rectangle(TelescopeHoriz_startPos.X, TelescopeHoriz_startPos.Y, TelH - Tel2H, TelW);
+                TelescopeHoriz2 = new Rectangle((TelescopeHoriz_startPos.X + TelH - Tel2H), TelescopeHoriz_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+            }
 
             //graph objects
             Graphics graphicsObj = pannelH.CreateGraphics();
             Pen myPen = new Pen(Color.Red, 2);
+            graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             //the central point of the rotation
             graphicsObj.TranslateTransform(pannelH.Width / 2, pannelH.Height / 2);

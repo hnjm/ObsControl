@@ -55,6 +55,9 @@
   <PropertyGroup>
     <StartupObject>ObservatoryCenter.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo_48_blue.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ASCOM.Astrometry, Version=6.0.0.0, Culture=neutral, PublicKeyToken=565de7938946fba7, processorArchitecture=MSIL" />
     <Reference Include="ASCOM.Attributes, Version=6.0.0.0, Culture=neutral, PublicKeyToken=565de7938946fba7, processorArchitecture=MSIL" />
@@ -152,6 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="changelog.txt" />
+    <Content Include="logo_48_blue.ico" />
+    <None Include="Resources\logo_48_blue.ico" />
     <None Include="Resources\logo.png" />
     <None Include="Resources\favicon.ico" />
   </ItemGroup>
