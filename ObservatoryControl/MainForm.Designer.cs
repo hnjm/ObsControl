@@ -85,7 +85,9 @@
             this.logRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTelescope = new System.Windows.Forms.GroupBox();
             this.btnConnectTelescope = new System.Windows.Forms.Button();
+            this.btnTrack = new System.Windows.Forms.Button();
             this.btnPark = new System.Windows.Forms.Button();
+            this.txtPierSide = new System.Windows.Forms.TextBox();
             this.txtTelescopeDec = new System.Windows.Forms.TextBox();
             this.txtTelescopeAlt = new System.Windows.Forms.TextBox();
             this.txtTelescopeRA = new System.Windows.Forms.TextBox();
@@ -96,6 +98,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
@@ -660,8 +663,11 @@
             // 
             // groupBoxTelescope
             // 
+            this.groupBoxTelescope.Controls.Add(this.button1);
             this.groupBoxTelescope.Controls.Add(this.btnConnectTelescope);
+            this.groupBoxTelescope.Controls.Add(this.btnTrack);
             this.groupBoxTelescope.Controls.Add(this.btnPark);
+            this.groupBoxTelescope.Controls.Add(this.txtPierSide);
             this.groupBoxTelescope.Controls.Add(this.txtTelescopeDec);
             this.groupBoxTelescope.Controls.Add(this.txtTelescopeAlt);
             this.groupBoxTelescope.Controls.Add(this.txtTelescopeRA);
@@ -689,14 +695,30 @@
             this.btnConnectTelescope.UseVisualStyleBackColor = true;
             this.btnConnectTelescope.Click += new System.EventHandler(this.btnConnectTelescope_Click);
             // 
+            // btnTrack
+            // 
+            this.btnTrack.Location = new System.Drawing.Point(88, 144);
+            this.btnTrack.Name = "btnTrack";
+            this.btnTrack.Size = new System.Drawing.Size(65, 29);
+            this.btnTrack.TabIndex = 7;
+            this.btnTrack.Text = "Track";
+            this.btnTrack.UseVisualStyleBackColor = true;
+            // 
             // btnPark
             // 
             this.btnPark.Location = new System.Drawing.Point(18, 144);
             this.btnPark.Name = "btnPark";
-            this.btnPark.Size = new System.Drawing.Size(135, 31);
+            this.btnPark.Size = new System.Drawing.Size(65, 29);
             this.btnPark.TabIndex = 7;
             this.btnPark.Text = "Park";
             this.btnPark.UseVisualStyleBackColor = true;
+            // 
+            // txtPierSide
+            // 
+            this.txtPierSide.Location = new System.Drawing.Point(18, 178);
+            this.txtPierSide.Name = "txtPierSide";
+            this.txtPierSide.Size = new System.Drawing.Size(135, 22);
+            this.txtPierSide.TabIndex = 6;
             // 
             // txtTelescopeDec
             // 
@@ -779,6 +801,16 @@
             this.panelTelescopeV.Size = new System.Drawing.Size(178, 120);
             this.panelTelescopeV.TabIndex = 4;
             this.panelTelescopeV.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeV_Paint);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(217, 133);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -885,6 +917,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnConnectTelescope;
+        private System.Windows.Forms.Button btnTrack;
+        private System.Windows.Forms.TextBox txtPierSide;
+        private System.Windows.Forms.Button button1;
     }
 }
 

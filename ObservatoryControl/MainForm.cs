@@ -82,6 +82,9 @@ namespace ObservatoryCenter
             {
                 toolStripStatus_Connection.ForeColor = Color.Gray;
             }
+            
+            //init vars
+            DrawTelescopeV(panelTelescopeV);
         }
 
 
@@ -112,8 +115,13 @@ namespace ObservatoryCenter
 
             //TELESCOPE
             bool Tprog=(ObsControl.objTelescope != null && ObsControl.connectTelescope);
-            bool Tmaxim=(ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.TelescopeConnected);
-            bool Tcdc=false;
+            bool Tmaxim = false;
+            try
+            {
+                Tmaxim = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.TelescopeConnected);
+            }
+            catch { Tmaxim = false; }
+            bool Tcdc=false; //later organize checking
             if (Tprog && Tmaxim && Tcdc)
             {
                 toolStripStatus_Telescope.ForeColor = Color.Blue;
@@ -198,19 +206,54 @@ namespace ObservatoryCenter
                 txtTelescopeRA.Enabled = true;
                 txtTelescopeDec.Enabled = true;
                 btnPark.Enabled = true;
+                btnTrack.Enabled = true;
 
+                if (ObsControl.objTelescope.AtPark)
+                {
+                    //btnPark.Text = "Parked";
+                    btnPark.BackColor = OffColor;
+                }
+                else
+                {
+                    //btnPark.Text = "UnParked";
+                    btnPark.BackColor = OnColor;
+                }
+
+                if (ObsControl.objTelescope.Tracking)
+                {
+                    //btnTrack.Text = "Parked";
+                    btnTrack.BackColor = OnColor;
+                }
+                else
+                {
+                    //btnTrack.Text = "UnParked";
+                    btnTrack.BackColor = OffColor;
+                }
+                
                 //update fields
                 
                 //txtTelescopeAz.Text = Convert.ToString(Math.Truncate(ObsControl.objTelescope.Azimuth)) + " " + Convert.ToString(Math.Truncatse(ObsControl.objTelescope.Azimuth));
                 txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
-                txtTelescopeAlt.Text = Convert.ToString(ObsControl.objTelescope.Altitude);
-                txtTelescopeRA.Text = Convert.ToString(ObsControl.objTelescope.RightAscension);
-                txtTelescopeDec.Text = Convert.ToString(ObsControl.objTelescope.Declination);
+                txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
+                txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(ObsControl.objTelescope.RightAscension);
+                txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Declination);
 
+                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                {
+                    txtPierSide.Text = "East, looking West";
+                }
+                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                {
+                    txtPierSide.Text = "West, looking East";
+                }
+                else
+                {
+                    txtPierSide.Text = "Unknown";
+                }
                 //Redraw
                 angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection);
                 panelTelescopeV.Invalidate();
-                angelAlt = (Int16)(Math.Round(360-ObsControl.objTelescope.Altitude));
+                angelAlt = (Int16)(Math.Round(-ObsControl.objTelescope.Altitude));
                 panelTelescopeH.Invalidate();
             }
             else
@@ -221,7 +264,12 @@ namespace ObservatoryCenter
                 txtTelescopeDec.Enabled = false;
 
                 btnPark.Enabled = false;
+                btnTrack.Enabled = false;
             }
+
+            //init variables (will not draw anyway)
+            //DrawTelescopeV(panelTelescopeV);
+            //DrawTelescopeH(panelTelescopeH);
         }
 
 
@@ -390,7 +438,14 @@ namespace ObservatoryCenter
                 ObsControl.connectTelescope = false;
                 btnConnectTelescope.Text = "Connect";
                 btnConnectTelescope.BackColor = OffColor;
+                btnTrack.BackColor = SystemColors.Control;
+                btnPark.BackColor = SystemColors.Control;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
        
    
