@@ -42,13 +42,16 @@ namespace ObservatoryCenter
             ParentMainForm=MF;
         }
         
+        /// <summary>
+        /// Start socket server
+        /// </summary>
         public void ListenSocket()
         {
             try
             {
                 listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 listenerSocket.Bind(new IPEndPoint(serverIP, serverPort));
-                listenerSocket.Listen(200);
+                listenerSocket.Listen(10);
                 while (true)
                 {
                     // Программа приостановлена. Ожидаем входящего соединения
@@ -64,6 +67,10 @@ namespace ObservatoryCenter
             }
         }
 
+        /// <summary>
+        /// Handle incoming client connection
+        /// </summary>
+        /// <param name="curSocket"></param>
         public void initClientConnection(Socket curSocket)
         {
             Logging.AddLog("Connection from " + curSocket.RemoteEndPoint + " accepted",1);
@@ -79,11 +86,13 @@ namespace ObservatoryCenter
 
             //Отображаем кол-во соединений в форме
             ParentMainForm.toolStripStatus_Connection.Text = "CONNECTIONS: " + clientsList.Count;
-
-
         }
 
-        public void MakeClientConnectionToServer(IPAddress ipAddr, Int32 port, string message)
+        /// <summary>
+        /// Method for connecting to socket server as a client 
+        /// not very good place for a such method, but...
+        /// </summary>
+        public string MakeClientConnectionToServer(IPAddress ipAddr, Int32 port, string message)
         {
             // Буфер для входящих данных
             byte[] bytes = new byte[1024];
@@ -100,9 +109,15 @@ namespace ObservatoryCenter
                 // Соединяем сокет с удаленной точкой
                 sender.Connect(ipEndPoint);
                 Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), 2);
-                byte[] msg = Encoding.UTF8.GetBytes(message);
+
+                // Получаем первый ответ от сервера
+                int bytesRecW = sender.Receive(bytes);
+
+                string responseMessW = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
+                Logging.AddLog("Welcome response from server: " + responseMessW, 2);
 
                 // Отправляем данные через сокет
+                byte[] msg = Encoding.UTF8.GetBytes(message);
                 int bytesSent = sender.Send(msg);
 
                 // Получаем ответ от сервера
@@ -114,6 +129,7 @@ namespace ObservatoryCenter
                 // Освобождаем сокет
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
+                return responseMess;
             }
             catch (Exception Ex)
             {
@@ -134,6 +150,7 @@ namespace ObservatoryCenter
 
                 Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, 0, Highlight.Error);
                 Logging.AddLog(FullMessage,1,Highlight.Error);
+                return "!!!Socket connection failed";
             }
         }
 
@@ -182,21 +199,21 @@ namespace ObservatoryCenter
         {
 
             //Отправляем приветственное сообщение
-            byte[] msg = Encoding.UTF8.GetBytes("Connected to ObservatoryCenter\n\r");
-            ClientSocket.Send(msg);
+            byte[] welcomeMessage = Encoding.UTF8.GetBytes("Connected to ObservatoryCenter\n\r");
+            ClientSocket.Send(welcomeMessage);
 
             while (true)
             {
                 // Получаем ответ от клиента
-                int bytesRec = ClientSocket.Receive(bytes);
+                int incomingMess_bytes = ClientSocket.Receive(bytes);
 
-                string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + responseMess,1);
+                string incomingMess = Encoding.UTF8.GetString(bytes, 0, incomingMess_bytes);
+                Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + incomingMess,1);
 
-                string cmdMess=SocketCommandInterpretator(responseMess);
+                string cmdOutputMess=SocketCommandInterpretator(incomingMess);
 
-                byte[] msg2 = Encoding.UTF8.GetBytes(cmdMess + "\n\r");
-                ClientSocket.Send(msg2);
+                byte[] cmdOutputMess_bytes = Encoding.UTF8.GetBytes(cmdOutputMess + "\n\r");
+                ClientSocket.Send(cmdOutputMess_bytes);
             }
 
 
@@ -218,10 +235,12 @@ namespace ObservatoryCenter
                     msg = "";
                     break;
                 default:
-                    if (ParentMainForm.ObsControl.CommandParser.ParseSingleCommand(cmd))
+                    string cmd_output = "";
+                    if (ParentMainForm.ObsControl.CommandParser.ParseSingleCommand(cmd, out cmd_output))
                     {
                         Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run", 1, Highlight.Normal);
-                        msg = "Command [" + cmd + "] was run";
+                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run. Output: " + cmd_output, 2, Highlight.Normal);
+                        msg = "Command [" + cmd + "] was run. Output: " + cmd_output;
                     }
                     else
                     {

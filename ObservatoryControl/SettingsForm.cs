@@ -46,17 +46,29 @@ namespace ObservatoryCenter
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             TempRoofDuration = ParentMainForm.RoofDuration;
+
+            //Workaround about "Controls contained in a TabPage are not created until the tab page is shown, and any data bindings in these controls are not activated until the tab page is shown."
+            foreach (TabPage tp in tabSettings.TabPages)
+            {
+                tp.Show();
+            }
+
         }
         
         private void btnOk_Click(object sender, EventArgs e)
         {
-
             try
             {
                 ParentMainForm.ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
                 ParentMainForm.ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
                 ParentMainForm.ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
 
+                //driver id
+                ParentMainForm.ObsControl.DOME_DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
+                ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
+                ParentMainForm.ObsControl.SWITCH_DRIVER_NAME = Properties.Settings.Default.SwitchDriverId;
+
+                //switch settings
                 ParentMainForm.ObsControl.POWER_MOUNT_PORT = Convert.ToByte(Properties.Settings.Default.SwitchMountPort);
                 ParentMainForm.ObsControl.POWER_CAMERA_PORT = Convert.ToByte(Properties.Settings.Default.SwitchCameraPort);
                 ParentMainForm.ObsControl.POWER_FOCUSER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchFocuserPort);
@@ -65,6 +77,7 @@ namespace ObservatoryCenter
 
                 ParentMainForm.RoofDuration = Convert.ToInt16(Properties.Settings.Default.RoofDuration);
                 if (TempRoofDuration != ParentMainForm.RoofDuration) { Properties.Settings.Default.RoofDurationMeasurementsCount = 1; } //reset automatic duration count if duration was manually changed
+
 
                 //Commit changes
                 Properties.Settings.Default.Save();
@@ -106,5 +119,39 @@ namespace ObservatoryCenter
             if (MessageBox.Show("Do you want to reset all settings to their default values (this can't be undone)?", "Reset to default values", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 Properties.Settings.Default.Reset();
         }
+
+
+        private void btnChooseSwitch_Click(object sender, EventArgs e)
+        {
+            txtSwitchDriverId.Text = ASCOM.DriverAccess.Switch.Choose(Properties.Settings.Default.SwitchDriverId);
+        }
+
+        private void btnConnectSwitchSettings_Click(object sender, EventArgs e)
+        {
+            ParentMainForm.ObsControl.connectSwitch = true;
+        }
+
+        private void btnChooseDome_Click(object sender, EventArgs e)
+        {
+            txtDomeDriverId.Text = ASCOM.DriverAccess.Dome.Choose(Properties.Settings.Default.DomeDriverId);
+        }
+
+        private void btnChooseTelescope_Click(object sender, EventArgs e)
+        {
+            txtTelescopeDriverId.Text = ASCOM.DriverAccess.Telescope.Choose(Properties.Settings.Default.TelescopeDriverId);
+
+        }
+
+        private void btnConnectTelescopeSettings_Click(object sender, EventArgs e)
+        {
+            ParentMainForm.ObsControl.connectTelescope = true;
+        }
+
+        private void btnConnectDomeSettings_Click(object sender, EventArgs e)
+        {
+            ParentMainForm.ObsControl.connectDome = true;
+        }       
+   
+
     }
 }

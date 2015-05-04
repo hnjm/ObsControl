@@ -328,7 +328,7 @@ namespace ObservatoryCenter
             
             //calculate pos parameters
             PierV_startPos.X = (pannelV.Width - PierVSize) / 2;
-            PierV_startPos.Y = (pannelV.Height - PierVSize) / 2-3;
+            PierV_startPos.Y = (pannelV.Height - PierVSize) / 2-2;
 
             TelescopeVertical_startPos.X = (pannelV.Width - TelH) / 2;
             TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
@@ -351,7 +351,7 @@ namespace ObservatoryCenter
             Graphics graphicsObj = pannelV.CreateGraphics();
             graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            Pen myPen = new Pen(Color.Red, 2);
+            Pen myPen = new Pen(Color.Red, 1);
 
             //the central point of the rotation
             graphicsObj.TranslateTransform(pannelV.Width / 2, pannelV.Height/2);
@@ -387,7 +387,7 @@ namespace ObservatoryCenter
 
             //graph objects
             Graphics graphicsObj = pannelH.CreateGraphics();
-            Pen myPen = new Pen(Color.Red, 2);
+            Pen myPen = new Pen(Color.Red, 1);
             graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
             //the central point of the rotation

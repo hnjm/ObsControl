@@ -26,15 +26,16 @@ namespace ObservatoryCenter
         /// <summary>
         /// Run this method to ready maxim for other methods
         /// </summary>
-        public void Init()
+        public string Init()
         {
             CCDCamera = new MaxIm.CCDCamera();
             MaximApplicationObj = new MaxIm.Application();
             Logging.AddLog("MaximDL started", 0);
+            return "MaximDL started";
         }
 
 
-        public void ConnectCamera()
+        public string ConnectCamera()
         {
             if (CCDCamera==null) CCDCamera = new MaxIm.CCDCamera();
             try
@@ -42,6 +43,7 @@ namespace ObservatoryCenter
                 CCDCamera.LinkEnabled = true;
                 Logging.AddLog("Camera connected",0);
                 Thread.Sleep(1000);
+                return "Camera connected";
             }
             catch(Exception ex)
             {
@@ -62,17 +64,19 @@ namespace ObservatoryCenter
 
                 Logging.AddLog("Camera connection failed [" + ex.Message+"]", 0, Highlight.Error);
                 Logging.AddLog(FullMessage,2,Highlight.Error);
+                return "Camera connection failed";
             }
         }
 
-        public void ConnectTelescope()
+        public string ConnectTelescope()
         {
             if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
             try
             {
                 MaximApplicationObj.TelescopeConnected = true;
-                Logging.AddLog("Telescope connected", 0);
+                Logging.AddLog("MaximDL telescope connected", 0);
                 Thread.Sleep(1000);
+                return "MaximDL telescope connected";
             }
             catch(Exception ex)
             {
@@ -91,18 +95,20 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Telescope connection failed [" + ex.Message+"]", 0,Highlight.Error);
+                Logging.AddLog("MaximDL telescope connection failed [" + ex.Message + "]", 0, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
+                return "MaximDL telescope connection failed ";
             }
         }
 
-        public void ConnectFocuser()
+        public string ConnectFocuser()
         {
             if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
             try{
                 MaximApplicationObj.FocuserConnected = true;
                 Logging.AddLog("Focuser in MaximDL connected", 0);
                 Thread.Sleep(1000);
+                return "Focuser in MaximDL connected";
             }
             catch (Exception ex)
             {
@@ -123,10 +129,11 @@ namespace ObservatoryCenter
 
                 Logging.AddLog("MaximDL focuser connection failed [" + ex.Message+"]", 0, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
+                return "MaximDL focuser connection failed";
             }
         }
 
-        public void SetCameraCooling()
+        public string SetCameraCooling()
         {
             CameraSetTemp = -30.0;
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
@@ -135,8 +142,7 @@ namespace ObservatoryCenter
                 CCDCamera.CoolerOn = true;
                 CCDCamera.TemperatureSetpoint = CameraSetTemp; ////////
                 Logging.AddLog("Cooler set to " + CameraSetTemp + " deg", 0);
-
-                //ParentMainForm.AppendLogText("Cooler set to " + SetTemp+" deg");
+                return "Cooler set to " + CameraSetTemp + " deg";
             }
             catch (Exception ex)
             {
@@ -157,6 +163,7 @@ namespace ObservatoryCenter
 
                 Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", 0, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
+                return "Set camera cooling failed ";
             }
         }
         
@@ -217,7 +224,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", 0, Highlight.Error);
+                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", 2, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
             }
             return getPower;

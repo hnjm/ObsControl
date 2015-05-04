@@ -55,7 +55,6 @@ namespace ObservatoryCenter
         /// <summary>
         /// Command dictionary for interpretator
         /// </summary>
-        Dictionary<string, Action> Commands;
         public CommandInterpretator CommandParser;
 
         #region switch ports
@@ -73,8 +72,8 @@ namespace ObservatoryCenter
         {
             ParentMainForm=MF;
 
+            CommandParser = new CommandInterpretator();
             InitComandInterpretator();
-            CommandParser = new CommandInterpretator(Commands);
 
             //for debug
             SWITCH_DRIVER_NAME = "SwitchSim.Switch";
@@ -85,21 +84,30 @@ namespace ObservatoryCenter
         }
 
 #region Programs Controlling  ///////////////////////////////////////////////////////////////////
-        public void startPlanetarium()
+        public string startPlanetarium()
         {
             if (Process.GetProcessesByName(CdC_ProcessName).Length ==0)
             {
-                CdC_Process.StartInfo.FileName = PlanetariumPath;
-                CdC_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                CdC_Process.StartInfo.UseShellExecute = false;
-                CdC_Process.StartInfo.Arguments = "--unique";
-                CdC_Process.Start();
-                Logging.AddLog("CdC started", 0);
-
+                try
+                {
+                    CdC_Process.StartInfo.FileName = PlanetariumPath;
+                    CdC_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                    CdC_Process.StartInfo.UseShellExecute = false;
+                    CdC_Process.StartInfo.Arguments = "--unique";
+                    CdC_Process.Start();
+                    Logging.AddLog("CdC started", 0);
+                    return "CdC started";
+                }
+                catch (Exception Ex)
+                {
+                    Logging.AddLog("CdC starting error! " + Ex.Message, 0, Highlight.Error);
+                    return "!!!CdC start failed";
+                }
             }
+            return "CdC already started";
         }
 
-        public void startMaximDL()
+        public string startMaximDL()
         {
             /*MaximDL_Process.StartInfo.FileName = MaximDLPath;
             MaximDL_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
@@ -108,10 +116,11 @@ namespace ObservatoryCenter
 
             MaximDL_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
             */
-            MaximObj.Init();
+            string output=MaximObj.Init();
+            return output;
         }
 
-        public void startCCDAP()
+        public string startCCDAP()
         {
             try
             {
@@ -120,15 +129,17 @@ namespace ObservatoryCenter
                 CCDAP_Process.StartInfo.UseShellExecute = false;
                 CCDAP_Process.Start();
                 Logging.AddLog("CCDAP started", 0);
+                return "CCDAP started";
 
             }
             catch (Exception Ex)
             {
                 Logging.AddLog("CCDAP starting error! " + Ex.Message, 0, Highlight.Error);
+                return "!!!CCDAP start failed";
             }
         }
 
-        public void startFocusMax()
+        public string startFocusMax()
         {
             try
             {
@@ -140,6 +151,7 @@ namespace ObservatoryCenter
                 FocusMax_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
                 Logging.AddLog("FocusMax started", 0);
                 Thread.Sleep(1000);
+                return "FocusMax started";
             }
             catch (Exception ex)
             {
@@ -153,13 +165,14 @@ namespace ObservatoryCenter
                     messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
                 }
 
-                string FullMessage = "MaximDL set camera cooling failed!" + Environment.NewLine;
+                string FullMessage = "FocusMax starting failed!" + Environment.NewLine;
                 FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
                 Logging.AddLog("FocusMax failed", 0, Highlight.Error);
                 Logging.AddLog(FullMessage, 2, Highlight.Error);
+                return "!!!FocusMax start failed";
 
             }
         }
@@ -192,7 +205,7 @@ namespace ObservatoryCenter
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
                 if (!value)
                 {
-                    objTelescope.Dispose();
+                    //objTelescope.Dispose();
                     objTelescope = null;
                 }
             }
@@ -218,6 +231,12 @@ namespace ObservatoryCenter
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": "+ret, 2);
                 return ret;
             }
+        }
+
+        public string OBS_connectTelescope()
+        {
+            connectTelescope = true;
+            return "Telescope in ObsContrtol connected";
         }
 
         public bool startCheckSwitch()
@@ -284,42 +303,49 @@ namespace ObservatoryCenter
         }
 
 
-        public void PowerMountOn()
+        public string PowerMountOn()
         {
             MountPower = true;
+            return "PowerMountOn";
         }
-        public void PowerMountOff()
+        public string PowerMountOff()
         {
             MountPower = false;
+            return "PowerMountOff";
         }
 
-        public void PowerCameraOn()
+        public string PowerCameraOn()
         {
             CameraPower=true;
+            return "PowerCameraOn";
         }
-        public void PowerCameraOff()
+        public string PowerCameraOff()
         {
             CameraPower=false;
+            return "PowerCameraOff";
         }
 
-        public void PowerFocuserOn()
+        public string PowerFocuserOn()
         {
             FocusPower=true;
+            return "PowerFocuserOn";
         }
-        public void PowerFocuserOff()
+        public string PowerFocuserOff()
         {
             FocusPower=false;
-        }
-            
-        public void PowerRoofOn()
-        {
-            RoofPower = true;
-        }
-        public void PowerRoofOff()
-        {
-            RoofPower = false;
+            return "PowerFocuserOff";
         }
 
+        public string PowerRoofOn()
+        {
+            RoofPower = true;
+            return "PowerRoofOn";
+        }
+        public string PowerRoofOff()
+        {
+            RoofPower = false;
+            return "PowerRoofOff";
+        }
             
 
 #endregion Power controlling
@@ -367,9 +393,11 @@ namespace ObservatoryCenter
 #endregion Roof control end
 
 #region CdC controls /////////////////////////////////////////////////////
-        public void CdC_connectTelescope()
+        public string CdC_connectTelescope()
         {
-            ParentMainForm.SocketServer.MakeClientConnectionToServer(IPAddress.Parse("127.0.0.1"), CdC_PORT, "CONNECTTELESCOPE");
+            string output=ParentMainForm.SocketServer.MakeClientConnectionToServer(IPAddress.Parse("127.0.0.1"), CdC_PORT, "CONNECTTELESCOPE\r\n");
+            Logging.AddLog(output, 0);
+            return output;
         }
 #endregion CdC controls
 
@@ -387,15 +415,15 @@ namespace ObservatoryCenter
 
             //2. Run MaximDL
             CommandParser.ParseSingleCommand("MAXIM_RUN");
-            ParentMainForm.AppendLogText("MaximDL started");
+            //ParentMainForm.AppendLogText("MaximDL started");
 
             //3. Run FocusMax
             CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
-            ParentMainForm.AppendLogText("FocusMax started");
+            //ParentMainForm.AppendLogText("FocusMax started");
 
             //4. CameraConnect
             CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
-            ParentMainForm.AppendLogText("Camera connected");
+            //ParentMainForm.AppendLogText("Camera connected");
 
             //5. Set camera cooler
             CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
@@ -412,9 +440,41 @@ namespace ObservatoryCenter
             //9. Connect telescope in Cartes du Ciel
             CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
 
+            //9b. Connect telescope in Program
+            CommandParser.ParseSingleCommand("OBS_TELESCOPE_CONNECT");
+
             //10. Start CCDAP
             CommandParser.ParseSingleCommand("CCDAP_RUN");
+        }
+
         
+        public void StartMaximDLroutines()
+        {
+            //1. Switch on power
+            CommandParser.ParseSingleCommand("POWER_MOUNT_ON");
+            CommandParser.ParseSingleCommand("POWER_CAMERA_ON");
+            CommandParser.ParseSingleCommand("POWER_FOCUSER_ON");
+
+            //2. Run MaximDL
+            CommandParser.ParseSingleCommand("MAXIM_RUN");
+            //ParentMainForm.AppendLogText("MaximDL started");
+
+            //3. Run FocusMax
+            CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
+            //ParentMainForm.AppendLogText("FocusMax started");
+
+            //4. CameraConnect
+            CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
+            //ParentMainForm.AppendLogText("Camera connected");
+
+            //5. Set camera cooler
+            CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
+
+            //6. Connect telescope to Maxim
+            CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
+
+            //7. Connect focuser in Maxim to FocusMax
+            CommandParser.ParseSingleCommand("MAXIM_FOCUSER_CONNECT");
         }
 
 
@@ -425,30 +485,30 @@ namespace ObservatoryCenter
         /// </summary>
         public void InitComandInterpretator()
         {
-            Commands = new Dictionary<string, Action>();
-            Commands.Add("MAXIM_RUN", () => this.startMaximDL());
-            Commands.Add("FOCUSMAX_RUN", () => this.startFocusMax());
-            Commands.Add("CdC_RUN", () => this.startPlanetarium());
-            Commands.Add("CCDAP_RUN", () => this.startCCDAP());
+            CommandParser.Commands.Add("MAXIM_RUN", () => this.startMaximDL());
+            CommandParser.Commands.Add("FOCUSMAX_RUN", () => this.startFocusMax());
+            CommandParser.Commands.Add("CdC_RUN", () => this.startPlanetarium());
+            CommandParser.Commands.Add("CCDAP_RUN", () => this.startCCDAP());
+            CommandParser.Commands.Add("POWER_MOUNT_ON", () => this.PowerMountOn());
+            CommandParser.Commands.Add("POWER_MOUNT_OFF", () => this.PowerMountOff());
 
-            Commands.Add("POWER_MOUNT_ON", () => this.PowerMountOn());
-            Commands.Add("POWER_MOUNT_OFF", () => this.PowerMountOff());
+            CommandParser.Commands.Add("POWER_CAMERA_ON", () => this.PowerCameraOn());
+            CommandParser.Commands.Add("POWER_CAMERA_OFF", () => this.PowerCameraOff());
 
-            Commands.Add("POWER_CAMERA_ON", () => this.PowerCameraOn());
-            Commands.Add("POWER_CAMERA_OFF", () => this.PowerCameraOff());
+            CommandParser.Commands.Add("POWER_FOCUSER_ON", () => this.PowerFocuserOn());
+            CommandParser.Commands.Add("POWER_FOCUSER_OFF", () => this.PowerFocuserOff());
 
-            Commands.Add("POWER_FOCUSER_ON", () => this.PowerFocuserOn());
-            Commands.Add("POWER_FOCUSER_OFF", () => this.PowerFocuserOff());
+            CommandParser.Commands.Add("POWER_ROOF_ON", () => this.PowerRoofOn());
+            CommandParser.Commands.Add("POWER_ROOF_OFF", () => this.PowerRoofOff());
 
-            Commands.Add("POWER_ROOF_ON", () => this.PowerRoofOn());
-            Commands.Add("POWER_ROOF_OFF", () => this.PowerRoofOff());
+            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", () => MaximObj.ConnectCamera());
+            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", () => MaximObj.SetCameraCooling());
+            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", () => MaximObj.ConnectTelescope());
+            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", () => MaximObj.ConnectFocuser());
 
-            Commands.Add("MAXIM_CAMERA_CONNECT", () => MaximObj.ConnectCamera());
-            Commands.Add("MAXIM_CAMERA_SETCOOLING", () => MaximObj.SetCameraCooling());
-            Commands.Add("MAXIM_TELESCOPE_CONNECT", () => MaximObj.ConnectTelescope());
-            Commands.Add("MAXIM_FOCUSER_CONNECT", () => MaximObj.ConnectFocuser());
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.CdC_connectTelescope());
 
-            Commands.Add("CdC_TELESCOPE_CONNECT", () => this.CdC_connectTelescope());
+            CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
         }
     
     }

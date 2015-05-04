@@ -89,6 +89,21 @@ namespace ObservatoryCenter
 
 
         /// <summary>
+        /// Main timer tick
+        /// </summary>
+        private void mainTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateCCDCameraFieldsStatus();
+            UpdateGuiderFieldsStatus();
+            UpdatePowerButtonsStatus();
+            UpdateStatusbarASCOMStatus();
+            UpdateTelescopeStatus();
+        }
+
+
+// Block with update elements
+#region ///// Update visual elements (Status bar, telescope, etc) /////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
         /// Updates markers in status bar
         /// </summary>
         private void UpdateStatusbarASCOMStatus()
@@ -96,7 +111,7 @@ namespace ObservatoryCenter
             //SWITCH
             if (ObsControl.objSwitch != null && ObsControl.objSwitch.Connected)
             {
-                toolStripStatus_Switch.ForeColor = Color.Black;
+                toolStripStatus_Switch.ForeColor = Color.Blue;
             }
             else
             {
@@ -106,7 +121,7 @@ namespace ObservatoryCenter
             //DOME
             if (ObsControl.objDome != null && ObsControl.objDome.Connected)
             {
-                toolStripStatus_Dome.ForeColor = Color.Black;
+                toolStripStatus_Dome.ForeColor = Color.Blue;
             }
             else
             {
@@ -122,6 +137,10 @@ namespace ObservatoryCenter
             }
             catch { Tmaxim = false; }
             bool Tcdc=false; //later organize checking
+            toolStripStatus_Telescope.ToolTipText = "Control center direct connection: " + (Tprog ? "ON" : "off") + Environment.NewLine;
+            toolStripStatus_Telescope.ToolTipText += "Maxim telescope connection: " + (Tmaxim ? "ON" : "off") + Environment.NewLine;
+            toolStripStatus_Telescope.ToolTipText += "CdC telescope connection: " + (Tcdc ? "ON" : "off") + Environment.NewLine;
+
             if (Tprog && Tmaxim && Tcdc)
             {
                 toolStripStatus_Telescope.ForeColor = Color.Blue;
@@ -136,7 +155,13 @@ namespace ObservatoryCenter
             }
 
             //FOCUSER
-            if (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected)
+            bool testFocus=false;
+            try
+            {
+                testFocus = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected);
+            }
+            catch { testFocus = false; }
+            if (testFocus)
             {
                 toolStripStatus_Focuser.ForeColor = Color.Blue;
             }
@@ -146,7 +171,14 @@ namespace ObservatoryCenter
             }
 
             //CAMERA
-            if (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled)
+            bool testCamera = false;
+            try
+            {
+                testCamera = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled);
+            }
+            catch { testCamera = false; }
+
+            if (testCamera)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
             }
@@ -173,8 +205,28 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateCCDCameraFieldsStatus()
         {
-            if (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled)
+            bool testCamera = false;
+            try
             {
+                testCamera = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled);
+            }
+            catch { testCamera = false; }
+
+            if (testCamera)
+            {
+                int bin=ObsControl.MaximObj.CCDCamera.BinX;
+                txtCameraBinMode.Text = Convert.ToString(bin) + "x" +Convert.ToString(bin);
+
+                try
+                {
+                    var st = ObsControl.MaximObj.CCDCamera.FilterNames;
+                    txtFilterName.Text = Convert.ToString(st[ObsControl.MaximObj.CCDCamera.Filter]);
+                }
+                catch
+                {
+                    txtFilterName.Text = "";
+                }
+                
                 txtCameraTemp.Text = ObsControl.MaximObj.GetCameraTemp().ToString();
                 txtCameraSetPoint.Text = ObsControl.MaximObj.CameraSetTemp.ToString();
                 txtCameraCoolerPower.Text = ObsControl.MaximObj.GetCoolerPower().ToString();
@@ -193,6 +245,27 @@ namespace ObservatoryCenter
                 txtCameraCoolerPower.BackColor = OffColor;
             }
         }
+
+
+        private void UpdateGuiderFieldsStatus()
+        {
+            bool testCamera = false;
+            try
+            {
+                testCamera = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled);
+            }
+            catch { testCamera = false; }
+
+            if (testCamera)
+            {
+                btnGuider.Text = (ObsControl.MaximObj.CCDCamera.GuiderRunning ? "Guider running" : "Guider stoped");
+                btnGuider.BackColor = (ObsControl.MaximObj.CCDCamera.GuiderRunning ? OnColor : OffColor);
+            }
+            else
+            {
+            }
+        }
+
 
         /// <summary>
         /// Update Telescope Fields and Draw
@@ -291,13 +364,12 @@ namespace ObservatoryCenter
             //DrawTelescopeH(panelTelescopeH);
         }
 
-
-        private void btnStartAll_Click(object sender, EventArgs e)
-        {
-            ObsControl.StartUpObservatory();
-        }
+#endregion update visual elements
+// end of block
 
 
+// Region block with hadnling power management visual interface
+#region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
             //get current state
@@ -354,15 +426,40 @@ namespace ObservatoryCenter
             //display new status
             ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
         }
+#endregion Power button handling
+// End of block with power buttons handling
 
-
-        private void buttonChoose_Click(object sender, EventArgs e)
+// Block with autorun procedures 
+#region /// Autorun procedures ////////////////////////////////////////////////////
+        private void btnStartAll_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SwitchDriverId = ASCOM.DriverAccess.Switch.Choose(Properties.Settings.Default.SwitchDriverId);
+            ObsControl.StartUpObservatory();
         }
 
+        private void btnBeforeImaging_Click(object sender, EventArgs e)
+        {
+            /// Prepare Imaging run scenario
+            //ObsControl.?
+
+        }
+
+        /// <summary>
+        /// Run maxim and connect it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMaximStart_Click(object sender, EventArgs e)
+        {
+            ObsControl.StartMaximDLroutines();
+        }
+#endregion Autorun procedures
+//End of autorun procedures block
 
 
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            SetForm.ShowDialog();
+        }
 
         /// <summary>
         /// Used to load all prameters during startup
@@ -407,23 +504,18 @@ namespace ObservatoryCenter
 
         }
 
-        private void btnSettings_Click(object sender, EventArgs e)
-        {
-            SetForm.ShowDialog();
-        }
 
+        /// <summary>
+        /// Thread for socket server
+        /// </summary>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             SocketServer.ListenSocket();
         }
 
-        private void btnBeforeImaging_Click(object sender, EventArgs e)
-        {
-            /// Prepare Imaging run scenario
-            //ObsControl.?
-
-        }
-
+        /// <summary>
+        /// Timer to work with log information (save it, display, etc)
+        /// </summary>
         private void logRefreshTimer_Tick(object sender, EventArgs e)
         {
             string LogAppend = Logging.DumpToString(1);
@@ -432,17 +524,8 @@ namespace ObservatoryCenter
             Logging.DumpToFile(Logging.DEBUG_LEVEL);
         }
         
-        public void AppendLogText(string St)
-        {
-        }
 
-        private void mainTimer_Tick(object sender, EventArgs e)
-        {
-            UpdateCCDCameraFieldsStatus();
-            UpdatePowerButtonsStatus();
-            UpdateStatusbarASCOMStatus();
-            UpdateTelescopeStatus();
-        }
+#region //// Telescope routines //////////////////////////////////////
 
         private void btnConnectTelescope_Click(object sender, EventArgs e)
         {
@@ -462,11 +545,10 @@ namespace ObservatoryCenter
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            PoinitingSide = !PoinitingSide;
-        }
-       
-   
+#endregion Telescope routines
+
+
+
+
     }
 }
