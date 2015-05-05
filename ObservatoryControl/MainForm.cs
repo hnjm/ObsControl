@@ -57,6 +57,9 @@ namespace ObservatoryCenter
         /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Load parameters
+            LoadParams();
+
             //Connect Devices, which are general adapters (no need to power or control something)
             ObsControl.connectSwitch = true;
             ObsControl.connectDome = true; ;
@@ -117,6 +120,7 @@ namespace ObservatoryCenter
             {
                 toolStripStatus_Switch.ForeColor = Color.Gray;
             }
+            toolStripStatus_Switch.ToolTipText = "DRIVER: " + ObsControl.SWITCH_DRIVER_NAME + Environment.NewLine;
 
             //DOME
             if (ObsControl.objDome != null && ObsControl.objDome.Connected)
@@ -127,6 +131,7 @@ namespace ObservatoryCenter
             {
                 toolStripStatus_Dome.ForeColor = Color.Gray;
             }
+            toolStripStatus_Dome.ToolTipText = "DRIVER: " + ObsControl.DOME_DRIVER_NAME+ Environment.NewLine;
 
             //TELESCOPE
             bool Tprog=(ObsControl.objTelescope != null && ObsControl.connectTelescope);
@@ -137,7 +142,8 @@ namespace ObservatoryCenter
             }
             catch { Tmaxim = false; }
             bool Tcdc=false; //later organize checking
-            toolStripStatus_Telescope.ToolTipText = "Control center direct connection: " + (Tprog ? "ON" : "off") + Environment.NewLine;
+            toolStripStatus_Telescope.ToolTipText = "DRIVER: " + ObsControl.TELESCOPE_DRIVER_NAME + Environment.NewLine;
+            toolStripStatus_Telescope.ToolTipText += "Control center direct connection: " + (Tprog ? "ON" : "off") + Environment.NewLine;
             toolStripStatus_Telescope.ToolTipText += "Maxim telescope connection: " + (Tmaxim ? "ON" : "off") + Environment.NewLine;
             toolStripStatus_Telescope.ToolTipText += "CdC telescope connection: " + (Tcdc ? "ON" : "off") + Environment.NewLine;
 
@@ -156,6 +162,7 @@ namespace ObservatoryCenter
 
             //FOCUSER
             bool testFocus=false;
+            string FocusSt = "";
             try
             {
                 testFocus = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected);
@@ -164,11 +171,14 @@ namespace ObservatoryCenter
             if (testFocus)
             {
                 toolStripStatus_Focuser.ForeColor = Color.Blue;
+                FocusSt="";//?
+
             }
             else
             {
                 toolStripStatus_Focuser.ForeColor = Color.Gray;
             }
+            toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
 
             //CAMERA
             bool testCamera = false;
@@ -470,6 +480,10 @@ namespace ObservatoryCenter
             Logging.AddLog("Loading saved parameters",3);
             try
             {
+                ObsControl.DOME_DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
+                ObsControl.TELESCOPE_DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
+                ObsControl.SWITCH_DRIVER_NAME = Properties.Settings.Default.SwitchDriverId;
+                
                 ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
                 ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
                 ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;

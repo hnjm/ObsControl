@@ -15,6 +15,7 @@ to do:
 
 0.3.3 [05.05.15]
 - 3d telescope drawing
+- minor changes
 
 0.3.2 [04.05.15]
 - more settings

@@ -59,6 +59,7 @@ namespace ObservatoryCenter
         {
             try
             {
+/*                
                 ParentMainForm.ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
                 ParentMainForm.ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
                 ParentMainForm.ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
@@ -76,11 +77,14 @@ namespace ObservatoryCenter
                 ParentMainForm.ObsControl.POWER_ROOFSWITCH_PORT = Convert.ToByte(Properties.Settings.Default.SwitchRoofSwitchPort);
 
                 ParentMainForm.RoofDuration = Convert.ToInt16(Properties.Settings.Default.RoofDuration);
+ */
                 if (TempRoofDuration != ParentMainForm.RoofDuration) { Properties.Settings.Default.RoofDurationMeasurementsCount = 1; } //reset automatic duration count if duration was manually changed
-
 
                 //Commit changes
                 Properties.Settings.Default.Save();
+                
+                //Load params into vars
+                ParentMainForm.LoadParams();
                 
                 this.Close();
             }

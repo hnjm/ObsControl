@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SwitchDriverId" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">SwitchSim.Switch</Value>
     </Setting>
     <Setting Name="MaximDLPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe</Value>
@@ -36,10 +36,10 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TelescopeDriverId" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">EQMOD_SIM.Telescope</Value>
     </Setting>
     <Setting Name="DomeDriverId" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">ASCOM.Simulator.Dome</Value>
     </Setting>
   </Settings>
 </SettingsFile>

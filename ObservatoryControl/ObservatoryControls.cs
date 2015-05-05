@@ -76,9 +76,9 @@ namespace ObservatoryCenter
             InitComandInterpretator();
 
             //for debug
-            SWITCH_DRIVER_NAME = "SwitchSim.Switch";
-            DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
-            TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
+            //SWITCH_DRIVER_NAME = "SwitchSim.Switch";
+            //DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
+            //TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
 
             MaximObj = new MaximControls(ParentMainForm);
         }
