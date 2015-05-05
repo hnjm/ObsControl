@@ -47,7 +47,7 @@ namespace ObservatoryCenter
 
 #endregion roof settings
 
-#region /// ROOF DRAWING /////////////////////////////////////////////////////////////////////////////////////////////////////////
+#region ////// ROOF DRAWING /////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Init Roof Opening routine
         /// </summary>
@@ -287,20 +287,25 @@ namespace ObservatoryCenter
         }
 #endregion draw roof
 
-#region //////// DRAW TELESCOPE ////////////////////////////////////////////////////////////////////////////////
+#region ////// DRAW TELESCOPE /////////////////////||||||||||||||||||||///////////////////////////////////////////////////////////
 
         Int16 angelAz = 0;
         int angelAlt = -45;
+        double angelAlt_raw = -45.0;
+
         bool PoinitingSide = true; //true - direct (west side), false - rear (east side)
         Int16 VAzAdjust = 0; //adjust for pierflip (vertical)
 
         public Int16 NorthAzimuthCorrection = 0;
         Rectangle TelescopeVertical, TelescopeVertical2, MountRect;
         Rectangle TelescopeHoriz, TelescopeHoriz2;
+        Rectangle ObjectiveRect, ObjectiveRect_back, EyepieceRect;
 
         Int16 TelW, Tel2W = 0;
         Int16 TelH, Tel2H = 0;
+        Int16 TelH_proj=0, Tel2H_proj=0;
         Int16 PierVSize = 0;
+        Int16 EllipseR, EllipseR2 = 0;
 
         Point TelescopeVertical_startPos = new Point(50, 50);
         Point TelescopeHoriz_startPos = new Point(50, 50);
@@ -318,7 +323,7 @@ namespace ObservatoryCenter
 
         private void DrawTelescopeV(Panel pannelV)
         {
-            //calculate size parameters
+            //init calculate size parameters
             TelW=(Int16)Math.Round(pannelV.Height*0.25);
             Tel2W = (Int16)Math.Round(TelW * 0.6);
             TelH=(Int16)Math.Round(pannelV.Width/2 * 0.9);
@@ -326,32 +331,47 @@ namespace ObservatoryCenter
 
             PierVSize = (Int16)(TelW / 2);
             
+            //3d projection
+            EllipseR = (Int16)Math.Round(TelW * Math.Sin(angelAlt_raw * Math.PI / 180));
+            EllipseR2 = (Int16)Math.Round(Tel2W * Math.Sin(angelAlt_raw * Math.PI / 180));
+            TelH_proj = (Int16)Math.Round(TelH * Math.Cos(angelAlt_raw * Math.PI / 180));
+            Tel2H_proj = (Int16)Math.Round(Tel2H * Math.Cos(angelAlt_raw * Math.PI / 180));
+
             //calculate pos parameters
             PierV_startPos.X = (pannelV.Width - PierVSize) / 2;
-            PierV_startPos.Y = (pannelV.Height - PierVSize) / 2-2;
+            PierV_startPos.Y = (pannelV.Height - PierVSize) / 2 - 2;
 
-            TelescopeVertical_startPos.X = (pannelV.Width - TelH) / 2;
-            TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
+            TelescopeVertical_startPos.X = (pannelV.Width - TelH_proj) / 2;
             TelescopeVertical_startPos.Y = (pannelV.Height) / 2 + PierVSize / 2;
 
             //create rectangles
             MountRect = new Rectangle(PierV_startPos.X, PierV_startPos.Y, PierVSize, PierVSize);
             if (PoinitingSide)
             {
-                TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X + Tel2H, TelescopeVertical_startPos.Y, TelH - Tel2H, TelW);
-                TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+                TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X + Tel2H_proj, TelescopeVertical_startPos.Y, TelH_proj - Tel2H_proj, TelW);
+                TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H_proj, Tel2W);
+                ObjectiveRect = new Rectangle(TelescopeVertical_startPos.X + TelH_proj - EllipseR / 2, TelescopeVertical_startPos.Y, EllipseR, TelW);
+                ObjectiveRect_back = new Rectangle(TelescopeVertical_startPos.X + Tel2H_proj - EllipseR / 2, TelescopeVertical_startPos.Y, EllipseR, TelW);
+                EyepieceRect = new Rectangle(TelescopeVertical_startPos.X - EllipseR2 / 2, TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, EllipseR2, Tel2W);
             }
             else
             {
-                TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X, TelescopeVertical_startPos.Y, TelH - Tel2H, TelW);
-                TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X + TelH-Tel2H), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+                TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X, TelescopeVertical_startPos.Y, TelH_proj - Tel2H_proj, TelW);
+                TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X + TelH_proj - Tel2H_proj), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H_proj, Tel2W);
+                ObjectiveRect = new Rectangle(TelescopeVertical_startPos.X - EllipseR / 2, TelescopeVertical_startPos.Y, EllipseR, TelW);
+                ObjectiveRect_back = new Rectangle(TelescopeVertical_startPos.X + TelH_proj - Tel2H_proj - EllipseR / 2, TelescopeVertical_startPos.Y, EllipseR, TelW);
+                EyepieceRect = new Rectangle(TelescopeVertical_startPos.X + TelH_proj - EllipseR2 / 2, TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, EllipseR2, Tel2W);
             }
 
             //graph objects
             Graphics graphicsObj = pannelV.CreateGraphics();
             graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-            Pen myPen = new Pen(Color.Red, 1);
+            Pen Pen1 = new Pen(Color.Blue, 1);
+            Pen Pen2 = new Pen(Color.Gray, 1);
+            SolidBrush Brush1 = new SolidBrush(Color.LightGray);
+            SolidBrush BrushO = new SolidBrush(Color.White);
+            SolidBrush Brush2 = new SolidBrush(Color.Gray);
 
             //the central point of the rotation
             graphicsObj.TranslateTransform(pannelV.Width / 2, pannelV.Height/2);
@@ -361,9 +381,14 @@ namespace ObservatoryCenter
             graphicsObj.TranslateTransform(-(pannelV.Width / 2), -(pannelV.Height / 2));
 
             //draw rectangles
-            graphicsObj.DrawRectangle(myPen, TelescopeVertical);
-            graphicsObj.DrawRectangle(myPen, TelescopeVertical2);
-            graphicsObj.DrawEllipse(myPen, MountRect);
+            graphicsObj.FillEllipse(Brush2, EyepieceRect);
+            graphicsObj.FillRectangle(Brush2, TelescopeVertical2);
+
+            graphicsObj.FillEllipse(Brush1, ObjectiveRect_back);
+            graphicsObj.FillRectangle(Brush1, TelescopeVertical);
+            graphicsObj.FillEllipse(BrushO, ObjectiveRect);
+
+            graphicsObj.DrawEllipse(Pen2, MountRect);
         }
 
         private void DrawTelescopeH(Panel pannelH)

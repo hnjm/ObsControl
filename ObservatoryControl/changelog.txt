@@ -3,7 +3,6 @@ Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
 to do:
-- mount status
 - parsing CCDAP activity and send it to server
 - reading data from weatherstation
 - network command reading and responding
@@ -13,6 +12,9 @@ to do:
 - check internet connection (ping) during startup
 - ip cameras displaying
 - web cameras displaying
+
+0.3.3 [05.05.15]
+- 3d telescope drawing
 
 0.3.2 [04.05.15]
 - more settings

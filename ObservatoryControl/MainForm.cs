@@ -345,6 +345,7 @@ namespace ObservatoryCenter
                 {
                     angelAlt = 180-angelAlt;
                 }
+                angelAlt_raw = ObsControl.objTelescope.Altitude;
 
                 panelTelescopeH.Invalidate();
             }
