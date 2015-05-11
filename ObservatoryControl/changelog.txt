@@ -5,13 +5,14 @@ http://astromania.info
 to do:
 - parsing CCDAP activity and send it to server
 - reading data from weatherstation
-- network command reading and responding
-- communicating with watchdog on router
-- ability to detect unhandle shutdown at startup and park observatory
-- web platform for remote control
 - check internet connection (ping) during startup
 - ip cameras displaying
 - web cameras displaying
+- communicating with watchdog on router
+- ability to detect unhandle shutdown at startup and park observatory
+- network command reading and responding
+- web platform for remote control
+- maxim tracking data parsing
 
 0.3.3 [05.05.15]
 - 3d telescope drawing

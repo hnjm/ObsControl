@@ -135,7 +135,7 @@
             this.tabControl1.Controls.Add(this.tabPageCameras);
             this.tabControl1.Controls.Add(this.tabPageSettings);
             this.tabControl1.Location = new System.Drawing.Point(345, 297);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1011, 460);
@@ -145,9 +145,9 @@
             // 
             this.tabPageControl.Controls.Add(this.txtLog);
             this.tabPageControl.Location = new System.Drawing.Point(4, 25);
-            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Name = "tabPageControl";
-            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageControl.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageControl.Size = new System.Drawing.Size(1003, 431);
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Control";
@@ -169,9 +169,9 @@
             // tabPageWeather
             // 
             this.tabPageWeather.Location = new System.Drawing.Point(4, 25);
-            this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageWeather.Name = "tabPageWeather";
-            this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageWeather.Size = new System.Drawing.Size(1003, 431);
             this.tabPageWeather.TabIndex = 1;
             this.tabPageWeather.Text = "Weather";
@@ -180,7 +180,7 @@
             // tabPageAllsky
             // 
             this.tabPageAllsky.Location = new System.Drawing.Point(4, 25);
-            this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageAllsky.Name = "tabPageAllsky";
             this.tabPageAllsky.Size = new System.Drawing.Size(1003, 431);
             this.tabPageAllsky.TabIndex = 2;
@@ -190,7 +190,7 @@
             // tabPageCameras
             // 
             this.tabPageCameras.Location = new System.Drawing.Point(4, 25);
-            this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageCameras.Name = "tabPageCameras";
             this.tabPageCameras.Size = new System.Drawing.Size(1003, 431);
             this.tabPageCameras.TabIndex = 3;
@@ -212,7 +212,7 @@
             // btnSettings
             // 
             this.btnSettings.Location = new System.Drawing.Point(4, 4);
-            this.btnSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSettings.Margin = new System.Windows.Forms.Padding(4);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(205, 76);
             this.btnSettings.TabIndex = 1;
@@ -258,7 +258,7 @@
             this.annunciatorPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.annunciatorPanel1.Controls.Add(this.annunciator1);
             this.annunciatorPanel1.Location = new System.Drawing.Point(11, 165);
-            this.annunciatorPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.annunciatorPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.annunciatorPanel1.Name = "annunciatorPanel1";
             this.annunciatorPanel1.Size = new System.Drawing.Size(297, 31);
             this.annunciatorPanel1.TabIndex = 5;
@@ -290,9 +290,9 @@
             this.groupBox1.Controls.Add(this.btnFocuserPower);
             this.groupBox1.Controls.Add(this.btnTelescopePower);
             this.groupBox1.Location = new System.Drawing.Point(7, 214);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(328, 198);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -370,7 +370,7 @@
             // btnStartAll
             // 
             this.btnStartAll.Location = new System.Drawing.Point(11, 23);
-            this.btnStartAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStartAll.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartAll.Name = "btnStartAll";
             this.btnStartAll.Size = new System.Drawing.Size(196, 59);
             this.btnStartAll.TabIndex = 3;
@@ -383,7 +383,7 @@
             // 
             this.btnOpenRoof.Enabled = false;
             this.btnOpenRoof.Location = new System.Drawing.Point(215, 129);
-            this.btnOpenRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOpenRoof.Margin = new System.Windows.Forms.Padding(4);
             this.btnOpenRoof.Name = "btnOpenRoof";
             this.btnOpenRoof.Size = new System.Drawing.Size(93, 28);
             this.btnOpenRoof.TabIndex = 2;
@@ -395,7 +395,7 @@
             // 
             this.btnCloseRoof.Enabled = false;
             this.btnCloseRoof.Location = new System.Drawing.Point(11, 129);
-            this.btnCloseRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCloseRoof.Margin = new System.Windows.Forms.Padding(4);
             this.btnCloseRoof.Name = "btnCloseRoof";
             this.btnCloseRoof.Size = new System.Drawing.Size(93, 30);
             this.btnCloseRoof.TabIndex = 1;
@@ -503,9 +503,9 @@
             this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.groupBox1);
             this.panel4.Location = new System.Drawing.Point(4, 1);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(341, 756);
+            this.panel4.Size = new System.Drawing.Size(341, 689);
             this.panel4.TabIndex = 2;
             // 
             // groupBoxRoof
@@ -516,9 +516,9 @@
             this.groupBoxRoof.Controls.Add(this.btnOpenRoof);
             this.groupBoxRoof.Controls.Add(this.shapeContainer2);
             this.groupBoxRoof.Location = new System.Drawing.Point(7, 4);
-            this.groupBoxRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxRoof.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxRoof.Name = "groupBoxRoof";
-            this.groupBoxRoof.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxRoof.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxRoof.Size = new System.Drawing.Size(328, 203);
             this.groupBoxRoof.TabIndex = 3;
             this.groupBoxRoof.TabStop = false;
@@ -528,7 +528,7 @@
             // 
             this.btnStopRoof.Enabled = false;
             this.btnStopRoof.Location = new System.Drawing.Point(129, 129);
-            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4);
             this.btnStopRoof.Name = "btnStopRoof";
             this.btnStopRoof.Size = new System.Drawing.Size(61, 30);
             this.btnStopRoof.TabIndex = 1;
@@ -556,9 +556,9 @@
             this.groupBox2.Controls.Add(this.btnMaximStart);
             this.groupBox2.Controls.Add(this.btnStartAll);
             this.groupBox2.Location = new System.Drawing.Point(7, 420);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(328, 262);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
@@ -567,7 +567,7 @@
             // btnBeforeImaging
             // 
             this.btnBeforeImaging.Location = new System.Drawing.Point(215, 23);
-            this.btnBeforeImaging.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBeforeImaging.Margin = new System.Windows.Forms.Padding(4);
             this.btnBeforeImaging.Name = "btnBeforeImaging";
             this.btnBeforeImaging.Size = new System.Drawing.Size(105, 59);
             this.btnBeforeImaging.TabIndex = 3;
@@ -580,7 +580,7 @@
             // btnMaximStart
             // 
             this.btnMaximStart.Location = new System.Drawing.Point(11, 90);
-            this.btnMaximStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMaximStart.Margin = new System.Windows.Forms.Padding(4);
             this.btnMaximStart.Name = "btnMaximStart";
             this.btnMaximStart.Size = new System.Drawing.Size(113, 36);
             this.btnMaximStart.TabIndex = 3;
@@ -622,9 +622,9 @@
             // 
             this.Guider.Controls.Add(this.btnGuider);
             this.Guider.Location = new System.Drawing.Point(340, 124);
-            this.Guider.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Guider.Margin = new System.Windows.Forms.Padding(4);
             this.Guider.Name = "Guider";
-            this.Guider.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Guider.Padding = new System.Windows.Forms.Padding(4);
             this.Guider.Size = new System.Drawing.Size(137, 107);
             this.Guider.TabIndex = 4;
             this.Guider.TabStop = false;
@@ -633,7 +633,7 @@
             // btnGuider
             // 
             this.btnGuider.Location = new System.Drawing.Point(11, 23);
-            this.btnGuider.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuider.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuider.Name = "btnGuider";
             this.btnGuider.Size = new System.Drawing.Size(100, 28);
             this.btnGuider.TabIndex = 0;
@@ -649,9 +649,9 @@
             this.groupBox3.Controls.Add(this.txtCameraTemp);
             this.groupBox3.Controls.Add(this.txtCameraCoolerPower);
             this.groupBox3.Location = new System.Drawing.Point(339, 10);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(140, 105);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
@@ -954,7 +954,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";
