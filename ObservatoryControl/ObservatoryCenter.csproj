@@ -207,6 +207,7 @@
   <ItemGroup>
     <Content Include="changelog.txt" />
     <Content Include="logo_48_blue.ico" />
+    <None Include="Resources\logo_observ1.png" />
     <None Include="Resources\logo_48_blue.ico" />
     <None Include="Resources\logo.png" />
     <None Include="Resources\favicon.ico" />

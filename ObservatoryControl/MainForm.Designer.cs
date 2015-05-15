@@ -108,6 +108,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
@@ -613,19 +614,20 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox5.Size = new System.Drawing.Size(485, 245);
+            this.groupBox5.Size = new System.Drawing.Size(632, 286);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
             // 
             // Guider
             // 
+            this.Guider.Controls.Add(this.textBox1);
             this.Guider.Controls.Add(this.btnGuider);
             this.Guider.Location = new System.Drawing.Point(340, 124);
             this.Guider.Margin = new System.Windows.Forms.Padding(4);
             this.Guider.Name = "Guider";
             this.Guider.Padding = new System.Windows.Forms.Padding(4);
-            this.Guider.Size = new System.Drawing.Size(137, 107);
+            this.Guider.Size = new System.Drawing.Size(285, 107);
             this.Guider.TabIndex = 4;
             this.Guider.TabStop = false;
             this.Guider.Text = "Guider";
@@ -648,7 +650,7 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.txtCameraTemp);
             this.groupBox3.Controls.Add(this.txtCameraCoolerPower);
-            this.groupBox3.Location = new System.Drawing.Point(339, 10);
+            this.groupBox3.Location = new System.Drawing.Point(485, 16);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
@@ -943,6 +945,13 @@
             this.panelTelescopeV.TabIndex = 4;
             this.panelTelescopeV.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeV_Paint);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(172, 22);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(90, 22);
+            this.textBox1.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -975,6 +984,7 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.Guider.ResumeLayout(false);
+            this.Guider.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBoxTelescope.ResumeLayout(false);
@@ -1064,6 +1074,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtCameraBinMode;
         private System.Windows.Forms.TextBox txtFilterName;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
