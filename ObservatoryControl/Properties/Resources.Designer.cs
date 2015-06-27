@@ -61,16 +61,6 @@ namespace ObservatoryCenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon favicon {
-            get {
-                object obj = ResourceManager.GetObject("favicon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap logo {
@@ -83,9 +73,9 @@ namespace ObservatoryCenter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon logo_48_blue {
+        internal static System.Drawing.Icon logo_observ {
             get {
-                object obj = ResourceManager.GetObject("logo_48_blue", resourceCulture);
+                object obj = ResourceManager.GetObject("logo_observ", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -97,6 +87,36 @@ namespace ObservatoryCenter.Properties {
             get {
                 object obj = ResourceManager.GetObject("logo_observ1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon logo_observ11 {
+            get {
+                object obj = ResourceManager.GetObject("logo_observ11", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon logo_observ2 {
+            get {
+                object obj = ResourceManager.GetObject("logo_observ2", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon logo_observ3 {
+            get {
+                object obj = ResourceManager.GetObject("logo_observ3", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

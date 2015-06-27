@@ -14,6 +14,13 @@ to do:
 - web platform for remote control
 - maxim tracking data parsing
 
+0.4.1 [27.06.15]
+- improved displaying power status algorithm
+
+0.4.0 [15.06.15]
+- completly rewriten hardware commnucation
+- also included ip9212 improvement
+
 0.3.4 [13.05.15]
 - new icon 
 - guider information (not yet)

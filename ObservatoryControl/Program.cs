@@ -26,9 +26,18 @@ namespace ObservatoryCenter
                     return;
                 }
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+                try
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new MainForm());
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Unhandled exception: " + ex.Message, LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                    MessageBox.Show("Unhandled exception: " + ex.ToString());
+                }
             }
         }
     }

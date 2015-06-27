@@ -78,7 +78,15 @@ namespace ObservatoryCenter
 
                 ParentMainForm.RoofDuration = Convert.ToInt16(Properties.Settings.Default.RoofDuration);
  */
-                if (TempRoofDuration != ParentMainForm.RoofDuration) { Properties.Settings.Default.RoofDurationMeasurementsCount = 1; } //reset automatic duration count if duration was manually changed
+
+                if (txtSwitchDriverId.Text != ParentMainForm.ObsControl.SWITCH_DRIVER_NAME)
+                {
+                    ParentMainForm.ObsControl.SWITCH_DRIVER_NAME = txtSwitchDriverId.Text;
+                    ParentMainForm.ObsControl.objSwitch = new ASCOM.DriverAccess.Switch(ParentMainForm.ObsControl.SWITCH_DRIVER_NAME);
+                }
+
+                //reset automatic duration count if duration was manually changed
+                if (TempRoofDuration != ParentMainForm.RoofDuration) { Properties.Settings.Default.RoofDurationMeasurementsCount = 1; } 
 
                 //Commit changes
                 Properties.Settings.Default.Save();
@@ -107,7 +115,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog(FullMessage,1,Highlight.Error);
+                Logging.AddLog(FullMessage,LogLevel.Critical,Highlight.Error);
             }
 
 
@@ -133,6 +141,7 @@ namespace ObservatoryCenter
         private void btnConnectSwitchSettings_Click(object sender, EventArgs e)
         {
             ParentMainForm.ObsControl.connectSwitch = true;
+            ParentMainForm.CheckPowerSwitchStatusWrapper();
         }
 
         private void btnChooseDome_Click(object sender, EventArgs e)
@@ -148,7 +157,7 @@ namespace ObservatoryCenter
 
         private void btnConnectTelescopeSettings_Click(object sender, EventArgs e)
         {
-            ParentMainForm.ObsControl.connectTelescope = true;
+            ParentMainForm.ObsControl.connectMount = true;
         }
 
         private void btnConnectDomeSettings_Click(object sender, EventArgs e)

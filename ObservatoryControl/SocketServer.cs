@@ -73,7 +73,7 @@ namespace ObservatoryCenter
         /// <param name="curSocket"></param>
         public void initClientConnection(Socket curSocket)
         {
-            Logging.AddLog("Connection from " + curSocket.RemoteEndPoint + " accepted",1);
+            Logging.AddLog("Connection from " + curSocket.RemoteEndPoint + " accepted",LogLevel.Activity);
 
             //Создаем объект для обработки клиента
             ClientManager NewClient=new ClientManager(ParentMainForm);
@@ -108,13 +108,13 @@ namespace ObservatoryCenter
             {
                 // Соединяем сокет с удаленной точкой
                 sender.Connect(ipEndPoint);
-                Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), 2);
+                Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), LogLevel.Activity);
 
                 // Получаем первый ответ от сервера
                 int bytesRecW = sender.Receive(bytes);
 
                 string responseMessW = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
-                Logging.AddLog("Welcome response from server: " + responseMessW, 2);
+                Logging.AddLog("Welcome response from server: " + responseMessW, LogLevel.Chat);
 
                 // Отправляем данные через сокет
                 byte[] msg = Encoding.UTF8.GetBytes(message);
@@ -124,7 +124,7 @@ namespace ObservatoryCenter
                 int bytesRec = sender.Receive(bytes);
 
                 string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                Logging.AddLog("Response from server: " + responseMess,2);
+                Logging.AddLog("Response from server: " + responseMess, LogLevel.Chat);
 
                 // Освобождаем сокет
                 sender.Shutdown(SocketShutdown.Both);
@@ -148,8 +148,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, 0, Highlight.Error);
-                Logging.AddLog(FullMessage,1,Highlight.Error);
+                Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage,LogLevel.Debug,Highlight.Error);
                 return "!!!Socket connection failed";
             }
         }
@@ -208,7 +208,7 @@ namespace ObservatoryCenter
                 int incomingMess_bytes = ClientSocket.Receive(bytes);
 
                 string incomingMess = Encoding.UTF8.GetString(bytes, 0, incomingMess_bytes);
-                Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + incomingMess,1);
+                Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + incomingMess,LogLevel.Chat);
 
                 string cmdOutputMess=SocketCommandInterpretator(incomingMess);
 
@@ -229,7 +229,7 @@ namespace ObservatoryCenter
             {
                 case "TheEnd":
                 // Освобождаем сокет
-                    Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "] has ended connection",1);
+                    Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "] has ended connection", LogLevel.Chat);
                     ClientSocket.Shutdown(SocketShutdown.Both);
                     ClientSocket.Close();
                     msg = "";
@@ -238,13 +238,12 @@ namespace ObservatoryCenter
                     string cmd_output = "";
                     if (ParentMainForm.ObsControl.CommandParser.ParseSingleCommand(cmd, out cmd_output))
                     {
-                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run", 1, Highlight.Normal);
-                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run. Output: " + cmd_output, 2, Highlight.Normal);
+                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run. Output: " + cmd_output, LogLevel.Activity, Highlight.Normal);
                         msg = "Command [" + cmd + "] was run. Output: " + cmd_output;
                     }
                     else
                     {
-                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "Unknown command [" + cmd + "]", 1, Highlight.Error);
+                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "Unknown command [" + cmd + "]", LogLevel.Critical, Highlight.Error);
                         msg = "Unknown command [" + cmd + "]";
                     }
                     break;

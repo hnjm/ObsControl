@@ -93,7 +93,7 @@
             this.tabSettings.Controls.Add(this.tabPageTelescope);
             this.tabSettings.Controls.Add(this.tabPageMisc);
             this.tabSettings.Location = new System.Drawing.Point(1, 2);
-            this.tabSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabSettings.Margin = new System.Windows.Forms.Padding(4);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.SelectedIndex = 0;
             this.tabSettings.Size = new System.Drawing.Size(596, 395);
@@ -108,9 +108,9 @@
             this.tabPageGeneral.Controls.Add(this.label2);
             this.tabPageGeneral.Controls.Add(this.label1);
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 25);
-            this.tabPageGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageGeneral.Name = "tabPageGeneral";
-            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageGeneral.Size = new System.Drawing.Size(588, 366);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "General";
@@ -119,8 +119,8 @@
             // txtCielPath
             // 
             this.txtCielPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "CartesPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtCielPath.Location = new System.Drawing.Point(137, 73);
-            this.txtCielPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCielPath.Location = new System.Drawing.Point(137, 72);
+            this.txtCielPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtCielPath.Name = "txtCielPath";
             this.txtCielPath.Size = new System.Drawing.Size(371, 22);
             this.txtCielPath.TabIndex = 1;
@@ -129,8 +129,8 @@
             // txtCCDAPPath
             // 
             this.txtCCDAPPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "CCDAPPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtCCDAPPath.Location = new System.Drawing.Point(137, 41);
-            this.txtCCDAPPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCCDAPPath.Location = new System.Drawing.Point(137, 43);
+            this.txtCCDAPPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtCCDAPPath.Name = "txtCCDAPPath";
             this.txtCCDAPPath.Size = new System.Drawing.Size(371, 22);
             this.txtCCDAPPath.TabIndex = 1;
@@ -140,7 +140,7 @@
             // 
             this.txtMaximPath.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "MaximDLPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtMaximPath.Location = new System.Drawing.Point(137, 14);
-            this.txtMaximPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMaximPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtMaximPath.Name = "txtMaximPath";
             this.txtMaximPath.Size = new System.Drawing.Size(371, 22);
             this.txtMaximPath.TabIndex = 1;
@@ -149,7 +149,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 76);
+            this.label3.Location = new System.Drawing.Point(8, 75);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 17);
@@ -159,7 +159,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 44);
+            this.label2.Location = new System.Drawing.Point(9, 46);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 17);
@@ -181,9 +181,9 @@
             this.tabPageSwitch.Controls.Add(this.groupBox2);
             this.tabPageSwitch.Controls.Add(this.groupBox1);
             this.tabPageSwitch.Location = new System.Drawing.Point(4, 25);
-            this.tabPageSwitch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageSwitch.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageSwitch.Name = "tabPageSwitch";
-            this.tabPageSwitch.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageSwitch.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageSwitch.Size = new System.Drawing.Size(588, 366);
             this.tabPageSwitch.TabIndex = 1;
             this.tabPageSwitch.Text = "Switch";
@@ -195,9 +195,9 @@
             this.groupBox2.Controls.Add(this.btnConnectSwitchSettings);
             this.groupBox2.Controls.Add(this.btnChooseSwitch);
             this.groupBox2.Location = new System.Drawing.Point(9, 4);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(568, 70);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
@@ -207,7 +207,7 @@
             // 
             this.txtSwitchDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtSwitchDriverId.Location = new System.Drawing.Point(8, 23);
-            this.txtSwitchDriverId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSwitchDriverId.Margin = new System.Windows.Forms.Padding(4);
             this.txtSwitchDriverId.Name = "txtSwitchDriverId";
             this.txtSwitchDriverId.ReadOnly = true;
             this.txtSwitchDriverId.Size = new System.Drawing.Size(333, 22);
@@ -218,7 +218,7 @@
             // 
             this.btnConnectSwitchSettings.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnConnectSwitchSettings.Location = new System.Drawing.Point(464, 21);
-            this.btnConnectSwitchSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnConnectSwitchSettings.Margin = new System.Windows.Forms.Padding(4);
             this.btnConnectSwitchSettings.Name = "btnConnectSwitchSettings";
             this.btnConnectSwitchSettings.Size = new System.Drawing.Size(96, 28);
             this.btnConnectSwitchSettings.TabIndex = 8;
@@ -229,7 +229,7 @@
             // 
             this.btnChooseSwitch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnChooseSwitch.Location = new System.Drawing.Point(360, 21);
-            this.btnChooseSwitch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnChooseSwitch.Margin = new System.Windows.Forms.Padding(4);
             this.btnChooseSwitch.Name = "btnChooseSwitch";
             this.btnChooseSwitch.Size = new System.Drawing.Size(96, 28);
             this.btnChooseSwitch.TabIndex = 7;
@@ -250,9 +250,9 @@
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(9, 79);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(249, 178);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
@@ -262,7 +262,7 @@
             // 
             this.txtSwitchRoofSwitchPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofSwitchPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtSwitchRoofSwitchPort.Location = new System.Drawing.Point(128, 134);
-            this.txtSwitchRoofSwitchPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSwitchRoofSwitchPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtSwitchRoofSwitchPort.Name = "txtSwitchRoofSwitchPort";
             this.txtSwitchRoofSwitchPort.Size = new System.Drawing.Size(57, 22);
             this.txtSwitchRoofSwitchPort.TabIndex = 2;
@@ -272,7 +272,7 @@
             // 
             this.txtSwitchRoofPowerPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofPowerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtSwitchRoofPowerPort.Location = new System.Drawing.Point(127, 106);
-            this.txtSwitchRoofPowerPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSwitchRoofPowerPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtSwitchRoofPowerPort.Name = "txtSwitchRoofPowerPort";
             this.txtSwitchRoofPowerPort.Size = new System.Drawing.Size(57, 22);
             this.txtSwitchRoofPowerPort.TabIndex = 2;
@@ -282,7 +282,7 @@
             // 
             this.txtSwitchFocuserPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchFocuserPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtSwitchFocuserPort.Location = new System.Drawing.Point(128, 74);
-            this.txtSwitchFocuserPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSwitchFocuserPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtSwitchFocuserPort.Name = "txtSwitchFocuserPort";
             this.txtSwitchFocuserPort.Size = new System.Drawing.Size(57, 22);
             this.txtSwitchFocuserPort.TabIndex = 2;
@@ -292,7 +292,7 @@
             // 
             this.txtSwitchCameraPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchCameraPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtSwitchCameraPort.Location = new System.Drawing.Point(128, 47);
-            this.txtSwitchCameraPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSwitchCameraPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtSwitchCameraPort.Name = "txtSwitchCameraPort";
             this.txtSwitchCameraPort.Size = new System.Drawing.Size(57, 22);
             this.txtSwitchCameraPort.TabIndex = 2;
@@ -301,7 +301,7 @@
             // txtSwitchMountPort
             // 
             this.txtSwitchMountPort.Location = new System.Drawing.Point(128, 20);
-            this.txtSwitchMountPort.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSwitchMountPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtSwitchMountPort.Name = "txtSwitchMountPort";
             this.txtSwitchMountPort.Size = new System.Drawing.Size(57, 22);
             this.txtSwitchMountPort.TabIndex = 2;
@@ -361,7 +361,7 @@
             // 
             this.tabPageDome.Controls.Add(this.groupBox3);
             this.tabPageDome.Location = new System.Drawing.Point(4, 25);
-            this.tabPageDome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageDome.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageDome.Name = "tabPageDome";
             this.tabPageDome.Size = new System.Drawing.Size(588, 366);
             this.tabPageDome.TabIndex = 4;
@@ -374,9 +374,9 @@
             this.groupBox3.Controls.Add(this.btnConnectDomeSettings);
             this.groupBox3.Controls.Add(this.btnChooseDome);
             this.groupBox3.Location = new System.Drawing.Point(9, 4);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(568, 70);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
@@ -386,7 +386,7 @@
             // 
             this.txtDomeDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "DomeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtDomeDriverId.Location = new System.Drawing.Point(8, 23);
-            this.txtDomeDriverId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDomeDriverId.Margin = new System.Windows.Forms.Padding(4);
             this.txtDomeDriverId.Name = "txtDomeDriverId";
             this.txtDomeDriverId.ReadOnly = true;
             this.txtDomeDriverId.Size = new System.Drawing.Size(332, 22);
@@ -397,7 +397,7 @@
             // 
             this.btnConnectDomeSettings.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnConnectDomeSettings.Location = new System.Drawing.Point(464, 21);
-            this.btnConnectDomeSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnConnectDomeSettings.Margin = new System.Windows.Forms.Padding(4);
             this.btnConnectDomeSettings.Name = "btnConnectDomeSettings";
             this.btnConnectDomeSettings.Size = new System.Drawing.Size(96, 28);
             this.btnConnectDomeSettings.TabIndex = 7;
@@ -408,7 +408,7 @@
             // 
             this.btnChooseDome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnChooseDome.Location = new System.Drawing.Point(360, 21);
-            this.btnChooseDome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnChooseDome.Margin = new System.Windows.Forms.Padding(4);
             this.btnChooseDome.Name = "btnChooseDome";
             this.btnChooseDome.Size = new System.Drawing.Size(96, 28);
             this.btnChooseDome.TabIndex = 6;
@@ -420,7 +420,7 @@
             // 
             this.tabPageTelescope.Controls.Add(this.groupBox4);
             this.tabPageTelescope.Location = new System.Drawing.Point(4, 25);
-            this.tabPageTelescope.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageTelescope.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTelescope.Name = "tabPageTelescope";
             this.tabPageTelescope.Size = new System.Drawing.Size(588, 366);
             this.tabPageTelescope.TabIndex = 3;
@@ -433,9 +433,9 @@
             this.groupBox4.Controls.Add(this.btnConnectTelescopeSettings);
             this.groupBox4.Controls.Add(this.btnChooseTelescope);
             this.groupBox4.Location = new System.Drawing.Point(9, 4);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(568, 70);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
@@ -445,7 +445,7 @@
             // 
             this.txtTelescopeDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "TelescopeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.txtTelescopeDriverId.Location = new System.Drawing.Point(8, 23);
-            this.txtTelescopeDriverId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTelescopeDriverId.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelescopeDriverId.Name = "txtTelescopeDriverId";
             this.txtTelescopeDriverId.ReadOnly = true;
             this.txtTelescopeDriverId.Size = new System.Drawing.Size(332, 22);
@@ -456,7 +456,7 @@
             // 
             this.btnConnectTelescopeSettings.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnConnectTelescopeSettings.Location = new System.Drawing.Point(464, 21);
-            this.btnConnectTelescopeSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnConnectTelescopeSettings.Margin = new System.Windows.Forms.Padding(4);
             this.btnConnectTelescopeSettings.Name = "btnConnectTelescopeSettings";
             this.btnConnectTelescopeSettings.Size = new System.Drawing.Size(96, 28);
             this.btnConnectTelescopeSettings.TabIndex = 7;
@@ -467,7 +467,7 @@
             // 
             this.btnChooseTelescope.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnChooseTelescope.Location = new System.Drawing.Point(360, 21);
-            this.btnChooseTelescope.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnChooseTelescope.Margin = new System.Windows.Forms.Padding(4);
             this.btnChooseTelescope.Name = "btnChooseTelescope";
             this.btnChooseTelescope.Size = new System.Drawing.Size(96, 28);
             this.btnChooseTelescope.TabIndex = 6;
@@ -521,7 +521,7 @@
             // 
             this.btnRestoreDefaults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRestoreDefaults.Location = new System.Drawing.Point(7, 406);
-            this.btnRestoreDefaults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRestoreDefaults.Margin = new System.Windows.Forms.Padding(4);
             this.btnRestoreDefaults.Name = "btnRestoreDefaults";
             this.btnRestoreDefaults.Size = new System.Drawing.Size(100, 28);
             this.btnRestoreDefaults.TabIndex = 1;
@@ -533,7 +533,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.Location = new System.Drawing.Point(367, 406);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 28);
             this.btnOK.TabIndex = 2;
@@ -546,7 +546,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(497, 406);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 3;
@@ -566,7 +566,7 @@
             this.Controls.Add(this.btnRestoreDefaults);
             this.Controls.Add(this.tabSettings);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsForm";

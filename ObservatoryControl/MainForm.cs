@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
 using System.Configuration;
+using System.Threading;
+
 
 using ASCOM;
 using ASCOM.DeviceInterface;
@@ -29,17 +31,25 @@ namespace ObservatoryCenter
         /// </summary>
         public SettingsForm SetForm;
 
-        Color OnColor = Color.DarkSeaGreen;
-        Color OffColor = Color.Tomato;
-
+        /// <summary>
+        /// SocketServer object
+        /// </summary>
         public SocketServerClass SocketServer;
 
-        /// <summary>
-        /// For logging window
-        /// </summary>
+        //Color constants
+        Color OnColor = Color.DarkSeaGreen;
+        Color OffColor = Color.Tomato;
+        Color DisabledColor = Color.LightGray;
+
+
+        // For logging window
         private bool AutoScrollLogFlag = true;
         private Int32 caretPos = 0;
         public Int32 MAX_LOG_LINES = 500;
+
+        // Threads
+        public Thread CheckPowerStatusThread;
+        public Thread SetPowerStatusThread;
 
         /// <summary>
         /// Constructor
@@ -50,6 +60,11 @@ namespace ObservatoryCenter
             
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
+
+            CheckPowerStatusThread = new Thread(ObsControl.CheckPowerDeviceStatus);
+            //SetPowerStatusThread = new Thread(ObsControl.SetDeviceStatus(null,null,null,null));
+
+            Logging.AddLog("Observatory Center started", LogLevel.Activity);
         }
 
         /// <summary>
@@ -59,10 +74,31 @@ namespace ObservatoryCenter
         {
             //Load parameters
             LoadParams();
+            
+            //Dump log, because interface may hang wating for connection
+            Logging.DumpToFile();
 
             //Connect Devices, which are general adapters (no need to power or control something)
-            ObsControl.connectSwitch = true;
-            ObsControl.connectDome = true; ;
+            try
+            {
+                ObsControl.connectSwitch = true;
+                CheckPowerSwitchStatusWrapper();
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("Error connecting Switch on startup [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+           }
+
+            try
+            {
+                ObsControl.connectDome = true; ;
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("Error connecting Dome on startup [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
 
             //Update visual interface statuses
             UpdateStatusbarASCOMStatus();
@@ -101,8 +137,40 @@ namespace ObservatoryCenter
             UpdatePowerButtonsStatus();
             UpdateStatusbarASCOMStatus();
             UpdateTelescopeStatus();
+            UpdateRoofPicture();
+            UpdateSettingsTabStatusFileds();
         }
 
+        /// <summary>
+        /// Second main timer tick. More slower to not overload hardware
+        /// </summary>
+        private void mainTimer2_Tick(object sender, EventArgs e)
+        {
+            ///check power switch status
+            CheckPowerSwitchStatusWrapper();
+        }
+
+        /// <summary>
+        /// Wrapper to call check power switch status on separate thread
+        /// </summary>
+        public void CheckPowerSwitchStatusWrapper()
+        {
+            if (ObsControl.Switch_connected_flag)
+            {
+                try
+                {
+                    if (!CheckPowerStatusThread.IsAlive)
+                    {
+                        CheckPowerStatusThread = new Thread(ObsControl.CheckPowerDeviceStatus);
+                        CheckPowerStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Exception in Main timer CheckPowerDeviceStatus! " + ex.ToString());
+                }
+            }
+        }
 
 // Block with update elements
 #region ///// Update visual elements (Status bar, telescope, etc) /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +180,7 @@ namespace ObservatoryCenter
         private void UpdateStatusbarASCOMStatus()
         {
             //SWITCH
-            if (ObsControl.objSwitch != null && ObsControl.objSwitch.Connected)
+            if (ObsControl.Switch_connected_flag)
             {
                 toolStripStatus_Switch.ForeColor = Color.Blue;
             }
@@ -123,7 +191,7 @@ namespace ObservatoryCenter
             toolStripStatus_Switch.ToolTipText = "DRIVER: " + ObsControl.SWITCH_DRIVER_NAME + Environment.NewLine;
 
             //DOME
-            if (ObsControl.objDome != null && ObsControl.objDome.Connected)
+            if (ObsControl.Dome_connected_flag)
             {
                 toolStripStatus_Dome.ForeColor = Color.Blue;
             }
@@ -134,7 +202,7 @@ namespace ObservatoryCenter
             toolStripStatus_Dome.ToolTipText = "DRIVER: " + ObsControl.DOME_DRIVER_NAME+ Environment.NewLine;
 
             //TELESCOPE
-            bool Tprog=(ObsControl.objTelescope != null && ObsControl.connectTelescope);
+            bool Tprog = (ObsControl.Mount_connected_flag);
             bool Tmaxim = false;
             try
             {
@@ -204,10 +272,64 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdatePowerButtonsStatus()
         {
-            btnTelescopePower.BackColor = (ObsControl.MountPower ? OnColor : OffColor);
-            btnCameraPower.BackColor = (ObsControl.CameraPower ? OnColor : OffColor);
-            btnFocuserPower.BackColor = (ObsControl.FocusPower ? OnColor : OffColor);
-            btnRoofPower.BackColor = (ObsControl.RoofPower ? OnColor : OffColor);
+            //Mount
+            if (ObsControl.Mount_power_flag == null)
+            {
+                btnTelescopePower.Enabled = false;
+                btnTelescopePower.BackColor = DisabledColor;
+            }
+            else
+            {
+                btnTelescopePower.Enabled = true;
+                btnTelescopePower.BackColor = ((bool)ObsControl.Mount_power_flag ? OnColor : OffColor);
+            }
+
+            //Camera
+            if (ObsControl.Camera_power_flag == null)
+            {
+                btnCameraPower.Enabled = false;
+                btnCameraPower.BackColor = DisabledColor;
+            }
+            else
+            {
+                btnCameraPower.Enabled = true;
+                btnCameraPower.BackColor = ((bool)ObsControl.Camera_power_flag ? OnColor : OffColor);
+            }
+
+            //Focuser
+            if (ObsControl.Focuser_power_flag == null)
+            {
+                btnFocuserPower.Enabled = false;
+                btnFocuserPower.BackColor = DisabledColor;
+            }
+            else
+            {
+                btnFocuserPower.Enabled = true;
+                btnFocuserPower.BackColor = ((bool)ObsControl.Focuser_power_flag ? OnColor : OffColor);
+            }
+
+            //Roof power
+            if (ObsControl.Roof_power_flag == null)
+            {
+                btnRoofPower.Enabled = false;
+                btnRoofPower.BackColor = DisabledColor;
+            }
+            else
+            {
+                btnRoofPower.Enabled = true;
+                btnRoofPower.BackColor = ((bool)ObsControl.Roof_power_flag ? OnColor : OffColor);
+            }
+
+            //All button
+            if (ObsControl.Roof_power_flag == true && ObsControl.Mount_power_flag == true && ObsControl.Focuser_power_flag == true && ObsControl.Camera_power_flag == true)
+            {
+                btnPowerAll.Text = "Depower all";
+            }
+            else
+            {
+                btnPowerAll.Text = "Power all";
+            }
+
         }
 
         /// <summary>
@@ -375,6 +497,70 @@ namespace ObservatoryCenter
             //DrawTelescopeH(panelTelescopeH);
         }
 
+
+        /// <summary>
+        /// Update values on settings tab
+        /// </summary>
+        public void UpdateSettingsTabStatusFileds()
+        {
+            //ASCOM DATA
+            txtSet_Switch.Text = ObsControl.SWITCH_DRIVER_NAME;
+            if (ObsControl.Switch_connected_flag == true)
+            {
+                txtSet_Switch.BackColor = OnColor;
+            }
+            else
+            {
+                txtSet_Switch.BackColor = SystemColors.Control;
+            }
+
+            txtSet_Dome.Text = ObsControl.DOME_DRIVER_NAME;
+            if (ObsControl.Dome_connected_flag == true)
+            {
+                txtSet_Dome.BackColor = OnColor;
+            }
+            else
+            {
+                txtSet_Dome.BackColor = SystemColors.Control;
+            }
+
+            txtSet_Telescope.Text = ObsControl.TELESCOPE_DRIVER_NAME;
+            if (ObsControl.Mount_connected_flag == true)
+            {
+                txtSet_Telescope.BackColor = OnColor;
+            }
+            else
+            {
+                txtSet_Telescope.BackColor = SystemColors.Control;
+            }
+
+            //MAXIM DATA
+            if (ObsControl.MaximObj.CCDCamera != null)
+            {
+                txtSet_Maxim_Camera1.Text =  ObsControl.MaximObj.CCDCamera.CameraName;
+                if (ObsControl.MaximObj.CCDCamera.LinkEnabled)
+                {
+                    txtSet_Maxim_Camera1.BackColor = OnColor;
+                }
+                else
+                {
+                    txtSet_Telescope.BackColor = SystemColors.Control;
+                }
+            }
+            else
+            {
+                txtSet_Maxim_Camera1.Text =  "";
+                txtSet_Telescope.BackColor = SystemColors.Control;
+            }
+            
+            
+            //testFocus = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected);
+            //testCamera2 = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled && ObsControl.MaximObj.CCDCamera.GuiderName != "");
+
+
+        }
+
+
 #endregion update visual elements
 // end of block
 
@@ -383,60 +569,118 @@ namespace ObservatoryCenter
 #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
+            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
             //get current state
             bool SwitchState = (((Button)sender).BackColor == OnColor);
             SwitchState = !SwitchState;
 
             //toggle
-            ObsControl.MountPower=SwitchState;
-
-            //display new status
-            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+            if (ObsControl.PowerSet(ObsControl.POWER_MOUNT_PORT, "POWER_MOUNT_PORT", SwitchState, out ObsControl.Mount_power_flag))
+            {
+                //if switching was successful
+                //display new status
+                ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+                //ObsControl.Mount_power_flag = SwitchState;
+            }
+            else
+            {
+                //if switching wasn't proceed
+            }
         }
 
 
         private void btnRoofPower_Click(object sender, EventArgs e)
         {
+            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+            
             //get current state
             bool SwitchState = (((Button)sender).BackColor == OnColor);
             SwitchState = !SwitchState;
 
             //toggle
-            ObsControl.RoofPower=SwitchState;
-
-            //display new status
-            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
-
-
-            /////
-            txtCameraName.BackColor = (SwitchState ? OnColor : OffColor);
+            if (ObsControl.PowerSet(ObsControl.POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", SwitchState, out ObsControl.Roof_power_flag))
+            {
+                //if switching was successful
+                //display new status
+                ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+                //ObsControl.Roof_power_flag = SwitchState;
+            }
+            else
+            {
+                //if switching wasn't proceed
+            }
         }
 
         private void btnCameraPower_Click(object sender, EventArgs e)
         {
+            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
             //get current state
             bool SwitchState = (((Button)sender).BackColor == OnColor);
             SwitchState = !SwitchState;
 
             //toggle
-            ObsControl.CameraPower=SwitchState;
+            if (ObsControl.PowerSet(ObsControl.POWER_CAMERA_PORT, "POWER_CAMERA_PORT", SwitchState, out ObsControl.Camera_power_flag))
+            {
+                //if switching was successful
 
-            //display new status
-            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+                //display new status
+                ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+                //ObsControl.Camera_power_flag = SwitchState;
+                /////
+                txtCameraName.BackColor = (SwitchState ? OnColor : OffColor);
+            }
+            else
+            {
+                //if switching wasn't proceed
+
+            }
         }
 
         private void btnFocuserPower_Click(object sender, EventArgs e)
         {
+            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
             //get current state
             bool SwitchState = (((Button)sender).BackColor == OnColor);
             SwitchState = !SwitchState;
 
             //toggle
-            ObsControl.FocusPower=SwitchState;
+            if (ObsControl.PowerSet(ObsControl.POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", SwitchState, out ObsControl.Focuser_power_flag))
+            {
+                //if switching was successful
 
-            //display new status
-            ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+                //display new status
+                ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
+                //ObsControl.Focuser_power_flag = SwitchState;
+            }
+            else
+            {
+                //if switching wasn't proceed
+
+            }
         }
+
+        private void btnPowerAll_Click(object sender, EventArgs e)
+        {
+            if (((Button)sender).Text == "Power all")
+            {
+                //Power all
+                ObsControl.PowerCameraOn();
+                ObsControl.PowerMountOn();
+                ObsControl.PowerFocuserOn();
+                ObsControl.PowerRoofOn();
+            }
+            else if (((Button)sender).Text == "Depower all")
+            {
+                //Power all
+                ObsControl.PowerCameraOff();
+                ObsControl.PowerMountOff();
+                ObsControl.PowerFocuserOff();
+                ObsControl.PowerRoofOff();
+            }
+        }
+
 #endregion Power button handling
 // End of block with power buttons handling
 
@@ -477,7 +721,7 @@ namespace ObservatoryCenter
         /// </summary>
         public void LoadParams()
         {
-            Logging.AddLog("Loading saved parameters",3);
+            Logging.AddLog("Loading saved parameters", LogLevel.Trace);
             try
             {
                 ObsControl.DOME_DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
@@ -510,11 +754,11 @@ namespace ObservatoryCenter
                 }
 
                 string FullMessage = "Error loading params. ";
-                FullMessage += "IOException source: " + ex.Data + " | " + ex.Message + " | " + messstr;
+                FullMessage += "Exception source: " + ex.Data + " | " + ex.Message + " | " + messstr;
 
-                Logging.AddLog(FullMessage,1,Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Critical, Highlight.Error);
             }
-            Logging.AddLog("Loading saved parameters end", 3);
+            Logging.AddLog("Saved parameters loaded", LogLevel.Activity);
 
 
         }
@@ -533,10 +777,11 @@ namespace ObservatoryCenter
         /// </summary>
         private void logRefreshTimer_Tick(object sender, EventArgs e)
         {
-            string LogAppend = Logging.DumpToString(1);
-            txtLog.AppendText(LogAppend);
+            //add line to richtextbox
+            Logging.AppendText(txtLog,LogLevel.Activity);
 
-            Logging.DumpToFile(Logging.DEBUG_LEVEL);
+            //write to file
+            Logging.DumpToFile();
         }
         
 
@@ -546,13 +791,13 @@ namespace ObservatoryCenter
         {
             if (btnConnectTelescope.Text == "Connect")
             {
-                ObsControl.connectTelescope = true;
+                ObsControl.connectMount = true;
                 btnConnectTelescope.Text = "Diconnect";
                 btnConnectTelescope.BackColor = OnColor;
             }
             else
             {
-                ObsControl.connectTelescope = false;
+                ObsControl.connectMount = false;
                 btnConnectTelescope.Text = "Connect";
                 btnConnectTelescope.BackColor = OffColor;
                 btnTrack.BackColor = SystemColors.Control;
@@ -563,6 +808,33 @@ namespace ObservatoryCenter
 #endregion Telescope routines
 
 
+#region //// Status bar events handling //////////////////////////////////////
+        private void toolStripStatus_Switch_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ObsControl.connectSwitch = !ObsControl.Switch_connected_flag;
+                CheckPowerSwitchStatusWrapper();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception in status bar switch connect/disconnect! " + ex.ToString());
+            }
+        }
+
+        private void toolStripStatus_Dome_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ObsControl.connectDome = !ObsControl.Dome_connected_flag;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception in status bar dome connect/disconnect! " + ex.ToString());
+            }
+
+        }
+#endregion Status bar event handling
 
 
     }

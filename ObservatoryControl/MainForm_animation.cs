@@ -99,6 +99,9 @@ namespace ObservatoryCenter
             stopAnimation();
         }
 
+        /// <summary>
+        /// Procedure to start animation
+        /// </summary>
         private void startAnimation()
         {
             btnCloseRoof.Enabled = false;
@@ -111,6 +114,9 @@ namespace ObservatoryCenter
             rectBase.BackColor = Color.WhiteSmoke;
         }
 
+        /// <summary>
+        /// Procedure to stop animation
+        /// </summary>
         private void stopAnimation()
         {
             animateRoofTimer.Enabled = false;
@@ -250,13 +256,8 @@ namespace ObservatoryCenter
         {
             animateRoofTimer.Enabled = false;
             System.Windows.Forms.MessageBox.Show("Roof " + (MoveType) + "ing is too long!");
-
         }
 
-        private void annunciatorPanel1_Click(object sender, EventArgs e)
-        {
-            annunciator1.Cadence = ASCOM.Controls.CadencePattern.BlinkSlow;
-        }
 
         /// <summary>
         /// Draw roof position whenever needed
@@ -283,6 +284,7 @@ namespace ObservatoryCenter
                 drawClosed();
                 rectRoof.BackColor = Color.WhiteSmoke;
                 rectBase.BackColor = Color.WhiteSmoke;
+                btnOpenRoof.Enabled = false;
             }
         }
 #endregion draw roof

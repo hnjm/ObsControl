@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Reflection;
+using System.Windows.Forms;
 
 using ASCOM;
 using ASCOM.DeviceInterface;
@@ -15,7 +17,7 @@ using MaxIm;
 
 namespace ObservatoryCenter
 {
-    public class ObservatoryControls
+    public partial class ObservatoryControls
     {
         /// <summary>
         /// Back link to form
@@ -171,184 +173,12 @@ namespace ObservatoryCenter
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
                 Logging.AddLog("FocusMax failed", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Trace, Highlight.Error);
                 return "!!!FocusMax start failed";
 
             }
         }
 #endregion Program controlling
-
-#region ASCOM Device Drivers controlling  ///////////////////////////////////////////////////////////////////
-
-        public bool connectSwitch
-        {
-            set
-            {
-                if (objSwitch == null) objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
-                objSwitch.Connected = true;
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
-            }
-            get
-            {
-                bool ret = objSwitch.Connected;
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + ret, 2);
-                return ret;
-            }
-        }
-
-        public bool connectTelescope
-        {
-            set
-            {
-                if (objTelescope == null) objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
-                objTelescope.Connected = value;
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
-                if (!value)
-                {
-                    //objTelescope.Dispose();
-                    objTelescope = null;
-                }
-            }
-            get
-            {
-                bool ret=objTelescope.Connected;
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": "+ret, 2);
-                return ret;
-            }
-        }
-
-        public bool connectDome
-        {
-            set
-            {
-                if (objDome == null) objDome= new ASCOM.DriverAccess.Dome(DOME_DRIVER_NAME);
-                objDome.Connected = true;
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), 2);
-            }
-            get
-            {
-                bool ret=objDome.Connected;
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": "+ret, 2);
-                return ret;
-            }
-        }
-
-        public string OBS_connectTelescope()
-        {
-            connectTelescope = true;
-            return "Telescope in ObsContrtol connected";
-        }
-
-        public bool startCheckSwitch()
-        {
-            //check if can be connected
-            if (!objSwitch.Connected)
-            {
-                System.Windows.Forms.MessageBox.Show("Cann't connect to switch. Check your settings");
-                return false;
-            }
-            return true;
-        }
-#endregion ASCOM Device Drivers controlling
-
-#region Power controlling ////////////////////////////////////////////////////////////////////////////////////////////
-
-        public bool MountPower
-        {
-            get
-            {
-                Logging.AddLog("Mount power get", 2);
-                return objSwitch.GetSwitch(POWER_MOUNT_PORT);
-            }
-            set{
-                Logging.AddLog("Mount power switching "+(value?"ON":"OFF"),2);
-                objSwitch.SetSwitch(POWER_MOUNT_PORT, value);
-            }
-        }
-
-        public bool CameraPower
-        {
-            get{
-                Logging.AddLog("Camera power get", 3);
-                return objSwitch.GetSwitch(POWER_CAMERA_PORT);
-            }
-            set{
-                Logging.AddLog("Camera power switching " + (value ? "ON" : "OFF"), 3);
-                objSwitch.SetSwitch(POWER_CAMERA_PORT, value);
-            }
-        }
-
-        public bool FocusPower
-        {
-            get{
-                Logging.AddLog("Focus power get", 3);
-                return objSwitch.GetSwitch(POWER_FOCUSER_PORT);
-            }
-            set{
-                Logging.AddLog("Focus power switching " + (value ? "ON" : "OFF"), 3);
-                objSwitch.SetSwitch(POWER_FOCUSER_PORT, value);
-            }
-        }
-        
-        public bool RoofPower
-        {
-            get{
-                Logging.AddLog("Roof power get", 3);
-                return objSwitch.GetSwitch(POWER_ROOFPOWER_PORT);
-            }
-            set{
-                Logging.AddLog("Roof power switching " + (value ? "ON" : "OFF"), 3);
-                objSwitch.SetSwitch(POWER_ROOFPOWER_PORT, value);
-            }
-        }
-
-
-        public string PowerMountOn()
-        {
-            MountPower = true;
-            return "PowerMountOn";
-        }
-        public string PowerMountOff()
-        {
-            MountPower = false;
-            return "PowerMountOff";
-        }
-
-        public string PowerCameraOn()
-        {
-            CameraPower=true;
-            return "PowerCameraOn";
-        }
-        public string PowerCameraOff()
-        {
-            CameraPower=false;
-            return "PowerCameraOff";
-        }
-
-        public string PowerFocuserOn()
-        {
-            FocusPower=true;
-            return "PowerFocuserOn";
-        }
-        public string PowerFocuserOff()
-        {
-            FocusPower=false;
-            return "PowerFocuserOff";
-        }
-
-        public string PowerRoofOn()
-        {
-            RoofPower = true;
-            return "PowerRoofOn";
-        }
-        public string PowerRoofOff()
-        {
-            RoofPower = false;
-            return "PowerRoofOff";
-        }
-            
-
-#endregion Power controlling
 
 #region Roof control //////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
@@ -357,15 +187,21 @@ namespace ObservatoryCenter
         /// <returns></returns>
         public bool RoofOpen()
         {
-            Logging.AddLog("Trying to open roof", 1);
+            Logging.AddLog("Trying to open roof", LogLevel.Activity);
 
-            //Check if power is connected
-            if (!objSwitch.GetSwitch(POWER_ROOFPOWER_PORT))
+            //Check if driver is connected
+            if (Dome_connected_flag != true)
             {
-                Logging.AddLog("Roof power switched off", 1);
+                Logging.AddLog("Dome driver isn't connected", LogLevel.Critical, Highlight.Error);
                 return false;
             }
 
+            //Check if power is connected
+            if (Switch_connected_flag && Roof_power_flag != true)
+            {
+                Logging.AddLog("Roof power switched off", LogLevel.Critical, Highlight.Error);
+                return false;
+            }
             RoofRoutine_StartTime=DateTime.Now;
 
             //open dome
@@ -375,12 +211,19 @@ namespace ObservatoryCenter
 
         public bool RoofClose()
         {
-            Logging.AddLog("Trying to close roof", 1);
+            Logging.AddLog("Trying to close roof", LogLevel.Activity);
+
+            //Check if driver is connected
+            if (Dome_connected_flag != true)
+            {
+                Logging.AddLog("Dome driver isn't connected", LogLevel.Critical, Highlight.Error);
+                return false;
+            }
 
             //Check if power is connected
-            if (!objSwitch.GetSwitch(POWER_ROOFPOWER_PORT))
+            if (Switch_connected_flag && Roof_power_flag != true)
             {
-                Logging.AddLog("Roof power switched off", 1);
+                Logging.AddLog("Roof power switched off", LogLevel.Activity);
                 return false;
             }
 

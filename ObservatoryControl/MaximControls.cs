@@ -62,8 +62,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Camera connection failed [" + ex.Message+"]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage,2,Highlight.Error);
+                Logging.AddLog("Camera connection failed [" + ex.Message+"]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage,LogLevel.Debug,Highlight.Error);
                 return "Camera connection failed";
             }
         }
@@ -95,8 +95,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("MaximDL telescope connection failed [" + ex.Message + "]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog("MaximDL telescope connection failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "MaximDL telescope connection failed ";
             }
         }
@@ -127,8 +127,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("MaximDL focuser connection failed [" + ex.Message+"]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog("MaximDL focuser connection failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "MaximDL focuser connection failed";
             }
         }
@@ -161,8 +161,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "Set camera cooling failed ";
             }
         }
@@ -173,7 +173,7 @@ namespace ObservatoryCenter
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try{
                 getTemp = CCDCamera.Temperature;
-                Logging.AddLog("Camera temp is " + getTemp + " deg", 3);
+                Logging.AddLog("Camera temp is " + getTemp + " deg", LogLevel.Critical);
             }
             catch(Exception ex)
             {
@@ -192,8 +192,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Get camera temp failed [" + ex.Message+"]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog("Get camera temp failed [" + ex.Message+"]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return getTemp;
         }
@@ -205,7 +205,7 @@ namespace ObservatoryCenter
             try
             {
                 getPower = CCDCamera.CoolerPower;
-                Logging.AddLog("Camera cooler power is " + getPower + "%", 3);
+                Logging.AddLog("Camera cooler power is " + getPower + "%", LogLevel.Trace);
             }
             catch (Exception ex)
             {
@@ -224,8 +224,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", 2, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return getPower;
         }
@@ -238,7 +238,7 @@ namespace ObservatoryCenter
             try
             {
                 camStatus = CCDCamera.CameraStatus;
-                Logging.AddLog("Camera status is " + camStatus.ToString() + "", 3);
+                Logging.AddLog("Camera status is " + camStatus.ToString() + "", LogLevel.Trace);
             }
             catch (Exception ex)
             {
@@ -258,7 +258,7 @@ namespace ObservatoryCenter
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
                 Logging.AddLog("Get camera status failed [" + ex.Message + "]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return camStatus.ToString();
         }
@@ -276,7 +276,7 @@ namespace ObservatoryCenter
             {
                 aggresX = CCDCamera.GuiderAggressivenessX;
                 aggresY = CCDCamera.GuiderAggressivenessY;
-                Logging.AddLog("Guider Aggressiveness on X: " + aggresX + " Y: " + aggresY, 3);
+                Logging.AddLog("Guider Aggressiveness on X: " + aggresX + " Y: " + aggresY, LogLevel.Trace);
             }
             catch (Exception ex)
             {
@@ -296,7 +296,7 @@ namespace ObservatoryCenter
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
                 Logging.AddLog("Get camera temp failed [" + ex.Message + "]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return new [] {aggresX, aggresY};
         }
@@ -316,7 +316,7 @@ namespace ObservatoryCenter
                 guiderAngel = CCDCamera.GuiderAngle;
                 guiderXSpeed= CCDCamera.GuiderXSpeed;
                 guiderYSpeed= CCDCamera.GuiderYSpeed;
-                Logging.AddLog("Guider angel: " + guiderAngel + " X speed: " + guiderXSpeed+ " Y speed: " + guiderYSpeed, 3);
+                Logging.AddLog("Guider angel: " + guiderAngel + " X speed: " + guiderXSpeed + " Y speed: " + guiderYSpeed, LogLevel.Activity);
             }
             catch (Exception ex)
             {
@@ -336,7 +336,7 @@ namespace ObservatoryCenter
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
                 Logging.AddLog("Get camera temp failed [" + ex.Message + "]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, 2, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return new [] {guiderAngel, guiderXSpeed, guiderYSpeed};
         }

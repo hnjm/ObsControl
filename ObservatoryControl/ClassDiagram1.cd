@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ObservatoryCenter.CCDAPParser" Collapsed="true">
+    <Position X="7" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAEEAABAAAEAAAAAAAAAAAAAAAAAAAAASAABAAAA=</HashCode>
+      <FileName>CCDAPParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CommandInterpretator" Collapsed="true">
+    <Position X="9.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>CommandInterpretator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.Logging" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAACAAAAAQAAAAAAAAAoAAIAAAAMCAAAIAA=</HashCode>
+      <FileName>Logging.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.MainForm">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>cwaRnjKXuCATqF9P/jTIAEk+ABsBoUSJlGfIl/B2RI0=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.MaximControls" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CwCgIAAABAAACCAAAAAAAAAAABAAAAAAAAgSAAAAAMA=</HashCode>
+      <FileName>MaximControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ObservatoryControls">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>J4BiACAhuIASgAkAcAA8AJgABEggEAAAcKpBAABQyAE=</HashCode>
+      <FileName>ObservatoryControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.SettingsForm" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>VoECA4IAAiAKEBFAADDAAEACACAEgEEEEzgAAACAFAA=</HashCode>
+      <FileName>SettingsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.SocketServerClass" Collapsed="true">
+    <Position X="9.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAQAAAAAAAAAEAAACAAAAAAAAAAQgAAAAAAQAAABAA=</HashCode>
+      <FileName>SocketServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ClientManager" Collapsed="true">
+    <Position X="9.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAQAAAAAAAAAAAIAAAAAAAAABAAAAgAAAAgABAAAAA=</HashCode>
+      <FileName>SocketServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -12,10 +12,10 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>ftp://srv025.infobox.ru/htdocs/Symfony2/web/obscontrol_soft/</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>d:\deploy\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,15 +23,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>http://astromania.info/obscontrol_soft/</InstallUrl>
+    <UpdateUrl>http://astromania.info/obscontrol_soft/</UpdateUrl>
     <SupportUrl>http://astromania.info</SupportUrl>
     <ProductName>Observatory Control</ProductName>
     <PublisherName>Astromania.info</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>1.0.0.3</ApplicationVersion>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -66,7 +65,7 @@
     <StartupObject>ObservatoryCenter.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo_48_blue.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\logo_observ2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>3D8F534BDD9E83C241DE163301E625BDA96E38EE</ManifestCertificateThumbprint>
@@ -75,7 +74,7 @@
     <ManifestKeyFile>ObservatoryCenter_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -145,6 +144,7 @@
     </Compile>
     <Compile Include="MaximControls.cs" />
     <Compile Include="ObservatoryControls.cs" />
+    <Compile Include="ObservatoryControls_switch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsForm.cs">
@@ -173,6 +173,7 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram1.cd" />
     <None Include="ObservatoryCenter_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -206,7 +207,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="changelog.txt" />
-    <Content Include="logo_48_blue.ico" />
+    <None Include="Resources\logo_observ3.ico" />
+    <None Include="Resources\logo_observ2.ico" />
+    <None Include="Resources\logo_observ1.ico" />
+    <None Include="Resources\logo_observ.ico" />
     <None Include="Resources\logo_observ1.png" />
     <None Include="Resources\logo_48_blue.ico" />
     <None Include="Resources\logo.png" />
