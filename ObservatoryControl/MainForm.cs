@@ -132,13 +132,15 @@ namespace ObservatoryCenter
         /// </summary>
         private void mainTimer_Tick(object sender, EventArgs e)
         {
-            UpdateCCDCameraFieldsStatus();
-            UpdateGuiderFieldsStatus();
             UpdatePowerButtonsStatus();
             UpdateStatusbarASCOMStatus();
             UpdateTelescopeStatus();
             UpdateRoofPicture();
             UpdateSettingsTabStatusFileds();
+
+            UpdateCCDCameraFieldsStatus();
+            UpdateGuiderFieldsStatus();
+
         }
 
         /// <summary>
@@ -538,14 +540,15 @@ namespace ObservatoryCenter
             if (ObsControl.MaximObj.CCDCamera != null)
             {
                 txtSet_Maxim_Camera1.Text =  ObsControl.MaximObj.CCDCamera.CameraName;
-                if (ObsControl.MaximObj.CCDCamera.LinkEnabled)
-                {
-                    txtSet_Maxim_Camera1.BackColor = OnColor;
-                }
-                else
-                {
-                    txtSet_Telescope.BackColor = SystemColors.Control;
-                }
+                txtSet_Maxim_Camera1.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor:SystemColors.Control);
+
+                txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
+                txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+
+                txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
+                txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+            
+            
             }
             else
             {

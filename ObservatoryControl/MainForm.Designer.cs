@@ -39,14 +39,8 @@
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.btnSettings = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.txtSet_Maxim_Dome = new System.Windows.Forms.TextBox();
-            this.txtSet_Maxim_Focuser = new System.Windows.Forms.TextBox();
-            this.txtSet_Maxim_Telescope = new System.Windows.Forms.TextBox();
             this.txtSet_Maxim_Camera2 = new System.Windows.Forms.TextBox();
             this.txtSet_Maxim_Camera1 = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -227,7 +221,7 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(4, 4);
+            this.btnSettings.Location = new System.Drawing.Point(479, 13);
             this.btnSettings.Margin = new System.Windows.Forms.Padding(4);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(205, 76);
@@ -238,48 +232,18 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.txtSet_Maxim_Dome);
-            this.groupBox6.Controls.Add(this.txtSet_Maxim_Focuser);
-            this.groupBox6.Controls.Add(this.txtSet_Maxim_Telescope);
             this.groupBox6.Controls.Add(this.txtSet_Maxim_Camera2);
             this.groupBox6.Controls.Add(this.txtSet_Maxim_Camera1);
-            this.groupBox6.Controls.Add(this.label18);
-            this.groupBox6.Controls.Add(this.label17);
-            this.groupBox6.Controls.Add(this.label14);
             this.groupBox6.Controls.Add(this.label15);
             this.groupBox6.Controls.Add(this.label16);
-            this.groupBox6.Location = new System.Drawing.Point(239, 140);
+            this.groupBox6.Location = new System.Drawing.Point(8, 128);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox6.Size = new System.Drawing.Size(445, 189);
+            this.groupBox6.Size = new System.Drawing.Size(445, 92);
             this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Maxim";
-            // 
-            // txtSet_Maxim_Dome
-            // 
-            this.txtSet_Maxim_Dome.Location = new System.Drawing.Point(129, 142);
-            this.txtSet_Maxim_Dome.Name = "txtSet_Maxim_Dome";
-            this.txtSet_Maxim_Dome.ReadOnly = true;
-            this.txtSet_Maxim_Dome.Size = new System.Drawing.Size(296, 22);
-            this.txtSet_Maxim_Dome.TabIndex = 7;
-            // 
-            // txtSet_Maxim_Focuser
-            // 
-            this.txtSet_Maxim_Focuser.Location = new System.Drawing.Point(129, 112);
-            this.txtSet_Maxim_Focuser.Name = "txtSet_Maxim_Focuser";
-            this.txtSet_Maxim_Focuser.ReadOnly = true;
-            this.txtSet_Maxim_Focuser.Size = new System.Drawing.Size(296, 22);
-            this.txtSet_Maxim_Focuser.TabIndex = 7;
-            // 
-            // txtSet_Maxim_Telescope
-            // 
-            this.txtSet_Maxim_Telescope.Location = new System.Drawing.Point(129, 82);
-            this.txtSet_Maxim_Telescope.Name = "txtSet_Maxim_Telescope";
-            this.txtSet_Maxim_Telescope.ReadOnly = true;
-            this.txtSet_Maxim_Telescope.Size = new System.Drawing.Size(296, 22);
-            this.txtSet_Maxim_Telescope.TabIndex = 7;
             // 
             // txtSet_Maxim_Camera2
             // 
@@ -296,36 +260,6 @@
             this.txtSet_Maxim_Camera1.ReadOnly = true;
             this.txtSet_Maxim_Camera1.Size = new System.Drawing.Size(296, 22);
             this.txtSet_Maxim_Camera1.TabIndex = 7;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(15, 145);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(45, 17);
-            this.label18.TabIndex = 6;
-            this.label18.Text = "Dome";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(15, 115);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(59, 17);
-            this.label17.TabIndex = 6;
-            this.label17.Text = "Focuser";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(15, 85);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(74, 17);
-            this.label14.TabIndex = 6;
-            this.label14.Text = "Telescope";
             // 
             // label15
             // 
@@ -355,7 +289,7 @@
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Location = new System.Drawing.Point(239, 4);
+            this.groupBox4.Location = new System.Drawing.Point(8, 4);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1217,14 +1151,8 @@
         private System.Windows.Forms.TextBox txtFilterName;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.TextBox txtSet_Maxim_Dome;
-        private System.Windows.Forms.TextBox txtSet_Maxim_Focuser;
-        private System.Windows.Forms.TextBox txtSet_Maxim_Telescope;
         private System.Windows.Forms.TextBox txtSet_Maxim_Camera2;
         private System.Windows.Forms.TextBox txtSet_Maxim_Camera1;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox4;
