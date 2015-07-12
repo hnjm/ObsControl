@@ -85,6 +85,18 @@ namespace ObservatoryCenter
                     ParentMainForm.ObsControl.objSwitch = new ASCOM.DriverAccess.Switch(ParentMainForm.ObsControl.SWITCH_DRIVER_NAME);
                 }
 
+                if (txtDomeDriverId.Text != ParentMainForm.ObsControl.DOME_DRIVER_NAME)
+                {
+                    ParentMainForm.ObsControl.DOME_DRIVER_NAME = txtDomeDriverId.Text;
+                    ParentMainForm.ObsControl.objDome = new ASCOM.DriverAccess.Dome(ParentMainForm.ObsControl.DOME_DRIVER_NAME);
+                }
+
+                if (txtTelescopeDriverId.Text != ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME)
+                {
+                    ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
+                    ParentMainForm.ObsControl.objTelescope = new ASCOM.DriverAccess.Telescope(ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME);
+                }
+
                 //reset automatic duration count if duration was manually changed
                 if (TempRoofDuration != ParentMainForm.RoofDuration) { Properties.Settings.Default.RoofDurationMeasurementsCount = 1; } 
 
@@ -140,6 +152,8 @@ namespace ObservatoryCenter
 
         private void btnConnectSwitchSettings_Click(object sender, EventArgs e)
         {
+            ParentMainForm.ObsControl.SWITCH_DRIVER_NAME = txtSwitchDriverId.Text;
+            ParentMainForm.ObsControl.objSwitch = null;
             ParentMainForm.ObsControl.connectSwitch = true;
             ParentMainForm.CheckPowerSwitchStatusWrapper();
         }
@@ -157,14 +171,18 @@ namespace ObservatoryCenter
 
         private void btnConnectTelescopeSettings_Click(object sender, EventArgs e)
         {
+            ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
+            ParentMainForm.ObsControl.objTelescope = null;
             ParentMainForm.ObsControl.connectMount = true;
         }
 
         private void btnConnectDomeSettings_Click(object sender, EventArgs e)
         {
+            ParentMainForm.ObsControl.DOME_DRIVER_NAME = txtDomeDriverId.Text;
+            ParentMainForm.ObsControl.objDome = null;
             ParentMainForm.ObsControl.connectDome = true;
-        }       
-   
+        }
+ 
 
     }
 }

@@ -12,10 +12,10 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>d:\deploy\</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>ftp://srv025.infobox.ru/htdocs/Symfony2/web/obscontrol_soft/</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,13 +23,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
+    <InstallUrl>http://astromania.info/obscontrol_soft/obscontrolinstall.htm/</InstallUrl>
     <UpdateUrl>http://astromania.info/obscontrol_soft/</UpdateUrl>
     <SupportUrl>http://astromania.info</SupportUrl>
     <ProductName>Observatory Control</ProductName>
     <PublisherName>Astromania.info</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -130,6 +132,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs" />
     <Compile Include="CCDAPParser.cs" />
     <Compile Include="CommandInterpretator.cs" />
     <Compile Include="Logging.cs" />

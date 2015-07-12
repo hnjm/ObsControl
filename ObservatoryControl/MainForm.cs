@@ -78,6 +78,7 @@ namespace ObservatoryCenter
             //Dump log, because interface may hang wating for connection
             Logging.DumpToFile();
 
+
             //Connect Devices, which are general adapters (no need to power or control something)
             try
             {
@@ -124,6 +125,11 @@ namespace ObservatoryCenter
             
             //init vars
             DrawTelescopeV(panelTelescopeV);
+
+            //Init versiondata static class
+            VersionData.initVersionData();
+            //Display about information
+            LoadAboutData();
         }
 
 
@@ -153,6 +159,19 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
+        /// Timer to work with log information (save it, display, etc)
+        /// </summary>
+        private void logRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            //add line to richtextbox
+            Logging.AppendText(txtLog,LogLevel.Activity);
+
+            //write to file
+            Logging.DumpToFile();
+        }    
+        
+        
+        /// <summary>
         /// Wrapper to call check power switch status on separate thread
         /// </summary>
         public void CheckPowerSwitchStatusWrapper()
@@ -173,6 +192,16 @@ namespace ObservatoryCenter
                 }
             }
         }
+       
+        /// <summary>
+        /// Thread for socket server
+        /// </summary>
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            SocketServer.ListenSocket();
+        }
+
+
 
 // Block with update elements
 #region ///// Update visual elements (Status bar, telescope, etc) /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -713,7 +742,8 @@ namespace ObservatoryCenter
 #endregion Autorun procedures
 //End of autorun procedures block
 
-
+// Settings block
+#region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnSettings_Click(object sender, EventArgs e)
         {
             SetForm.ShowDialog();
@@ -762,32 +792,14 @@ namespace ObservatoryCenter
                 Logging.AddLog(FullMessage, LogLevel.Critical, Highlight.Error);
             }
             Logging.AddLog("Saved parameters loaded", LogLevel.Activity);
-
-
         }
+#endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
+// End of settings block
 
 
-        /// <summary>
-        /// Thread for socket server
-        /// </summary>
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            SocketServer.ListenSocket();
-        }
 
-        /// <summary>
-        /// Timer to work with log information (save it, display, etc)
-        /// </summary>
-        private void logRefreshTimer_Tick(object sender, EventArgs e)
-        {
-            //add line to richtextbox
-            Logging.AppendText(txtLog,LogLevel.Activity);
 
-            //write to file
-            Logging.DumpToFile();
-        }
-        
-
+// Telescope routines
 #region //// Telescope routines //////////////////////////////////////
 
         private void btnConnectTelescope_Click(object sender, EventArgs e)
@@ -809,7 +821,7 @@ namespace ObservatoryCenter
         }
 
 #endregion Telescope routines
-
+// End of telescope routines
 
 #region //// Status bar events handling //////////////////////////////////////
         private void toolStripStatus_Switch_DoubleClick(object sender, EventArgs e)
@@ -839,6 +851,28 @@ namespace ObservatoryCenter
         }
 #endregion Status bar event handling
 
+#region //// About information //////////////////////////////////////
+        private void LoadAboutData()   
+        {
+            lblVersion.Text += "Publish version: " + VersionData.PublishVersionSt;
+            lblVersion.Text += Environment.NewLine + "Assembly version: " + VersionData.AssemblyVersionSt;
+            lblVersion.Text += Environment.NewLine + "File version: " + VersionData.FileVersionSt;
+            //lblVersion.Text += Environment.NewLine + "Product version " + ProductVersionSt;
+          
+            //MessageBox.Show("Application " + assemName.Name + ", Version " + ver.ToString());
+            lblVersion.Text += Environment.NewLine+"Compile time: "+VersionData.CompileTime.ToString("yyyy-MM-dd HH:mm:ss");
 
+            // Add link
+            LinkLabel.Link link = new LinkLabel.Link();
+            link.LinkData = "http://www.astromania.info/";
+            linkAstromania.Links.Add(link);
+        }
+        
+        private void linkAstromania_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+        }
+
+#endregion About information
     }
 }
