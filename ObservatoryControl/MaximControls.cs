@@ -18,6 +18,12 @@ namespace ObservatoryCenter
 
         public double CameraSetTemp = -30;
 
+        public bool GuiderRunnig = false;
+        public bool GuiderNewMeasurements = false;
+        public double GuiderXError=0.0, GuiderYError = 0.0;
+
+
+
         public MaximControls(MainForm MF)
         {
             MainForm ParentMainForm = MF;

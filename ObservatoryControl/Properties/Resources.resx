@@ -124,9 +124,6 @@
   <data name="logo_observ" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_observ.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="logo_observ1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\logo_observ1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="logo_observ11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_observ1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

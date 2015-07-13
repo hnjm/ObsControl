@@ -14,7 +14,10 @@ to do:
 - web platform for remote control
 - maxim tracking data parsing
 
-0.4.2 [13.07.15]
+0.4.3 [13.07.15]
+- some guider information
+
+0.4.2 [12.07.15]
 - settings driver change correct handling
 - settings connect press correct handling
 - about information

@@ -421,8 +421,26 @@ namespace ObservatoryCenter
 
             if (testCamera)
             {
-                btnGuider.Text = (ObsControl.MaximObj.CCDCamera.GuiderRunning ? "Guider running" : "Guider stoped");
-                btnGuider.BackColor = (ObsControl.MaximObj.CCDCamera.GuiderRunning ? OnColor : OffColor);
+                ObsControl.MaximObj.GuiderRunnig = ObsControl.MaximObj.CCDCamera.GuiderRunning;
+
+                btnGuider.Text = (ObsControl.MaximObj.GuiderRunnig ? "Guider running" : "Guider stoped");
+                btnGuider.BackColor = (ObsControl.MaximObj.GuiderRunnig ? OnColor : OffColor);
+
+                txtGuider_AggX.Text = Convert.ToString(ObsControl.MaximObj.CCDCamera.GuiderAggressivenessX);
+                txtGuider_AggY.Text = Convert.ToString(ObsControl.MaximObj.CCDCamera.GuiderAggressivenessY);
+
+                txtGuiderExposure.Text = Convert.ToString(ObsControl.MaximObj.CCDCamera.GuiderAngle); //for now
+                txtGuiderLastErrSt.Text=ObsControl.MaximObj.CCDCamera.LastGuiderError;
+
+                if (ObsControl.MaximObj.CCDCamera.GuiderNewMeasurement)
+                {
+                    ObsControl.MaximObj.GuiderXError=ObsControl.MaximObj.CCDCamera.GuiderXError;
+                    ObsControl.MaximObj.GuiderYError = ObsControl.MaximObj.CCDCamera.GuiderYError;
+
+                    string ErrTxt = String.Format("{0:0.00}  {1:0.00}" + Environment.NewLine, ObsControl.MaximObj.GuiderXError, ObsControl.MaximObj.GuiderYError);
+                    txtGuiderError.AppendText(ErrTxt);
+                }
+
             }
             else
             {
@@ -574,11 +592,9 @@ namespace ObservatoryCenter
                 txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
                 txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
 
-                txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
-                txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
-            
-            
-            }
+                //txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
+                //txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+             }
             else
             {
                 txtSet_Maxim_Camera1.Text =  "";
@@ -591,8 +607,6 @@ namespace ObservatoryCenter
 
 
         }
-
-
 #endregion update visual elements
 // end of block
 
@@ -796,9 +810,6 @@ namespace ObservatoryCenter
 #endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
 // End of settings block
 
-
-
-
 // Telescope routines
 #region //// Telescope routines //////////////////////////////////////
 
@@ -874,5 +885,10 @@ namespace ObservatoryCenter
         }
 
 #endregion About information
+
+        private void btnGuider_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

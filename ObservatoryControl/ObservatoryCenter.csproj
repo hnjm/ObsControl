@@ -24,14 +24,13 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
     <InstallUrl>http://astromania.info/obscontrol_soft/</InstallUrl>
-    <UpdateUrl>http://astromania.info/obscontrol_soft/</UpdateUrl>
     <SupportUrl>http://astromania.info</SupportUrl>
     <ProductName>Observatory Control</ProductName>
     <PublisherName>Astromania.info</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -60,14 +59,13 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <StartupObject>ObservatoryCenter.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\logo_observ2.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>3D8F534BDD9E83C241DE163301E625BDA96E38EE</ManifestCertificateThumbprint>
@@ -83,6 +81,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>Internet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ASCOM.Astrometry, Version=6.0.0.0, Culture=neutral, PublicKeyToken=565de7938946fba7, processorArchitecture=MSIL">
@@ -210,8 +211,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="changelog.txt" />
-    <None Include="Resources\logo_observ3.ico" />
     <None Include="Resources\logo_observ2.ico" />
+    <None Include="Resources\logo_observ2.png" />
+    <None Include="Resources\logo_observ3.ico" />
     <None Include="Resources\logo_observ1.ico" />
     <None Include="Resources\logo_observ.ico" />
     <None Include="Resources\logo_observ1.png" />
