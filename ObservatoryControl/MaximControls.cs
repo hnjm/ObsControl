@@ -179,7 +179,7 @@ namespace ObservatoryCenter
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try{
                 getTemp = CCDCamera.Temperature;
-                Logging.AddLog("Camera temp is " + getTemp + " deg", LogLevel.Critical);
+                //Logging.AddLog("Camera temp is " + getTemp + " deg", LogLevel.Critical);
             }
             catch(Exception ex)
             {

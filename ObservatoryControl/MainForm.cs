@@ -389,10 +389,10 @@ namespace ObservatoryCenter
                 {
                     txtFilterName.Text = "";
                 }
-                
-                txtCameraTemp.Text = ObsControl.MaximObj.GetCameraTemp().ToString();
-                txtCameraSetPoint.Text = ObsControl.MaximObj.CameraSetTemp.ToString();
-                txtCameraCoolerPower.Text = ObsControl.MaximObj.GetCoolerPower().ToString();
+
+                txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.MaximObj.GetCameraTemp());
+                txtCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.MaximObj.CameraSetTemp);
+                txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.MaximObj.GetCoolerPower());
                 txtCameraStatus.Text = ObsControl.MaximObj.GetCameraStatus();
 
                 txtCameraName.BackColor = OnColor;
