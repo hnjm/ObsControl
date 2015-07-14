@@ -409,7 +409,9 @@ namespace ObservatoryCenter
             }
         }
 
-
+        /// <summary>
+        /// Update guider status fields
+        /// </summary>
         private void UpdateGuiderFieldsStatus()
         {
             bool testCamera = false;
@@ -438,7 +440,11 @@ namespace ObservatoryCenter
                     ObsControl.MaximObj.GuiderYError = ObsControl.MaximObj.CCDCamera.GuiderYError;
 
                     string ErrTxt = String.Format("{0:0.00}  {1:0.00}" + Environment.NewLine, ObsControl.MaximObj.GuiderXError, ObsControl.MaximObj.GuiderYError);
-                    txtGuiderError.AppendText(ErrTxt);
+                    //if (txtGuiderError.Lines.Count() > 4)
+                    //{
+                    //    Array.Resize<String>(ref txtGuiderError.Lines,4);
+                    //    txtGuiderError.AppendText(ErrTxt);
+                    //}
                 }
 
             }

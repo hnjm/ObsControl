@@ -109,6 +109,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.txtGuiderExposure = new System.Windows.Forms.TextBox();
+            this.txtGuiderLastErrSt = new System.Windows.Forms.TextBox();
             this.txtGuider_AggY = new System.Windows.Forms.TextBox();
             this.txtGuider_AggX = new System.Windows.Forms.TextBox();
             this.btnGuider = new System.Windows.Forms.Button();
@@ -129,7 +130,6 @@
             this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
             this.mainTimer2 = new System.Windows.Forms.Timer(this.components);
-            this.txtGuiderLastErrSt = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
@@ -829,7 +829,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(122, 41);
+            this.label12.Location = new System.Drawing.Point(137, 41);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(22, 13);
             this.label12.TabIndex = 2;
@@ -864,11 +864,11 @@
             // txtCameraBinMode
             // 
             this.txtCameraBinMode.BackColor = System.Drawing.Color.Tomato;
-            this.txtCameraBinMode.Location = new System.Drawing.Point(149, 38);
+            this.txtCameraBinMode.Location = new System.Drawing.Point(164, 38);
             this.txtCameraBinMode.Margin = new System.Windows.Forms.Padding(2);
             this.txtCameraBinMode.Name = "txtCameraBinMode";
             this.txtCameraBinMode.ReadOnly = true;
-            this.txtCameraBinMode.Size = new System.Drawing.Size(52, 20);
+            this.txtCameraBinMode.Size = new System.Drawing.Size(37, 20);
             this.txtCameraBinMode.TabIndex = 0;
             // 
             // txtFilterName
@@ -878,7 +878,7 @@
             this.txtFilterName.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilterName.Name = "txtFilterName";
             this.txtFilterName.ReadOnly = true;
-            this.txtFilterName.Size = new System.Drawing.Size(49, 20);
+            this.txtFilterName.Size = new System.Drawing.Size(76, 20);
             this.txtFilterName.TabIndex = 0;
             // 
             // txtCameraName
@@ -951,6 +951,14 @@
             this.txtGuiderExposure.Name = "txtGuiderExposure";
             this.txtGuiderExposure.Size = new System.Drawing.Size(32, 20);
             this.txtGuiderExposure.TabIndex = 1;
+            // 
+            // txtGuiderLastErrSt
+            // 
+            this.txtGuiderLastErrSt.Location = new System.Drawing.Point(189, 21);
+            this.txtGuiderLastErrSt.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGuiderLastErrSt.Name = "txtGuiderLastErrSt";
+            this.txtGuiderLastErrSt.Size = new System.Drawing.Size(135, 20);
+            this.txtGuiderLastErrSt.TabIndex = 1;
             // 
             // txtGuider_AggY
             // 
@@ -1145,14 +1153,6 @@
             this.mainTimer2.Enabled = true;
             this.mainTimer2.Interval = 5000;
             this.mainTimer2.Tick += new System.EventHandler(this.mainTimer2_Tick);
-            // 
-            // txtGuiderLastErrSt
-            // 
-            this.txtGuiderLastErrSt.Location = new System.Drawing.Point(189, 21);
-            this.txtGuiderLastErrSt.Margin = new System.Windows.Forms.Padding(2);
-            this.txtGuiderLastErrSt.Name = "txtGuiderLastErrSt";
-            this.txtGuiderLastErrSt.Size = new System.Drawing.Size(135, 20);
-            this.txtGuiderLastErrSt.TabIndex = 1;
             // 
             // MainForm
             // 
