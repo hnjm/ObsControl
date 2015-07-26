@@ -166,7 +166,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Dome_connected_flag = false;
-                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " dome", LogLevel.Critical, Highlight.Error);
                     Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
 

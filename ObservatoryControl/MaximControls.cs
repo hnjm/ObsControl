@@ -23,7 +23,6 @@ namespace ObservatoryCenter
         public double GuiderXError=0.0, GuiderYError = 0.0;
 
 
-
         public MaximControls(MainForm MF)
         {
             MainForm ParentMainForm = MF;
@@ -40,14 +39,17 @@ namespace ObservatoryCenter
             return "MaximDL started";
         }
 
-
+        /// <summary>
+        /// Connect cameras in MaximDL
+        /// </summary>
+        /// <returns></returns>
         public string ConnectCamera()
         {
-            if (CCDCamera==null) CCDCamera = new MaxIm.CCDCamera();
+            //if (CCDCamera==null) CCDCamera = new MaxIm.CCDCamera();
             try
             {
                 CCDCamera.LinkEnabled = true;
-                Logging.AddLog("Camera connected",0);
+                Logging.AddLog("MaximDL camera connected",0);
                 Thread.Sleep(1000);
                 return "Camera connected";
             }
@@ -74,6 +76,10 @@ namespace ObservatoryCenter
             }
         }
 
+        /// <summary>
+        /// Connect telescope in MaximDL
+        /// </summary>
+        /// <returns></returns>
         public string ConnectTelescope()
         {
             if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
@@ -107,6 +113,10 @@ namespace ObservatoryCenter
             }
         }
 
+        /// <summary>
+        /// Connect focuser in MaximDL
+        /// </summary>
+        /// <returns></returns>
         public string ConnectFocuser()
         {
             if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
@@ -139,9 +149,15 @@ namespace ObservatoryCenter
             }
         }
 
+
+        /// <summary>
+        /// Set main camera cooling temperature
+        /// </summary>
+        /// <returns></returns>
         public string SetCameraCooling()
         {
             CameraSetTemp = -30.0;
+
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try
             {
