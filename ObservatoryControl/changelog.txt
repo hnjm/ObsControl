@@ -3,16 +3,21 @@ Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
 to do:
-- parsing CCDAP activity and send it to server
+- separate threads for starting  programs with realtime info displaying into log 
 - reading data from weatherstation
-- check internet connection (ping) during startup
 - ip cameras displaying
+- parsing CCDAP activity and send it to server
+- check internet connection (ping) during startup
 - web cameras displaying
 - communicating with watchdog on router
 - ability to detect unhandle shutdown at startup and park observatory
 - network command reading and responding
 - web platform for remote control
 - maxim tracking data parsing
+
+
+0.4.4 [02.08.15]
+- some optimization
 
 0.4.3 [13.07.15]
 - some guider information

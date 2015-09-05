@@ -356,6 +356,7 @@ namespace ObservatoryCenter
 
         public double CalcRecommendedCoolerTemp()
         {
+            return -20.0;
         }
 
     }
