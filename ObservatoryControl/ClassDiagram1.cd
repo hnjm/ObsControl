@@ -17,7 +17,7 @@
   <Class Name="ObservatoryCenter.Logging" Collapsed="true">
     <Position X="9.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAACAAAAAQAAAAAAAAAoAAIAAAAMCAAAIAA=</HashCode>
+      <HashCode>AAAAABAAgAACAAAAAQAAAAAAAAAoAAIAAAAMCAAAIAA=</HashCode>
       <FileName>Logging.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -28,14 +28,14 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>cwaRnjKXuCATqF9P/jTIAEk+ABsBoUSJlGfIl/B2RI0=</HashCode>
+      <HashCode>/waRnjL3uCATqF9P/j3IQEk+ABvAoUbJhGfIl/N2TL0=</HashCode>
       <FileName>MainForm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.MaximControls" Collapsed="true">
     <Position X="7" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CwCgIAAABAAACCAAAAAAAAAAABAAAAAAAAgSAAAAAMA=</HashCode>
+      <HashCode>CwCgIAAABAAACCAAAAAAAkAAABEAAAAAAAgSAAAAAMA=</HashCode>
       <FileName>MaximControls.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -43,10 +43,10 @@
     <Position X="3.25" Y="0.5" Width="2.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>J4BiACAhuIASgAkAcAA8AJgABEggEAAAcKpBAABQyAE=</HashCode>
+      <HashCode>J4BKBCAxsKARAAkAcAC8gJsABEgkkAACcKpFAABQyAA=</HashCode>
       <FileName>ObservatoryControls.cs</FileName>
     </TypeIdentifier>
   </Class>

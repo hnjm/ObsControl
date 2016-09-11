@@ -775,6 +775,8 @@ namespace ObservatoryCenter
         {
             ObsControl.StartMaximDLroutines();
         }
+
+
 #endregion Autorun procedures
 //End of autorun procedures block
 

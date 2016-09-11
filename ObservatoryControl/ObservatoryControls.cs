@@ -240,6 +240,12 @@ namespace ObservatoryCenter
 
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
         }
-    
+
+        public double CalcRecommendedCoolerTemp()
+        {
+            return -20.0;
+        }
+
     }
+
 }
