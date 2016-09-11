@@ -34,7 +34,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception ex)
                 {
-                    Logging.AddLog("Unhandled exception: " + ex.Message, LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Unhandled exception: " + ex.Message, LogLevel.Important, Highlight.Error);
                     Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                     MessageBox.Show("Unhandled exception: " + ex.ToString());
                 }

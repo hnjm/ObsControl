@@ -63,7 +63,7 @@ namespace ObservatoryCenter
             }
             catch (Exception Ex)
             {
-                Logging.AddLog("Server connection errror [" + Ex.Message+"]",0,Highlight.Error);
+                Logging.AddLog("Server connection errror [" + Ex.Message+"]",LogLevel.Debug,Highlight.Error);
             }
         }
 
@@ -89,19 +89,19 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
-        /// Method for connecting to socket server as a client 
+        /// Static method for connecting to socket server as a client 
         /// not very good place for a such method, but...
         /// </summary>
-        public string MakeClientConnectionToServer(IPAddress ipAddr, Int32 port, string message)
+        public static string MakeClientConnectionToServer(IPAddress ipAddr, Int32 port, string message, out int ErrorCode)
         {
             // Буфер для входящих данных
             byte[] bytes = new byte[1024];
-            
+
             // Устанавливаем удаленную точку для сокета
             //IPAddress ipAddr = Dns.GetHostEntry("localhost").AddressList[0];
             //IPAddress localAddr = IPAddress.Parse("127.0.0.1"); 
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
-            
+
             Socket sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             try
@@ -129,6 +129,8 @@ namespace ObservatoryCenter
                 // Освобождаем сокет
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
+
+                ErrorCode = 0;
                 return responseMess;
             }
             catch (Exception Ex)
@@ -148,9 +150,10 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, LogLevel.Critical, Highlight.Error);
-                Logging.AddLog(FullMessage,LogLevel.Debug,Highlight.Error);
-                return "!!!Socket connection failed";
+                Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                ErrorCode = -1;
+                return "Socket connection failed";
             }
         }
 
@@ -243,7 +246,7 @@ namespace ObservatoryCenter
                     }
                     else
                     {
-                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "Unknown command [" + cmd + "]", LogLevel.Critical, Highlight.Error);
+                        Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "Unknown command [" + cmd + "]", LogLevel.Important, Highlight.Error);
                         msg = "Unknown command [" + cmd + "]";
                     }
                     break;

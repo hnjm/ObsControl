@@ -83,6 +83,15 @@
             this.btnStopRoof = new System.Windows.Forms.Button();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkPHDBroker = new System.Windows.Forms.LinkLabel();
+            this.linkTelescopeTempControl = new System.Windows.Forms.LinkLabel();
+            this.linkTest = new System.Windows.Forms.LinkLabel();
+            this.linkWeatherStation = new System.Windows.Forms.LinkLabel();
+            this.linkFocusMax = new System.Windows.Forms.LinkLabel();
+            this.linkCdC = new System.Windows.Forms.LinkLabel();
+            this.linkPHD2 = new System.Windows.Forms.LinkLabel();
+            this.linkCCDAP = new System.Windows.Forms.LinkLabel();
+            this.linkMaximDL = new System.Windows.Forms.LinkLabel();
             this.btnBeforeImaging = new System.Windows.Forms.Button();
             this.btnMaximStart = new System.Windows.Forms.Button();
             this.mainTimer = new System.Windows.Forms.Timer(this.components);
@@ -693,6 +702,15 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.linkPHDBroker);
+            this.groupBox2.Controls.Add(this.linkTelescopeTempControl);
+            this.groupBox2.Controls.Add(this.linkTest);
+            this.groupBox2.Controls.Add(this.linkWeatherStation);
+            this.groupBox2.Controls.Add(this.linkFocusMax);
+            this.groupBox2.Controls.Add(this.linkCdC);
+            this.groupBox2.Controls.Add(this.linkPHD2);
+            this.groupBox2.Controls.Add(this.linkCCDAP);
+            this.groupBox2.Controls.Add(this.linkMaximDL);
             this.groupBox2.Controls.Add(this.btnBeforeImaging);
             this.groupBox2.Controls.Add(this.btnMaximStart);
             this.groupBox2.Controls.Add(this.btnStartAll);
@@ -702,6 +720,99 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Scenarios";
+            // 
+            // linkPHDBroker
+            // 
+            this.linkPHDBroker.AutoSize = true;
+            this.linkPHDBroker.Location = new System.Drawing.Point(54, 140);
+            this.linkPHDBroker.Name = "linkPHDBroker";
+            this.linkPHDBroker.Size = new System.Drawing.Size(61, 13);
+            this.linkPHDBroker.TabIndex = 4;
+            this.linkPHDBroker.TabStop = true;
+            this.linkPHDBroker.Text = "PHDBroker";
+            // 
+            // linkTelescopeTempControl
+            // 
+            this.linkTelescopeTempControl.AutoSize = true;
+            this.linkTelescopeTempControl.Location = new System.Drawing.Point(93, 164);
+            this.linkTelescopeTempControl.Name = "linkTelescopeTempControl";
+            this.linkTelescopeTempControl.Size = new System.Drawing.Size(117, 13);
+            this.linkTelescopeTempControl.TabIndex = 4;
+            this.linkTelescopeTempControl.TabStop = true;
+            this.linkTelescopeTempControl.Text = "TelescopeTempControl";
+            // 
+            // linkTest
+            // 
+            this.linkTest.AutoSize = true;
+            this.linkTest.Location = new System.Drawing.Point(6, 186);
+            this.linkTest.Name = "linkTest";
+            this.linkTest.Size = new System.Drawing.Size(28, 13);
+            this.linkTest.TabIndex = 4;
+            this.linkTest.TabStop = true;
+            this.linkTest.Text = "Test";
+            this.linkTest.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTest_LinkClicked);
+            // 
+            // linkWeatherStation
+            // 
+            this.linkWeatherStation.AutoSize = true;
+            this.linkWeatherStation.Location = new System.Drawing.Point(6, 164);
+            this.linkWeatherStation.Name = "linkWeatherStation";
+            this.linkWeatherStation.Size = new System.Drawing.Size(81, 13);
+            this.linkWeatherStation.TabIndex = 4;
+            this.linkWeatherStation.TabStop = true;
+            this.linkWeatherStation.Text = "WeatherStation";
+            // 
+            // linkFocusMax
+            // 
+            this.linkFocusMax.AutoSize = true;
+            this.linkFocusMax.Location = new System.Drawing.Point(121, 140);
+            this.linkFocusMax.Name = "linkFocusMax";
+            this.linkFocusMax.Size = new System.Drawing.Size(56, 13);
+            this.linkFocusMax.TabIndex = 4;
+            this.linkFocusMax.TabStop = true;
+            this.linkFocusMax.Text = "FocusMax";
+            // 
+            // linkCdC
+            // 
+            this.linkCdC.AutoSize = true;
+            this.linkCdC.Location = new System.Drawing.Point(107, 117);
+            this.linkCdC.Name = "linkCdC";
+            this.linkCdC.Size = new System.Drawing.Size(27, 13);
+            this.linkCdC.TabIndex = 4;
+            this.linkCdC.TabStop = true;
+            this.linkCdC.Text = "CdC";
+            this.linkCdC.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCdC_LinkClicked);
+            // 
+            // linkPHD2
+            // 
+            this.linkPHD2.AutoSize = true;
+            this.linkPHD2.Location = new System.Drawing.Point(63, 117);
+            this.linkPHD2.Name = "linkPHD2";
+            this.linkPHD2.Size = new System.Drawing.Size(36, 13);
+            this.linkPHD2.TabIndex = 4;
+            this.linkPHD2.TabStop = true;
+            this.linkPHD2.Text = "PHD2";
+            this.linkPHD2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkPHD2_LinkClicked);
+            // 
+            // linkCCDAP
+            // 
+            this.linkCCDAP.AutoSize = true;
+            this.linkCCDAP.Location = new System.Drawing.Point(6, 140);
+            this.linkCCDAP.Name = "linkCCDAP";
+            this.linkCCDAP.Size = new System.Drawing.Size(43, 13);
+            this.linkCCDAP.TabIndex = 4;
+            this.linkCCDAP.TabStop = true;
+            this.linkCCDAP.Text = "CCDAP";
+            // 
+            // linkMaximDL
+            // 
+            this.linkMaximDL.AutoSize = true;
+            this.linkMaximDL.Location = new System.Drawing.Point(6, 117);
+            this.linkMaximDL.Name = "linkMaximDL";
+            this.linkMaximDL.Size = new System.Drawing.Size(51, 13);
+            this.linkMaximDL.TabIndex = 4;
+            this.linkMaximDL.TabStop = true;
+            this.linkMaximDL.Text = "MaximDL";
             // 
             // btnBeforeImaging
             // 
@@ -1187,6 +1298,7 @@
             this.panel4.ResumeLayout(false);
             this.groupBoxRoof.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1302,6 +1414,15 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox txtGuiderExposure;
         private System.Windows.Forms.TextBox txtGuiderLastErrSt;
+        private System.Windows.Forms.LinkLabel linkPHDBroker;
+        private System.Windows.Forms.LinkLabel linkTelescopeTempControl;
+        private System.Windows.Forms.LinkLabel linkWeatherStation;
+        private System.Windows.Forms.LinkLabel linkFocusMax;
+        private System.Windows.Forms.LinkLabel linkCdC;
+        private System.Windows.Forms.LinkLabel linkPHD2;
+        private System.Windows.Forms.LinkLabel linkCCDAP;
+        private System.Windows.Forms.LinkLabel linkMaximDL;
+        private System.Windows.Forms.LinkLabel linkTest;
     }
 }
 

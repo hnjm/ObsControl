@@ -12,10 +12,10 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>ftp://srv025.infobox.ru/htdocs/Symfony2/web/obscontrol_soft/</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -23,14 +23,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>http://astromania.info/obscontrol_soft/</InstallUrl>
+    <UpdateUrl>http://astromania.info/obscontrol_soft/</UpdateUrl>
     <SupportUrl>http://astromania.info</SupportUrl>
     <ProductName>Observatory Control</ProductName>
     <PublisherName>Astromania.info</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -64,8 +64,7 @@
     <StartupObject>ObservatoryCenter.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\logo_observ2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>3D8F534BDD9E83C241DE163301E625BDA96E38EE</ManifestCertificateThumbprint>
@@ -77,7 +76,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>Internet</TargetZone>
@@ -120,6 +119,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -151,6 +151,7 @@
     <Compile Include="ObservatoryControls_switch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ObservatoryControls_programs.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

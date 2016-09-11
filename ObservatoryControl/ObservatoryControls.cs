@@ -24,16 +24,6 @@ namespace ObservatoryCenter
         /// </summary>
         public MainForm ParentMainForm;
 
-        public static string CdC_ProcessName = "skychart.exe";
-        public string PlanetariumPath = @"c:\Program Files (x86)\Ciel\" + CdC_ProcessName;
-        public string MaximDLPath=@"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe" ;
-        public string CCDAPPath=@"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
-        public string FocusMaxPath = @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
-
-        public Process MaximDL_Process = new Process();
-        public Process CCDAP_Process = new Process();
-        public Process CdC_Process = new Process();
-        public Process FocusMax_Process = new Process();
 
         public MaximControls MaximObj;
 
@@ -85,100 +75,6 @@ namespace ObservatoryCenter
             MaximObj = new MaximControls(ParentMainForm);
         }
 
-#region Programs Controlling  ///////////////////////////////////////////////////////////////////
-        public string startPlanetarium()
-        {
-            if (Process.GetProcessesByName(CdC_ProcessName).Length ==0)
-            {
-                try
-                {
-                    CdC_Process.StartInfo.FileName = PlanetariumPath;
-                    CdC_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                    CdC_Process.StartInfo.UseShellExecute = false;
-                    CdC_Process.StartInfo.Arguments = "--unique";
-                    CdC_Process.Start();
-                    Logging.AddLog("CdC started", 0);
-                    return "CdC started";
-                }
-                catch (Exception Ex)
-                {
-                    Logging.AddLog("CdC starting error! " + Ex.Message, 0, Highlight.Error);
-                    return "!!!CdC start failed";
-                }
-            }
-            return "CdC already started";
-        }
-
-        public string startMaximDL()
-        {
-            /*MaximDL_Process.StartInfo.FileName = MaximDLPath;
-            MaximDL_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            MaximDL_Process.StartInfo.UseShellExecute = false;
-            MaximDL_Process.Start();
-
-            MaximDL_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
-            */
-            string output=MaximObj.Init();
-            return output;
-        }
-
-        public string startCCDAP()
-        {
-            try
-            {
-                CCDAP_Process.StartInfo.FileName = CCDAPPath;
-                CCDAP_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                CCDAP_Process.StartInfo.UseShellExecute = false;
-                CCDAP_Process.Start();
-                Logging.AddLog("CCDAP started", 0);
-                return "CCDAP started";
-
-            }
-            catch (Exception Ex)
-            {
-                Logging.AddLog("CCDAP starting error! " + Ex.Message, 0, Highlight.Error);
-                return "!!!CCDAP start failed";
-            }
-        }
-
-        public string startFocusMax()
-        {
-            try
-            {
-                FocusMax_Process.StartInfo.FileName = FocusMaxPath;
-                FocusMax_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                FocusMax_Process.StartInfo.UseShellExecute = false;
-                FocusMax_Process.Start();
-
-                FocusMax_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
-                Logging.AddLog("FocusMax started", 0);
-                Thread.Sleep(1000);
-                return "FocusMax started";
-            }
-            catch (Exception ex)
-            {
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
-
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "FocusMax starting failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("FocusMax failed", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Trace, Highlight.Error);
-                return "!!!FocusMax start failed";
-
-            }
-        }
-#endregion Program controlling
 
 #region Roof control //////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
@@ -192,14 +88,14 @@ namespace ObservatoryCenter
             //Check if driver is connected
             if (Dome_connected_flag != true)
             {
-                Logging.AddLog("Dome driver isn't connected", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Dome driver isn't connected", LogLevel.Important, Highlight.Error);
                 return false;
             }
 
             //Check if power is connected
             if (Switch_connected_flag && Roof_power_flag != true)
             {
-                Logging.AddLog("Roof power switched off", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Roof power switched off", LogLevel.Important, Highlight.Error);
                 return false;
             }
             RoofRoutine_StartTime=DateTime.Now;
@@ -216,7 +112,7 @@ namespace ObservatoryCenter
             //Check if driver is connected
             if (Dome_connected_flag != true)
             {
-                Logging.AddLog("Dome driver isn't connected", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Dome driver isn't connected", LogLevel.Important, Highlight.Error);
                 return false;
             }
 
@@ -234,15 +130,6 @@ namespace ObservatoryCenter
         }
 
 #endregion Roof control end
-
-#region CdC controls /////////////////////////////////////////////////////
-        public string CdC_connectTelescope()
-        {
-            string output=ParentMainForm.SocketServer.MakeClientConnectionToServer(IPAddress.Parse("127.0.0.1"), CdC_PORT, "CONNECTTELESCOPE\r\n");
-            Logging.AddLog(output, 0);
-            return output;
-        }
-#endregion CdC controls
 
 #region Scenarios section ////////////////////////////////////////////////////////
         /// <summary>
@@ -349,7 +236,7 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", () => MaximObj.ConnectTelescope());
             CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", () => MaximObj.ConnectFocuser());
 
-            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.CdC_connectTelescope());
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.objCdCApp.ConnectTelescope());
 
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
         }

@@ -57,7 +57,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Switch_connected_flag = false;
-                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Important, Highlight.Error);
                     Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
 
@@ -80,7 +80,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Switch_connected_flag = false;
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                 }
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Switch_connected_flag, LogLevel.Trace);
                 return Switch_connected_flag;
@@ -112,7 +112,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Mount_connected_flag = false;
-                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect ") + " telescope", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect ") + " telescope", LogLevel.Important, Highlight.Error);
                     Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
                 
@@ -135,7 +135,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Mount_connected_flag = false;
-                    Logging.AddLog("Telescope get connection error! [" + ex.ToString() + "]", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Telescope get connection error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                 }
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Mount_connected_flag, LogLevel.Trace);
                 return Mount_connected_flag;
@@ -166,7 +166,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Dome_connected_flag = false;
-                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Important, Highlight.Error);
                     Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
 
@@ -189,7 +189,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Dome_connected_flag = false;
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                 }
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Dome_connected_flag, LogLevel.Trace);
                 return Dome_connected_flag;
@@ -249,7 +249,7 @@ namespace ObservatoryCenter
                         {
                             //if again exception - give up
                             val = null;
-                            Logging.AddLog("Couldn't get switch ["+PORT_NUM+"] value [" + ex2.Message + "]", LogLevel.Critical);
+                            Logging.AddLog("Couldn't get switch ["+PORT_NUM+"] value [" + ex2.Message + "]", LogLevel.Important);
                             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " exception [" + ex2.ToString() + "]", LogLevel.Debug, Highlight.Error);
                         }
                     }
@@ -262,7 +262,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     val = null;
-                    Logging.AddLog("Get "+PORT_NAME+" unknown exception [" + ex.Message + "]!", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Get "+PORT_NAME+" unknown exception [" + ex.Message + "]!", LogLevel.Important, Highlight.Error);
                     Logging.AddLog(""+PORT_NAME+" exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                 }
             }
@@ -322,7 +322,7 @@ namespace ObservatoryCenter
                         {
                             //if again exception - give up
                             retval = false;
-                            Logging.AddLog("Couldn't get switch [" + PORT_NUM + "] value [" + ex2.Message + "]", LogLevel.Critical);
+                            Logging.AddLog("Couldn't get switch [" + PORT_NUM + "] value [" + ex2.Message + "]", LogLevel.Important);
                             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " exception [" + ex2.ToString() + "]", LogLevel.Debug, Highlight.Error);
                         }
                     }
@@ -335,7 +335,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception ex)
                 {
-                    Logging.AddLog("Get " + PORT_NAME + " unknown exception [" + ex.Message + "]!", LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Get " + PORT_NAME + " unknown exception [" + ex.Message + "]!", LogLevel.Important, Highlight.Error);
                     Logging.AddLog("" + PORT_NAME + " exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                     retval = false;
                 }
@@ -406,7 +406,7 @@ namespace ObservatoryCenter
                             {
                                 //if again exception - give up
                                 val = null;
-                                Logging.AddLog("Couldn't get switch value ["+ex2.Message+"]", LogLevel.Critical);
+                                Logging.AddLog("Couldn't get switch value ["+ex2.Message+"]", LogLevel.Important);
                                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + " exception [" + ex2.ToString() + "]", LogLevel.Debug, Highlight.Error);
                             }
                         }
@@ -419,7 +419,7 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         val = null;
-                        Logging.AddLog("Get mount power unknown exception [" + ex.Message+"]!", LogLevel.Critical, Highlight.Error);
+                        Logging.AddLog("Get mount power unknown exception [" + ex.Message+"]!", LogLevel.Important, Highlight.Error);
                         Logging.AddLog("Get mount power exception: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                     }
                 }
@@ -462,7 +462,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception ex)
                 {
-                    Logging.AddLog("Set mount power exception: " + ex.Message, LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Set mount power exception: " + ex.Message, LogLevel.Important, Highlight.Error);
                     Logging.AddLog("Set mount power exception: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
                 }
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " exit", LogLevel.Trace);
@@ -483,7 +483,7 @@ namespace ObservatoryCenter
                 }
                 catch (ASCOM.NotConnectedException ex)
                 {
-                    Logging.AddLog("Get camera power exception: " + ex.Message, LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Get camera power exception: " + ex.Message, LogLevel.Important, Highlight.Error);
                     MessageBox.Show(ex.ToString());
                 }
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + val, LogLevel.Trace);
@@ -509,7 +509,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception ex)
                 {
-                    Logging.AddLog("Get focus power exception: " + ex.Message, LogLevel.Critical, Highlight.Error);
+                    Logging.AddLog("Get focus power exception: " + ex.Message, LogLevel.Important, Highlight.Error);
                     MessageBox.Show(ex.ToString());
                 }
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + val, LogLevel.Trace);

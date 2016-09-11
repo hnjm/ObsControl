@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Configuration;
 using System.Threading;
-
+using System.Configuration;
 
 using ASCOM;
 using ASCOM.DeviceInterface;
@@ -74,7 +74,11 @@ namespace ObservatoryCenter
         {
             //Load parameters
             LoadParams();
-            
+            LoadConfiguration();
+
+            //Init programs objects using loaded settings
+            ObsControl.InitProgramsObj();
+
             //Dump log, because interface may hang wating for connection
             Logging.DumpToFile();
 
@@ -87,7 +91,7 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                Logging.AddLog("Error connecting Switch on startup [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Error connecting Switch on startup [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
            }
 
@@ -97,7 +101,7 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                Logging.AddLog("Error connecting Dome on startup [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Error connecting Dome on startup [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
             }
 
@@ -147,7 +151,19 @@ namespace ObservatoryCenter
             UpdateCCDCameraFieldsStatus();
             UpdateGuiderFieldsStatus();
 
+            UpdateApplicationsStatus();
         }
+
+
+        bool MaximRunning = false;
+        bool PHDRunning = false;
+
+        private void UpdateApplicationsStatus()
+        {
+            //bool MaximRunning = ObsControl.IsProcessOpen("MaxIm_DL");
+        }
+
+
 
         /// <summary>
         /// Second main timer tick. More slower to not overload hardware
@@ -809,15 +825,52 @@ namespace ObservatoryCenter
                 string FullMessage = "Error loading params. ";
                 FullMessage += "Exception source: " + ex.Data + " | " + ex.Message + " | " + messstr;
 
-                Logging.AddLog(FullMessage, LogLevel.Critical, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Important, Highlight.Error);
             }
             Logging.AddLog("Saved parameters loaded", LogLevel.Activity);
         }
-#endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
-// End of settings block
 
-// Telescope routines
-#region //// Telescope routines //////////////////////////////////////
+
+        internal void LoadConfiguration()
+        {
+            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
+            configMap.ExeConfigFilename = @"d:\ObservatoryControl.config.cfg";
+            Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
+
+            var var1Value = config.AppSettings.Settings["Var1"].Value;
+            var var2Value = config.AppSettings.Settings["Var2"].Value;
+            //var conn1 = config.ConnectionStrings.Settings["SQLConnectionString01"];
+            //var conn2 = config.ConnectionStrings.Settings["SQLConnectionString02"];
+        }
+
+        public string getAppSetting(string key)
+        {
+            //Load AppSettings
+            Configuration config = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            return config.AppSettings.Settings[key].Value;
+        }
+
+        public void setAppSetting(string key, string value)
+        {
+            //Save AppSettings
+            Configuration config = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            //Überprüfen ob Key existiert
+            if (config.AppSettings.Settings[key] != null)
+            {
+                //Key existiert. Löschen des Keys zum "überschreiben"
+                config.AppSettings.Settings.Remove(key);
+            }
+            //Anlegen eines neuen KeyValue-Paars
+            config.AppSettings.Settings.Add(key, value);
+            //Speichern der aktualisierten AppSettings
+            config.Save(ConfigurationSaveMode.Modified);
+        }
+
+        #endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
+        // End of settings block
+
+        // Telescope routines
+        #region //// Telescope routines //////////////////////////////////////
 
         private void btnConnectTelescope_Click(object sender, EventArgs e)
         {
@@ -895,6 +948,21 @@ namespace ObservatoryCenter
         private void btnGuider_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void linkCdC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startPlanetarium();
+        }
+
+        private void linkTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.objPHD2App.ConnectEquipment();
+        }
+
+        private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startPHD2();
         }
     }
 }

@@ -127,7 +127,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog(FullMessage,LogLevel.Critical,Highlight.Error);
+                Logging.AddLog(FullMessage,LogLevel.Important,Highlight.Error);
             }
 
 

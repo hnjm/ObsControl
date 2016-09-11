@@ -32,7 +32,7 @@ namespace ObservatoryCenter
 
     public enum LogLevel
     {
-        Critical = 0,
+        Important = 0,
         Activity = 1,
         Debug = 2,
         Chat = 3,
@@ -78,7 +78,7 @@ namespace ObservatoryCenter
         /// <param name="logMessage"></param>
         /// <param name="LogLevel"></param>
         /// <param name="ColorHoghlight"></param>
-        public static void AddLog(string logMessage, LogLevel LogLevel = LogLevel.Critical, Highlight ColorHighlight = Highlight.Normal,string logProcedure="")
+        public static void AddLog(string logMessage, LogLevel LogLevel = LogLevel.Important, Highlight ColorHighlight = Highlight.Normal,string logProcedure="")
         {
             //Add to list
             LogRecord LogRec = new LogRecord();

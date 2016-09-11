@@ -68,7 +68,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Camera connection failed [" + ex.Message+"]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Camera connection failed [" + ex.Message+"]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage,LogLevel.Debug,Highlight.Error);
                 return "Camera connection failed";
             }
@@ -101,7 +101,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("MaximDL telescope connection failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("MaximDL telescope connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "MaximDL telescope connection failed ";
             }
@@ -133,7 +133,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("MaximDL focuser connection failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("MaximDL focuser connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "MaximDL focuser connection failed";
             }
@@ -167,7 +167,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "Set camera cooling failed ";
             }
@@ -198,7 +198,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Get camera temp failed [" + ex.Message+"]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Get camera temp failed [" + ex.Message+"]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return getTemp;
@@ -230,7 +230,7 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", LogLevel.Critical, Highlight.Error);
+                Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
             return getPower;
