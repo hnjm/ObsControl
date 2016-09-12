@@ -64,7 +64,9 @@ namespace ObservatoryCenter
             CheckPowerStatusThread = new Thread(ObsControl.CheckPowerDeviceStatus);
             //SetPowerStatusThread = new Thread(ObsControl.SetDeviceStatus(null,null,null,null));
 
+            Logging.AddLog("****************************************************************************************", LogLevel.Activity);
             Logging.AddLog("Observatory Center started", LogLevel.Activity);
+            Logging.AddLog("****************************************************************************************", LogLevel.Activity);
         }
 
         /// <summary>
@@ -965,6 +967,11 @@ namespace ObservatoryCenter
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startPHD2();
+        }
+
+        private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startMaximDL();
         }
     }
 }

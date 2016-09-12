@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace ObservatoryCenter
 {
-    public class MaximControls
+    public class MaximControls : ExternalApplication
     {
         public MaxIm.Application MaximApplicationObj;
         public MaxIm.CCDCamera CCDCamera;
@@ -23,7 +23,7 @@ namespace ObservatoryCenter
         public double GuiderXError=0.0, GuiderYError = 0.0;
 
 
-        public MaximControls(MainForm MF)
+        public MaximControls(MainForm MF)  : base()
         {
             MainForm ParentMainForm = MF;
         }
@@ -31,7 +31,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Run this method to ready maxim for other methods
         /// </summary>
-        public string Init()
+        public string Run()
         {
             CCDCamera = new MaxIm.CCDCamera();
             MaximApplicationObj = new MaxIm.Application();

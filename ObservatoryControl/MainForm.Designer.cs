@@ -724,6 +724,7 @@
             // linkPHDBroker
             // 
             this.linkPHDBroker.AutoSize = true;
+            this.linkPHDBroker.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.linkPHDBroker.Location = new System.Drawing.Point(54, 140);
             this.linkPHDBroker.Name = "linkPHDBroker";
             this.linkPHDBroker.Size = new System.Drawing.Size(61, 13);
@@ -734,6 +735,7 @@
             // linkTelescopeTempControl
             // 
             this.linkTelescopeTempControl.AutoSize = true;
+            this.linkTelescopeTempControl.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.linkTelescopeTempControl.Location = new System.Drawing.Point(93, 164);
             this.linkTelescopeTempControl.Name = "linkTelescopeTempControl";
             this.linkTelescopeTempControl.Size = new System.Drawing.Size(117, 13);
@@ -755,6 +757,7 @@
             // linkWeatherStation
             // 
             this.linkWeatherStation.AutoSize = true;
+            this.linkWeatherStation.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.linkWeatherStation.Location = new System.Drawing.Point(6, 164);
             this.linkWeatherStation.Name = "linkWeatherStation";
             this.linkWeatherStation.Size = new System.Drawing.Size(81, 13);
@@ -765,6 +768,7 @@
             // linkFocusMax
             // 
             this.linkFocusMax.AutoSize = true;
+            this.linkFocusMax.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.linkFocusMax.Location = new System.Drawing.Point(121, 140);
             this.linkFocusMax.Name = "linkFocusMax";
             this.linkFocusMax.Size = new System.Drawing.Size(56, 13);
@@ -797,6 +801,7 @@
             // linkCCDAP
             // 
             this.linkCCDAP.AutoSize = true;
+            this.linkCCDAP.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.linkCCDAP.Location = new System.Drawing.Point(6, 140);
             this.linkCCDAP.Name = "linkCCDAP";
             this.linkCCDAP.Size = new System.Drawing.Size(43, 13);
@@ -813,6 +818,7 @@
             this.linkMaximDL.TabIndex = 4;
             this.linkMaximDL.TabStop = true;
             this.linkMaximDL.Text = "MaximDL";
+            this.linkMaximDL.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMaximDL_LinkClicked);
             // 
             // btnBeforeImaging
             // 

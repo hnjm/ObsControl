@@ -103,6 +103,7 @@ namespace ObservatoryCenter
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
 
             Socket sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            sender.ReceiveTimeout =3000;
 
             try
             {
@@ -111,13 +112,17 @@ namespace ObservatoryCenter
                 Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), LogLevel.Activity);
 
                 // Получаем первый ответ от сервера
-                int bytesRecW = sender.Receive(bytes);
-
-                string responseMessW = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
-                Logging.AddLog("Welcome response from server: " + responseMessW, LogLevel.Chat);
+                while (sender.Available > 0)
+                {
+                    int bytesRecW = sender.Receive(bytes);
+                    string responseMessW = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
+                    Logging.AddLog("Welcome response from server: " + responseMessW, LogLevel.Chat);
+                } 
+                
 
                 // Отправляем данные через сокет
                 byte[] msg = Encoding.UTF8.GetBytes(message);
+                Logging.AddLog("Sending message: " + message, LogLevel.Chat);
                 int bytesSent = sender.Send(msg);
 
                 // Получаем ответ от сервера

@@ -16,7 +16,7 @@ namespace ObservatoryCenter
     /// <summary>
     /// Abstract class for all external application
     /// </summary>
-    public abstract class ExternatApplication
+    public abstract class ExternalApplication
     {
         public string Name = ""; //filename
         public string FullName = ""; //path to run
@@ -36,7 +36,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Constructor
         /// </summary>
-        public ExternatApplication()
+        public ExternalApplication()
         {        }
 
 
@@ -106,7 +106,7 @@ namespace ObservatoryCenter
     /// <summary>
     /// Cartes Du Ciel class
     /// </summary>
-    public class CdC_ExternatApplication : ExternatApplication
+    public class CdC_ExternatApplication : ExternalApplication
     {
         public Int32 ServerPort = 3292; //port to connect socket server
 
@@ -140,7 +140,7 @@ namespace ObservatoryCenter
     /// <summary>
     /// PHD2 class
     /// </summary>
-    public class PHD_ExternatApplication : ExternatApplication
+    public class PHD_ExternatApplication : ExternalApplication
     {
         public Int32 ServerPort = 4400; //port to connect socket server
 
@@ -149,7 +149,7 @@ namespace ObservatoryCenter
 
         public string ConnectEquipment()
         {
-            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 2}";
+            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 2}\r\n";
             string output = SocketServerClass.MakeClientConnectionToServer(IPAddress.Parse("127.0.0.1"), ServerPort, message, out Error);
             //good response: {"jsonrpc":"2.0","result":0,"id":2}
 
@@ -197,6 +197,11 @@ namespace ObservatoryCenter
             objPHD2App = new PHD_ExternatApplication();
             objPHD2App.Name = "phd2";
             objPHD2App.FullName = PHD2Path;
+
+            //MaximDL
+            objPHD2App = new PHD_ExternatApplication();
+            objPHD2App.Name = "phd2";
+            objPHD2App.FullName = PHD2Path;
         }
 
         #region Programs Controlling  ///////////////////////////////////////////////////////////////////
@@ -222,7 +227,7 @@ namespace ObservatoryCenter
 
             MaximDL_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
             */
-            string output = MaximObj.Init();
+            string output = MaximObj.Run();
             return output;
         }
 
