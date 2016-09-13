@@ -136,13 +136,21 @@ namespace ObservatoryCenter
             VersionData.initVersionData();
             //Display about information
             LoadAboutData();
+
+            //Init Log DropDown box
+            foreach (LogLevel C in Enum.GetValues(typeof(LogLevel)))
+            {
+                toolStripDropDownLogLevel.DropDownItems.Add(Enum.GetName(typeof(LogLevel),C));
+            }
+            toolStripDropDownLogLevel.Text = Enum.GetName(typeof(LogLevel), LogLevel.Activity);
+
         }
 
 
         /// <summary>
         /// Main timer tick
         /// </summary>
-        private void mainTimer_Tick(object sender, EventArgs e)
+        private void mainTimerShort_Tick(object sender, EventArgs e)
         {
             UpdatePowerButtonsStatus();
             UpdateStatusbarASCOMStatus();
@@ -162,7 +170,10 @@ namespace ObservatoryCenter
 
         private void UpdateApplicationsStatus()
         {
-            //bool MaximRunning = ObsControl.IsProcessOpen("MaxIm_DL");
+            if (ObsControl.objPHD2App.IsRunning()) { linkPHD2.LinkColor = Color.Green; } else { linkPHD2.LinkColor = Color.DeepPink; }
+            if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
+            //if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
+
         }
 
 
@@ -170,10 +181,11 @@ namespace ObservatoryCenter
         /// <summary>
         /// Second main timer tick. More slower to not overload hardware
         /// </summary>
-        private void mainTimer2_Tick(object sender, EventArgs e)
+        private void mainTimer_Long_Tick(object sender, EventArgs e)
         {
             ///check power switch status
             CheckPowerSwitchStatusWrapper();
+
         }
 
         /// <summary>
@@ -181,8 +193,16 @@ namespace ObservatoryCenter
         /// </summary>
         private void logRefreshTimer_Tick(object sender, EventArgs e)
         {
+            //Get current loglevel value
+            LogLevel CurLogLevel = LogLevel.Activity;
+            if (Enum.TryParse(toolStripDropDownLogLevel.Text, out CurLogLevel))
+            { }
+            else
+            { CurLogLevel = LogLevel.Activity; }
+
+
             //add line to richtextbox
-            Logging.AppendText(txtLog,LogLevel.Activity);
+            Logging.DisplayLogInTextBox(txtLog, CurLogLevel);
 
             //write to file
             Logging.DumpToFile();
@@ -972,6 +992,11 @@ namespace ObservatoryCenter
         private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startMaximDL();
+        }
+
+        private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            toolStripDropDownLogLevel.Text = e.ClickedItem.Text;
         }
     }
 }

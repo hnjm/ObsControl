@@ -16,7 +16,7 @@ namespace ObservatoryCenter
         /// Server parameters
         /// </summary>
         IPAddress serverIP=IPAddress.Any;
-        Int32 serverPort=1400;
+        Int32 serverPort=1451;
 
         /// <summary>
         /// Main socket listener
@@ -63,7 +63,7 @@ namespace ObservatoryCenter
             }
             catch (Exception Ex)
             {
-                Logging.AddLog("Server connection errror [" + Ex.Message+"]",LogLevel.Debug,Highlight.Error);
+                Logging.AddLog("Server connection errror [" + Ex.Message+"]",LogLevel.Important,Highlight.Error);
             }
         }
 
@@ -117,26 +117,33 @@ namespace ObservatoryCenter
                     int bytesRecW = sender.Receive(bytes);
                     string responseMessW = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
                     Logging.AddLog("Welcome response from server: " + responseMessW, LogLevel.Chat);
-                } 
-                
+                }
+
+                Thread.Sleep(100);
 
                 // Отправляем данные через сокет
                 byte[] msg = Encoding.UTF8.GetBytes(message);
                 Logging.AddLog("Sending message: " + message, LogLevel.Chat);
                 int bytesSent = sender.Send(msg);
 
-                // Получаем ответ от сервера
-                int bytesRec = sender.Receive(bytes);
+                Thread.Sleep(200);
 
-                string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-                Logging.AddLog("Response from server: " + responseMess, LogLevel.Chat);
+                // Получаем реакцию сервера на команду (второй ответ)
+                string responseMessAll = "";
+                while (sender.Available > 0)
+                {
+                    int bytesRec = sender.Receive(bytes);
+                    string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                    responseMessAll += responseMess;
+                    Logging.AddLog("Response from server: " + responseMess, LogLevel.Chat);
+                }
 
                 // Освобождаем сокет
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
 
                 ErrorCode = 0;
-                return responseMess;
+                return responseMessAll;
             }
             catch (Exception Ex)
             {

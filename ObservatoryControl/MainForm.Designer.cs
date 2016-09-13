@@ -70,13 +70,14 @@
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.rectRoof = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.rectBase = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusBar = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus_Switch = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Dome = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Telescope = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Focuser = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Camera = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatus_Connection = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripDropDownLogLevel = new System.Windows.Forms.ToolStripDropDownButton();
             this.animateRoofTimer = new System.Windows.Forms.Timer(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBoxRoof = new System.Windows.Forms.GroupBox();
@@ -94,7 +95,7 @@
             this.linkMaximDL = new System.Windows.Forms.LinkLabel();
             this.btnBeforeImaging = new System.Windows.Forms.Button();
             this.btnMaximStart = new System.Windows.Forms.Button();
-            this.mainTimer = new System.Windows.Forms.Timer(this.components);
+            this.mainTimer_short = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_SocketServer = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -138,7 +139,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
-            this.mainTimer2 = new System.Windows.Forms.Timer(this.components);
+            this.mainTimer_Long = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
@@ -147,7 +148,7 @@
             this.tabPageAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.statusBar.SuspendLayout();
             this.panel4.SuspendLayout();
             this.groupBoxRoof.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -587,21 +588,22 @@
             this.rectBase.Name = "rectBase";
             this.rectBase.Size = new System.Drawing.Size(85, 46);
             // 
-            // statusStrip1
+            // statusBar
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatus_Switch,
             this.toolStripStatus_Dome,
             this.toolStripStatus_Telescope,
             this.toolStripStatus_Focuser,
             this.toolStripStatus_Camera,
-            this.toolStripStatus_Connection});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 619);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.ShowItemToolTips = true;
-            this.statusStrip1.Size = new System.Drawing.Size(1018, 25);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.toolStripStatus_Connection,
+            this.toolStripDropDownLogLevel});
+            this.statusBar.Location = new System.Drawing.Point(0, 619);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.ShowItemToolTips = true;
+            this.statusBar.Size = new System.Drawing.Size(1018, 25);
+            this.statusBar.TabIndex = 1;
+            this.statusBar.Text = "statusBar";
             // 
             // toolStripStatus_Switch
             // 
@@ -644,6 +646,16 @@
             this.toolStripStatus_Connection.Name = "toolStripStatus_Connection";
             this.toolStripStatus_Connection.Size = new System.Drawing.Size(200, 20);
             this.toolStripStatus_Connection.Text = "CONNECTIONS: 0";
+            // 
+            // toolStripDropDownLogLevel
+            // 
+            this.toolStripDropDownLogLevel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownLogLevel.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownLogLevel.Image")));
+            this.toolStripDropDownLogLevel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownLogLevel.Name = "toolStripDropDownLogLevel";
+            this.toolStripDropDownLogLevel.Size = new System.Drawing.Size(169, 23);
+            this.toolStripDropDownLogLevel.Text = "toolStripDropDownLogLevel";
+            this.toolStripDropDownLogLevel.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripDropDownLogLevel_DropDownItemClicked);
             // 
             // animateRoofTimer
             // 
@@ -842,11 +854,11 @@
             this.btnMaximStart.UseVisualStyleBackColor = true;
             this.btnMaximStart.Click += new System.EventHandler(this.btnMaximStart_Click);
             // 
-            // mainTimer
+            // mainTimer_short
             // 
-            this.mainTimer.Enabled = true;
-            this.mainTimer.Interval = 1000;
-            this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
+            this.mainTimer_short.Enabled = true;
+            this.mainTimer_short.Interval = 1000;
+            this.mainTimer_short.Tick += new System.EventHandler(this.mainTimerShort_Tick);
             // 
             // backgroundWorker_SocketServer
             // 
@@ -1265,11 +1277,11 @@
             this.panelTelescopeV.TabIndex = 4;
             this.panelTelescopeV.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeV_Paint);
             // 
-            // mainTimer2
+            // mainTimer_Long
             // 
-            this.mainTimer2.Enabled = true;
-            this.mainTimer2.Interval = 5000;
-            this.mainTimer2.Tick += new System.EventHandler(this.mainTimer2_Tick);
+            this.mainTimer_Long.Enabled = true;
+            this.mainTimer_Long.Interval = 5000;
+            this.mainTimer_Long.Tick += new System.EventHandler(this.mainTimer_Long_Tick);
             // 
             // MainForm
             // 
@@ -1280,7 +1292,7 @@
             this.Controls.Add(this.groupBoxTelescope);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusBar);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1034, 682);
@@ -1299,8 +1311,8 @@
             this.tabPageAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusBar.ResumeLayout(false);
+            this.statusBar.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.groupBoxRoof.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -1323,7 +1335,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageControl;
         private System.Windows.Forms.TabPage tabPageWeather;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.TabPage tabPageAllsky;
         private System.Windows.Forms.Button btnCloseRoof;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
@@ -1351,7 +1363,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Telescope;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Focuser;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Camera;
-        private System.Windows.Forms.Timer mainTimer;
+        private System.Windows.Forms.Timer mainTimer_short;
         private System.Windows.Forms.Button btnCameraPower;
         private System.Windows.Forms.Button btnSettings;
         private System.ComponentModel.BackgroundWorker backgroundWorker_SocketServer;
@@ -1405,7 +1417,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Timer mainTimer2;
+        private System.Windows.Forms.Timer mainTimer_Long;
         private System.Windows.Forms.TabPage tabPageAbout;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label17;
@@ -1429,6 +1441,7 @@
         private System.Windows.Forms.LinkLabel linkCCDAP;
         private System.Windows.Forms.LinkLabel linkMaximDL;
         private System.Windows.Forms.LinkLabel linkTest;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownLogLevel;
     }
 }
 

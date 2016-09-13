@@ -85,7 +85,7 @@ namespace ObservatoryCenter
         ///</summary>
         /// <param name="name">Process name. For Maxim it is "Maxim_DL"</param>
         /// <returns></returns>
-        private bool IsRunning()
+        public bool IsRunning()
         {
             foreach (Process clsProcess in Process.GetProcesses())
             {
@@ -149,15 +149,22 @@ namespace ObservatoryCenter
 
         public string ConnectEquipment()
         {
-            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 2}\r\n";
+            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}";
+            message = message + "\r\n";
             string output = SocketServerClass.MakeClientConnectionToServer(IPAddress.Parse("127.0.0.1"), ServerPort, message, out Error);
+            if (!output.Contains("{\"jsonrpc\":\"2.0\",\"result\":0,\"id\":1}\r\n"))
+            {
+                Error = -2;
+            }
             //good response: {"jsonrpc":"2.0","result":0,"id":2}
-
+            //bad response:  {"jsonrpc":"2.0","error":{"code":1,"message":"cannot connect equipment when Connect Equipment dialog is open"},"id":1}
             ErrorSt = output;
             //Error = 0;
             if (Error < 0)
             {
                 Logging.AddLog("PHD2 equipment connection error", LogLevel.Important, Highlight.Error);
+                Logging.AddLog("Error: "+ ErrorSt, LogLevel.Chat, Highlight.Error);
+                
             }
             else
             {

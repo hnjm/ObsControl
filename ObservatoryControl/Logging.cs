@@ -165,7 +165,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Dump to screen Log Contents
         /// </summary>
-        public static void AppendText(RichTextBox LogTextBox, LogLevel LogLevel = LogLevel.Activity)
+        public static void DisplayLogInTextBox(RichTextBox LogTextBox, LogLevel LogLevel = LogLevel.Activity)
         {
             List<LogRecord> LogListNew = new List<LogRecord>();
 

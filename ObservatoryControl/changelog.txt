@@ -16,7 +16,12 @@ to do:
 - web platform for remote control
 - maxim tracking data parsing
 
-0.5.0 [12.09.16]
+0.5.0.2 [14.09.16]
+- PHD2 connect equipment method
+- Program links with colors
+- LogLevel control
+
+0.5.0.1 [12.09.16]
 - more accent into applications:
 	- reorganizing code (more object oriented)
 	- application set represents recent workflow (PHD2, etc)
