@@ -4,7 +4,6 @@ http://astromania.info
 
 to do:
 - stability issues when closing some programs
-- separate threads for starting  programs with realtime info displaying into log (????)
 - reading data from weatherstation
 - parsing CCDAP activity and send it to server
 - check internet connection (ping) during startup
@@ -17,6 +16,7 @@ to do:
 - maxim tracking data parsing
 
 0.5.0.2 [14.09.16]
+- separate threads for starting  programs with realtime info displaying into log (????)
 - PHD2 connect equipment method
 - Program links with colors
 - LogLevel control

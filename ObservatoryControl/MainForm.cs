@@ -778,7 +778,9 @@ namespace ObservatoryCenter
 #region /// Autorun procedures ////////////////////////////////////////////////////
         private void btnStartAll_Click(object sender, EventArgs e)
         {
-            ObsControl.StartUpObservatory();
+            ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartUpObservatory);
+            Thread childThread = new Thread(RunThreadRef);
+            childThread.Start();
         }
 
         private void btnBeforeImaging_Click(object sender, EventArgs e)

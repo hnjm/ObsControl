@@ -140,6 +140,7 @@
             this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
             this.mainTimer_Long = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker_runprograms = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
@@ -1442,6 +1443,7 @@
         private System.Windows.Forms.LinkLabel linkMaximDL;
         private System.Windows.Forms.LinkLabel linkTest;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownLogLevel;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_runprograms;
     }
 }
 
