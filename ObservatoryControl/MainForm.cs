@@ -16,8 +16,7 @@ using System.Configuration;
 using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
-
-
+using System.IO;
 
 namespace ObservatoryCenter
 {
@@ -781,6 +780,7 @@ namespace ObservatoryCenter
             ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartUpObservatory);
             Thread childThread = new Thread(RunThreadRef);
             childThread.Start();
+            Logging.AddLog("Command 'Prepare' run was initiated",LogLevel.Debug);
         }
 
         private void btnBeforeImaging_Click(object sender, EventArgs e)
@@ -860,7 +860,10 @@ namespace ObservatoryCenter
         internal void LoadConfiguration()
         {
             ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-            configMap.ExeConfigFilename = @"d:\ObservatoryControl.config.cfg";
+
+            string configDirectory = Path.Combine(Environment.CurrentDirectory, "config");
+
+            configMap.ExeConfigFilename = configDirectory+@"\ObservatoryControl.config";
             Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
 
             var var1Value = config.AppSettings.Settings["Var1"].Value;

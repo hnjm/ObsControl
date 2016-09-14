@@ -139,41 +139,57 @@ namespace ObservatoryCenter
         {
 
             //1. Switch on power
+            Logging.AddLog("StartUp run: Switching power on", LogLevel.Debug);
             CommandParser.ParseSingleCommand("POWER_MOUNT_ON");
             CommandParser.ParseSingleCommand("POWER_CAMERA_ON");
             CommandParser.ParseSingleCommand("POWER_FOCUSER_ON");
 
-            //2. Run MaximDL
+            //2.1 Run PHD2
+            Logging.AddLog("StartUp run: Start PHD2", LogLevel.Debug);
+            CommandParser.ParseSingleCommand("PHD2_RUN");
+
+            //2.2 Connect equipment
+            Logging.AddLog("StartUp run: connect equipeun in PHD2", LogLevel.Debug);
+            CommandParser.ParseSingleCommand("PHD2_CONNECT");
+
+            //2.3 Rub broker app
+            Logging.AddLog("StartUp run: run PHD Broker", LogLevel.Debug);
+            CommandParser.ParseSingleCommand("PHDBROKER_RUN");
+
+            //3. Run MaximDL
+            Logging.AddLog("StartUp run: Start Maxim DL", LogLevel.Debug);
             CommandParser.ParseSingleCommand("MAXIM_RUN");
             //ParentMainForm.AppendLogText("MaximDL started");
 
-            //3. Run FocusMax
-            CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
-            //ParentMainForm.AppendLogText("FocusMax started");
-
-            //4. CameraConnect
+            //3.1. CameraConnect
+            Logging.AddLog("StartUp run: Maxim Camera connect", LogLevel.Debug);
             CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
             //ParentMainForm.AppendLogText("Camera connected");
 
-            //5. Set camera cooler
+            //3.2. Set camera cooler
             CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
 
-            //6. Connect telescope to Maxim
+            //3.3. Connect telescope to Maxim
             CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
 
-            //7. Connect focuser in Maxim to FocusMax
+            //4. Run FocusMax
+            Logging.AddLog("StartUp run: Start Focus Max", LogLevel.Debug);
+            CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
+            //ParentMainForm.AppendLogText("FocusMax started");
+
+            //5. Connect focuser in Maxim to FocusMax
             CommandParser.ParseSingleCommand("MAXIM_FOCUSER_CONNECT");
 
-            //8. Run Cartes du Ciel
+            //6. Run Cartes du Ciel
             CommandParser.ParseSingleCommand("CdC_RUN");
 
-            //9. Connect telescope in Cartes du Ciel
+            //6.1. Connect telescope in Cartes du Ciel
             CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
 
-            //9b. Connect telescope in Program
+            //7. Connect telescope in Program
             CommandParser.ParseSingleCommand("OBS_TELESCOPE_CONNECT");
 
-            //10. Start CCDAP
+            //8. Start CCDAP
             CommandParser.ParseSingleCommand("CCDAP_RUN");
         }
 
@@ -219,6 +235,9 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("FOCUSMAX_RUN", () => this.startFocusMax());
             CommandParser.Commands.Add("CdC_RUN", () => this.startPlanetarium());
             CommandParser.Commands.Add("CCDAP_RUN", () => this.startCCDAP());
+            CommandParser.Commands.Add("PHD2_RUN", () => this.startPHD2());
+            CommandParser.Commands.Add("PHDBROKER_RUN", () => this.startPHDBroker());
+            
             CommandParser.Commands.Add("POWER_MOUNT_ON", () => this.PowerMountOn());
             CommandParser.Commands.Add("POWER_MOUNT_OFF", () => this.PowerMountOff());
 
@@ -238,6 +257,8 @@ namespace ObservatoryCenter
 
             CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.objCdCApp.ConnectTelescope());
 
+            CommandParser.Commands.Add("PHD2_CONNECT", () => this.objPHD2App.ConnectEquipment());
+            
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
         }
 

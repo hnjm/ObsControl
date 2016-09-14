@@ -552,11 +552,13 @@ namespace ObservatoryCenter
         /// </summary>
         public string PowerMountOn()
         {
+            Logging.AddLog("Switch mount power on", LogLevel.Activity);
             PowerSet(POWER_MOUNT_PORT, "POWER_MOUNT_PORT", true, out Mount_power_flag);
             return "PowerMountOn";
         }
         public string PowerMountOff()
         {
+            Logging.AddLog("Switch mount power off", LogLevel.Activity);
             PowerSet(POWER_MOUNT_PORT, "POWER_MOUNT_PORT", false, out Mount_power_flag);
             return "PowerMountOff";
         }
@@ -565,11 +567,13 @@ namespace ObservatoryCenter
         /// </summary>
         public string PowerCameraOn()
         {
+            Logging.AddLog("Switch camera power on", LogLevel.Activity);
             PowerSet(POWER_CAMERA_PORT, "POWER_CAMERA_PORT", true, out Camera_power_flag);
             return "PowerCameraOn";
         }
         public string PowerCameraOff()
         {
+            Logging.AddLog("Switch camera power off", LogLevel.Activity);
             PowerSet(POWER_CAMERA_PORT, "POWER_CAMERA_PORT", false, out Camera_power_flag);
             return "PowerCameraOff";
         }
@@ -579,11 +583,13 @@ namespace ObservatoryCenter
         /// </summary>
         public string PowerFocuserOn()
         {
+            Logging.AddLog("Switch focuser power on", LogLevel.Activity);
             PowerSet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", true, out Focuser_power_flag);
             return "PowerFocuserOn";
         }
         public string PowerFocuserOff()
         {
+            Logging.AddLog("Switch focuser power off", LogLevel.Activity);
             PowerSet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", false, out Focuser_power_flag);
             return "PowerFocuserOff";
         }
@@ -593,11 +599,13 @@ namespace ObservatoryCenter
         /// </summary>
         public string PowerRoofOn()
         {
+            Logging.AddLog("Switch roof power on", LogLevel.Activity);
             PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", true, out Roof_power_flag);
             return "PowerRoofOn";
         }
         public string PowerRoofOff()
         {
+            Logging.AddLog("Switch roof power off", LogLevel.Activity);
             PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", false, out Roof_power_flag);
             return "PowerRoofOff";
         }

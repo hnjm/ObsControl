@@ -173,7 +173,23 @@ namespace ObservatoryCenter
             return output;
         }
     }
-    
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // PHD Broker class
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// PHD Broker class
+    /// </summary>
+    public class PHDBroker_ExternatApplication : ExternalApplication
+    {
+        public PHDBroker_ExternatApplication() : base()
+        { }
+    }
+
+
+
     public partial class ObservatoryControls
     {
         public static string CdC_ProcessName = "skychart.exe";
@@ -183,9 +199,11 @@ namespace ObservatoryCenter
         public string MaximDLPath = @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
         public string CCDAPPath = @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
         public string FocusMaxPath = @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
+        public string PHDBrokerPath = @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
 
         public CdC_ExternatApplication objCdCApp;
         public PHD_ExternatApplication objPHD2App;
+        public PHDBroker_ExternatApplication objPHDBrokerApp;
 
         public Process MaximDL_Process = new Process();
         public Process CCDAP_Process = new Process();
@@ -204,6 +222,14 @@ namespace ObservatoryCenter
             objPHD2App = new PHD_ExternatApplication();
             objPHD2App.Name = "phd2";
             objPHD2App.FullName = PHD2Path;
+
+            //PHDBroker
+            objPHDBrokerApp = new PHDBroker_ExternatApplication();
+            objPHD2App.Name = "PHDBroker_Server";
+            objPHD2App.FullName = PHDBrokerPath;
+
+
+
 
             //MaximDL
             objPHD2App = new PHD_ExternatApplication();
@@ -224,6 +250,11 @@ namespace ObservatoryCenter
             return objPHD2App.ErrorSt;
         }
 
+        public string startPHDBroker()
+        {
+            objPHDBrokerApp.Run();
+            return objPHDBrokerApp.ErrorSt;
+        }
 
         public string startMaximDL()
         {
@@ -246,13 +277,13 @@ namespace ObservatoryCenter
                 CCDAP_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
                 CCDAP_Process.StartInfo.UseShellExecute = false;
                 CCDAP_Process.Start();
-                Logging.AddLog("CCDAP started", 0);
+                Logging.AddLog("CCDAP started", LogLevel.Activity);
                 return "CCDAP started";
 
             }
             catch (Exception Ex)
             {
-                Logging.AddLog("CCDAP starting error! " + Ex.Message, 0, Highlight.Error);
+                Logging.AddLog("CCDAP starting error! " + Ex.Message, LogLevel.Important, Highlight.Error);
                 return "!!!CCDAP start failed";
             }
         }
@@ -267,7 +298,7 @@ namespace ObservatoryCenter
                 FocusMax_Process.Start();
 
                 FocusMax_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
-                Logging.AddLog("FocusMax started", 0);
+                Logging.AddLog("FocusMax started", LogLevel.Activity);
                 Thread.Sleep(1000);
                 return "FocusMax started";
             }
@@ -288,8 +319,8 @@ namespace ObservatoryCenter
                         + Environment.NewLine + Environment.NewLine + messstr;
                 //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-                Logging.AddLog("FocusMax failed", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Trace, Highlight.Error);
+                Logging.AddLog("FocusMax start failed", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "!!!FocusMax start failed";
 
             }
