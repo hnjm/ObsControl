@@ -16,7 +16,7 @@ namespace ObservatoryCenter
         /// Server parameters
         /// </summary>
         IPAddress serverIP=IPAddress.Any;
-        Int32 serverPort=1451;
+        Int32 serverPort=1452;
 
         /// <summary>
         /// Main socket listener
@@ -109,7 +109,7 @@ namespace ObservatoryCenter
             {
                 // Соединяем сокет с удаленной точкой
                 sender.Connect(ipEndPoint);
-                Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), LogLevel.Activity);
+                Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), LogLevel.Debug);
 
                 // Получаем первый ответ от сервера
                 while (sender.Available > 0)

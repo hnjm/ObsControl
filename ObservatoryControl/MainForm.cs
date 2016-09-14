@@ -48,7 +48,8 @@ namespace ObservatoryCenter
 
         // Threads
         public Thread CheckPowerStatusThread;
-        public Thread SetPowerStatusThread;
+        public ThreadStart CheckPowerStatusThread_startref;
+        //public Thread SetPowerStatusThread;
 
         /// <summary>
         /// Constructor
@@ -60,7 +61,9 @@ namespace ObservatoryCenter
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
 
-            CheckPowerStatusThread = new Thread(ObsControl.CheckPowerDeviceStatus);
+            //Prepare separate thread obj (just dummy init, because it couldn't be null)
+            //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
+            //CheckPowerStatusThread = new Thread(CheckPowerStatusThread_ref);
             //SetPowerStatusThread = new Thread(ObsControl.SetDeviceStatus(null,null,null,null));
 
             Logging.AddLog("****************************************************************************************", LogLevel.Activity);
@@ -88,7 +91,7 @@ namespace ObservatoryCenter
             try
             {
                 ObsControl.connectSwitch = true;
-                CheckPowerSwitchStatusWrapper();
+                CheckPowerSwitchStatus_caller();
             }
             catch (Exception ex)
             {
@@ -98,7 +101,7 @@ namespace ObservatoryCenter
 
             try
             {
-                ObsControl.connectDome = true; ;
+                ObsControl.connectDome = true;
             }
             catch (Exception ex)
             {
@@ -143,6 +146,11 @@ namespace ObservatoryCenter
             }
             toolStripDropDownLogLevel.Text = Enum.GetName(typeof(LogLevel), LogLevel.Activity);
 
+
+            //Run all timers at the end
+            mainTimer_short.Enabled = true;
+            mainTimer_Long.Enabled = true;
+            logRefreshTimer.Enabled = true;
         }
 
 
@@ -170,12 +178,15 @@ namespace ObservatoryCenter
         private void UpdateApplicationsStatus()
         {
             if (ObsControl.objPHD2App.IsRunning()) { linkPHD2.LinkColor = Color.Green; } else { linkPHD2.LinkColor = Color.DeepPink; }
+            if (ObsControl.objPHDBrokerApp.IsRunning()) { linkPHDBroker.LinkColor = Color.Green; } else { linkPHDBroker.LinkColor = Color.DeepPink; }
+
             if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
-            //if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
+            if (ObsControl.objFocusMaxApp.IsRunning()) { linkFocusMax.LinkColor = Color.Green; } else { linkFocusMax.LinkColor = Color.DeepPink; }
+            if (ObsControl.objCCDAPApp.IsRunning()) { linkCCDAP.LinkColor = Color.Green; } else { linkCCDAP.LinkColor = Color.DeepPink; }
+
+            if (ObsControl.objMaxim.IsRunning()) { linkMaximDL.LinkColor = Color.Green; } else { linkMaximDL.LinkColor = Color.DeepPink; }
 
         }
-
-
 
         /// <summary>
         /// Second main timer tick. More slower to not overload hardware
@@ -183,7 +194,7 @@ namespace ObservatoryCenter
         private void mainTimer_Long_Tick(object sender, EventArgs e)
         {
             ///check power switch status
-            CheckPowerSwitchStatusWrapper();
+            CheckPowerSwitchStatus_caller();
 
         }
 
@@ -209,17 +220,19 @@ namespace ObservatoryCenter
         
         
         /// <summary>
-        /// Wrapper to call check power switch status on separate thread
+        /// Wrapper to call check power switch status on background (separate thread)
+        /// because in case of network timeout it can hang system
         /// </summary>
-        public void CheckPowerSwitchStatusWrapper()
+        public void CheckPowerSwitchStatus_caller()
         {
             if (ObsControl.Switch_connected_flag)
             {
                 try
                 {
-                    if (!CheckPowerStatusThread.IsAlive)
+                    if (CheckPowerStatusThread ==null || !CheckPowerStatusThread.IsAlive)
                     {
-                        CheckPowerStatusThread = new Thread(ObsControl.CheckPowerDeviceStatus);
+                        CheckPowerStatusThread_startref = new ThreadStart(ObsControl.CheckPowerDeviceStatus);
+                        CheckPowerStatusThread = new Thread(CheckPowerStatusThread_startref);
                         CheckPowerStatusThread.Start();
                     }
                 }
@@ -231,7 +244,7 @@ namespace ObservatoryCenter
         }
        
         /// <summary>
-        /// Thread for socket server
+        /// Separate thread for socket server
         /// </summary>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -274,7 +287,7 @@ namespace ObservatoryCenter
             bool Tmaxim = false;
             try
             {
-                Tmaxim = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.TelescopeConnected);
+                Tmaxim = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.TelescopeConnected);
             }
             catch { Tmaxim = false; }
             bool Tcdc=false; //later organize checking
@@ -301,7 +314,7 @@ namespace ObservatoryCenter
             string FocusSt = "";
             try
             {
-                testFocus = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected);
+                testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
             }
             catch { testFocus = false; }
             if (testFocus)
@@ -320,7 +333,7 @@ namespace ObservatoryCenter
             bool testCamera = false;
             try
             {
-                testCamera = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled);
+                testCamera = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled);
             }
             catch { testCamera = false; }
 
@@ -408,29 +421,29 @@ namespace ObservatoryCenter
             bool testCamera = false;
             try
             {
-                testCamera = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled);
+                testCamera = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled);
             }
             catch { testCamera = false; }
 
             if (testCamera)
             {
-                int bin=ObsControl.MaximObj.CCDCamera.BinX;
+                int bin=ObsControl.objMaxim.CCDCamera.BinX;
                 txtCameraBinMode.Text = Convert.ToString(bin) + "x" +Convert.ToString(bin);
 
                 try
                 {
-                    var st = ObsControl.MaximObj.CCDCamera.FilterNames;
-                    txtFilterName.Text = Convert.ToString(st[ObsControl.MaximObj.CCDCamera.Filter]);
+                    var st = ObsControl.objMaxim.CCDCamera.FilterNames;
+                    txtFilterName.Text = Convert.ToString(st[ObsControl.objMaxim.CCDCamera.Filter]);
                 }
                 catch
                 {
                     txtFilterName.Text = "";
                 }
 
-                txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.MaximObj.GetCameraTemp());
-                txtCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.MaximObj.CameraSetTemp);
-                txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.MaximObj.GetCoolerPower());
-                txtCameraStatus.Text = ObsControl.MaximObj.GetCameraStatus();
+                txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraTemp());
+                txtCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraSetTemp);
+                txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.GetCoolerPower());
+                txtCameraStatus.Text = ObsControl.objMaxim.GetCameraStatus();
 
                 txtCameraName.BackColor = OnColor;
                 txtCameraTemp.BackColor = OnColor;
@@ -454,29 +467,29 @@ namespace ObservatoryCenter
             bool testCamera = false;
             try
             {
-                testCamera = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled);
+                testCamera = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled);
             }
             catch { testCamera = false; }
 
             if (testCamera)
             {
-                ObsControl.MaximObj.GuiderRunnig = ObsControl.MaximObj.CCDCamera.GuiderRunning;
+                ObsControl.objMaxim.GuiderRunnig = ObsControl.objMaxim.CCDCamera.GuiderRunning;
 
-                btnGuider.Text = (ObsControl.MaximObj.GuiderRunnig ? "Guider running" : "Guider stoped");
-                btnGuider.BackColor = (ObsControl.MaximObj.GuiderRunnig ? OnColor : OffColor);
+                btnGuider.Text = (ObsControl.objMaxim.GuiderRunnig ? "Guider running" : "Guider stoped");
+                btnGuider.BackColor = (ObsControl.objMaxim.GuiderRunnig ? OnColor : OffColor);
 
-                txtGuider_AggX.Text = Convert.ToString(ObsControl.MaximObj.CCDCamera.GuiderAggressivenessX);
-                txtGuider_AggY.Text = Convert.ToString(ObsControl.MaximObj.CCDCamera.GuiderAggressivenessY);
+                txtGuider_AggX.Text = Convert.ToString(ObsControl.objMaxim.CCDCamera.GuiderAggressivenessX);
+                txtGuider_AggY.Text = Convert.ToString(ObsControl.objMaxim.CCDCamera.GuiderAggressivenessY);
 
-                txtGuiderExposure.Text = Convert.ToString(ObsControl.MaximObj.CCDCamera.GuiderAngle); //for now
-                txtGuiderLastErrSt.Text=ObsControl.MaximObj.CCDCamera.LastGuiderError;
+                txtGuiderExposure.Text = Convert.ToString(ObsControl.objMaxim.CCDCamera.GuiderAngle); //for now
+                txtGuiderLastErrSt.Text=ObsControl.objMaxim.CCDCamera.LastGuiderError;
 
-                if (ObsControl.MaximObj.CCDCamera.GuiderNewMeasurement)
+                if (ObsControl.objMaxim.CCDCamera.GuiderNewMeasurement)
                 {
-                    ObsControl.MaximObj.GuiderXError=ObsControl.MaximObj.CCDCamera.GuiderXError;
-                    ObsControl.MaximObj.GuiderYError = ObsControl.MaximObj.CCDCamera.GuiderYError;
+                    ObsControl.objMaxim.GuiderXError=ObsControl.objMaxim.CCDCamera.GuiderXError;
+                    ObsControl.objMaxim.GuiderYError = ObsControl.objMaxim.CCDCamera.GuiderYError;
 
-                    string ErrTxt = String.Format("{0:0.00}  {1:0.00}" + Environment.NewLine, ObsControl.MaximObj.GuiderXError, ObsControl.MaximObj.GuiderYError);
+                    string ErrTxt = String.Format("{0:0.00}  {1:0.00}" + Environment.NewLine, ObsControl.objMaxim.GuiderXError, ObsControl.objMaxim.GuiderYError);
                     //if (txtGuiderError.Lines.Count() > 4)
                     //{
                     //    Array.Resize<String>(ref txtGuiderError.Lines,4);
@@ -627,16 +640,16 @@ namespace ObservatoryCenter
             }
 
             //MAXIM DATA
-            if (ObsControl.MaximObj.CCDCamera != null)
+            if (ObsControl.objMaxim.CCDCamera != null)
             {
-                txtSet_Maxim_Camera1.Text =  ObsControl.MaximObj.CCDCamera.CameraName;
-                txtSet_Maxim_Camera1.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor:SystemColors.Control);
+                txtSet_Maxim_Camera1.Text =  ObsControl.objMaxim.CCDCamera.CameraName;
+                txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor:SystemColors.Control);
 
-                txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
-                txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+                txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
+                txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
 
-                //txtSet_Maxim_Camera2.Text = ObsControl.MaximObj.CCDCamera.GuiderName;
-                //txtSet_Maxim_Camera2.BackColor = (ObsControl.MaximObj.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+                //txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
+                //txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
              }
             else
             {
@@ -645,8 +658,8 @@ namespace ObservatoryCenter
             }
             
             
-            //testFocus = (ObsControl.MaximObj.MaximApplicationObj != null && ObsControl.MaximObj.MaximApplicationObj.FocuserConnected);
-            //testCamera2 = (ObsControl.MaximObj.CCDCamera != null && ObsControl.MaximObj.CCDCamera.LinkEnabled && ObsControl.MaximObj.CCDCamera.GuiderName != "");
+            //testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
+            //testCamera2 = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled && ObsControl.objMaxim.CCDCamera.GuiderName != "");
 
 
         }
@@ -770,11 +783,11 @@ namespace ObservatoryCenter
             }
         }
 
-#endregion Power button handling
+        #endregion Power button handling
 // End of block with power buttons handling
 
-// Block with autorun procedures 
-#region /// Autorun procedures ////////////////////////////////////////////////////
+// Block with Scenarios run
+#region /// Scenarios run procedures ////////////////////////////////////////////////////
         private void btnStartAll_Click(object sender, EventArgs e)
         {
             ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartUpObservatory);
@@ -801,11 +814,11 @@ namespace ObservatoryCenter
         }
 
 
-#endregion Autorun procedures
+#endregion Scenarios run procedures
 //End of autorun procedures block
 
-// Settings block
-#region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
+        // Settings block
+        #region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnSettings_Click(object sender, EventArgs e)
         {
             SetForm.ShowDialog();
@@ -928,7 +941,7 @@ namespace ObservatoryCenter
             try
             {
                 ObsControl.connectSwitch = !ObsControl.Switch_connected_flag;
-                CheckPowerSwitchStatusWrapper();
+                CheckPowerSwitchStatus_caller();
             }
             catch (Exception ex)
             {
@@ -999,9 +1012,20 @@ namespace ObservatoryCenter
             ObsControl.startMaximDL();
         }
 
+        private void linkCCDAP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startCCDAP();
+        }
+
+        private void linkPHDBroker_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startPHDBroker();
+        }
+
         private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             toolStripDropDownLogLevel.Text = e.ClickedItem.Text;
         }
+
     }
 }

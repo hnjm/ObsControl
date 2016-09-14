@@ -737,13 +737,14 @@
             // linkPHDBroker
             // 
             this.linkPHDBroker.AutoSize = true;
-            this.linkPHDBroker.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.linkPHDBroker.LinkColor = System.Drawing.Color.Blue;
             this.linkPHDBroker.Location = new System.Drawing.Point(54, 140);
             this.linkPHDBroker.Name = "linkPHDBroker";
             this.linkPHDBroker.Size = new System.Drawing.Size(61, 13);
             this.linkPHDBroker.TabIndex = 4;
             this.linkPHDBroker.TabStop = true;
             this.linkPHDBroker.Text = "PHDBroker";
+            this.linkPHDBroker.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkPHDBroker_LinkClicked);
             // 
             // linkTelescopeTempControl
             // 
@@ -781,7 +782,7 @@
             // linkFocusMax
             // 
             this.linkFocusMax.AutoSize = true;
-            this.linkFocusMax.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.linkFocusMax.LinkColor = System.Drawing.Color.Blue;
             this.linkFocusMax.Location = new System.Drawing.Point(121, 140);
             this.linkFocusMax.Name = "linkFocusMax";
             this.linkFocusMax.Size = new System.Drawing.Size(56, 13);
@@ -814,13 +815,14 @@
             // linkCCDAP
             // 
             this.linkCCDAP.AutoSize = true;
-            this.linkCCDAP.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.linkCCDAP.LinkColor = System.Drawing.Color.Blue;
             this.linkCCDAP.Location = new System.Drawing.Point(6, 140);
             this.linkCCDAP.Name = "linkCCDAP";
             this.linkCCDAP.Size = new System.Drawing.Size(43, 13);
             this.linkCCDAP.TabIndex = 4;
             this.linkCCDAP.TabStop = true;
             this.linkCCDAP.Text = "CCDAP";
+            this.linkCCDAP.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCCDAP_LinkClicked);
             // 
             // linkMaximDL
             // 
@@ -857,7 +859,6 @@
             // 
             // mainTimer_short
             // 
-            this.mainTimer_short.Enabled = true;
             this.mainTimer_short.Interval = 1000;
             this.mainTimer_short.Tick += new System.EventHandler(this.mainTimerShort_Tick);
             // 
@@ -1118,7 +1119,6 @@
             // 
             // logRefreshTimer
             // 
-            this.logRefreshTimer.Enabled = true;
             this.logRefreshTimer.Interval = 500;
             this.logRefreshTimer.Tick += new System.EventHandler(this.logRefreshTimer_Tick);
             // 
@@ -1280,7 +1280,6 @@
             // 
             // mainTimer_Long
             // 
-            this.mainTimer_Long.Enabled = true;
             this.mainTimer_Long.Interval = 5000;
             this.mainTimer_Long.Tick += new System.EventHandler(this.mainTimer_Long_Tick);
             // 

@@ -25,8 +25,6 @@ namespace ObservatoryCenter
         public MainForm ParentMainForm;
 
 
-        public MaximControls MaximObj;
-
         public ASCOM.DriverAccess.Telescope objTelescope = null;
         public ASCOM.DriverAccess.Dome objDome = null;
         public ASCOM.DriverAccess.Switch objSwitch = null;
@@ -36,8 +34,6 @@ namespace ObservatoryCenter
         public string SWITCH_DRIVER_NAME = "";
         public string DOME_DRIVER_NAME = "";
         public string TELESCOPE_DRIVER_NAME = "";
-
-        public Int32 CdC_PORT = 3292;
 
         internal DateTime RoofRoutine_StartTime;
         internal int curRoofRoutineDuration_Seconds;
@@ -72,7 +68,7 @@ namespace ObservatoryCenter
             //DOME_DRIVER_NAME = "ASCOM.Simulator.Dome";
             //TELESCOPE_DRIVER_NAME = "EQMOD_SIM.Telescope";
 
-            MaximObj = new MaximControls(ParentMainForm);
+            //objMaxim = new MaximControls(ParentMainForm);
         }
 
 
@@ -148,7 +144,9 @@ namespace ObservatoryCenter
             Logging.AddLog("StartUp run: Start PHD2", LogLevel.Debug);
             CommandParser.ParseSingleCommand("PHD2_RUN");
 
-            //2.2 Connect equipment
+            Thread.Sleep(1000);
+
+            //2.2 PHD2 Connect equipment
             Logging.AddLog("StartUp run: connect equipeun in PHD2", LogLevel.Debug);
             CommandParser.ParseSingleCommand("PHD2_CONNECT");
 
@@ -183,14 +181,19 @@ namespace ObservatoryCenter
             //6. Run Cartes du Ciel
             CommandParser.ParseSingleCommand("CdC_RUN");
 
-            //6.1. Connect telescope in Cartes du Ciel
-            CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
+
+            //8. Start CCDAP
+            CommandParser.ParseSingleCommand("CCDAP_RUN");
 
             //7. Connect telescope in Program
             CommandParser.ParseSingleCommand("OBS_TELESCOPE_CONNECT");
 
-            //8. Start CCDAP
-            CommandParser.ParseSingleCommand("CCDAP_RUN");
+            Thread.Sleep(1000);
+
+            //6.1. Connect telescope in Cartes du Ciel (to give time for CdC to run)
+            CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
+
+
         }
 
         
@@ -250,10 +253,10 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("POWER_ROOF_ON", () => this.PowerRoofOn());
             CommandParser.Commands.Add("POWER_ROOF_OFF", () => this.PowerRoofOff());
 
-            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", () => MaximObj.ConnectCamera());
-            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", () => MaximObj.SetCameraCooling());
-            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", () => MaximObj.ConnectTelescope());
-            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", () => MaximObj.ConnectFocuser());
+            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", () => objMaxim.ConnectCamera());
+            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", () => objMaxim.SetCameraCooling());
+            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", () => objMaxim.ConnectTelescope());
+            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", () => objMaxim.ConnectFocuser());
 
             CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.objCdCApp.ConnectTelescope());
 

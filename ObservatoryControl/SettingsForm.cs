@@ -155,7 +155,7 @@ namespace ObservatoryCenter
             ParentMainForm.ObsControl.SWITCH_DRIVER_NAME = txtSwitchDriverId.Text;
             ParentMainForm.ObsControl.objSwitch = null;
             ParentMainForm.ObsControl.connectSwitch = true;
-            ParentMainForm.CheckPowerSwitchStatusWrapper();
+            ParentMainForm.CheckPowerSwitchStatus_caller();
         }
 
         private void btnChooseDome_Click(object sender, EventArgs e)

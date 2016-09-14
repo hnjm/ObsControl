@@ -14,6 +14,11 @@ to do:
 - network command reading and responding
 - web platform for remote control
 - maxim tracking data parsing
+- unkown excetption reason on Dome Connect!!!! to resolve
+
+
+0.5.3 [15.09.16]
+- some more structuring
 
 0.5.0.2 [14.09.16]
 - separate threads for starting  programs with realtime info displaying into log (????)

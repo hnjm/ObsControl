@@ -188,26 +188,56 @@ namespace ObservatoryCenter
         { }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // CCDAP class
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// CCDAP class
+    /// </summary>
+    public class CCDAP_ExternatApplication : ExternalApplication
+    {
+        public CCDAP_ExternatApplication() : base()
+        { }
+    }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Focusmax class
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Focusmax class
+    /// </summary>
+    public class FocusMax_ExternatApplication : ExternalApplication
+    {
+        public FocusMax_ExternatApplication() : base()
+        { }
+    }
 
     public partial class ObservatoryControls
     {
         public static string CdC_ProcessName = "skychart.exe";
         public string PlanetariumPath = @"c:\Program Files (x86)\Ciel\" + CdC_ProcessName;
         public string PHD2Path = @"c:\Program Files (x86)\PHDGuiding2\phd2.exe";
+        public string PHDBrokerPath = @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
+        public string CCDAPPath = @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
 
         public string MaximDLPath = @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
-        public string CCDAPPath = @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
         public string FocusMaxPath = @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
-        public string PHDBrokerPath = @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
 
         public CdC_ExternatApplication objCdCApp;
         public PHD_ExternatApplication objPHD2App;
         public PHDBroker_ExternatApplication objPHDBrokerApp;
+        public CCDAP_ExternatApplication objCCDAPApp;
+        public FocusMax_ExternatApplication objFocusMaxApp;
+
+        public Maxim_ExternatApplication objMaxim;
+
 
         public Process MaximDL_Process = new Process();
-        public Process CCDAP_Process = new Process();
-        public Process FocusMax_Process = new Process();
 
 
         public void InitProgramsObj()
@@ -225,16 +255,25 @@ namespace ObservatoryCenter
 
             //PHDBroker
             objPHDBrokerApp = new PHDBroker_ExternatApplication();
-            objPHD2App.Name = "PHDBroker_Server";
-            objPHD2App.FullName = PHDBrokerPath;
+            objPHDBrokerApp.Name = "PHDBroker_Server";
+            objPHDBrokerApp.FullName = PHDBrokerPath;
 
+            //CCDAP
+            objCCDAPApp = new CCDAP_ExternatApplication();
+            objCCDAPApp.Name = "CCDAutoPilot5";
+            objCCDAPApp.FullName = CCDAPPath;
 
+            //FocusMax
+            objFocusMaxApp = new FocusMax_ExternatApplication();
+            objFocusMaxApp.Name = "FocusMax";
+            objFocusMaxApp.FullName = FocusMaxPath;
 
+            //MaxIm_DL
+            objMaxim = new Maxim_ExternatApplication();
+            objMaxim.Name = "MaxIm_DL";
+            objMaxim.FullName = MaximDLPath;
+            
 
-            //MaximDL
-            objPHD2App = new PHD_ExternatApplication();
-            objPHD2App.Name = "phd2";
-            objPHD2App.FullName = PHD2Path;
         }
 
         #region Programs Controlling  ///////////////////////////////////////////////////////////////////
@@ -256,6 +295,18 @@ namespace ObservatoryCenter
             return objPHDBrokerApp.ErrorSt;
         }
 
+        public string startCCDAP()
+        {
+            objCCDAPApp.Run();
+            return objCCDAPApp.ErrorSt;
+        }
+
+        public string startFocusMax()
+        {
+            objFocusMaxApp.Run();
+            return objFocusMaxApp.ErrorSt;
+        }
+
         public string startMaximDL()
         {
             /*MaximDL_Process.StartInfo.FileName = MaximDLPath;
@@ -265,66 +316,15 @@ namespace ObservatoryCenter
 
             MaximDL_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
             */
-            string output = MaximObj.Run();
-            return output;
+            //string output = objMaxim.Run();
+            //return output;
+
+
+            objMaxim.Run();
+            objMaxim.Init();
+            return objMaxim.ErrorSt;
         }
 
-        public string startCCDAP()
-        {
-            try
-            {
-                CCDAP_Process.StartInfo.FileName = CCDAPPath;
-                CCDAP_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                CCDAP_Process.StartInfo.UseShellExecute = false;
-                CCDAP_Process.Start();
-                Logging.AddLog("CCDAP started", LogLevel.Activity);
-                return "CCDAP started";
-
-            }
-            catch (Exception Ex)
-            {
-                Logging.AddLog("CCDAP starting error! " + Ex.Message, LogLevel.Important, Highlight.Error);
-                return "!!!CCDAP start failed";
-            }
-        }
-
-        public string startFocusMax()
-        {
-            try
-            {
-                FocusMax_Process.StartInfo.FileName = FocusMaxPath;
-                FocusMax_Process.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                FocusMax_Process.StartInfo.UseShellExecute = false;
-                FocusMax_Process.Start();
-
-                FocusMax_Process.WaitForInputIdle(); //WaitForProcessStartupComplete
-                Logging.AddLog("FocusMax started", LogLevel.Activity);
-                Thread.Sleep(1000);
-                return "FocusMax started";
-            }
-            catch (Exception ex)
-            {
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
-
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "FocusMax starting failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("FocusMax start failed", LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
-                return "!!!FocusMax start failed";
-
-            }
-        }
         #endregion Program controlling
 
 
