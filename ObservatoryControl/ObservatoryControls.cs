@@ -144,7 +144,7 @@ namespace ObservatoryCenter
             Logging.AddLog("StartUp run: Start PHD2", LogLevel.Debug);
             CommandParser.ParseSingleCommand("PHD2_RUN");
 
-            Thread.Sleep(1000);
+            Thread.Sleep(ObsSettings.getInt("PREPARE_SCENARIO_PHD_CONNECT_PAUSE") ?? 0);
 
             //2.2 PHD2 Connect equipment
             Logging.AddLog("StartUp run: connect equipeun in PHD2", LogLevel.Debug);
@@ -176,7 +176,9 @@ namespace ObservatoryCenter
             //ParentMainForm.AppendLogText("FocusMax started");
 
             //5. Connect focuser in Maxim to FocusMax
-            CommandParser.ParseSingleCommand("MAXIM_FOCUSER_CONNECT");
+            if (ObsSettings.getBool("PREPARE_SCENARIO_MAXIM_FOCUSER_CONNECT") ?? false) CommandParser.ParseSingleCommand("MAXIM_FOCUSER_CONNECT");
+            
+            Thread.Sleep(2000);
 
             //6. Run Cartes du Ciel
             CommandParser.ParseSingleCommand("CdC_RUN");
@@ -188,7 +190,7 @@ namespace ObservatoryCenter
             //7. Connect telescope in Program
             CommandParser.ParseSingleCommand("OBS_TELESCOPE_CONNECT");
 
-            Thread.Sleep(1000);
+            Thread.Sleep(ObsSettings.getInt("PREPARE_SCENARIO_CDC_CONNECT_PAUSE") ?? 0);
 
             //6.1. Connect telescope in Cartes du Ciel (to give time for CdC to run)
             CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");

@@ -789,6 +789,7 @@
             this.linkFocusMax.TabIndex = 4;
             this.linkFocusMax.TabStop = true;
             this.linkFocusMax.Text = "FocusMax";
+            this.linkFocusMax.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkFocusMax_LinkClicked);
             // 
             // linkCdC
             // 

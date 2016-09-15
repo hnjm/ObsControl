@@ -17,6 +17,9 @@ to do:
 - unkown excetption reason on Dome Connect!!!! to resolve
 
 
+0.5.4 [16.09.16]
+- new settings instrument (ObsSettings static class)
+
 0.5.3 [15.09.16]
 - some more structuring
 

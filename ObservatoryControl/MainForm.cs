@@ -61,6 +61,8 @@ namespace ObservatoryCenter
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
 
+            ObsSettings.Init();
+
             //Prepare separate thread obj (just dummy init, because it couldn't be null)
             //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
             //CheckPowerStatusThread = new Thread(CheckPowerStatusThread_ref);
@@ -78,7 +80,7 @@ namespace ObservatoryCenter
         {
             //Load parameters
             LoadParams();
-            LoadConfiguration();
+            ///SettingsObj.Load();
 
             //Init programs objects using loaded settings
             ObsControl.InitProgramsObj();
@@ -793,7 +795,7 @@ namespace ObservatoryCenter
             ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartUpObservatory);
             Thread childThread = new Thread(RunThreadRef);
             childThread.Start();
-            Logging.AddLog("Command 'Prepare' run was initiated",LogLevel.Debug);
+            Logging.AddLog("Command 'Prepare run' was initiated",LogLevel.Debug);
         }
 
         private void btnBeforeImaging_Click(object sender, EventArgs e)
@@ -869,44 +871,6 @@ namespace ObservatoryCenter
             Logging.AddLog("Saved parameters loaded", LogLevel.Activity);
         }
 
-
-        internal void LoadConfiguration()
-        {
-            ExeConfigurationFileMap configMap = new ExeConfigurationFileMap();
-
-            string configDirectory = Path.Combine(Environment.CurrentDirectory, "config");
-
-            configMap.ExeConfigFilename = configDirectory+@"\ObservatoryControl.config";
-            Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configMap, ConfigurationUserLevel.None);
-
-            var var1Value = config.AppSettings.Settings["Var1"].Value;
-            var var2Value = config.AppSettings.Settings["Var2"].Value;
-            //var conn1 = config.ConnectionStrings.Settings["SQLConnectionString01"];
-            //var conn2 = config.ConnectionStrings.Settings["SQLConnectionString02"];
-        }
-
-        public string getAppSetting(string key)
-        {
-            //Load AppSettings
-            Configuration config = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            return config.AppSettings.Settings[key].Value;
-        }
-
-        public void setAppSetting(string key, string value)
-        {
-            //Save AppSettings
-            Configuration config = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            //Überprüfen ob Key existiert
-            if (config.AppSettings.Settings[key] != null)
-            {
-                //Key existiert. Löschen des Keys zum "überschreiben"
-                config.AppSettings.Settings.Remove(key);
-            }
-            //Anlegen eines neuen KeyValue-Paars
-            config.AppSettings.Settings.Add(key, value);
-            //Speichern der aktualisierten AppSettings
-            config.Save(ConfigurationSaveMode.Modified);
-        }
 
         #endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
         // End of settings block
@@ -1022,6 +986,12 @@ namespace ObservatoryCenter
             ObsControl.startPHDBroker();
         }
 
+        private void linkFocusMax_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startFocusMax();
+        }
+
+        //Change log level control
         private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             toolStripDropDownLogLevel.Text = e.ClickedItem.Text;

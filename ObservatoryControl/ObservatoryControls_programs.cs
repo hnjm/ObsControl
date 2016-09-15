@@ -55,7 +55,7 @@ namespace ObservatoryCenter
                     objProcess.StartInfo.UseShellExecute = false;
                     objProcess.StartInfo.Arguments = ParameterString;
                     objProcess.Start();
-                    Logging.AddLog("Process ["+ Name + "] started", 0);
+                    Logging.AddLog("Process ["+ Name + "] started", LogLevel.Activity);
                     ErrorSt = "";
                     Error = 0;
                     return true;
@@ -64,7 +64,7 @@ namespace ObservatoryCenter
                 {
                     ErrorSt = "Process [" + Name + "] already running";
                     Error = 1;
-                    Logging.AddLog(ErrorSt, 0, Highlight.Error);
+                    Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
 
                     return true;
                 }
@@ -74,7 +74,7 @@ namespace ObservatoryCenter
             {
                 ErrorSt = "Process [" + Name + "] starting error! " + Ex.Message;
                 Error = -1;
-                Logging.AddLog(ErrorSt, 0, Highlight.Error);
+                Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
                
                 return false;
             }
@@ -222,7 +222,7 @@ namespace ObservatoryCenter
         public static string CdC_ProcessName = "skychart.exe";
         public string PlanetariumPath = @"c:\Program Files (x86)\Ciel\" + CdC_ProcessName;
         public string PHD2Path = @"c:\Program Files (x86)\PHDGuiding2\phd2.exe";
-        public string PHDBrokerPath = @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
+        //public string PHDBrokerPath = @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
         public string CCDAPPath = @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
 
         public string MaximDLPath = @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
@@ -256,7 +256,8 @@ namespace ObservatoryCenter
             //PHDBroker
             objPHDBrokerApp = new PHDBroker_ExternatApplication();
             objPHDBrokerApp.Name = "PHDBroker_Server";
-            objPHDBrokerApp.FullName = PHDBrokerPath;
+            //objPHDBrokerApp.FullName = PHDBrokerPath;
+            objPHDBrokerApp.FullName = ObsSettings.getString("PHDBROKER_PATH") ?? "";
 
             //CCDAP
             objCCDAPApp = new CCDAP_ExternatApplication();

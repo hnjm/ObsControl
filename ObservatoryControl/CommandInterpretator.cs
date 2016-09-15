@@ -27,17 +27,8 @@ namespace ObservatoryCenter
         /// <returns>false if command doesn't exist</returns>
         public bool ParseSingleCommand(string CommandString)
         {
-            Logging.AddLog("Parse command ["+ CommandString + "] enter", LogLevel.Trace);
-
-            bool ret = true;
-            if (!Commands.ContainsKey(CommandString))
-            {
-                Logging.AddLog("Команды [" + CommandString + "] не существует", 0, Highlight.Error);
-                ret = false;
-            }
-            string cmd_output = Commands[CommandString]();
-            Logging.AddLog("Parse command [" + CommandString + "] output: "+ cmd_output, LogLevel.Trace);
-            Logging.AddLog("Parse command [" + CommandString + "] exit, res="+ret, LogLevel.Trace);
+            string cmd_output = "";
+            bool ret = ParseSingleCommand(CommandString, out cmd_output);
             return ret;
         }
 
@@ -49,6 +40,7 @@ namespace ObservatoryCenter
         /// <returns>false if command doesn't exist</returns>
         public bool ParseSingleCommand(string CommandString, out string cmd_output)
         {
+            Logging.AddLog("Parse command [" + CommandString + "] enter", LogLevel.Trace);
             bool ret = true;
             if (!Commands.ContainsKey(CommandString))
             {
@@ -56,6 +48,8 @@ namespace ObservatoryCenter
                 ret = false;
             }
             cmd_output = Commands[CommandString]();
+            Logging.AddLog("Parse command [" + CommandString + "] output: " + cmd_output, LogLevel.Trace);
+            Logging.AddLog("Parse command [" + CommandString + "] exit, res=" + ret, LogLevel.Trace);
             return ret;
         }
 

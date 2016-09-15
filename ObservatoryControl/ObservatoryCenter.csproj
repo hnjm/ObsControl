@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="MaximControls.cs" />
     <Compile Include="ObservatoryControls.cs" />
+    <Compile Include="ObservatoryControls_settings.cs" />
     <Compile Include="ObservatoryControls_switch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
