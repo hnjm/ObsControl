@@ -17,6 +17,7 @@ using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
 using System.IO;
+using System.Xml;
 
 namespace ObservatoryCenter
 {
@@ -61,8 +62,6 @@ namespace ObservatoryCenter
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
 
-            ObsSettings.Init();
-
             //Prepare separate thread obj (just dummy init, because it couldn't be null)
             //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
             //CheckPowerStatusThread = new Thread(CheckPowerStatusThread_ref);
@@ -78,9 +77,12 @@ namespace ObservatoryCenter
         /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Load config
+            ObsConfig.Load();
+            
             //Load parameters
             LoadParams();
-            ///SettingsObj.Load();
+
 
             //Init programs objects using loaded settings
             ObsControl.InitProgramsObj();
@@ -168,9 +170,12 @@ namespace ObservatoryCenter
             UpdateSettingsTabStatusFileds();
 
             UpdateCCDCameraFieldsStatus();
-            UpdateGuiderFieldsStatus();
+            //UpdateGuiderFieldsStatus();
 
             UpdateApplicationsStatus();
+
+            if (ObsControl.objPHD2App.IsRunning())
+            { ObsControl.objPHD2App.CheckProgramEvents(); }
         }
 
 
@@ -332,13 +337,7 @@ namespace ObservatoryCenter
             toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
 
             //CAMERA
-            bool testCamera = false;
-            try
-            {
-                testCamera = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled);
-            }
-            catch { testCamera = false; }
-
+            bool testCamera = ObsControl.objMaxim.TestCamera();
             if (testCamera)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
@@ -420,44 +419,65 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateCCDCameraFieldsStatus()
         {
-            bool testCamera = false;
-            try
+            if (ObsControl.objMaxim.TestCamera())
             {
-                testCamera = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled);
-            }
-            catch { testCamera = false; }
-
-            if (testCamera)
-            {
+                //Binning
                 int bin=ObsControl.objMaxim.CCDCamera.BinX;
                 txtCameraBinMode.Text = Convert.ToString(bin) + "x" +Convert.ToString(bin);
-
+                //Filters
                 try
                 {
                     var st = ObsControl.objMaxim.CCDCamera.FilterNames;
                     txtFilterName.Text = Convert.ToString(st[ObsControl.objMaxim.CCDCamera.Filter]);
                 }
-                catch
+                catch (Exception ex)
                 {
                     txtFilterName.Text = "";
+                    Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Important, Highlight.Error);
+                    Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                 }
 
+                //Cooling
                 txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraTemp());
-                txtCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraSetTemp);
+                updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraSetpoint());
                 txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.GetCoolerPower());
+
+                //Camera current status
                 txtCameraStatus.Text = ObsControl.objMaxim.GetCameraStatus();
 
-                txtCameraName.BackColor = OnColor;
-                txtCameraTemp.BackColor = OnColor;
-                txtCameraSetPoint.BackColor = OnColor;
-                txtCameraCoolerPower.BackColor = OnColor;
+
+                txtFilterName.BackColor = OnColor;
+                txtCameraBinMode.BackColor = OnColor;
+                txtCameraStatus.BackColor = OnColor;
+
+                if (ObsControl.objMaxim.CCDCamera.CoolerOn)
+                {
+                    txtCameraTemp.BackColor = OnColor;
+                    updownCameraSetPoint.BackColor = OnColor;
+                    txtCameraCoolerPower.BackColor = OnColor;
+                }else
+                {
+                    txtCameraTemp.BackColor = OffColor;
+                    updownCameraSetPoint.BackColor = OffColor;
+                    txtCameraCoolerPower.BackColor = OffColor;
+                }
             }
             else
             {
-                txtCameraName.BackColor = OffColor;
-                txtCameraTemp.BackColor = OffColor;
-                txtCameraSetPoint.BackColor = OffColor;
-                txtCameraCoolerPower.BackColor = OffColor;
+                txtCameraTemp.Text = "";
+                txtFilterName.Text = "";
+                txtCameraBinMode.Text = "";
+                updownCameraSetPoint.Text = "";
+                txtCameraCoolerPower.Text = "";
+                txtCameraStatus.Text = "";
+
+                txtFilterName.BackColor = SystemColors.Control;
+                txtCameraBinMode.BackColor = SystemColors.Control;
+                txtCameraStatus.BackColor = SystemColors.Control;
+
+                txtCameraTemp.BackColor = SystemColors.Control;
+                updownCameraSetPoint.BackColor = SystemColors.Control;
+                txtCameraCoolerPower.BackColor = SystemColors.Control;
             }
         }
 
@@ -642,7 +662,7 @@ namespace ObservatoryCenter
             }
 
             //MAXIM DATA
-            if (ObsControl.objMaxim.CCDCamera != null)
+            if (ObsControl.objMaxim.TestCamera())
             {
                 txtSet_Maxim_Camera1.Text =  ObsControl.objMaxim.CCDCamera.CameraName;
                 txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor:SystemColors.Control);
@@ -656,10 +676,13 @@ namespace ObservatoryCenter
             else
             {
                 txtSet_Maxim_Camera1.Text =  "";
-                txtSet_Telescope.BackColor = SystemColors.Control;
+                txtSet_Maxim_Camera1.BackColor = SystemColors.Control;
+
+                txtSet_Maxim_Camera2.Text = "";
+                txtSet_Maxim_Camera2.BackColor = SystemColors.Control;
             }
-            
-            
+
+
             //testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
             //testCamera2 = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled && ObsControl.objMaxim.CCDCamera.GuiderName != "");
 
@@ -733,7 +756,7 @@ namespace ObservatoryCenter
                 ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
                 //ObsControl.Camera_power_flag = SwitchState;
                 /////
-                txtCameraName.BackColor = (SwitchState ? OnColor : OffColor);
+                //txtCameraName.BackColor = (SwitchState ? OnColor : OffColor);
             }
             else
             {
@@ -838,9 +861,9 @@ namespace ObservatoryCenter
                 ObsControl.TELESCOPE_DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
                 ObsControl.SWITCH_DRIVER_NAME = Properties.Settings.Default.SwitchDriverId;
                 
-                ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
-                ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
-                ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
+                //ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
+                //ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
+                //ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
 
                 ObsControl.POWER_MOUNT_PORT = Convert.ToByte(Properties.Settings.Default.SwitchMountPort);
                 ObsControl.POWER_CAMERA_PORT = Convert.ToByte(Properties.Settings.Default.SwitchCameraPort);
@@ -963,7 +986,8 @@ namespace ObservatoryCenter
 
         private void linkTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.objPHD2App.ConnectEquipment();
+            ObsControl.objPHD2App.EstablishConnection();
+            ObsControl.objPHD2App.CMD_ConnectEquipment();
         }
 
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -997,5 +1021,29 @@ namespace ObservatoryCenter
             toolStripDropDownLogLevel.Text = e.ClickedItem.Text;
         }
 
+        private void toolStripStatus_Camera_Click(object sender, EventArgs e)
+        {
+            ObsControl.objMaxim.ConnectCamera();
+        }
+
+        private void btnCoolerOn_Click(object sender, EventArgs e)
+        {
+            ObsControl.objMaxim.SetCameraCooling();
+        }
+
+        private void btnCoolerOff_Click(object sender, EventArgs e)
+        {
+            ObsControl.objMaxim.CameraCoolingOff();
+        }
+
+        private void btnCoolerWarm_Click(object sender, EventArgs e)
+        {
+            ObsControl.objMaxim.CameraCoolingOff(true);
+        }
+
+        private void UpDownSetPoint_ValueChanged(object sender, EventArgs e)
+        {
+            ObsControl.objMaxim.SetCameraCooling(Convert.ToDouble(updownCameraSetPoint.Value));
+        }
     }
 }

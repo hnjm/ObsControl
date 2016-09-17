@@ -3,7 +3,7 @@ Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
 to do:
-- stability issues when closing some programs
+- reading data from PHD2
 - reading data from weatherstation
 - parsing CCDAP activity and send it to server
 - check internet connection (ping) during startup
@@ -13,9 +13,14 @@ to do:
 - ability to detect unhandle shutdown at startup and park observatory
 - network command reading and responding
 - web platform for remote control
-- maxim tracking data parsing
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.5 [17.09.16]
+- stability issue solved (maximdl)
+- PHD2 events reading (not fully implemented)
+- again new settings instrument (custom xml)
+- run mechanics changed 
+- program restructuring
 
 0.5.4 [16.09.16]
 - new settings instrument (ObsSettings static class)

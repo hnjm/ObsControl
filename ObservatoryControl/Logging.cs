@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace ObservatoryCenter
 {
@@ -207,6 +208,28 @@ namespace ObservatoryCenter
             }
         }
 
-    
+        public static string LogExceptionMessage(Exception Ex, string MESSAGEST)
+        {
+            StackTrace st = new StackTrace(Ex, true);
+            StackFrame[] frames = st.GetFrames();
+            string messstr = "";
+
+            // Iterate over the frames extracting the information you need
+            foreach (StackFrame frame in frames)
+            {
+                messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+            }
+
+            string FullMessage = MESSAGEST + Environment.NewLine;
+            FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "Exception source: " + Ex.Data + " " + Ex.Message
+                    + Environment.NewLine + Environment.NewLine + messstr;
+            //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+            Logging.AddLog(MESSAGEST+", exception: " + Ex.Message, LogLevel.Important, Highlight.Error);
+            Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+
+            return FullMessage;
+        }
+
     }
 }

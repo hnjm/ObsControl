@@ -30,6 +30,7 @@
         {
             this.tabSettings = new System.Windows.Forms.TabControl();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
+            this.dataGridConfig = new System.Windows.Forms.DataGridView();
             this.txtCielPath = new System.Windows.Forms.TextBox();
             this.txtCCDAPPath = new System.Windows.Forms.TextBox();
             this.txtMaximPath = new System.Windows.Forms.TextBox();
@@ -69,8 +70,11 @@
             this.btnRestoreDefaults = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.SettingsName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SettingsValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings.SuspendLayout();
             this.tabPageGeneral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig)).BeginInit();
             this.tabPageSwitch.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -100,6 +104,7 @@
             // 
             // tabPageGeneral
             // 
+            this.tabPageGeneral.Controls.Add(this.dataGridConfig);
             this.tabPageGeneral.Controls.Add(this.txtCielPath);
             this.tabPageGeneral.Controls.Add(this.txtCCDAPPath);
             this.tabPageGeneral.Controls.Add(this.txtMaximPath);
@@ -108,11 +113,22 @@
             this.tabPageGeneral.Controls.Add(this.label1);
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneral.Name = "tabPageGeneral";
-            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageGeneral.Size = new System.Drawing.Size(439, 295);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "General";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // dataGridConfig
+            // 
+            this.dataGridConfig.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridConfig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SettingsName,
+            this.SettingsValue});
+            this.dataGridConfig.Location = new System.Drawing.Point(6, 84);
+            this.dataGridConfig.Name = "dataGridConfig";
+            this.dataGridConfig.Size = new System.Drawing.Size(427, 205);
+            this.dataGridConfig.TabIndex = 2;
             // 
             // txtCielPath
             // 
@@ -174,7 +190,7 @@
             this.tabPageSwitch.Controls.Add(this.groupBox1);
             this.tabPageSwitch.Location = new System.Drawing.Point(4, 22);
             this.tabPageSwitch.Name = "tabPageSwitch";
-            this.tabPageSwitch.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageSwitch.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSwitch.Size = new System.Drawing.Size(439, 295);
             this.tabPageSwitch.TabIndex = 1;
             this.tabPageSwitch.Text = "Switch";
@@ -447,9 +463,9 @@
             this.tabPageMisc.Controls.Add(this.label10);
             this.tabPageMisc.Controls.Add(this.label9);
             this.tabPageMisc.Location = new System.Drawing.Point(4, 22);
-            this.tabPageMisc.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageMisc.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageMisc.Name = "tabPageMisc";
-            this.tabPageMisc.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageMisc.Padding = new System.Windows.Forms.Padding(2);
             this.tabPageMisc.Size = new System.Drawing.Size(439, 295);
             this.tabPageMisc.TabIndex = 2;
             this.tabPageMisc.Text = "Misc";
@@ -459,7 +475,7 @@
             // 
             this.numUDRoofDuration.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ObservatoryCenter.Properties.Settings.Default, "RoofDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.numUDRoofDuration.Location = new System.Drawing.Point(114, 9);
-            this.numUDRoofDuration.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numUDRoofDuration.Margin = new System.Windows.Forms.Padding(2);
             this.numUDRoofDuration.Name = "numUDRoofDuration";
             this.numUDRoofDuration.Size = new System.Drawing.Size(58, 20);
             this.numUDRoofDuration.TabIndex = 1;
@@ -519,6 +535,16 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // SettingsName
+            // 
+            this.SettingsName.HeaderText = "Name";
+            this.SettingsName.Name = "SettingsName";
+            // 
+            // SettingsValue
+            // 
+            this.SettingsValue.HeaderText = "Value";
+            this.SettingsValue.Name = "SettingsValue";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.btnOK;
@@ -541,6 +567,7 @@
             this.tabSettings.ResumeLayout(false);
             this.tabPageGeneral.ResumeLayout(false);
             this.tabPageGeneral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig)).EndInit();
             this.tabPageSwitch.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -602,5 +629,8 @@
         private System.Windows.Forms.TextBox txtSwitchDriverId;
         private System.Windows.Forms.TextBox txtDomeDriverId;
         private System.Windows.Forms.TextBox txtTelescopeDriverId;
+        private System.Windows.Forms.DataGridView dataGridConfig;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SettingsName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SettingsValue;
     }
 }

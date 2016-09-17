@@ -11,6 +11,8 @@ using System.Reflection;
 using System.Globalization;
 using System.Threading;
 using System.Resources;
+using System.Configuration;
+using System.Xml;
 
 namespace ObservatoryCenter
 {
@@ -46,6 +48,58 @@ namespace ObservatoryCenter
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             TempRoofDuration = ParentMainForm.RoofDuration;
+
+
+            XmlNode xnlNodes = ObsConfig.configXML.SelectSingleNode("//programsPath");
+
+            int curRowIndex = 0;
+            foreach (XmlNode xndNode in xnlNodes.ChildNodes)
+            {
+                string name = xndNode.Name;
+                string val = xndNode.Attributes["value"].Value; ;
+
+                //Add sensor to grid
+                curRowIndex = dataGridConfig.Rows.Add();
+                dataGridConfig.Rows[curRowIndex].Cells["SettingsName"].Value = name;
+                dataGridConfig.Rows[curRowIndex].Cells["SettingsValue"].Value = val;
+
+            }
+
+            /*
+
+            dataGridConfig.Rows.Clear();
+            foreach (SensorElement DataSensor in ParentMainForm.Hardware.SensorsList.Values)
+            {
+                if (DataSensor != null)
+                {
+                    //Add sensor to grid
+                    curRowIndex = dataGridSensors.Rows.Add();
+
+                    dataGridSensors.Rows[curRowIndex].Cells["SensorName"].Value = DataSensor.SensorName;
+                    dataGridSensors.Rows[curRowIndex].Cells["SensorType"].Value = DataSensor.SensorType.ToString();
+                    dataGridSensors.Rows[curRowIndex].Cells["SensorEnabled"].Value = DataSensor.Enabled;
+                    dataGridSensors.Rows[curRowIndex].Cells["SendToWeb"].Value = DataSensor.SendToWebFlag;
+                    dataGridSensors.Rows[curRowIndex].Cells["SendToNarodmon"].Value = DataSensor.SendToNarodMon;
+                    dataGridSensors.Rows[curRowIndex].Cells["ArduinoName"].Value = DataSensor.SensorArduinoField;
+                    dataGridSensors.Rows[curRowIndex].Cells["WebCustomName"].Value = DataSensor.WebCustomName;
+                    dataGridSensors.Rows[curRowIndex].Cells["FormFieldName"].Value = (DataSensor.SensorFormField != "" ? DataSensor.SensorFormField : "(none)");
+
+
+                    //FILL IN TEMP SENSORS
+                    if (DataSensor.SensorType == SensorTypeEnum.Temp)
+                    {
+                        cmbBaseTempSensor.Items.Add(DataSensor.SensorName);
+                    }
+                }
+            }
+            */
+            //var arrConfigData = ObsSettings.config.AppSettings.Settings;
+            //foreach (KeyValueConfigurationElement El in arrConfigData)
+            //{
+            //    dataGridConfig.Rows.Add(new { El.Key, El.Value});
+            //}
+            //dataGridConfig.DataSource = query;
+
 
             //Workaround about "Controls contained in a TabPage are not created until the tab page is shown, and any data bindings in these controls are not activated until the tab page is shown."
             foreach (TabPage tp in tabSettings.TabPages)

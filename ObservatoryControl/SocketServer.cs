@@ -92,7 +92,7 @@ namespace ObservatoryCenter
         /// Static method for connecting to socket server as a client 
         /// not very good place for a such method, but...
         /// </summary>
-        public static string MakeClientConnectionToServer(IPAddress ipAddr, Int32 port, string message, out int ErrorCode)
+        public static string ConnectToServerAndSendMessage(IPAddress ipAddr, Int32 port, string message, out int ErrorCode)
         {
             // Буфер для входящих данных
             byte[] bytes = new byte[1024];
@@ -102,19 +102,19 @@ namespace ObservatoryCenter
             //IPAddress localAddr = IPAddress.Parse("127.0.0.1"); 
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
 
-            Socket sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            sender.ReceiveTimeout =3000;
+            Socket ServerSocketTemp = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            ServerSocketTemp.ReceiveTimeout =3000;
 
             try
             {
                 // Соединяем сокет с удаленной точкой
-                sender.Connect(ipEndPoint);
-                Logging.AddLog("Connected to " + sender.RemoteEndPoint.ToString(), LogLevel.Debug);
+                ServerSocketTemp.Connect(ipEndPoint);
+                Logging.AddLog("Connected to " + ServerSocketTemp.RemoteEndPoint.ToString(), LogLevel.Debug);
 
                 // Получаем первый ответ от сервера
-                while (sender.Available > 0)
+                while (ServerSocketTemp.Available > 0)
                 {
-                    int bytesRecW = sender.Receive(bytes);
+                    int bytesRecW = ServerSocketTemp.Receive(bytes);
                     string responseMessW = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
                     Logging.AddLog("Welcome response from server: " + responseMessW, LogLevel.Chat);
                 }
@@ -124,51 +124,157 @@ namespace ObservatoryCenter
                 // Отправляем данные через сокет
                 byte[] msg = Encoding.UTF8.GetBytes(message);
                 Logging.AddLog("Sending message: " + message, LogLevel.Chat);
-                int bytesSent = sender.Send(msg);
+                int bytesSent = ServerSocketTemp.Send(msg);
 
                 Thread.Sleep(200);
 
                 // Получаем реакцию сервера на команду (второй ответ)
                 string responseMessAll = "";
-                while (sender.Available > 0)
+                while (ServerSocketTemp.Available > 0)
                 {
-                    int bytesRec = sender.Receive(bytes);
+                    int bytesRec = ServerSocketTemp.Receive(bytes);
                     string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRec);
                     responseMessAll += responseMess;
                     Logging.AddLog("Response from server: " + responseMess, LogLevel.Chat);
                 }
 
                 // Освобождаем сокет
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
+                ServerSocketTemp.Shutdown(SocketShutdown.Both);
+                ServerSocketTemp.Close();
 
                 ErrorCode = 0;
                 return responseMessAll;
             }
             catch (Exception Ex)
             {
-                StackTrace st = new StackTrace(Ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
-
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "MakeClientConnectionToServer socket connection failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + Ex.Data + " " + Ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("MakeClientConnectionToServer socket connection failed! " + Ex.Message, LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                Logging.LogExceptionMessage(Ex, "MakeClientConnectionToServer socket connection failed");
                 ErrorCode = -1;
                 return "Socket connection failed";
             }
         }
 
+
+        /// <summary>
+        /// Static method for connecting to socket server as a client 
+        /// not very good place for a such method, but...
+        /// </summary>
+        public static string ConnectToServer(IPAddress ipAddr, Int32 port, out Socket ServerSocket, out int ErrorCode)
+        {
+
+            // Устанавливаем удаленную точку для сокета
+            IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
+            ServerSocket = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            ServerSocket.ReceiveTimeout = 3000;
+
+            try
+            {
+                // Соединяем сокет с удаленной точкой
+                ServerSocket.Connect(ipEndPoint);
+                Logging.AddLog("Connected to " + ServerSocket.RemoteEndPoint.ToString(), LogLevel.Debug);
+
+                ErrorCode = 0;
+                return "Connected to " + ServerSocket.RemoteEndPoint.ToString();
+            }
+            catch (Exception Ex)
+            {
+                Logging.LogExceptionMessage(Ex, "ConnectToServer failed");
+                ServerSocket = null;
+                ErrorCode = -1;
+                return "Socket connection failed";
+            }
+        }
+
+        /// <summary>
+        /// Static method for connecting to socket server as a client 
+        /// not very good place for a such method, but...
+        /// </summary>
+        public static string SendToServer(Socket ServerSocket, string message, out int ErrorCode)
+        {
+            try
+            {
+                // Отправляем данные через сокет
+                byte[] msg = Encoding.UTF8.GetBytes(message);
+                Logging.AddLog("Sending message: " + message, LogLevel.Chat);
+
+                int bytesSent = ServerSocket.Send(msg);
+
+                ErrorCode = 0;
+                return "Message sent";
+            }
+            catch (Exception Ex)
+            {
+                Logging.LogExceptionMessage(Ex, "SendToServer ["+ message + "] failed");
+                ErrorCode = -1;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Static method for connecting to socket server as a client 
+        /// not very good place for a such method, but...
+        /// </summary>
+        public static string ReceiveFromServer(Socket ServerSocket, out int ErrorCode)
+        {
+            if (ServerSocket != null)
+            {
+                // Буфер для входящих данных
+                byte[] bytes = new byte[1024];
+                string responseMessAll = "";
+
+                try
+                {
+                    // Получаем первый ответ от сервера
+                    while (ServerSocket.Available > 0)
+                    {
+                        int bytesRecW = ServerSocket.Receive(bytes);
+                        string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
+                        responseMessAll += responseMess;
+                        Logging.AddLog("Received message from server: " + responseMess, LogLevel.Chat);
+                    }
+                    if (responseMessAll == "")
+                    {
+                        Logging.AddLog("Nothing received from the server", LogLevel.Chat);
+                    }
+                    ErrorCode = 0;
+                    return responseMessAll;
+                }
+                catch (Exception Ex)
+                {
+                    Logging.LogExceptionMessage(Ex, "ReceiveFromServer socket connection failed");
+                    ErrorCode = -1;
+                    return null;
+                }
+            }
+            else
+            {
+                ErrorCode = -2;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Static method for connecting to socket server as a client 
+        /// not very good place for a such method, but...
+        /// </summary>
+        public static string DisconnectFromServer(Socket ServerSocket, out int ErrorCode)
+        {
+            try
+            {
+                // Освобождаем сокет
+                ServerSocket.Shutdown(SocketShutdown.Both);
+                ServerSocket.Close();
+                ServerSocket = null;
+                ErrorCode = 0;
+                return "Connection closed";
+            }
+            catch (Exception Ex)
+            {
+                Logging.LogExceptionMessage(Ex, "DisconnectFromServer failed");
+                ErrorCode = -1;
+                return null;
+            }
+
+        }
     }
 
     /// <summary>
