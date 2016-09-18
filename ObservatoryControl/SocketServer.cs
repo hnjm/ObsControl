@@ -275,6 +275,80 @@ namespace ObservatoryCenter
             }
 
         }
+
+        //public static TcpClient client = null;
+
+        public static string ConnectTCPToServer(IPAddress ipAddr, Int32 port, out TcpClient client, out int ErrorCode)
+        {
+
+            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";
+
+            // Устанавливаем удаленную точку для сокета
+            TcpClient tcpClient = new TcpClient();
+            IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
+            tcpClient.Connect(ipEndPoint);
+
+            try
+            {
+                // Buffer to store the response bytes.
+                Byte[] DataBuffer = new Byte[10000];
+                string FullMessage = "";
+                string responseData = "";
+
+                // Get a client stream for reading and writing.
+                NetworkStream stream = tcpClient.GetStream();
+
+                Thread.Sleep(1000);
+
+
+                // Read the first batch of the TcpServer response bytes.
+                while (stream.DataAvailable)
+                {
+                    Int32 readbytes = stream.Read(DataBuffer, 0, DataBuffer.Length);
+                    responseData = Encoding.ASCII.GetString(DataBuffer, 0, readbytes);
+                    FullMessage += responseData;
+                    Logging.AddLog("Received welcome message: " + responseData, LogLevel.Chat);
+                }
+
+                Thread.Sleep(1000);
+
+                // Translate the passed message into ASCII and store it as a Byte array.
+                DataBuffer = Encoding.ASCII.GetBytes(message);
+                // Send the message to the connected TcpServer. 
+                stream.Write(DataBuffer, 0, DataBuffer.Length);
+                Logging.AddLog("Sent message: " + message, LogLevel.Chat);
+
+                Thread.Sleep(1000);
+
+                // Receive the TcpServer.response.
+
+                // String to store the response ASCII representation.
+                responseData = String.Empty;
+                FullMessage = String.Empty;
+                // Read the first batch of the TcpServer response bytes.
+                while (stream.DataAvailable)
+                {
+                    Int32 readbytes = stream.Read(DataBuffer, 0, DataBuffer.Length);
+                    responseData = Encoding.ASCII.GetString(DataBuffer, 0, readbytes);
+                    FullMessage += responseData;
+                    Logging.AddLog("Received message: " + responseData, LogLevel.Chat);
+                }
+
+                ErrorCode = 0;
+                client = tcpClient;
+                return "Connected to ";
+            }
+            catch (Exception Ex)
+            {
+                Logging.LogExceptionMessage(Ex, "ConnectTCPToServer failed");
+                client = null;
+                ErrorCode = -1;
+                return "Socket connection failed";
+            }
+        }
+
+
+
     }
 
     /// <summary>

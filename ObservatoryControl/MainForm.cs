@@ -212,10 +212,10 @@ namespace ObservatoryCenter
         {
             //Get current loglevel value
             LogLevel CurLogLevel = LogLevel.Activity;
-            if (Enum.TryParse(toolStripDropDownLogLevel.Text, out CurLogLevel))
-            { }
-            else
-            { CurLogLevel = LogLevel.Activity; }
+            if (!Enum.TryParse(toolStripDropDownLogLevel.Text, out CurLogLevel))
+            {
+                CurLogLevel = LogLevel.Activity;
+            }
 
 
             //add line to richtextbox
@@ -986,8 +986,8 @@ namespace ObservatoryCenter
 
         private void linkTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.objPHD2App.EstablishConnection();
-            ObsControl.objPHD2App.CMD_ConnectEquipment();
+            //ObsControl.objPHD2App.testTCP();
+            ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
         }
 
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -57,6 +57,8 @@ namespace ObservatoryCenter
         //DEBUG LEVEL
         public static LogLevel DEBUG_LEVEL = LogLevel.All;
 
+        public static Int32 _MAX_DIPSLAYED_PROG_LOG_LINES = 100;
+
         static Logging()
         {
             LogList = new List<LogRecord>();
@@ -181,6 +183,14 @@ namespace ObservatoryCenter
                 }
             }
 
+            //check - if logtextbox is too large
+            if (LogTextBox.Lines.Length > _MAX_DIPSLAYED_PROG_LOG_LINES)
+            {
+                string[] lines = LogTextBox.Lines;
+                var newLines = lines.Skip(LogTextBox.Lines.Length - _MAX_DIPSLAYED_PROG_LOG_LINES);
+                LogTextBox.Lines = newLines.ToArray();
+            }
+
             string RetStr = "";
             //Save new (not saved) records
             if (LogListNew.Count > 0)
@@ -200,9 +210,15 @@ namespace ObservatoryCenter
 
                         RetStr = String.Format("{0} {1}", LogListNew[i].Time.ToString("yyyy-MM-dd"), LogListNew[i].Time.ToString("HH:mm:ss"));
                         RetStr += String.Format(": {0}", LogListNew[i].Message) + Environment.NewLine;
+
                         LogTextBox.AppendText(RetStr);
 
                         LogTextBox.SelectionColor = LogTextBox.ForeColor;
+
+                        //set cursor to the end
+                        LogTextBox.SelectionStart = LogTextBox.TextLength;
+                        LogTextBox.SelectionLength = 0;
+                        LogTextBox.ScrollToCaret();
                     }
                 }
             }

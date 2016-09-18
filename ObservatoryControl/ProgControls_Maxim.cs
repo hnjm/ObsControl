@@ -17,7 +17,7 @@ namespace ObservatoryCenter
     /// <summary>
     /// MaximApp class
     /// </summary>
-    public class Maxim_ExternatApplication : ExternalApplication
+    public class Maxim_ExternalApplication : ExternalApplication
     {
         public MaxIm.Application    MaximApplicationObj;    //Application object
         public MaxIm.CCDCamera      CCDCamera;              //Camera object
@@ -29,7 +29,7 @@ namespace ObservatoryCenter
         public double GuiderXError = 0.0, GuiderYError = 0.0;
 
 
-        public Maxim_ExternatApplication() : base()
+        public Maxim_ExternalApplication() : base()
         { }
 
         public void Init()

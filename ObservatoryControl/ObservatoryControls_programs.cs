@@ -138,193 +138,6 @@ namespace ObservatoryCenter
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // PhD2 class
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// <summary>
-    /// PHD2 class
-    /// </summary>
-    public class PHD_ExternatApplication : ExternalApplication
-    {
-        public Int32 ServerPort = 4400; //port to connect socket server
-
-        Socket ProgramSocket = null;
-
-        public PHD_ExternatApplication() : base()
-        { }
-
-        public string ConnectEquipment()
-        {
-            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}";
-            message = message + "\r\n";
-            string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, message, out Error);
-            string attribs = "", id="";
-            ParseServerMessages(output, out attribs, out id);
-            if (!output.Contains("{\"jsonrpc\":\"2.0\",\"result\":0,\"id\":1}\r\n"))
-            {
-                Error = -2;
-            }
-            //good response: {"jsonrpc":"2.0","result":0,"id":2}
-            //bad response:  {"jsonrpc":"2.0","error":{"code":1,"message":"cannot connect equipment when Connect Equipment dialog is open"},"id":1}
-            ErrorSt = output;
-            //Error = 0;
-            if (Error < 0)
-            {
-                Logging.AddLog("PHD2 equipment connection error", LogLevel.Important, Highlight.Error);
-                Logging.AddLog("Error: "+ ErrorSt, LogLevel.Chat, Highlight.Error);
-                
-            }
-            else
-            {
-                Logging.AddLog("PHD2 equipment connected", LogLevel.Activity);
-            }
-            return output;
-        }
-
-        public string EstablishConnection()
-        {
-            string st = "";
-            if (ServerPort == null)
-            {
-                //Connect
-                string output = SocketServerClass.ConnectToServer(IPAddress.Parse("127.0.0.1"), ServerPort, out ProgramSocket, out Error);
-                if (Error >= 0)
-                {
-                    Thread.Sleep(3000);
-
-                    //Read response
-                    string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
-
-                    //Parse response
-                    string attribs = "", id = "";
-                    st = ParseServerMessages(output2, out attribs, out id);
-                }
-            }
-            else
-            {
-                Logging.AddLog("Already connected",LogLevel.Activity);
-            }
-            return "";
-        }
-
-        public string CMD_ConnectEquipment()
-        {
-            if (ProgramSocket==null)
-            {
-                EstablishConnection();
-            }
-            
-            //Send command
-            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}";
-            string output = SocketServerClass.SendToServer(ProgramSocket, message, out Error);
-
-            if (Error >= 0)
-            {
-
-                Thread.Sleep(3000);
-
-                //Read response
-                string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
-
-                //Parse response
-                string attribs = "", id = "";
-                ParseServerMessages(output2, out attribs, out id);
-
-                //Check
-                if (!output.Contains("{\"jsonrpc\":\"2.0\",\"result\":0,\"id\":1}\r\n"))
-                {
-                    Error = -2;
-                }
-                //good response: {"jsonrpc":"2.0","result":0,"id":2}
-                //bad response:  {"jsonrpc":"2.0","error":{"code":1,"message":"cannot connect equipment when Connect Equipment dialog is open"},"id":1}
-                ErrorSt = output;
-                //Error = 0;
-                if (Error < 0)
-                {
-                    Logging.AddLog("PHD2 equipment connection error", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog("Error: " + ErrorSt, LogLevel.Chat, Highlight.Error);
-
-                }
-                else
-                {
-                    Logging.AddLog("PHD2 equipment connected", LogLevel.Activity);
-                }
-            }
-            else
-            {
-                Logging.AddLog("PHD2 equipment connection error", LogLevel.Important, Highlight.Error);
-                Logging.AddLog("Error: " + ErrorSt, LogLevel.Chat, Highlight.Error);
-            }
-            return output;
-        }
-
-        public void CheckProgramEvents()
-        {
-            //Read response
-            string output = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
-
-            //Parse response
-            string attribs = "", id = "";
-            ParseServerMessages(output, out attribs, out id);
-        }
-
-        private string ParseServerMessages(string responsestr, out string attributes, out string id)
-        {
-            //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
-            //{"Event":"CalibrationComplete","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"Mount":"On Camera"}
-            //{"Event":"AppState","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"State":"Stopped"}
-            //good response: {"jsonrpc":"2.0","result":0,"id":2}
-            //bad response:  {"jsonrpc":"2.0","error":{"code":1,"message":"cannot connect equipment when Connect Equipment dialog is open"},"id":1}
-
-            string st = "";
-            id = "-1";
-            attributes = "";
-
-            if (responsestr!=null && responsestr.Length > 7 && responsestr.Substring(2, 5) == "jsonr")
-            {
-                //Server response
-                Match match = Regex.Match(responsestr, @"{""jsonrpc"":""(.+)"",""(.+)"":(.+),""id"":(\d+)}");
-                if (match.Success)
-                {
-                    //Group 0 - all string
-                    //Group 1 - JSON RPC protocol version
-                    //Group 2 - response tag ("result" or "error")
-                    //Group 3 - response text ("0" for result ok, text for error)
-                    //Group 4 - id
-                    st = match.Groups[2].Value;
-                    attributes = match.Groups[3].Value;
-                    id = match.Groups[4].Value;
-                }
-
-            }
-            else if (responsestr != null && responsestr.Length > 7 && responsestr.Substring(2, 5) == "Event")
-            {
-                //Event message
-                Match match = Regex.Match(responsestr, @"{""Event"":""(.+)"",""Timestamp"":(.+),""Host"":""(.+)"",""Inst"":(\d+),(.+)}");
-                if (match.Success)
-                {
-                    //Group 0 - all string
-                    //Group 1 - the name of the event
-                    //Group 2 - the timesamp of the event in seconds from the epoch, including fractional seconds
-                    //Group 3 - the hostname of the machine running PHD
-                    //Group 4 - the PHD instance number
-                    //Group 5 - attribute string (e.g. for "Version": "PHDVersion":"2.0.4","PHDSubver":"a","MsgVersion":1)
-                    st = match.Groups[1].Value;
-                    attributes = match.Groups[5].Value;
-                    id = match.Groups[4].Value;
-                }
-            }
-            else
-            {
-
-            }
-
-            return st;
-        }
-
-    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -385,7 +198,7 @@ namespace ObservatoryCenter
         public CCDAP_ExternatApplication objCCDAPApp;
         public FocusMax_ExternatApplication objFocusMaxApp;
 
-        public Maxim_ExternatApplication objMaxim;
+        public Maxim_ExternalApplication objMaxim;
 
 
         //public Process MaximDL_Process = new Process();
@@ -421,7 +234,7 @@ namespace ObservatoryCenter
             objFocusMaxApp.FullName = ObsConfig.getString("programsPath", "FOCUSMAX") ?? @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 
             //MaxIm_DL
-            objMaxim = new Maxim_ExternatApplication();
+            objMaxim = new Maxim_ExternalApplication();
             objMaxim.Name = "MaxIm_DL";
             objMaxim.FullName = ObsConfig.getString("programsPath", "MAXIMDL") ?? @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
             
@@ -438,7 +251,7 @@ namespace ObservatoryCenter
         public string startPHD2()
         {
             objPHD2App.Run();
-            objPHD2App.EstablishConnection();
+            objPHD2App.EstablishConnection(); // connect to server
             return objPHD2App.ErrorSt;
         }
 

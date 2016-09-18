@@ -40,7 +40,7 @@ namespace ObservatoryCenter
 
             CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.objCdCApp.ConnectTelescope());
 
-            CommandParser.Commands.Add("PHD2_CONNECT", () => this.objPHD2App.ConnectEquipment());
+            CommandParser.Commands.Add("PHD2_CONNECT", () => this.objPHD2App.CMD_ConnectEquipment());
 
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
         }
