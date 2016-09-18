@@ -174,10 +174,22 @@ namespace ObservatoryCenter
 
             UpdateApplicationsStatus();
 
-            if (ObsControl.objPHD2App.IsRunning())
-            { ObsControl.objPHD2App.CheckProgramEvents(); }
+            UpdatePHDstate();
         }
 
+        private void UpdatePHDstate()
+        {
+            if (ObsControl.objPHD2App.IsRunning())
+            {
+                string curstate=ObsControl.objPHD2App.CheckProgramEvents();
+                txtPHDState.Text = curstate;
+            }
+            else
+            {
+                txtPHDState.Text = "Not running";
+            }
+
+        }
 
         bool MaximRunning = false;
         bool PHDRunning = false;

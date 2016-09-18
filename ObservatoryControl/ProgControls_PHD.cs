@@ -49,10 +49,10 @@ namespace ObservatoryCenter
         /// <summary>
         /// Establish connection to server
         /// </summary>
-        /// <returns></returns>
-        public string EstablishConnection()
+        /// <returns>true if successful</returns>
+        public bool EstablishConnection()
         {
-            string st = "";
+            bool res = false;
             if (ProgramSocket == null)
             {
                 //Connect
@@ -66,30 +66,41 @@ namespace ObservatoryCenter
 
                     //Parse response
                     HandleServerResponse(output2);
+
+                    res = true;
                 }
             }
             else
             {
                 Logging.AddLog("Already connected", LogLevel.Activity);
+                res = true;
             }
-            return "";
+            return res;
         }
 
-        public string CMD_ConnectEquipment()
+
+        /// <summary>
+        /// Send commnad
+        /// </summary>
+        /// <returns></returns>
+        public bool SendCommand(string message)
         {
+            bool res = false;
+            
             //if wasn't connected earlier, connect again
             if (ProgramSocket == null)
             {
                 EstablishConnection();
             }
 
+            Logging.AddLog("PHD2 sending comand: "+message, LogLevel.Debug);
+
             //Send command
-            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";
             string output = SocketServerClass.SendToServer(ProgramSocket, message, out Error);
 
             if (Error >= 0)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(300);
 
                 //Read response
                 string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
@@ -98,31 +109,59 @@ namespace ObservatoryCenter
                 HandleServerResponse(output2);
 
                 //Check
-                if (! LastCommand_Result)
+                if (!LastCommand_Result)
                 {
-                    Error = -2;
-                    ErrorSt = output;
-
-                    Logging.AddLog("PHD2 equipment connection error", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog("Error: " + ErrorSt, LogLevel.Chat, Highlight.Error);
-
+                    Error = -1;
+                    ErrorSt = LastCommand_Message;
+                    Logging.AddLog("PHD2 command failed: "+ LastCommand_Message+"]", LogLevel.Debug, Highlight.Error);
                 }
                 else
                 {
                     Error = 0;
                     ErrorSt = "";
-                    Logging.AddLog("PHD2 equipment connected", LogLevel.Activity);
+                    Logging.AddLog("PHD2 command succesfull", LogLevel.Debug);
+                    res = true;
                 }
             }
             else
             {
-                Logging.AddLog("PHD2 equipment connection error", LogLevel.Important, Highlight.Error);
-                Logging.AddLog("Error: " + ErrorSt, LogLevel.Chat, Highlight.Error);
+                Logging.AddLog("PHD2 send command error: "+ErrorSt, LogLevel.Debug, Highlight.Error);
             }
+
+            return res;
+        }
+        /// <summary>
+        /// Connect equipment
+        /// </summary>
+        /// <returns></returns>
+        public string CMD_ConnectEquipment()
+        {
+            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";
+            bool res = SendCommand(message);
+
+            string output = "";
+
+            //Check
+            if (!res)
+            {
+                output = "PHD2 equipment connection error";
+                Logging.AddLog(output, LogLevel.Important, Highlight.Error);
+                
+            }
+            else
+            {
+                output = "PHD2 equipment connected";
+                Logging.AddLog(output, LogLevel.Activity);
+            }
+
             return output;
         }
 
-        public void CheckProgramEvents()
+        /// <summary>
+        /// Check for incoming PHD messages
+        /// </summary>
+        /// <returns></returns>
+        public string CheckProgramEvents()
         {
             //Read response
             string output = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
@@ -130,8 +169,14 @@ namespace ObservatoryCenter
             //Parse response
             HandleServerResponse(output);
 
+            return currentState.ToString();
         }
 
+        /// <summary>
+        /// Handle response string
+        /// </summary>
+        /// <param name="responsest">Raw string as returned from PHD2</param>
+        /// <returns>true if succesfull</returns>
         public bool HandleServerResponse(string responsest)
         {
             bool res = false;
@@ -157,7 +202,7 @@ namespace ObservatoryCenter
                 //4.1. Response on command
                 if (st_event == "result" || st_event == "error")
                 {
-                    Logging.AddLog("PHD2 comand response:  " + st_event + ", attributes: " + attribs, LogLevel.Debug);
+                    Logging.AddLog("PHD2 comand response: [" + st_event + "], attributes: [" + attribs+"]", LogLevel.Debug);
                     if (st_event == "result")
                     {
                         if (attribs == "0")
@@ -191,6 +236,13 @@ namespace ObservatoryCenter
             return res;
         }
 
+        /// <summary>
+        /// Parse raw string into parts
+        /// </summary>
+        /// <param name="responsestr"></param>
+        /// <param name="attributes"></param>
+        /// <param name="id"></param>
+        /// <returns>event name or response tag</returns>
         private string ParseServerString(string responsestr, out string attributes, out string id)
         {
             //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
@@ -208,7 +260,7 @@ namespace ObservatoryCenter
                 if (responsestr.Length > 7 && responsestr.Substring(2, 5) == "jsonr")
                 {
                     //Server response
-                    Match match = Regex.Match(responsestr, @"{""jsonrpc"":""(.+)"",""(.+)"":(.+),""id"":(\d+)}");
+                    Match match = Regex.Match(responsestr, @"{""jsonrpc"":""(.+)"",""(\w+)"":(.+),""id"":(\d+)}?");
                     if (match.Success)
                     {
                         //Group 0 - all string
@@ -254,17 +306,27 @@ namespace ObservatoryCenter
             return responsetag;
         }
 
+        /// <summary>
+        /// Parse event from server
+        /// </summary>
+        /// <param name="eventst"></param>
+        /// <param name="attributes"></param>
+        /// <param name="id"></param>
+        /// <returns>true if succesfull</returns>
         private bool ParseServerEvents(string eventst, string attributes, string id)
         {
             //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
             //{"Event":"CalibrationComplete","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"Mount":"On Camera"}
             //{"Event":"AppState","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"State":"Stopped"}
-
+            //{\"Event\":\"LoopingExposures\",\"Timestamp\":1474237179.397,\"Host\":\"MAIN\",\"Inst\":1,\"Frame\":22}
+            //{\"Event\":\"LoopingExposures\",\"Timestamp\":1474237180.448,\"Host\":\"MAIN\",\"Inst\":1,\"Frame\":23}
+            //{ "Event":"GuideStep","Timestamp":1474237558.050,"Host":"MAIN","Inst":1,"Frame":11,"Time":11.471,"Mount":"On Camera","dx":0.000,"dy":0.000,"RADistanceRaw":-0.000,"DECDistanceRaw":-0.000,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":56546,"SNR":32.88,"AvgDist":0.00}
             bool resparsedflag = false;
 
             if (eventst == "AppState")
             {
-                /*
+                // "State":"Stopped"
+                /* Initial information (only on connect)
                  *  Stopped 	PHD is idle
                  *  Selected 	A star is selected but PHD is neither looping exposures, calibrating, or guiding
                  *  Calibrating 	PHD is calibrating
@@ -273,8 +335,11 @@ namespace ObservatoryCenter
                  *  Paused 	PHD is paused
                  *  Looping 	PHD is looping exposures
                  */
+
+                string statest = attributes.Substring(9, attributes.Length-10);
+
                 PHDState repState = PHDState.Unknown;
-                if (Enum.TryParse(attributes, out repState))
+                if (Enum.TryParse(statest, out repState))
                 {
                     currentState = repState;
                 }
@@ -286,13 +351,41 @@ namespace ObservatoryCenter
                 resparsedflag = true;
 
             }
-            else if (eventst == "CalibrationComplete")
+            else if (eventst == "LoopingExposures")
             {
-                //CalibrationComplete
-
-                Logging.AddLog("PHD2 message: CalibrationComplete", LogLevel.Debug);
+            //LoopingExposures
+                currentState = PHDState.Looping;
+                Logging.AddLog("PHD2 message: "+ eventst, LogLevel.Debug);
                 resparsedflag = true;
             }
+            else if (eventst == "StartGuiding")
+            {
+                currentState = PHDState.Guiding;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+            else if (eventst == "GuideStep")
+            {
+                //{ "Event":"GuideStep","Timestamp":1474237558.050,"Host":"MAIN","Inst":1,"Frame":11,"Time":11.471,"Mount":"On Camera","dx":0.000,"dy":0.000,"RADistanceRaw":-0.000,"DECDistanceRaw":-0.000,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":56546,"SNR":32.88,"AvgDist":0.00}
+                currentState = PHDState.Guiding;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+            else if (eventst == "GuidingStopped")
+            {
+                //{"Event":"GuidingStopped","Timestamp":1474237854.500,"Host":"MAIN","Inst":1}
+                currentState = PHDState.Paused;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+            else if (eventst == "LoopingExposuresStopped")
+            {
+                //{"Event":"LoopingExposuresStopped","Timestamp":1474237854.502,"Host":"MAIN","Inst":1}
+                currentState = PHDState.Stopped;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+
             else
             {
                 Logging.AddLog("PHD2 unkown message: " + eventst + ", attribs: "+ attributes, LogLevel.Debug);
