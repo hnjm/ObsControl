@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web.Script.Serialization;
 
 namespace ObservatoryCenter
 {
@@ -14,15 +15,41 @@ namespace ObservatoryCenter
     {
         Unknown     = 0,
         Stopped     = 1,
-        Selected    =2,
-        Calibrating =3,
-        Guiding     =4,
-        LostLock    =5,
-        Paused      =6,
-        Looping     =7
+        Selected    = 2,
+        Calibrating = 3,
+        Guiding     = 4,
+        LostLock    = 5,
+        Paused      = 6,
+        Looping     = 7,
+        Settling    = 8,
+        StarLost    = 9,
+        Dithered    =10
     }
 
+    class PHDEvent
+    {
+        string Event;
+        double Timestamp;
+        string Host;
+        int Inst;
+    }
 
+    class PHDEvent_GuideStep : PHDEvent
+    {
+        int Frame;
+        double Time;
+        string Mount;
+        double dx;
+        double dy;
+        double RADistanceRaw;
+        double DECDistanceRaw;
+        double RADistanceGuide;
+        double DECDistanceGuide;
+        int StarMass;
+        double SNR;
+        double AvgDist;
+        //"dx":-0.019,"dy":-0.003,"RADistanceRaw":0.019,"DECDistanceRaw":0.001,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":89804,"SNR":18.44,"AvgDist":0.13}
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -38,6 +65,8 @@ namespace ObservatoryCenter
         private Socket ProgramSocket = null;
 
         public PHDState currentState = PHDState.Unknown;
+
+        public Double LastRAError, LastDecError;
 
         public bool LastCommand_Result = false;
         public string LastCommand_Message="";
@@ -167,7 +196,10 @@ namespace ObservatoryCenter
             string output = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
 
             //Parse response
-            HandleServerResponse(output);
+            if (output != null)
+            {
+                HandleServerResponse(output);
+            }
 
             return currentState.ToString();
         }
@@ -224,7 +256,7 @@ namespace ObservatoryCenter
                 //4.2. Events
                 {
                     //Parse server events
-                    res = ParseServerEvents(st_event, attribs,id);
+                    res = ParseServerEvents(st_event, attribs,id, curline);
                     
                     //reset command result
                     LastCommand_Result = false; 
@@ -236,6 +268,8 @@ namespace ObservatoryCenter
             return res;
         }
 
+
+
         /// <summary>
         /// Parse raw string into parts
         /// </summary>
@@ -243,13 +277,17 @@ namespace ObservatoryCenter
         /// <param name="attributes"></param>
         /// <param name="id"></param>
         /// <returns>event name or response tag</returns>
-        private string ParseServerString(string responsestr, out string attributes, out string id)
+        private string ParseServerString(string responsestr, out string attributes, out string id, string jsonstring="")
         {
             //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
             //{"Event":"CalibrationComplete","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"Mount":"On Camera"}
             //{"Event":"AppState","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"State":"Stopped"}
+            //{"Event":"LoopingExposures","Timestamp":1474311898.642,"Host":"MAIN","Inst":1,"Frame":11}
+            //{"Event":"LoopingExposuresStopped","Timestamp":1474311899.349,"Host":"MAIN","Inst":1}
+            //{"Event":"LockPositionLost","Timestamp":1474311899.349,"Host":"MAIN","Inst":1}
             //good response: {"jsonrpc":"2.0","result":0,"id":2}
             //bad response:  {"jsonrpc":"2.0","error":{"code":1,"message":"cannot connect equipment when Connect Equipment dialog is open"},"id":1}
+            //{"Event":"GuideStep","Timestamp":1474313655.899,"Host":"MAIN","Inst":1,"Frame":30,"Time":32.081,"Mount":"On Camera","dx":-0.019,"dy":-0.003,"RADistanceRaw":0.019,"DECDistanceRaw":0.001,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":89804,"SNR":18.44,"AvgDist":0.13}
 
             string responsetag = "";
             id = "-1";
@@ -277,7 +315,7 @@ namespace ObservatoryCenter
                 else if (responsestr.Length > 7 && responsestr.Substring(2, 5) == "Event")
                 {
                     //Event message
-                    Match match = Regex.Match(responsestr, @"{""Event"":""(.+)"",""Timestamp"":(.+),""Host"":""(.+)"",""Inst"":(\d+),(.+)}");
+                    Match match = Regex.Match(responsestr, @"{""Event"":""(.+)"",""Timestamp"":(.+),""Host"":""(.+)"",""Inst"":(\d+),*(.*)}");
                     if (match.Success)
                     {
                         //Group 0 - all string
@@ -313,14 +351,16 @@ namespace ObservatoryCenter
         /// <param name="attributes"></param>
         /// <param name="id"></param>
         /// <returns>true if succesfull</returns>
-        private bool ParseServerEvents(string eventst, string attributes, string id)
+        private bool ParseServerEvents(string eventst, string attributes, string id, string jsonstring = "")
         {
             //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
             //{"Event":"CalibrationComplete","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"Mount":"On Camera"}
             //{"Event":"AppState","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"State":"Stopped"}
             //{\"Event\":\"LoopingExposures\",\"Timestamp\":1474237179.397,\"Host\":\"MAIN\",\"Inst\":1,\"Frame\":22}
             //{\"Event\":\"LoopingExposures\",\"Timestamp\":1474237180.448,\"Host\":\"MAIN\",\"Inst\":1,\"Frame\":23}
-            //{ "Event":"GuideStep","Timestamp":1474237558.050,"Host":"MAIN","Inst":1,"Frame":11,"Time":11.471,"Mount":"On Camera","dx":0.000,"dy":0.000,"RADistanceRaw":-0.000,"DECDistanceRaw":-0.000,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":56546,"SNR":32.88,"AvgDist":0.00}
+            //{"Event":"LoopingExposuresStopped","Timestamp":1474311899.349,"Host":"MAIN","Inst":1}
+            //{"Event":"LockPositionLost","Timestamp":1474311899.349,"Host":"MAIN","Inst":1}
+            //{"Event":"GuideStep","Timestamp":1474313653.803,"Host":"MAIN","Inst":1,"Frame":28,"Time":29.985,"Mount":"On Camera","dx":0.131,"dy":0.172,"RADistanceRaw":-0.168,"DECDistanceRaw":0.140,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":81185,"SNR":19.05,"AvgDist":0.21}
             bool resparsedflag = false;
 
             if (eventst == "AppState")
@@ -366,8 +406,11 @@ namespace ObservatoryCenter
             }
             else if (eventst == "GuideStep")
             {
-                //{ "Event":"GuideStep","Timestamp":1474237558.050,"Host":"MAIN","Inst":1,"Frame":11,"Time":11.471,"Mount":"On Camera","dx":0.000,"dy":0.000,"RADistanceRaw":-0.000,"DECDistanceRaw":-0.000,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":56546,"SNR":32.88,"AvgDist":0.00}
+                //{"Event":"GuideStep","Timestamp":1474313653.803,"Host":"MAIN","Inst":1,"Frame":28,"Time":29.985,"Mount":"On Camera","dx":0.131,"dy":0.172,"RADistanceRaw":-0.168,"DECDistanceRaw":0.140,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":81185,"SNR":19.05,"AvgDist":0.21}
                 currentState = PHDState.Guiding;
+                var json = new JavaScriptSerializer().Deserialize<Dictionary<string, dynamic>>(jsonstring);
+                LastRAError = (double)json["RADistanceRaw"];
+                LastDecError = (double)json["DECDistanceRaw"];
                 Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
                 resparsedflag = true;
             }
@@ -385,7 +428,25 @@ namespace ObservatoryCenter
                 Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
                 resparsedflag = true;
             }
-
+            else if (eventst == "Settling")
+            {
+                currentState = PHDState.Settling;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+            else if (eventst == "StarLost")
+            {
+                currentState = PHDState.StarLost;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+            else if (eventst == "GuidingDithered")
+            {
+                currentState = PHDState.Dithered;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
+            
             else
             {
                 Logging.AddLog("PHD2 unkown message: " + eventst + ", attribs: "+ attributes, LogLevel.Debug);

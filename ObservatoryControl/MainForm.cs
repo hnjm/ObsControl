@@ -183,6 +183,11 @@ namespace ObservatoryCenter
             {
                 string curstate=ObsControl.objPHD2App.CheckProgramEvents();
                 txtPHDState.Text = curstate;
+
+                if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
+                {
+                    txtGuiderErrorPHD.AppendText(ObsControl.objPHD2App.LastRAError + " / "+ ObsControl.objPHD2App.LastDecError+Environment.NewLine);
+                }
             }
             else
             {

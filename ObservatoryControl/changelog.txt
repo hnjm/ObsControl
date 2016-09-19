@@ -15,6 +15,9 @@ to do:
 - web platform for remote control
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.7 [19.09.16]
+- phd events reading done
+
 0.5.6 [18.09.16]
 - phd events reading (guider stopped cannt be handled)
 

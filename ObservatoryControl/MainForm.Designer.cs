@@ -32,6 +32,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageControl = new System.Windows.Forms.TabPage();
+            this.MaximGuider = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtGuiderErrorMaxim = new System.Windows.Forms.RichTextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtGuiderExposure = new System.Windows.Forms.TextBox();
+            this.txtGuiderLastErrSt = new System.Windows.Forms.TextBox();
+            this.txtGuider_AggY = new System.Windows.Forms.TextBox();
+            this.txtGuider_AggX = new System.Windows.Forms.TextBox();
+            this.btnGuider = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.RichTextBox();
             this.tabPageWeather = new System.Windows.Forms.TabPage();
             this.tabPageAllsky = new System.Windows.Forms.TabPage();
@@ -115,16 +125,6 @@
             this.txtCameraStatus = new System.Windows.Forms.TextBox();
             this.txtCameraBinMode = new System.Windows.Forms.TextBox();
             this.txtFilterName = new System.Windows.Forms.TextBox();
-            this.MaximGuider = new System.Windows.Forms.GroupBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtGuiderError = new System.Windows.Forms.RichTextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtGuiderExposure = new System.Windows.Forms.TextBox();
-            this.txtGuiderLastErrSt = new System.Windows.Forms.TextBox();
-            this.txtGuider_AggY = new System.Windows.Forms.TextBox();
-            this.txtGuider_AggX = new System.Windows.Forms.TextBox();
-            this.btnGuider = new System.Windows.Forms.Button();
             this.logRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTelescope = new System.Windows.Forms.GroupBox();
             this.btnConnectTelescope = new System.Windows.Forms.Button();
@@ -144,11 +144,12 @@
             this.mainTimer_Long = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_runprograms = new System.ComponentModel.BackgroundWorker();
             this.PHDGuiding = new System.Windows.Forms.GroupBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.txtGuiderErrorPHD = new System.Windows.Forms.RichTextBox();
             this.txtPHDState = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
+            this.MaximGuider.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -162,7 +163,6 @@
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updownCameraSetPoint)).BeginInit();
-            this.MaximGuider.SuspendLayout();
             this.groupBoxTelescope.SuspendLayout();
             this.PHDGuiding.SuspendLayout();
             this.SuspendLayout();
@@ -195,6 +195,104 @@
             this.tabPageControl.TabIndex = 0;
             this.tabPageControl.Text = "Log";
             this.tabPageControl.UseVisualStyleBackColor = true;
+            // 
+            // MaximGuider
+            // 
+            this.MaximGuider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaximGuider.Controls.Add(this.label20);
+            this.MaximGuider.Controls.Add(this.txtGuiderErrorMaxim);
+            this.MaximGuider.Controls.Add(this.label19);
+            this.MaximGuider.Controls.Add(this.label18);
+            this.MaximGuider.Controls.Add(this.txtGuiderExposure);
+            this.MaximGuider.Controls.Add(this.txtGuiderLastErrSt);
+            this.MaximGuider.Controls.Add(this.txtGuider_AggY);
+            this.MaximGuider.Controls.Add(this.txtGuider_AggX);
+            this.MaximGuider.Controls.Add(this.btnGuider);
+            this.MaximGuider.Location = new System.Drawing.Point(267, 9);
+            this.MaximGuider.Name = "MaximGuider";
+            this.MaximGuider.Size = new System.Drawing.Size(471, 92);
+            this.MaximGuider.TabIndex = 4;
+            this.MaximGuider.TabStop = false;
+            this.MaximGuider.Text = "MaximGuider";
+            this.MaximGuider.Visible = false;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(141, 24);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(12, 13);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "s";
+            // 
+            // txtGuiderErrorMaxim
+            // 
+            this.txtGuiderErrorMaxim.Location = new System.Drawing.Point(363, 13);
+            this.txtGuiderErrorMaxim.Name = "txtGuiderErrorMaxim";
+            this.txtGuiderErrorMaxim.Size = new System.Drawing.Size(102, 68);
+            this.txtGuiderErrorMaxim.TabIndex = 3;
+            this.txtGuiderErrorMaxim.Text = "";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(75, 53);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(36, 13);
+            this.label19.TabIndex = 2;
+            this.label19.Text = "Agg Y";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 53);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(36, 13);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Agg X";
+            // 
+            // txtGuiderExposure
+            // 
+            this.txtGuiderExposure.Location = new System.Drawing.Point(107, 21);
+            this.txtGuiderExposure.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGuiderExposure.Name = "txtGuiderExposure";
+            this.txtGuiderExposure.Size = new System.Drawing.Size(32, 20);
+            this.txtGuiderExposure.TabIndex = 1;
+            // 
+            // txtGuiderLastErrSt
+            // 
+            this.txtGuiderLastErrSt.Location = new System.Drawing.Point(189, 21);
+            this.txtGuiderLastErrSt.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGuiderLastErrSt.Name = "txtGuiderLastErrSt";
+            this.txtGuiderLastErrSt.Size = new System.Drawing.Size(135, 20);
+            this.txtGuiderLastErrSt.TabIndex = 1;
+            // 
+            // txtGuider_AggY
+            // 
+            this.txtGuider_AggY.Location = new System.Drawing.Point(116, 50);
+            this.txtGuider_AggY.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGuider_AggY.Name = "txtGuider_AggY";
+            this.txtGuider_AggY.Size = new System.Drawing.Size(23, 20);
+            this.txtGuider_AggY.TabIndex = 1;
+            // 
+            // txtGuider_AggX
+            // 
+            this.txtGuider_AggX.Location = new System.Drawing.Point(47, 50);
+            this.txtGuider_AggX.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGuider_AggX.Name = "txtGuider_AggX";
+            this.txtGuider_AggX.Size = new System.Drawing.Size(23, 20);
+            this.txtGuider_AggX.TabIndex = 1;
+            // 
+            // btnGuider
+            // 
+            this.btnGuider.Location = new System.Drawing.Point(8, 19);
+            this.btnGuider.Name = "btnGuider";
+            this.btnGuider.Size = new System.Drawing.Size(94, 23);
+            this.btnGuider.TabIndex = 0;
+            this.btnGuider.Text = "Guider";
+            this.btnGuider.UseVisualStyleBackColor = true;
+            this.btnGuider.Click += new System.EventHandler(this.btnGuider_Click);
             // 
             // txtLog
             // 
@@ -1074,104 +1172,6 @@
             this.txtFilterName.Size = new System.Drawing.Size(76, 20);
             this.txtFilterName.TabIndex = 0;
             // 
-            // MaximGuider
-            // 
-            this.MaximGuider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MaximGuider.Controls.Add(this.label20);
-            this.MaximGuider.Controls.Add(this.txtGuiderError);
-            this.MaximGuider.Controls.Add(this.label19);
-            this.MaximGuider.Controls.Add(this.label18);
-            this.MaximGuider.Controls.Add(this.txtGuiderExposure);
-            this.MaximGuider.Controls.Add(this.txtGuiderLastErrSt);
-            this.MaximGuider.Controls.Add(this.txtGuider_AggY);
-            this.MaximGuider.Controls.Add(this.txtGuider_AggX);
-            this.MaximGuider.Controls.Add(this.btnGuider);
-            this.MaximGuider.Location = new System.Drawing.Point(267, 9);
-            this.MaximGuider.Name = "MaximGuider";
-            this.MaximGuider.Size = new System.Drawing.Size(471, 92);
-            this.MaximGuider.TabIndex = 4;
-            this.MaximGuider.TabStop = false;
-            this.MaximGuider.Text = "MaximGuider";
-            this.MaximGuider.Visible = false;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(141, 24);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(12, 13);
-            this.label20.TabIndex = 4;
-            this.label20.Text = "s";
-            // 
-            // txtGuiderError
-            // 
-            this.txtGuiderError.Location = new System.Drawing.Point(363, 13);
-            this.txtGuiderError.Name = "txtGuiderError";
-            this.txtGuiderError.Size = new System.Drawing.Size(102, 68);
-            this.txtGuiderError.TabIndex = 3;
-            this.txtGuiderError.Text = "";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(75, 53);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(36, 13);
-            this.label19.TabIndex = 2;
-            this.label19.Text = "Agg Y";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 53);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(36, 13);
-            this.label18.TabIndex = 2;
-            this.label18.Text = "Agg X";
-            // 
-            // txtGuiderExposure
-            // 
-            this.txtGuiderExposure.Location = new System.Drawing.Point(107, 21);
-            this.txtGuiderExposure.Margin = new System.Windows.Forms.Padding(2);
-            this.txtGuiderExposure.Name = "txtGuiderExposure";
-            this.txtGuiderExposure.Size = new System.Drawing.Size(32, 20);
-            this.txtGuiderExposure.TabIndex = 1;
-            // 
-            // txtGuiderLastErrSt
-            // 
-            this.txtGuiderLastErrSt.Location = new System.Drawing.Point(189, 21);
-            this.txtGuiderLastErrSt.Margin = new System.Windows.Forms.Padding(2);
-            this.txtGuiderLastErrSt.Name = "txtGuiderLastErrSt";
-            this.txtGuiderLastErrSt.Size = new System.Drawing.Size(135, 20);
-            this.txtGuiderLastErrSt.TabIndex = 1;
-            // 
-            // txtGuider_AggY
-            // 
-            this.txtGuider_AggY.Location = new System.Drawing.Point(116, 50);
-            this.txtGuider_AggY.Margin = new System.Windows.Forms.Padding(2);
-            this.txtGuider_AggY.Name = "txtGuider_AggY";
-            this.txtGuider_AggY.Size = new System.Drawing.Size(23, 20);
-            this.txtGuider_AggY.TabIndex = 1;
-            // 
-            // txtGuider_AggX
-            // 
-            this.txtGuider_AggX.Location = new System.Drawing.Point(47, 50);
-            this.txtGuider_AggX.Margin = new System.Windows.Forms.Padding(2);
-            this.txtGuider_AggX.Name = "txtGuider_AggX";
-            this.txtGuider_AggX.Size = new System.Drawing.Size(23, 20);
-            this.txtGuider_AggX.TabIndex = 1;
-            // 
-            // btnGuider
-            // 
-            this.btnGuider.Location = new System.Drawing.Point(8, 19);
-            this.btnGuider.Name = "btnGuider";
-            this.btnGuider.Size = new System.Drawing.Size(94, 23);
-            this.btnGuider.TabIndex = 0;
-            this.btnGuider.Text = "Guider";
-            this.btnGuider.UseVisualStyleBackColor = true;
-            this.btnGuider.Click += new System.EventHandler(this.btnGuider_Click);
-            // 
             // logRefreshTimer
             // 
             this.logRefreshTimer.Interval = 500;
@@ -1343,7 +1343,7 @@
             // 
             this.PHDGuiding.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PHDGuiding.Controls.Add(this.richTextBox1);
+            this.PHDGuiding.Controls.Add(this.txtGuiderErrorPHD);
             this.PHDGuiding.Controls.Add(this.txtPHDState);
             this.PHDGuiding.Controls.Add(this.label21);
             this.PHDGuiding.Location = new System.Drawing.Point(260, 157);
@@ -1353,13 +1353,13 @@
             this.PHDGuiding.TabStop = false;
             this.PHDGuiding.Text = "PHDGuiding";
             // 
-            // richTextBox1
+            // txtGuiderErrorPHD
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(363, 13);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(102, 68);
-            this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "";
+            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(363, 13);
+            this.txtGuiderErrorPHD.Name = "txtGuiderErrorPHD";
+            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(102, 68);
+            this.txtGuiderErrorPHD.TabIndex = 3;
+            this.txtGuiderErrorPHD.Text = "";
             // 
             // txtPHDState
             // 
@@ -1398,6 +1398,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPageControl.ResumeLayout(false);
+            this.MaximGuider.ResumeLayout(false);
+            this.MaximGuider.PerformLayout();
             this.tabPageSettings.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
@@ -1418,8 +1420,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updownCameraSetPoint)).EndInit();
-            this.MaximGuider.ResumeLayout(false);
-            this.MaximGuider.PerformLayout();
             this.groupBoxTelescope.ResumeLayout(false);
             this.groupBoxTelescope.PerformLayout();
             this.PHDGuiding.ResumeLayout(false);
@@ -1525,7 +1525,7 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtGuider_AggY;
         private System.Windows.Forms.TextBox txtGuider_AggX;
-        private System.Windows.Forms.RichTextBox txtGuiderError;
+        private System.Windows.Forms.RichTextBox txtGuiderErrorMaxim;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox txtGuiderExposure;
         private System.Windows.Forms.TextBox txtGuiderLastErrSt;
@@ -1545,7 +1545,7 @@
         private System.Windows.Forms.Button btnCoolerOn;
         private System.Windows.Forms.NumericUpDown updownCameraSetPoint;
         private System.Windows.Forms.GroupBox PHDGuiding;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox txtGuiderErrorPHD;
         private System.Windows.Forms.TextBox txtPHDState;
         private System.Windows.Forms.Label label21;
     }

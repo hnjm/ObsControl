@@ -220,23 +220,27 @@ namespace ObservatoryCenter
                 // Буфер для входящих данных
                 byte[] bytes = new byte[1024];
                 string responseMessAll = "";
-
+                int bytesRecW = -1;
                 try
                 {
                     // Получаем первый ответ от сервера
                     while (ServerSocket.Available > 0)
                     {
-                        int bytesRecW = ServerSocket.Receive(bytes);
+                        bytesRecW = ServerSocket.Receive(bytes);
                         string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
                         responseMessAll += responseMess;
                         Logging.AddLog("Received message from server: " + responseMess, LogLevel.Chat);
                     }
-                    if (responseMessAll == "")
+                    if (bytesRecW >0)
                     {
-                        Logging.AddLog("Nothing received from the server", LogLevel.Chat);
+                        ErrorCode = 0;
+                        return responseMessAll;
                     }
-                    ErrorCode = 0;
-                    return responseMessAll;
+                    else
+                    {
+                        ErrorCode = -10;
+                        return null;
+                    }
                 }
                 catch (Exception Ex)
                 {
