@@ -3,7 +3,7 @@ Copyright by Emchenko Boris 2014-2015
 http://astromania.info
 
 to do:
-- reading data from PHD2
+- cannt connect when closing and opening PHD2 second time
 - reading data from weatherstation
 - parsing CCDAP activity and send it to server
 - check internet connection (ping) during startup
