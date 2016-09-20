@@ -38,6 +38,11 @@ namespace ObservatoryCenter
         internal DateTime RoofRoutine_StartTime;
         internal int curRoofRoutineDuration_Seconds;
 
+        public double GuiderFocalLen;
+        public double CamPixelSizeX;
+        public double CamPixelSizeY;
+        public double GuidePiexelScale = 1; //value will br received from PHD2
+
         public ASCOM.Utilities.Util ASCOMUtils=new ASCOM.Utilities.Util();
 
         /// <summary>
@@ -132,6 +137,7 @@ namespace ObservatoryCenter
         {
             return -20.0;
         }
+
 
     }
 

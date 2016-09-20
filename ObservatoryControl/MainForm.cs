@@ -181,13 +181,42 @@ namespace ObservatoryCenter
         {
             if (ObsControl.objPHD2App.IsRunning())
             {
-                string curstate=ObsControl.objPHD2App.CheckProgramEvents();
+                string curstate = ObsControl.objPHD2App.currentState.ToString();
                 txtPHDState.Text = curstate;
 
-                if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
+                //Check if any pending events
+                if (ObsControl.objPHD2App.CheckProgramEvents())
                 {
-                    txtGuiderErrorPHD.AppendText(ObsControl.objPHD2App.LastRAError + " / "+ ObsControl.objPHD2App.LastDecError+Environment.NewLine);
-                    //chart1.
+                    //If guiding now, calclulate and display stats
+                    if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
+                    {
+                        double XVal1 = Math.Round(ObsControl.objPHD2App.LastRAError, 2);
+                        double YVal1 = Math.Round(ObsControl.objPHD2App.LastDecError, 2);
+
+                        txtGuiderErrorPHD.AppendText(XVal1 + " / "+ YVal1 + Environment.NewLine);
+
+                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError * ObsControl.GuidePiexelScale, 2);
+                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError * ObsControl.GuidePiexelScale, 2);
+
+                        GuidingStats.CalculateRMS(XVal, YVal);
+
+                        string sername = "SeriesGuideError";
+                        if (Math.Abs(XVal) > 1)
+                        {
+                            XVal = 2*Math.Sign(XVal); sername = "SeriesGuideErrorOutOfScale";
+                        }
+                        if (Math.Abs(YVal) > 1)
+                        {
+                            YVal = 2 * Math.Sign(YVal); sername = "SeriesGuideErrorOutOfScale";
+                        }
+                        //draw value
+                        chart1.Series[sername].Points.AddXY(XVal, YVal);
+
+                        //display RMS
+                        txtRMS_X.Text=Math.Round(GuidingStats.RMS_X,2).ToString();
+                        txtRMS_Y.Text = Math.Round(GuidingStats.RMS_Y,2).ToString();
+                        txtRMS.Text = Math.Round(GuidingStats.RMS,2).ToString();
+                    }
                 }
             }
             else
@@ -1006,6 +1035,7 @@ namespace ObservatoryCenter
         {
             //ObsControl.objPHD2App.testTCP();
             ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
+            ObsControl.GuidePiexelScale=ObsControl.objPHD2App.CMD_GetPixelScale(); //connect equipment
         }
 
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1063,5 +1093,19 @@ namespace ObservatoryCenter
         {
             ObsControl.objMaxim.SetCameraCooling(Convert.ToDouble(updownCameraSetPoint.Value));
         }
-    }
+
+        private void btnClearGuidingStat_Click(object sender, EventArgs e)
+        {
+            txtGuiderErrorPHD.Text = "";
+            GuidingStats.Reset();
+
+            chart1.Series["SeriesGuideError"].Points.Clear();
+            chart1.Series["SeriesGuideErrorOutOfScale"].Points.Clear();
+
+            txtRMS_X.Text = "";
+            txtRMS_Y.Text = "";
+            txtRMS.Text = "";
+
+            }
+        }
 }

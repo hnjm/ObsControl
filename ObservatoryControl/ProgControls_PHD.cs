@@ -51,6 +51,41 @@ namespace ObservatoryCenter
         //"dx":-0.019,"dy":-0.003,"RADistanceRaw":0.019,"DECDistanceRaw":0.001,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":89804,"SNR":18.44,"AvgDist":0.13}
     }
 
+    public static class GuidingStats
+    {
+        internal static double SUM_XX, SUM_YY;
+        internal static int NUMX, NUMY;
+
+        public static double RMS_X, RMS_Y, RMS;
+        public static double LastRAError, LastDecError;
+
+        public static void Reset()
+        {
+            SUM_XX = 0; NUMX = 0;
+            SUM_YY = 0; NUMY = 0;
+            RMS_X = 0;
+            RMS_Y = 0;
+            RMS = 0;
+        }
+        public static void CalculateRMS(double XVal, double YVal)
+        {
+            LastRAError = XVal;
+            LastDecError = YVal;
+
+            SUM_XX += XVal * XVal;
+            NUMX++; 
+            SUM_YY += YVal * YVal;
+            NUMY++;
+
+            RMS_X = Math.Sqrt(SUM_XX/NUMX);
+            RMS_Y = Math.Sqrt(SUM_YY/NUMY);
+
+            RMS = Math.Sqrt(RMS_X * RMS_X + RMS_Y * RMS_Y);
+        }
+
+    }
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // PHD2 class
@@ -112,7 +147,7 @@ namespace ObservatoryCenter
         /// Send commnad
         /// </summary>
         /// <returns></returns>
-        public bool SendCommand(string message)
+        public bool SendCommand(string message, out string result)
         {
             bool res = false;
             
@@ -135,7 +170,7 @@ namespace ObservatoryCenter
                 string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
 
                 //Parse response
-                HandleServerResponse(output2);
+                HandleServerResponse(output2, out result);
 
                 //Check
                 if (!LastCommand_Result)
@@ -154,44 +189,31 @@ namespace ObservatoryCenter
             }
             else
             {
+                result = "";
                 Logging.AddLog("PHD2 send command error: "+ErrorSt, LogLevel.Debug, Highlight.Error);
             }
 
             return res;
         }
+
         /// <summary>
-        /// Connect equipment
+        /// SendCommand overload with only 1 parameter
         /// </summary>
+        /// <param name="message"></param>
         /// <returns></returns>
-        public string CMD_ConnectEquipment()
+        public bool SendCommand(string message)
         {
-            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";
-            bool res = SendCommand(message);
-
-            string output = "";
-
-            //Check
-            if (!res)
-            {
-                output = "PHD2 equipment connection error";
-                Logging.AddLog(output, LogLevel.Important, Highlight.Error);
-                
-            }
-            else
-            {
-                output = "PHD2 equipment connected";
-                Logging.AddLog(output, LogLevel.Activity);
-            }
-
-            return output;
+            string dumbstring = "";
+            bool res = SendCommand(message, out dumbstring);
+            return res;
         }
-
         /// <summary>
         /// Check for incoming PHD messages
         /// </summary>
         /// <returns></returns>
-        public string CheckProgramEvents()
+        public bool CheckProgramEvents()
         {
+            bool res = false;
             //Read response
             string output = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
 
@@ -199,19 +221,23 @@ namespace ObservatoryCenter
             if (output != null)
             {
                 HandleServerResponse(output);
+                res = true;
+
             }
 
-            return currentState.ToString();
+            return res;
         }
+
 
         /// <summary>
         /// Handle response string
         /// </summary>
         /// <param name="responsest">Raw string as returned from PHD2</param>
         /// <returns>true if succesfull</returns>
-        public bool HandleServerResponse(string responsest)
+        public bool HandleServerResponse(string responsest, out string result)
         {
             bool res = false;
+            result = "";
 
             if (responsest == null) return false;
 
@@ -237,11 +263,7 @@ namespace ObservatoryCenter
                     Logging.AddLog("PHD2 comand response: [" + st_event + "], attributes: [" + attribs+"]", LogLevel.Debug);
                     if (st_event == "result")
                     {
-                        if (attribs == "0")
-                            LastCommand_Result = true;
-                        else
-                            LastCommand_Result = false;
-
+                        LastCommand_Result = true;
                         LastCommand_Message = attribs;
                         res = true;
                     }
@@ -251,6 +273,7 @@ namespace ObservatoryCenter
                         LastCommand_Message = attribs;
                         res = true;
                     }
+                    result = attribs;
                 }
                 else
                 //4.2. Events
@@ -261,6 +284,7 @@ namespace ObservatoryCenter
                     //reset command result
                     LastCommand_Result = false; 
                     LastCommand_Message = "";
+                    result = attribs;
                 }
 
             }
@@ -268,6 +292,17 @@ namespace ObservatoryCenter
             return res;
         }
 
+        /// <summary>
+        /// Overload HandleServerResponse with only 1 argument (no need in result string)
+        /// </summary>
+        /// <param name="responsest"></param>
+        /// <returns></returns>
+        public bool HandleServerResponse(string responsest)
+        {
+            string dumbstring = "";
+            bool res = HandleServerResponse(responsest, out dumbstring);
+            return res;
+        }
 
 
         /// <summary>
@@ -400,7 +435,7 @@ namespace ObservatoryCenter
             }
             else if (eventst == "StartGuiding")
             {
-                currentState = PHDState.Guiding;
+                //currentState = PHDState.Guiding;
                 Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
                 resparsedflag = true;
             }
@@ -453,6 +488,67 @@ namespace ObservatoryCenter
             }
 
             return resparsedflag;
+        }
+
+        /// <summary>
+        /// Connect equipment
+        /// </summary>
+        /// <returns></returns>
+        public string CMD_ConnectEquipment()
+        {
+            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";
+            
+            bool res = SendCommand(message);
+
+            string output = "";
+
+            //Check
+            if (!res)
+            {
+                output = "PHD2 equipment connection error";
+                Logging.AddLog(output, LogLevel.Important, Highlight.Error);
+
+            }
+            else
+            {
+                output = "PHD2 equipment connected";
+                Logging.AddLog(output, LogLevel.Activity);
+            }
+
+            return output;
+        }
+
+
+
+        /// <summary>
+        /// Get pixel scale
+        /// </summary>
+        /// <returns></returns>
+        public double CMD_GetPixelScale()
+        {
+            //{"method": "get_pixel_scale", "id": 1}
+            string message = @"{""method"": ""get_pixel_scale"", ""id"": 1}" + "\r\n";
+            double result = -1;
+            string result_st = "";
+            bool res = SendCommand(message, out result_st);
+
+            string output = "";
+
+            //Check
+            if (!res)
+            {
+                output = "Get pixel scale command error";
+                Logging.AddLog(output, LogLevel.Important, Highlight.Error);
+
+            }
+            else
+            {
+                output = "Get pixel scale command result: " + result_st;
+                Logging.AddLog(output, LogLevel.Activity);
+            }
+            if (!Double.TryParse(result_st, out result)) result = -1;
+
+            return result;
         }
 
 

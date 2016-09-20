@@ -33,6 +33,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageControl = new System.Windows.Forms.TabPage();
             this.MaximGuider = new System.Windows.Forms.GroupBox();
@@ -147,16 +148,29 @@
             this.mainTimer_Long = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_runprograms = new System.ComponentModel.BackgroundWorker();
             this.PHDGuiding = new System.Windows.Forms.GroupBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtGuiderErrorPHD = new System.Windows.Forms.RichTextBox();
+            this.txtRMS = new System.Windows.Forms.TextBox();
+            this.txtRMS_Y = new System.Windows.Forms.TextBox();
+            this.btnClearGuidingStat = new System.Windows.Forms.Button();
+            this.txtRMS_X = new System.Windows.Forms.TextBox();
             this.txtPHDState = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.btnAstroTortilla = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnAstroTortilla = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.txtLastFocusHFD = new System.Windows.Forms.TextBox();
+            this.btnFocus = new System.Windows.Forms.Button();
+            this.btnAcquireStar = new System.Windows.Forms.Button();
+            this.btnPAM = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.MaximGuider.SuspendLayout();
@@ -175,8 +189,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.updownCameraSetPoint)).BeginInit();
             this.groupBoxTelescope.SuspendLayout();
             this.PHDGuiding.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -324,7 +339,7 @@
             this.tabPageWeather.Location = new System.Drawing.Point(4, 22);
             this.tabPageWeather.Name = "tabPageWeather";
             this.tabPageWeather.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWeather.Size = new System.Drawing.Size(750, 339);
+            this.tabPageWeather.Size = new System.Drawing.Size(746, 340);
             this.tabPageWeather.TabIndex = 1;
             this.tabPageWeather.Text = "Weather";
             this.tabPageWeather.UseVisualStyleBackColor = true;
@@ -333,7 +348,7 @@
             // 
             this.tabPageAllsky.Location = new System.Drawing.Point(4, 22);
             this.tabPageAllsky.Name = "tabPageAllsky";
-            this.tabPageAllsky.Size = new System.Drawing.Size(750, 339);
+            this.tabPageAllsky.Size = new System.Drawing.Size(746, 340);
             this.tabPageAllsky.TabIndex = 2;
             this.tabPageAllsky.Text = "AllSky";
             this.tabPageAllsky.UseVisualStyleBackColor = true;
@@ -342,7 +357,7 @@
             // 
             this.tabPageCameras.Location = new System.Drawing.Point(4, 22);
             this.tabPageCameras.Name = "tabPageCameras";
-            this.tabPageCameras.Size = new System.Drawing.Size(750, 339);
+            this.tabPageCameras.Size = new System.Drawing.Size(746, 340);
             this.tabPageCameras.TabIndex = 3;
             this.tabPageCameras.Text = "Cameras";
             this.tabPageCameras.UseVisualStyleBackColor = true;
@@ -355,7 +370,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettings.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Size = new System.Drawing.Size(750, 339);
+            this.tabPageSettings.Size = new System.Drawing.Size(746, 340);
             this.tabPageSettings.TabIndex = 4;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -501,7 +516,7 @@
             this.tabPageAbout.Controls.Add(this.pictureBox1);
             this.tabPageAbout.Location = new System.Drawing.Point(4, 22);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Size = new System.Drawing.Size(750, 339);
+            this.tabPageAbout.Size = new System.Drawing.Size(746, 340);
             this.tabPageAbout.TabIndex = 5;
             this.tabPageAbout.Text = "About";
             this.tabPageAbout.UseVisualStyleBackColor = true;
@@ -1192,7 +1207,9 @@
             // groupBoxTelescope
             // 
             this.groupBoxTelescope.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxTelescope.Controls.Add(this.btnPAM);
             this.groupBoxTelescope.Controls.Add(this.btnConnectTelescope);
+            this.groupBoxTelescope.Controls.Add(this.groupBox7);
             this.groupBoxTelescope.Controls.Add(this.btnTrack);
             this.groupBoxTelescope.Controls.Add(this.btnPark);
             this.groupBoxTelescope.Controls.Add(this.txtPierSide);
@@ -1210,7 +1227,7 @@
             this.groupBoxTelescope.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxTelescope.Name = "groupBoxTelescope";
             this.groupBoxTelescope.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBoxTelescope.Size = new System.Drawing.Size(274, 198);
+            this.groupBoxTelescope.Size = new System.Drawing.Size(274, 280);
             this.groupBoxTelescope.TabIndex = 3;
             this.groupBoxTelescope.TabStop = false;
             this.groupBoxTelescope.Text = "Telescope";
@@ -1357,7 +1374,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PHDGuiding.Controls.Add(this.chart1);
             this.PHDGuiding.Controls.Add(this.txtGuiderErrorPHD);
+            this.PHDGuiding.Controls.Add(this.txtRMS);
+            this.PHDGuiding.Controls.Add(this.txtRMS_Y);
+            this.PHDGuiding.Controls.Add(this.btnClearGuidingStat);
+            this.PHDGuiding.Controls.Add(this.txtRMS_X);
             this.PHDGuiding.Controls.Add(this.txtPHDState);
+            this.PHDGuiding.Controls.Add(this.label26);
+            this.PHDGuiding.Controls.Add(this.label25);
+            this.PHDGuiding.Controls.Add(this.label24);
             this.PHDGuiding.Controls.Add(this.label21);
             this.PHDGuiding.Location = new System.Drawing.Point(260, 157);
             this.PHDGuiding.Name = "PHDGuiding";
@@ -1366,13 +1390,105 @@
             this.PHDGuiding.TabStop = false;
             this.PHDGuiding.Text = "PHDGuiding";
             // 
+            // chart1
+            // 
+            chartArea1.AxisX.Crossing = 0D;
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.IsStartedFromZero = false;
+            chartArea1.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisX.LabelStyle.IsStaggered = true;
+            chartArea1.AxisX.MajorGrid.Interval = 1D;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisX.Maximum = 2D;
+            chartArea1.AxisX.Minimum = -2D;
+            chartArea1.AxisX.MinorTickMark.Enabled = true;
+            chartArea1.AxisX.MinorTickMark.Interval = 0.5D;
+            chartArea1.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea1.AxisY.Crossing = 0D;
+            chartArea1.AxisY.Interval = 1D;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.IsStartedFromZero = false;
+            chartArea1.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisY.MajorGrid.Interval = 1D;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.Maximum = 2D;
+            chartArea1.AxisY.Minimum = -2D;
+            chartArea1.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(313, 11);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series1.Legend = "Legend1";
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
+            series1.Name = "SeriesGuideError";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series2.Color = System.Drawing.Color.Red;
+            series2.Legend = "Legend1";
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
+            series2.Name = "SeriesGuideErrorOutOfScale";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(155, 155);
+            this.chart1.TabIndex = 6;
+            this.chart1.Text = "chart1";
+            // 
             // txtGuiderErrorPHD
             // 
-            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(5, 47);
+            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(202, 83);
             this.txtGuiderErrorPHD.Name = "txtGuiderErrorPHD";
-            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(102, 68);
+            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(108, 83);
             this.txtGuiderErrorPHD.TabIndex = 3;
             this.txtGuiderErrorPHD.Text = "";
+            // 
+            // txtRMS
+            // 
+            this.txtRMS.Location = new System.Drawing.Point(265, 58);
+            this.txtRMS.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS.Name = "txtRMS";
+            this.txtRMS.ReadOnly = true;
+            this.txtRMS.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS.TabIndex = 1;
+            // 
+            // txtRMS_Y
+            // 
+            this.txtRMS_Y.Location = new System.Drawing.Point(265, 37);
+            this.txtRMS_Y.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_Y.Name = "txtRMS_Y";
+            this.txtRMS_Y.ReadOnly = true;
+            this.txtRMS_Y.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_Y.TabIndex = 1;
+            // 
+            // btnClearGuidingStat
+            // 
+            this.btnClearGuidingStat.Location = new System.Drawing.Point(151, 145);
+            this.btnClearGuidingStat.Name = "btnClearGuidingStat";
+            this.btnClearGuidingStat.Size = new System.Drawing.Size(45, 21);
+            this.btnClearGuidingStat.TabIndex = 0;
+            this.btnClearGuidingStat.Text = "Clear";
+            this.btnClearGuidingStat.UseVisualStyleBackColor = true;
+            this.btnClearGuidingStat.Click += new System.EventHandler(this.btnClearGuidingStat_Click);
+            // 
+            // txtRMS_X
+            // 
+            this.txtRMS_X.Location = new System.Drawing.Point(265, 13);
+            this.txtRMS_X.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_X.Name = "txtRMS_X";
+            this.txtRMS_X.ReadOnly = true;
+            this.txtRMS_X.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_X.TabIndex = 1;
             // 
             // txtPHDState
             // 
@@ -1380,8 +1496,35 @@
             this.txtPHDState.Margin = new System.Windows.Forms.Padding(2);
             this.txtPHDState.Name = "txtPHDState";
             this.txtPHDState.ReadOnly = true;
-            this.txtPHDState.Size = new System.Drawing.Size(160, 20);
+            this.txtPHDState.Size = new System.Drawing.Size(107, 20);
             this.txtPHDState.TabIndex = 1;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(199, 61);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(61, 13);
+            this.label26.TabIndex = 2;
+            this.label26.Text = "RMS Total:";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(199, 40);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(57, 13);
+            this.label25.TabIndex = 2;
+            this.label25.Text = "RMS Dec:";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(199, 16);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(52, 13);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "RMS RA:";
             // 
             // label21
             // 
@@ -1401,102 +1544,118 @@
             this.groupBox7.Controls.Add(this.textBox2);
             this.groupBox7.Controls.Add(this.textBox1);
             this.groupBox7.Controls.Add(this.btnAstroTortilla);
-            this.groupBox7.Location = new System.Drawing.Point(739, 204);
+            this.groupBox7.Location = new System.Drawing.Point(66, 198);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(274, 125);
+            this.groupBox7.Size = new System.Drawing.Size(198, 77);
             this.groupBox7.TabIndex = 4;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Pointing";
             // 
-            // btnAstroTortilla
-            // 
-            this.btnAstroTortilla.Location = new System.Drawing.Point(14, 19);
-            this.btnAstroTortilla.Name = "btnAstroTortilla";
-            this.btnAstroTortilla.Size = new System.Drawing.Size(75, 38);
-            this.btnAstroTortilla.TabIndex = 0;
-            this.btnAstroTortilla.Text = "Astrotortilla";
-            this.btnAstroTortilla.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(154, 16);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(101, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(154, 42);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(101, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(115, 19);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(22, 13);
-            this.label22.TabIndex = 2;
-            this.label22.Text = "RA";
-            // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(115, 45);
+            this.label23.Location = new System.Drawing.Point(79, 45);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(27, 13);
             this.label23.TabIndex = 2;
             this.label23.Text = "Dec";
             // 
-            // chart1
+            // label22
             // 
-            chartArea1.AxisX.Crossing = 0D;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.IsStartedFromZero = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.LabelStyle.IsStaggered = true;
-            chartArea1.AxisX.MajorGrid.Interval = 1D;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisX.Maximum = 2D;
-            chartArea1.AxisX.Minimum = -2D;
-            chartArea1.AxisX.MinorTickMark.Enabled = true;
-            chartArea1.AxisX.MinorTickMark.Interval = 0.5D;
-            chartArea1.AxisY.Crossing = 0D;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MajorGrid.Interval = 1D;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.Maximum = 2D;
-            chartArea1.AxisY.Minimum = -2D;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(313, 11);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(155, 155);
-            this.chart1.TabIndex = 6;
-            this.chart1.Text = "chart1";
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(79, 19);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(22, 13);
+            this.label22.TabIndex = 2;
+            this.label22.Text = "RA";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(118, 41);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(74, 20);
+            this.textBox2.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(118, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(74, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // btnAstroTortilla
+            // 
+            this.btnAstroTortilla.Location = new System.Drawing.Point(7, 16);
+            this.btnAstroTortilla.Name = "btnAstroTortilla";
+            this.btnAstroTortilla.Size = new System.Drawing.Size(69, 47);
+            this.btnAstroTortilla.TabIndex = 0;
+            this.btnAstroTortilla.Text = "Astrotortilla";
+            this.btnAstroTortilla.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.label28);
+            this.groupBox8.Controls.Add(this.txtLastFocusHFD);
+            this.groupBox8.Controls.Add(this.btnAcquireStar);
+            this.groupBox8.Controls.Add(this.btnFocus);
+            this.groupBox8.Location = new System.Drawing.Point(739, 283);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(274, 46);
+            this.groupBox8.TabIndex = 4;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Focusing";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(148, 23);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(52, 13);
+            this.label28.TabIndex = 2;
+            this.label28.Text = "Last HFD";
+            // 
+            // txtLastFocusHFD
+            // 
+            this.txtLastFocusHFD.Location = new System.Drawing.Point(200, 19);
+            this.txtLastFocusHFD.Name = "txtLastFocusHFD";
+            this.txtLastFocusHFD.Size = new System.Drawing.Size(55, 20);
+            this.txtLastFocusHFD.TabIndex = 1;
+            // 
+            // btnFocus
+            // 
+            this.btnFocus.Location = new System.Drawing.Point(6, 19);
+            this.btnFocus.Name = "btnFocus";
+            this.btnFocus.Size = new System.Drawing.Size(57, 21);
+            this.btnFocus.TabIndex = 0;
+            this.btnFocus.Text = "Focus";
+            this.btnFocus.UseVisualStyleBackColor = true;
+            // 
+            // btnAcquireStar
+            // 
+            this.btnAcquireStar.Location = new System.Drawing.Point(69, 19);
+            this.btnAcquireStar.Name = "btnAcquireStar";
+            this.btnAcquireStar.Size = new System.Drawing.Size(73, 21);
+            this.btnAcquireStar.TabIndex = 0;
+            this.btnAcquireStar.Text = "AcquireStar";
+            this.btnAcquireStar.UseVisualStyleBackColor = true;
+            // 
+            // btnPAM
+            // 
+            this.btnPAM.Location = new System.Drawing.Point(14, 214);
+            this.btnPAM.Name = "btnPAM";
+            this.btnPAM.Size = new System.Drawing.Size(40, 47);
+            this.btnPAM.TabIndex = 8;
+            this.btnPAM.Text = "PAM";
+            this.btnPAM.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1018, 730);
-            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.PHDGuiding);
             this.Controls.Add(this.groupBoxTelescope);
             this.Controls.Add(this.groupBox5);
@@ -1537,9 +1696,11 @@
             this.groupBoxTelescope.PerformLayout();
             this.PHDGuiding.ResumeLayout(false);
             this.PHDGuiding.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1671,6 +1832,19 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnAstroTortilla;
+        private System.Windows.Forms.TextBox txtRMS;
+        private System.Windows.Forms.TextBox txtRMS_Y;
+        private System.Windows.Forms.TextBox txtRMS_X;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button btnClearGuidingStat;
+        private System.Windows.Forms.Button btnPAM;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox txtLastFocusHFD;
+        private System.Windows.Forms.Button btnAcquireStar;
+        private System.Windows.Forms.Button btnFocus;
     }
 }
 

@@ -15,6 +15,10 @@ to do:
 - web platform for remote control
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.8 [20.09.16]
+- interface changes (pointing, focusing, guiding graphs)
+- displaying guiding stat (incl real time distribution)
+
 0.5.7 [19.09.16]
 - phd events reading done
 
