@@ -187,6 +187,7 @@ namespace ObservatoryCenter
                 if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
                 {
                     txtGuiderErrorPHD.AppendText(ObsControl.objPHD2App.LastRAError + " / "+ ObsControl.objPHD2App.LastDecError+Environment.NewLine);
+                    //chart1.
                 }
             }
             else
