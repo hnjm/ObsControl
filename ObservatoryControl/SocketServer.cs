@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace ObservatoryCenter
 {
-    public class SocketServerClass
+    public class SocketServerClass : IDisposable
     {
         /// <summary>
         /// Server parameters
@@ -351,13 +351,19 @@ namespace ObservatoryCenter
             }
         }
 
-
-
+        public void Dispose()
+        {
+            listenerSocket.Shutdown(SocketShutdown.Both);
+            listenerSocket.Close();
+            listenerSocket = null;
+        }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
     /// Class for every client management
     /// </summary>
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public class ClientManager
     {
         /// <summary>

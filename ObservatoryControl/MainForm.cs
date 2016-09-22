@@ -170,13 +170,16 @@ namespace ObservatoryCenter
             UpdateSettingsTabStatusFileds();
 
             UpdateCCDCameraFieldsStatus();
-            //UpdateGuiderFieldsStatus();
 
             UpdateApplicationsStatus();
 
             UpdatePHDstate();
+            //UpdateGuiderFieldsStatus(); //Maxim Guider
         }
 
+        /// <summary>
+        /// Update PHD state
+        /// </summary>
         private void UpdatePHDstate()
         {
             if (ObsControl.objPHD2App.IsRunning())
@@ -195,8 +198,8 @@ namespace ObservatoryCenter
 
                         txtGuiderErrorPHD.AppendText(XVal1 + " / "+ YVal1 + Environment.NewLine);
 
-                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError * ObsControl.GuidePiexelScale, 2);
-                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError * ObsControl.GuidePiexelScale, 2);
+                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError , 2); //* ObsControl.GuidePiexelScale
+                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError , 2); //* ObsControl.GuidePiexelScale
 
                         GuidingStats.CalculateRMS(XVal, YVal);
 
@@ -231,7 +234,18 @@ namespace ObservatoryCenter
 
         private void UpdateApplicationsStatus()
         {
-            if (ObsControl.objPHD2App.IsRunning()) { linkPHD2.LinkColor = Color.Green; } else { linkPHD2.LinkColor = Color.DeepPink; }
+            if (ObsControl.objPHD2App.IsRunning())
+            {
+                linkPHD2.LinkColor = Color.Green;
+                btnGuiderConnect.Enabled = true;
+                btnGuide.Enabled = true;
+            }
+            else
+            {
+                linkPHD2.LinkColor = Color.DeepPink;
+                btnGuiderConnect.Enabled = false;
+                btnGuide.Enabled = false;
+            }
             if (ObsControl.objPHDBrokerApp.IsRunning()) { linkPHDBroker.LinkColor = Color.Green; } else { linkPHDBroker.LinkColor = Color.DeepPink; }
 
             if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
@@ -1107,5 +1121,32 @@ namespace ObservatoryCenter
             txtRMS.Text = "";
 
             }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                SocketServer.Dispose();
+            }
+            catch { };
         }
+
+        private void btnGuiderConnect_Click(object sender, EventArgs e)
+        {
+            if (ObsControl.objPHD2App.IsRunning())
+            {
+                ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
+            }
+        }
+
+        private void btnGuide_Click(object sender, EventArgs e)
+        {
+            if (ObsControl.objPHD2App.IsRunning())
+            {
+                ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_GetPixelScale(); //connect equipment
+                Thread.Sleep(100);
+                ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_StartGuiding(); //start  quiding
+            }
+        }
+    }
 }

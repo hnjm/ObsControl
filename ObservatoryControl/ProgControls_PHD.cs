@@ -15,7 +15,7 @@ namespace ObservatoryCenter
     {
         Unknown     = 0,
         Stopped     = 1,
-        Selected    = 2,
+        StarSelected= 2,
         Calibrating = 3,
         Guiding     = 4,
         LostLock    = 5,
@@ -23,7 +23,7 @@ namespace ObservatoryCenter
         Looping     = 7,
         Settling    = 8,
         StarLost    = 9,
-        Dithered    =10
+        Dithered    = 10
     }
 
     class PHDEvent
@@ -481,6 +481,12 @@ namespace ObservatoryCenter
                 Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
                 resparsedflag = true;
             }
+            else if (eventst == "StarSelected")
+            {
+                currentState = PHDState.StarSelected;
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                resparsedflag = true;
+            }
             
             else
             {
@@ -552,6 +558,50 @@ namespace ObservatoryCenter
         }
 
 
+        /// <summary>
+        /// Star guiding
+        /// </summary>
+        /// <returns></returns>
+        public double CMD_StartGuiding()
+        {
+
+            //{"method": "guide", "params": [{"pixels": 1.5, "time": 8, "timeout": 40}, false], "id": 42}
+            //{"Event":"LockPositionLost","Timestamp":1474578834.669,"Host":"MAIN","Inst":1}
+            //{"jsonrpc":"2.0","result":0,"id":42}
+            //{"Event":"LoopingExposures","Timestamp":1474578839.719,"Host":"MAIN","Inst":1,"Frame":1}
+            //{"Event":"LockPositionSet","Timestamp":1474578839.879,"Host":"MAIN","Inst":1,"X":343.940,"Y":338.555}
+            //{"Event":"LoopingExposures","Timestamp":1474578839.879,"Host":"MAIN","Inst":1,"Frame":1}
+            //{"Event":"StarSelected","Timestamp":1474578839.879,"Host":"MAIN","Inst":1,"X":343.940,"Y":338.555}
+            //{"Event":"LoopingExposures","Timestamp":1474578845.029,"Host":"MAIN","Inst":1,"Frame":2}
+            //{"Event":"LockPositionSet","Timestamp":1474578850.139,"Host":"MAIN","Inst":1,"X":344.368,"Y":338.689}
+            //{"Event":"StartGuiding","Timestamp":1474578850.149,"Host":"MAIN","Inst":1}
+            //{"Event":"Settling","Timestamp":1474578855.289,"Host":"MAIN","Inst":1,"Distance":0.42,"Time":0.0,"SettleTime":8.0}
+            //{"Event":"GuideStep","Timestamp":1474578855.289,"Host":"MAIN","Inst":1,"Frame":1,"Time":5.140,"Mount":"On Camera","dx":0.303,"dy":-0.176,"RADistanceRaw":-0.252,"DECDistanceRaw":-0.236,"RADistanceGuide":-0.159,"DECDistanceGuide":0.000,"RADuration":46,"RADirection":"East","StarMass":71113,"SNR":16.15,"AvgDi
+            string message = @"{""method"": ""guide"", ""params"": [{""pixels"": 1.5, ""time"": 8, ""timeout"": 40}, false], ""id"": 1}" + "\r\n";
+            double result = -1;
+            string result_st = "";
+            bool res = SendCommand(message, out result_st);
+
+            string output = "";
+
+            //Check
+            if (!res)
+            {
+                output = "Start guiding command error";
+                Logging.AddLog(output, LogLevel.Important, Highlight.Error);
+
+            }
+            else
+            {
+                output = "Start guiding command result: " + result_st;
+                Logging.AddLog(output, LogLevel.Activity);
+            }
+            if (!Double.TryParse(result_st, out result)) result = -1;
+
+            return result;
+        }
+
+        
         public string ConnectEquipment_old()
         {
             string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}";

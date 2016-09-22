@@ -131,7 +131,14 @@
             this.txtFilterName = new System.Windows.Forms.TextBox();
             this.logRefreshTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTelescope = new System.Windows.Forms.GroupBox();
+            this.btnPAM = new System.Windows.Forms.Button();
             this.btnConnectTelescope = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnAstroTortilla = new System.Windows.Forms.Button();
             this.btnTrack = new System.Windows.Forms.Button();
             this.btnPark = new System.Windows.Forms.Button();
             this.txtPierSide = new System.Windows.Forms.TextBox();
@@ -152,25 +159,25 @@
             this.txtGuiderErrorPHD = new System.Windows.Forms.RichTextBox();
             this.txtRMS = new System.Windows.Forms.TextBox();
             this.txtRMS_Y = new System.Windows.Forms.TextBox();
+            this.btnGuide = new System.Windows.Forms.Button();
+            this.btnGuiderConnect = new System.Windows.Forms.Button();
             this.btnClearGuidingStat = new System.Windows.Forms.Button();
             this.txtRMS_X = new System.Windows.Forms.TextBox();
             this.txtPHDState = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnAstroTortilla = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label28 = new System.Windows.Forms.Label();
             this.txtLastFocusHFD = new System.Windows.Forms.TextBox();
-            this.btnFocus = new System.Windows.Forms.Button();
             this.btnAcquireStar = new System.Windows.Forms.Button();
-            this.btnPAM = new System.Windows.Forms.Button();
+            this.btnFocus = new System.Windows.Forms.Button();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.txtRMS_X_prevframe = new System.Windows.Forms.TextBox();
+            this.txtRMS_Y_prevframe = new System.Windows.Forms.TextBox();
+            this.txtRMS_prevframe = new System.Windows.Forms.TextBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.MaximGuider.SuspendLayout();
@@ -188,9 +195,9 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updownCameraSetPoint)).BeginInit();
             this.groupBoxTelescope.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.PHDGuiding.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1232,6 +1239,15 @@
             this.groupBoxTelescope.TabStop = false;
             this.groupBoxTelescope.Text = "Telescope";
             // 
+            // btnPAM
+            // 
+            this.btnPAM.Location = new System.Drawing.Point(14, 214);
+            this.btnPAM.Name = "btnPAM";
+            this.btnPAM.Size = new System.Drawing.Size(40, 47);
+            this.btnPAM.TabIndex = 8;
+            this.btnPAM.Text = "PAM";
+            this.btnPAM.UseVisualStyleBackColor = true;
+            // 
             // btnConnectTelescope
             // 
             this.btnConnectTelescope.Location = new System.Drawing.Point(14, 167);
@@ -1242,6 +1258,63 @@
             this.btnConnectTelescope.Text = "Connect";
             this.btnConnectTelescope.UseVisualStyleBackColor = true;
             this.btnConnectTelescope.Click += new System.EventHandler(this.btnConnectTelescope_Click);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.label23);
+            this.groupBox7.Controls.Add(this.label22);
+            this.groupBox7.Controls.Add(this.textBox2);
+            this.groupBox7.Controls.Add(this.textBox1);
+            this.groupBox7.Controls.Add(this.btnAstroTortilla);
+            this.groupBox7.Location = new System.Drawing.Point(66, 198);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(198, 77);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Pointing";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(79, 45);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(27, 13);
+            this.label23.TabIndex = 2;
+            this.label23.Text = "Dec";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(79, 19);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(22, 13);
+            this.label22.TabIndex = 2;
+            this.label22.Text = "RA";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(118, 41);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(74, 20);
+            this.textBox2.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(118, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(74, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // btnAstroTortilla
+            // 
+            this.btnAstroTortilla.Location = new System.Drawing.Point(7, 16);
+            this.btnAstroTortilla.Name = "btnAstroTortilla";
+            this.btnAstroTortilla.Size = new System.Drawing.Size(69, 47);
+            this.btnAstroTortilla.TabIndex = 0;
+            this.btnAstroTortilla.Text = "Astrotortilla";
+            this.btnAstroTortilla.UseVisualStyleBackColor = true;
             // 
             // btnTrack
             // 
@@ -1374,14 +1447,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PHDGuiding.Controls.Add(this.chart1);
             this.PHDGuiding.Controls.Add(this.txtGuiderErrorPHD);
+            this.PHDGuiding.Controls.Add(this.txtRMS_prevframe);
             this.PHDGuiding.Controls.Add(this.txtRMS);
+            this.PHDGuiding.Controls.Add(this.txtRMS_Y_prevframe);
             this.PHDGuiding.Controls.Add(this.txtRMS_Y);
+            this.PHDGuiding.Controls.Add(this.btnGuide);
+            this.PHDGuiding.Controls.Add(this.btnGuiderConnect);
             this.PHDGuiding.Controls.Add(this.btnClearGuidingStat);
+            this.PHDGuiding.Controls.Add(this.txtRMS_X_prevframe);
             this.PHDGuiding.Controls.Add(this.txtRMS_X);
             this.PHDGuiding.Controls.Add(this.txtPHDState);
-            this.PHDGuiding.Controls.Add(this.label26);
-            this.PHDGuiding.Controls.Add(this.label25);
+            this.PHDGuiding.Controls.Add(this.label30);
+            this.PHDGuiding.Controls.Add(this.label29);
             this.PHDGuiding.Controls.Add(this.label24);
+            this.PHDGuiding.Controls.Add(this.label31);
+            this.PHDGuiding.Controls.Add(this.label27);
             this.PHDGuiding.Controls.Add(this.label21);
             this.PHDGuiding.Location = new System.Drawing.Point(260, 157);
             this.PHDGuiding.Name = "PHDGuiding";
@@ -1447,15 +1527,15 @@
             // 
             // txtGuiderErrorPHD
             // 
-            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(202, 83);
+            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(122, 96);
             this.txtGuiderErrorPHD.Name = "txtGuiderErrorPHD";
-            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(108, 83);
+            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(108, 70);
             this.txtGuiderErrorPHD.TabIndex = 3;
             this.txtGuiderErrorPHD.Text = "";
             // 
             // txtRMS
             // 
-            this.txtRMS.Location = new System.Drawing.Point(265, 58);
+            this.txtRMS.Location = new System.Drawing.Point(72, 141);
             this.txtRMS.Margin = new System.Windows.Forms.Padding(2);
             this.txtRMS.Name = "txtRMS";
             this.txtRMS.ReadOnly = true;
@@ -1464,16 +1544,36 @@
             // 
             // txtRMS_Y
             // 
-            this.txtRMS_Y.Location = new System.Drawing.Point(265, 37);
+            this.txtRMS_Y.Location = new System.Drawing.Point(72, 119);
             this.txtRMS_Y.Margin = new System.Windows.Forms.Padding(2);
             this.txtRMS_Y.Name = "txtRMS_Y";
             this.txtRMS_Y.ReadOnly = true;
             this.txtRMS_Y.Size = new System.Drawing.Size(45, 20);
             this.txtRMS_Y.TabIndex = 1;
             // 
+            // btnGuide
+            // 
+            this.btnGuide.Location = new System.Drawing.Point(152, 46);
+            this.btnGuide.Name = "btnGuide";
+            this.btnGuide.Size = new System.Drawing.Size(78, 21);
+            this.btnGuide.TabIndex = 0;
+            this.btnGuide.Text = "Guide";
+            this.btnGuide.UseVisualStyleBackColor = true;
+            this.btnGuide.Click += new System.EventHandler(this.btnGuide_Click);
+            // 
+            // btnGuiderConnect
+            // 
+            this.btnGuiderConnect.Location = new System.Drawing.Point(9, 46);
+            this.btnGuiderConnect.Name = "btnGuiderConnect";
+            this.btnGuiderConnect.Size = new System.Drawing.Size(87, 21);
+            this.btnGuiderConnect.TabIndex = 0;
+            this.btnGuiderConnect.Text = "Connect";
+            this.btnGuiderConnect.UseVisualStyleBackColor = true;
+            this.btnGuiderConnect.Click += new System.EventHandler(this.btnGuiderConnect_Click);
+            // 
             // btnClearGuidingStat
             // 
-            this.btnClearGuidingStat.Location = new System.Drawing.Point(151, 145);
+            this.btnClearGuidingStat.Location = new System.Drawing.Point(262, 21);
             this.btnClearGuidingStat.Name = "btnClearGuidingStat";
             this.btnClearGuidingStat.Size = new System.Drawing.Size(45, 21);
             this.btnClearGuidingStat.TabIndex = 0;
@@ -1483,7 +1583,7 @@
             // 
             // txtRMS_X
             // 
-            this.txtRMS_X.Location = new System.Drawing.Point(265, 13);
+            this.txtRMS_X.Location = new System.Drawing.Point(72, 96);
             this.txtRMS_X.Margin = new System.Windows.Forms.Padding(2);
             this.txtRMS_X.Name = "txtRMS_X";
             this.txtRMS_X.ReadOnly = true;
@@ -1496,35 +1596,8 @@
             this.txtPHDState.Margin = new System.Windows.Forms.Padding(2);
             this.txtPHDState.Name = "txtPHDState";
             this.txtPHDState.ReadOnly = true;
-            this.txtPHDState.Size = new System.Drawing.Size(107, 20);
+            this.txtPHDState.Size = new System.Drawing.Size(158, 20);
             this.txtPHDState.TabIndex = 1;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(199, 61);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(61, 13);
-            this.label26.TabIndex = 2;
-            this.label26.Text = "RMS Total:";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(199, 40);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(57, 13);
-            this.label25.TabIndex = 2;
-            this.label25.Text = "RMS Dec:";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(199, 16);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(52, 13);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "RMS RA:";
             // 
             // label21
             // 
@@ -1534,63 +1607,6 @@
             this.label21.Size = new System.Drawing.Size(61, 13);
             this.label21.TabIndex = 2;
             this.label21.Text = "PHD State:";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox7.Controls.Add(this.label23);
-            this.groupBox7.Controls.Add(this.label22);
-            this.groupBox7.Controls.Add(this.textBox2);
-            this.groupBox7.Controls.Add(this.textBox1);
-            this.groupBox7.Controls.Add(this.btnAstroTortilla);
-            this.groupBox7.Location = new System.Drawing.Point(66, 198);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(198, 77);
-            this.groupBox7.TabIndex = 4;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Pointing";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(79, 45);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(27, 13);
-            this.label23.TabIndex = 2;
-            this.label23.Text = "Dec";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(79, 19);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(22, 13);
-            this.label22.TabIndex = 2;
-            this.label22.Text = "RA";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(118, 41);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(74, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(118, 16);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(74, 20);
-            this.textBox1.TabIndex = 1;
-            // 
-            // btnAstroTortilla
-            // 
-            this.btnAstroTortilla.Location = new System.Drawing.Point(7, 16);
-            this.btnAstroTortilla.Name = "btnAstroTortilla";
-            this.btnAstroTortilla.Size = new System.Drawing.Size(69, 47);
-            this.btnAstroTortilla.TabIndex = 0;
-            this.btnAstroTortilla.Text = "Astrotortilla";
-            this.btnAstroTortilla.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
@@ -1623,15 +1639,6 @@
             this.txtLastFocusHFD.Size = new System.Drawing.Size(55, 20);
             this.txtLastFocusHFD.TabIndex = 1;
             // 
-            // btnFocus
-            // 
-            this.btnFocus.Location = new System.Drawing.Point(6, 19);
-            this.btnFocus.Name = "btnFocus";
-            this.btnFocus.Size = new System.Drawing.Size(57, 21);
-            this.btnFocus.TabIndex = 0;
-            this.btnFocus.Text = "Focus";
-            this.btnFocus.UseVisualStyleBackColor = true;
-            // 
             // btnAcquireStar
             // 
             this.btnAcquireStar.Location = new System.Drawing.Point(69, 19);
@@ -1641,14 +1648,86 @@
             this.btnAcquireStar.Text = "AcquireStar";
             this.btnAcquireStar.UseVisualStyleBackColor = true;
             // 
-            // btnPAM
+            // btnFocus
             // 
-            this.btnPAM.Location = new System.Drawing.Point(14, 214);
-            this.btnPAM.Name = "btnPAM";
-            this.btnPAM.Size = new System.Drawing.Size(40, 47);
-            this.btnPAM.TabIndex = 8;
-            this.btnPAM.Text = "PAM";
-            this.btnPAM.UseVisualStyleBackColor = true;
+            this.btnFocus.Location = new System.Drawing.Point(6, 19);
+            this.btnFocus.Name = "btnFocus";
+            this.btnFocus.Size = new System.Drawing.Size(57, 21);
+            this.btnFocus.TabIndex = 0;
+            this.btnFocus.Text = "Focus";
+            this.btnFocus.UseVisualStyleBackColor = true;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 99);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(52, 13);
+            this.label27.TabIndex = 2;
+            this.label27.Text = "RMS RA:";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 122);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(57, 13);
+            this.label29.TabIndex = 2;
+            this.label29.Text = "RMS Dec:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 144);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(61, 13);
+            this.label30.TabIndex = 2;
+            this.label30.Text = "RMS Total:";
+            // 
+            // txtRMS_X_prevframe
+            // 
+            this.txtRMS_X_prevframe.Location = new System.Drawing.Point(246, 96);
+            this.txtRMS_X_prevframe.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_X_prevframe.Name = "txtRMS_X_prevframe";
+            this.txtRMS_X_prevframe.ReadOnly = true;
+            this.txtRMS_X_prevframe.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_X_prevframe.TabIndex = 1;
+            // 
+            // txtRMS_Y_prevframe
+            // 
+            this.txtRMS_Y_prevframe.Location = new System.Drawing.Point(246, 119);
+            this.txtRMS_Y_prevframe.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_Y_prevframe.Name = "txtRMS_Y_prevframe";
+            this.txtRMS_Y_prevframe.ReadOnly = true;
+            this.txtRMS_Y_prevframe.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_Y_prevframe.TabIndex = 1;
+            // 
+            // txtRMS_prevframe
+            // 
+            this.txtRMS_prevframe.Location = new System.Drawing.Point(246, 141);
+            this.txtRMS_prevframe.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_prevframe.Name = "txtRMS_prevframe";
+            this.txtRMS_prevframe.ReadOnly = true;
+            this.txtRMS_prevframe.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_prevframe.TabIndex = 1;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(223, 79);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(86, 13);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "Prev frame stats:";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 79);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(98, 13);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Current frame stats:";
             // 
             // MainForm
             // 
@@ -1667,6 +1746,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPageControl.ResumeLayout(false);
@@ -1694,11 +1774,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.updownCameraSetPoint)).EndInit();
             this.groupBoxTelescope.ResumeLayout(false);
             this.groupBoxTelescope.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.PHDGuiding.ResumeLayout(false);
             this.PHDGuiding.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
@@ -1835,9 +1915,6 @@
         private System.Windows.Forms.TextBox txtRMS;
         private System.Windows.Forms.TextBox txtRMS_Y;
         private System.Windows.Forms.TextBox txtRMS_X;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Button btnClearGuidingStat;
         private System.Windows.Forms.Button btnPAM;
         private System.Windows.Forms.GroupBox groupBox8;
@@ -1845,6 +1922,16 @@
         private System.Windows.Forms.TextBox txtLastFocusHFD;
         private System.Windows.Forms.Button btnAcquireStar;
         private System.Windows.Forms.Button btnFocus;
+        private System.Windows.Forms.Button btnGuide;
+        private System.Windows.Forms.Button btnGuiderConnect;
+        private System.Windows.Forms.TextBox txtRMS_prevframe;
+        private System.Windows.Forms.TextBox txtRMS_Y_prevframe;
+        private System.Windows.Forms.TextBox txtRMS_X_prevframe;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label27;
     }
 }
 
