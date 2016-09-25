@@ -155,6 +155,7 @@
     <Compile Include="ObservatoryControls_config.cs" />
     <Compile Include="ObservatoryControls_switch.cs" />
     <Compile Include="ProgControls_PHD.cs" />
+    <Compile Include="ProgControls_WS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ObservatoryControls_programs.cs" />

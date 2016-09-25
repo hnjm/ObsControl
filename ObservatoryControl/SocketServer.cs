@@ -177,10 +177,10 @@ namespace ObservatoryCenter
             }
             catch (Exception Ex)
             {
-                Logging.LogExceptionMessage(Ex, "ConnectToServer failed");
+                Logging.LogExceptionMessage(Ex, "Socket connection to "+ ServerSocket.RemoteEndPoint.ToString() + " failed");
                 ServerSocket = null;
                 ErrorCode = -1;
-                return "Socket connection failed";
+                return "Socket connection to " + ServerSocket.RemoteEndPoint.ToString() + " failed";
             }
         }
 
@@ -194,12 +194,12 @@ namespace ObservatoryCenter
             {
                 // Отправляем данные через сокет
                 byte[] msg = Encoding.UTF8.GetBytes(message);
-                Logging.AddLog("Sending message: " + message, LogLevel.Chat);
+                Logging.AddLog("Sending to "+ ServerSocket.RemoteEndPoint.ToString() + " message : " + message, LogLevel.Chat);
 
                 int bytesSent = ServerSocket.Send(msg);
 
                 ErrorCode = 0;
-                return "Message sent";
+                return "Message to "+ ServerSocket.RemoteEndPoint.ToString() + " sent";
             }
             catch (Exception Ex)
             {
@@ -229,7 +229,7 @@ namespace ObservatoryCenter
                         bytesRecW = ServerSocket.Receive(bytes);
                         string responseMess = Encoding.UTF8.GetString(bytes, 0, bytesRecW);
                         responseMessAll += responseMess;
-                        Logging.AddLog("Received message from server: " + responseMess, LogLevel.Chat);
+                        Logging.AddLog("Received message from server ["+ ServerSocket.RemoteEndPoint.ToString() + "]: " + responseMess, LogLevel.Chat);
                     }
                     if (bytesRecW >0)
                     {
@@ -244,7 +244,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception Ex)
                 {
-                    Logging.LogExceptionMessage(Ex, "ReceiveFromServer socket connection failed");
+                    Logging.LogExceptionMessage(Ex, "ReceiveFromServer socket connection ["+ ServerSocket.RemoteEndPoint.ToString() + "] failed");
                     ErrorCode = -1;
                     return null;
                 }
@@ -262,18 +262,20 @@ namespace ObservatoryCenter
         /// </summary>
         public static string DisconnectFromServer(Socket ServerSocket, out int ErrorCode)
         {
+            string st = "";
             try
             {
+                st = ServerSocket.RemoteEndPoint.ToString();
                 // Освобождаем сокет
                 ServerSocket.Shutdown(SocketShutdown.Both);
                 ServerSocket.Close();
                 ServerSocket = null;
                 ErrorCode = 0;
-                return "Connection closed";
+                return "Connection ["+ st + "] closed";
             }
             catch (Exception Ex)
             {
-                Logging.LogExceptionMessage(Ex, "DisconnectFromServer failed");
+                Logging.LogExceptionMessage(Ex, "DisconnectFromServer [" + st + "] failed");
                 ErrorCode = -1;
                 return null;
             }
@@ -282,7 +284,7 @@ namespace ObservatoryCenter
 
         //public static TcpClient client = null;
 
-        public static string ConnectTCPToServer(IPAddress ipAddr, Int32 port, out TcpClient client, out int ErrorCode)
+        public static string ___ConnectTCPToServer_OLD(IPAddress ipAddr, Int32 port, out TcpClient client, out int ErrorCode)
         {
 
             string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";

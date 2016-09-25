@@ -31,9 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageControl = new System.Windows.Forms.TabPage();
             this.MaximGuider = new System.Windows.Forms.GroupBox();
@@ -94,6 +97,12 @@
             this.toolStripDropDownLogLevel = new System.Windows.Forms.ToolStripDropDownButton();
             this.animateRoofTimer = new System.Windows.Forms.Timer(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.weatherChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtRainCondition = new System.Windows.Forms.TextBox();
+            this.txtCloudState = new System.Windows.Forms.TextBox();
+            this.txtTemp = new System.Windows.Forms.TextBox();
             this.groupBoxRoof = new System.Windows.Forms.GroupBox();
             this.btnStopRoof = new System.Windows.Forms.Button();
             this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
@@ -109,7 +118,7 @@
             this.linkMaximDL = new System.Windows.Forms.LinkLabel();
             this.btnBeforeImaging = new System.Windows.Forms.Button();
             this.btnMaximStart = new System.Windows.Forms.Button();
-            this.mainTimer_short = new System.Windows.Forms.Timer(this.components);
+            this.mainTimer_Short = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_SocketServer = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -157,27 +166,28 @@
             this.PHDGuiding = new System.Windows.Forms.GroupBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtGuiderErrorPHD = new System.Windows.Forms.RichTextBox();
+            this.txtRMS_prevframe = new System.Windows.Forms.TextBox();
             this.txtRMS = new System.Windows.Forms.TextBox();
+            this.txtRMS_Y_prevframe = new System.Windows.Forms.TextBox();
             this.txtRMS_Y = new System.Windows.Forms.TextBox();
             this.btnGuide = new System.Windows.Forms.Button();
             this.btnGuiderConnect = new System.Windows.Forms.Button();
             this.btnClearGuidingStat = new System.Windows.Forms.Button();
+            this.txtRMS_X_prevframe = new System.Windows.Forms.TextBox();
             this.txtRMS_X = new System.Windows.Forms.TextBox();
             this.txtPHDState = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label28 = new System.Windows.Forms.Label();
             this.txtLastFocusHFD = new System.Windows.Forms.TextBox();
             this.btnAcquireStar = new System.Windows.Forms.Button();
             this.btnFocus = new System.Windows.Forms.Button();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.txtRMS_X_prevframe = new System.Windows.Forms.TextBox();
-            this.txtRMS_Y_prevframe = new System.Windows.Forms.TextBox();
-            this.txtRMS_prevframe = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
+            this.mainTimer_VeryLong = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPageControl.SuspendLayout();
             this.MaximGuider.SuspendLayout();
@@ -189,6 +199,8 @@
             this.groupBox1.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weatherChart)).BeginInit();
             this.groupBoxRoof.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -597,10 +609,10 @@
             // 
             // btnPowerAll
             // 
-            this.btnPowerAll.Location = new System.Drawing.Point(7, 82);
+            this.btnPowerAll.Location = new System.Drawing.Point(5, 82);
             this.btnPowerAll.Margin = new System.Windows.Forms.Padding(2);
             this.btnPowerAll.Name = "btnPowerAll";
-            this.btnPowerAll.Size = new System.Drawing.Size(236, 23);
+            this.btnPowerAll.Size = new System.Drawing.Size(235, 23);
             this.btnPowerAll.TabIndex = 7;
             this.btnPowerAll.Text = "Power all";
             this.btnPowerAll.UseVisualStyleBackColor = true;
@@ -809,6 +821,7 @@
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel4.Controls.Add(this.groupBox9);
             this.panel4.Controls.Add(this.groupBoxRoof);
             this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.groupBox1);
@@ -816,6 +829,83 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(256, 700);
             this.panel4.TabIndex = 2;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Controls.Add(this.weatherChart);
+            this.groupBox9.Controls.Add(this.label25);
+            this.groupBox9.Controls.Add(this.txtRainCondition);
+            this.groupBox9.Controls.Add(this.txtCloudState);
+            this.groupBox9.Controls.Add(this.txtTemp);
+            this.groupBox9.Location = new System.Drawing.Point(5, 534);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(246, 156);
+            this.groupBox9.TabIndex = 4;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Weather";
+            // 
+            // weatherChart
+            // 
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.Interval = 5D;
+            chartArea1.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea1.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.Name = "ChartArea1";
+            this.weatherChart.ChartAreas.Add(chartArea1);
+            this.weatherChart.Location = new System.Drawing.Point(5, 36);
+            this.weatherChart.Name = "weatherChart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Name = "CloudIdx";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series2.Name = "Temp";
+            this.weatherChart.Series.Add(series1);
+            this.weatherChart.Series.Add(series2);
+            this.weatherChart.Size = new System.Drawing.Size(235, 114);
+            this.weatherChart.TabIndex = 5;
+            this.weatherChart.Text = "chart2";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 16);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(34, 13);
+            this.label25.TabIndex = 2;
+            this.label25.Text = "Temp";
+            // 
+            // txtRainCondition
+            // 
+            this.txtRainCondition.Location = new System.Drawing.Point(181, 13);
+            this.txtRainCondition.Name = "txtRainCondition";
+            this.txtRainCondition.ReadOnly = true;
+            this.txtRainCondition.Size = new System.Drawing.Size(59, 20);
+            this.txtRainCondition.TabIndex = 1;
+            // 
+            // txtCloudState
+            // 
+            this.txtCloudState.Location = new System.Drawing.Point(110, 13);
+            this.txtCloudState.Name = "txtCloudState";
+            this.txtCloudState.ReadOnly = true;
+            this.txtCloudState.Size = new System.Drawing.Size(59, 20);
+            this.txtCloudState.TabIndex = 1;
+            // 
+            // txtTemp
+            // 
+            this.txtTemp.Location = new System.Drawing.Point(43, 13);
+            this.txtTemp.Name = "txtTemp";
+            this.txtTemp.ReadOnly = true;
+            this.txtTemp.Size = new System.Drawing.Size(35, 20);
+            this.txtTemp.TabIndex = 1;
             // 
             // groupBoxRoof
             // 
@@ -1000,10 +1090,10 @@
             this.btnMaximStart.UseVisualStyleBackColor = true;
             this.btnMaximStart.Click += new System.EventHandler(this.btnMaximStart_Click);
             // 
-            // mainTimer_short
+            // mainTimer_Short
             // 
-            this.mainTimer_short.Interval = 1000;
-            this.mainTimer_short.Tick += new System.EventHandler(this.mainTimerShort_Tick);
+            this.mainTimer_Short.Interval = 1000;
+            this.mainTimer_Short.Tick += new System.EventHandler(this.mainTimerShort_Tick);
             // 
             // backgroundWorker_SocketServer
             // 
@@ -1472,55 +1562,55 @@
             // 
             // chart1
             // 
-            chartArea1.AxisX.Crossing = 0D;
-            chartArea1.AxisX.Interval = 1D;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.IsStartedFromZero = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.LabelStyle.IsStaggered = true;
-            chartArea1.AxisX.MajorGrid.Interval = 1D;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisX.Maximum = 2D;
-            chartArea1.AxisX.Minimum = -2D;
-            chartArea1.AxisX.MinorTickMark.Enabled = true;
-            chartArea1.AxisX.MinorTickMark.Interval = 0.5D;
-            chartArea1.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
-            chartArea1.AxisY.Crossing = 0D;
-            chartArea1.AxisY.Interval = 1D;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.MajorGrid.Interval = 1D;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.Maximum = 2D;
-            chartArea1.AxisY.Minimum = -2D;
-            chartArea1.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea2.AxisX.Crossing = 0D;
+            chartArea2.AxisX.Interval = 1D;
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.IsStartedFromZero = false;
+            chartArea2.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea2.AxisX.LabelStyle.IsStaggered = true;
+            chartArea2.AxisX.MajorGrid.Interval = 1D;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea2.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea2.AxisX.Maximum = 2D;
+            chartArea2.AxisX.Minimum = -2D;
+            chartArea2.AxisX.MinorTickMark.Enabled = true;
+            chartArea2.AxisX.MinorTickMark.Interval = 0.5D;
+            chartArea2.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea2.AxisY.Crossing = 0D;
+            chartArea2.AxisY.Interval = 1D;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.IsStartedFromZero = false;
+            chartArea2.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea2.AxisY.MajorGrid.Interval = 1D;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea2.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea2.AxisY.Maximum = 2D;
+            chartArea2.AxisY.Minimum = -2D;
+            chartArea2.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
             legend1.Enabled = false;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(313, 11);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series1.Legend = "Legend1";
-            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
-            series1.Name = "SeriesGuideError";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series2.Color = System.Drawing.Color.Red;
-            series2.Legend = "Legend1";
-            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
-            series2.Name = "SeriesGuideErrorOutOfScale";
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series3.Legend = "Legend1";
+            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
+            series3.Name = "SeriesGuideError";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series4.Color = System.Drawing.Color.Red;
+            series4.Legend = "Legend1";
+            series4.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
+            series4.Name = "SeriesGuideErrorOutOfScale";
+            this.chart1.Series.Add(series3);
+            this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(155, 155);
             this.chart1.TabIndex = 6;
             this.chart1.Text = "chart1";
@@ -1533,6 +1623,15 @@
             this.txtGuiderErrorPHD.TabIndex = 3;
             this.txtGuiderErrorPHD.Text = "";
             // 
+            // txtRMS_prevframe
+            // 
+            this.txtRMS_prevframe.Location = new System.Drawing.Point(246, 141);
+            this.txtRMS_prevframe.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_prevframe.Name = "txtRMS_prevframe";
+            this.txtRMS_prevframe.ReadOnly = true;
+            this.txtRMS_prevframe.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_prevframe.TabIndex = 1;
+            // 
             // txtRMS
             // 
             this.txtRMS.Location = new System.Drawing.Point(72, 141);
@@ -1541,6 +1640,15 @@
             this.txtRMS.ReadOnly = true;
             this.txtRMS.Size = new System.Drawing.Size(45, 20);
             this.txtRMS.TabIndex = 1;
+            // 
+            // txtRMS_Y_prevframe
+            // 
+            this.txtRMS_Y_prevframe.Location = new System.Drawing.Point(246, 119);
+            this.txtRMS_Y_prevframe.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_Y_prevframe.Name = "txtRMS_Y_prevframe";
+            this.txtRMS_Y_prevframe.ReadOnly = true;
+            this.txtRMS_Y_prevframe.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_Y_prevframe.TabIndex = 1;
             // 
             // txtRMS_Y
             // 
@@ -1581,6 +1689,15 @@
             this.btnClearGuidingStat.UseVisualStyleBackColor = true;
             this.btnClearGuidingStat.Click += new System.EventHandler(this.btnClearGuidingStat_Click);
             // 
+            // txtRMS_X_prevframe
+            // 
+            this.txtRMS_X_prevframe.Location = new System.Drawing.Point(246, 96);
+            this.txtRMS_X_prevframe.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRMS_X_prevframe.Name = "txtRMS_X_prevframe";
+            this.txtRMS_X_prevframe.ReadOnly = true;
+            this.txtRMS_X_prevframe.Size = new System.Drawing.Size(45, 20);
+            this.txtRMS_X_prevframe.TabIndex = 1;
+            // 
             // txtRMS_X
             // 
             this.txtRMS_X.Location = new System.Drawing.Point(72, 96);
@@ -1598,6 +1715,51 @@
             this.txtPHDState.ReadOnly = true;
             this.txtPHDState.Size = new System.Drawing.Size(158, 20);
             this.txtPHDState.TabIndex = 1;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(6, 144);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(61, 13);
+            this.label30.TabIndex = 2;
+            this.label30.Text = "RMS Total:";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 122);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(57, 13);
+            this.label29.TabIndex = 2;
+            this.label29.Text = "RMS Dec:";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 79);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(98, 13);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Current frame stats:";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(223, 79);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(86, 13);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "Prev frame stats:";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 99);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(52, 13);
+            this.label27.TabIndex = 2;
+            this.label27.Text = "RMS RA:";
             // 
             // label21
             // 
@@ -1657,77 +1819,10 @@
             this.btnFocus.Text = "Focus";
             this.btnFocus.UseVisualStyleBackColor = true;
             // 
-            // label27
+            // mainTimer_VeryLong
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(6, 99);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(52, 13);
-            this.label27.TabIndex = 2;
-            this.label27.Text = "RMS RA:";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(6, 122);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(57, 13);
-            this.label29.TabIndex = 2;
-            this.label29.Text = "RMS Dec:";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(6, 144);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(61, 13);
-            this.label30.TabIndex = 2;
-            this.label30.Text = "RMS Total:";
-            // 
-            // txtRMS_X_prevframe
-            // 
-            this.txtRMS_X_prevframe.Location = new System.Drawing.Point(246, 96);
-            this.txtRMS_X_prevframe.Margin = new System.Windows.Forms.Padding(2);
-            this.txtRMS_X_prevframe.Name = "txtRMS_X_prevframe";
-            this.txtRMS_X_prevframe.ReadOnly = true;
-            this.txtRMS_X_prevframe.Size = new System.Drawing.Size(45, 20);
-            this.txtRMS_X_prevframe.TabIndex = 1;
-            // 
-            // txtRMS_Y_prevframe
-            // 
-            this.txtRMS_Y_prevframe.Location = new System.Drawing.Point(246, 119);
-            this.txtRMS_Y_prevframe.Margin = new System.Windows.Forms.Padding(2);
-            this.txtRMS_Y_prevframe.Name = "txtRMS_Y_prevframe";
-            this.txtRMS_Y_prevframe.ReadOnly = true;
-            this.txtRMS_Y_prevframe.Size = new System.Drawing.Size(45, 20);
-            this.txtRMS_Y_prevframe.TabIndex = 1;
-            // 
-            // txtRMS_prevframe
-            // 
-            this.txtRMS_prevframe.Location = new System.Drawing.Point(246, 141);
-            this.txtRMS_prevframe.Margin = new System.Windows.Forms.Padding(2);
-            this.txtRMS_prevframe.Name = "txtRMS_prevframe";
-            this.txtRMS_prevframe.ReadOnly = true;
-            this.txtRMS_prevframe.Size = new System.Drawing.Size(45, 20);
-            this.txtRMS_prevframe.TabIndex = 1;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(223, 79);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(86, 13);
-            this.label31.TabIndex = 2;
-            this.label31.Text = "Prev frame stats:";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(6, 79);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(98, 13);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "Current frame stats:";
+            this.mainTimer_VeryLong.Interval = 5000;
+            this.mainTimer_VeryLong.Tick += new System.EventHandler(this.mainTime_VeryLong_Tick);
             // 
             // MainForm
             // 
@@ -1764,6 +1859,9 @@
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
             this.panel4.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weatherChart)).EndInit();
             this.groupBoxRoof.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1819,7 +1917,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Telescope;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Focuser;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Camera;
-        private System.Windows.Forms.Timer mainTimer_short;
+        private System.Windows.Forms.Timer mainTimer_Short;
         private System.Windows.Forms.Button btnCameraPower;
         private System.Windows.Forms.Button btnSettings;
         private System.ComponentModel.BackgroundWorker backgroundWorker_SocketServer;
@@ -1932,6 +2030,13 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox txtTemp;
+        private System.Windows.Forms.DataVisualization.Charting.Chart weatherChart;
+        private System.Windows.Forms.Timer mainTimer_VeryLong;
+        private System.Windows.Forms.TextBox txtRainCondition;
+        private System.Windows.Forms.TextBox txtCloudState;
     }
 }
 

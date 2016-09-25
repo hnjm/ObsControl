@@ -18,6 +18,7 @@ using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
 using System.IO;
 using System.Xml;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ObservatoryCenter
 {
@@ -152,12 +153,19 @@ namespace ObservatoryCenter
 
 
             //Run all timers at the end
-            mainTimer_short.Enabled = true;
+            mainTimer_Short.Enabled = true;
             mainTimer_Long.Enabled = true;
+            mainTimer_VeryLong.Enabled = true;
             logRefreshTimer.Enabled = true;
+
+
+            weatherChart.Series[0].XValueType = ChartValueType.DateTime;
+            weatherChart.ChartAreas["ChartArea1"].AxisX.LabelStyle.Format = "HH:mm";
         }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#region *** TIMERS *****************************************************************
         /// <summary>
         /// Main timer tick
         /// </summary>
@@ -175,6 +183,96 @@ namespace ObservatoryCenter
 
             UpdatePHDstate();
             //UpdateGuiderFieldsStatus(); //Maxim Guider
+        }
+
+
+        /// <summary>
+        /// Second main timer tick. More slower to not overload hardware
+        /// </summary>
+        private void mainTimer_Long_Tick(object sender, EventArgs e)
+        {
+            ///check power switch status
+            CheckPowerSwitchStatus_caller();
+
+        }
+
+        /// <summary>
+        /// Third main timer tick. Very slow for updating information
+        /// </summary>
+        private void mainTime_VeryLong_Tick(object sender, EventArgs e)
+        {
+            UpdateWeatherData();
+            
+        }
+
+
+        /// <summary>
+        /// Timer to work with log information (save it, display, etc)
+        /// </summary>
+        private void logRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            //Get current loglevel value
+            LogLevel CurLogLevel = LogLevel.Activity;
+            if (!Enum.TryParse(toolStripDropDownLogLevel.Text, out CurLogLevel))
+            {
+                CurLogLevel = LogLevel.Activity;
+            }
+
+
+            //add line to richtextbox
+            Logging.DisplayLogInTextBox(txtLog, CurLogLevel);
+
+            //write to file
+            Logging.DumpToFile();
+        }
+
+        #endregion *** TIMERS *****************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Update weather state
+        /// </summary>
+        private void UpdateWeatherData()
+        {
+
+            double Temp = -100;
+            double Cloud = 100;
+            DateTime XVal;
+
+            //Read weather station value
+            if (ObsControl.objWSApp.CMD_GetBoltwoodString())
+            {
+                Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
+                Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
+                XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
+
+
+                //draw value
+                weatherChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                weatherChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+
+                txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
+
+            }
+            else
+            {
+                Random rand1 = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+
+                Temp = Math.Round(rand1.Next(0, 200) / 10.0, 1);
+                Cloud = Math.Round(rand1.Next(90, 200) / 10.0, 1);
+                XVal = DateTime.Now;
+
+                Temp = -100;
+                Cloud = -100;
+                XVal = DateTime.Now;
+
+            }
+
+
+            //display RMS
+            txtTemp.Text = Temp.ToString();
+            txtCloudState.Text = Cloud.ToString();
+
         }
 
         /// <summary>
@@ -196,17 +294,17 @@ namespace ObservatoryCenter
                         double XVal1 = Math.Round(ObsControl.objPHD2App.LastRAError, 2);
                         double YVal1 = Math.Round(ObsControl.objPHD2App.LastDecError, 2);
 
-                        txtGuiderErrorPHD.AppendText(XVal1 + " / "+ YVal1 + Environment.NewLine);
+                        txtGuiderErrorPHD.AppendText(XVal1 + " / " + YVal1 + Environment.NewLine);
 
-                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError , 2); //* ObsControl.GuidePiexelScale
-                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError , 2); //* ObsControl.GuidePiexelScale
+                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError, 2); //* ObsControl.GuidePiexelScale
+                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError, 2); //* ObsControl.GuidePiexelScale
 
                         GuidingStats.CalculateRMS(XVal, YVal);
 
                         string sername = "SeriesGuideError";
                         if (Math.Abs(XVal) > 1)
                         {
-                            XVal = 2*Math.Sign(XVal); sername = "SeriesGuideErrorOutOfScale";
+                            XVal = 2 * Math.Sign(XVal); sername = "SeriesGuideErrorOutOfScale";
                         }
                         if (Math.Abs(YVal) > 1)
                         {
@@ -216,9 +314,9 @@ namespace ObservatoryCenter
                         chart1.Series[sername].Points.AddXY(XVal, YVal);
 
                         //display RMS
-                        txtRMS_X.Text=Math.Round(GuidingStats.RMS_X,2).ToString();
-                        txtRMS_Y.Text = Math.Round(GuidingStats.RMS_Y,2).ToString();
-                        txtRMS.Text = Math.Round(GuidingStats.RMS,2).ToString();
+                        txtRMS_X.Text = Math.Round(GuidingStats.RMS_X, 2).ToString();
+                        txtRMS_Y.Text = Math.Round(GuidingStats.RMS_Y, 2).ToString();
+                        txtRMS.Text = Math.Round(GuidingStats.RMS, 2).ToString();
                     }
                 }
             }
@@ -229,9 +327,12 @@ namespace ObservatoryCenter
 
         }
 
-        bool MaximRunning = false;
-        bool PHDRunning = false;
+        bool aMaximRunning = false;
+        bool aPHDRunning = false;
 
+        /// <summary>
+        /// Update application status
+        /// </summary>
         private void UpdateApplicationsStatus()
         {
             if (ObsControl.objPHD2App.IsRunning())
@@ -256,37 +357,7 @@ namespace ObservatoryCenter
 
         }
 
-        /// <summary>
-        /// Second main timer tick. More slower to not overload hardware
-        /// </summary>
-        private void mainTimer_Long_Tick(object sender, EventArgs e)
-        {
-            ///check power switch status
-            CheckPowerSwitchStatus_caller();
 
-        }
-
-        /// <summary>
-        /// Timer to work with log information (save it, display, etc)
-        /// </summary>
-        private void logRefreshTimer_Tick(object sender, EventArgs e)
-        {
-            //Get current loglevel value
-            LogLevel CurLogLevel = LogLevel.Activity;
-            if (!Enum.TryParse(toolStripDropDownLogLevel.Text, out CurLogLevel))
-            {
-                CurLogLevel = LogLevel.Activity;
-            }
-
-
-            //add line to richtextbox
-            Logging.DisplayLogInTextBox(txtLog, CurLogLevel);
-
-            //write to file
-            Logging.DumpToFile();
-        }    
-        
-        
         /// <summary>
         /// Wrapper to call check power switch status on background (separate thread)
         /// because in case of network timeout it can hang system
@@ -1047,9 +1118,11 @@ namespace ObservatoryCenter
 
         private void linkTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //ObsControl.objPHD2App.testTCP();
-            ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
-            ObsControl.GuidePiexelScale=ObsControl.objPHD2App.CMD_GetPixelScale(); //connect equipment
+            //ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
+            //ObsControl.GuidePiexelScale=ObsControl.objPHD2App.CMD_GetPixelScale(); //connect equipment
+
+            ObsControl.objWSApp.CMD_GetBoltwoodString(); //get booltwood string
+
         }
 
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1148,5 +1221,12 @@ namespace ObservatoryCenter
                 ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_StartGuiding(); //start  quiding
             }
         }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

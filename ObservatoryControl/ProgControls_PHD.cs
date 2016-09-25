@@ -136,7 +136,7 @@ namespace ObservatoryCenter
             }
             else
             {
-                Logging.AddLog("Already connected", LogLevel.Activity);
+                Logging.AddLog("PHD2 already connected", LogLevel.Activity);
                 res = true;
             }
             return res;
