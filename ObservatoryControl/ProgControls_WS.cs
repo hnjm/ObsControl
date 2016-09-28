@@ -57,6 +57,10 @@ namespace ObservatoryCenter
         public UInt16 Bolt_RoofCloseFlag = 0;
         public UInt16 Bolt_AlertFlag = 0;
 
+        public double WetSensorVal = 0;
+        public int RGCVal = 0;
+        public double Preassure = 0;
+
         public DateTime LastMeasure;
         public string LastMeasure_s;
         public string Web_date = "";

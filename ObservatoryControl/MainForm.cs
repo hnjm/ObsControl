@@ -80,7 +80,7 @@ namespace ObservatoryCenter
         {
             //Load config
             ObsConfig.Load();
-            
+
             //Load parameters
             LoadParams();
 
@@ -102,7 +102,7 @@ namespace ObservatoryCenter
             {
                 Logging.AddLog("Error connecting Switch on startup [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
-           }
+            }
 
             try
             {
@@ -135,7 +135,7 @@ namespace ObservatoryCenter
             {
                 toolStripStatus_Connection.ForeColor = Color.Gray;
             }
-            
+
             //init vars
             DrawTelescopeV(panelTelescopeV);
 
@@ -147,7 +147,7 @@ namespace ObservatoryCenter
             //Init Log DropDown box
             foreach (LogLevel C in Enum.GetValues(typeof(LogLevel)))
             {
-                toolStripDropDownLogLevel.DropDownItems.Add(Enum.GetName(typeof(LogLevel),C));
+                toolStripDropDownLogLevel.DropDownItems.Add(Enum.GetName(typeof(LogLevel), C));
             }
             toolStripDropDownLogLevel.Text = Enum.GetName(typeof(LogLevel), LogLevel.Activity);
 
@@ -161,11 +161,20 @@ namespace ObservatoryCenter
 
             weatherChart.Series[0].XValueType = ChartValueType.DateTime;
             weatherChart.ChartAreas["ChartArea1"].AxisX.LabelStyle.Format = "HH:mm";
+
+            foreach (Series Sr in chartWT.Series)
+            {
+                Sr.XValueType = ChartValueType.DateTime;
+            }
+            foreach (ChartArea CA in chartWT.ChartAreas)
+            {
+                CA.AxisX.LabelStyle.Format = "HH:mm";
+            }
         }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#region *** TIMERS *****************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region *** TIMERS *****************************************************************
         /// <summary>
         /// Main timer tick
         /// </summary>
@@ -237,41 +246,49 @@ namespace ObservatoryCenter
 
             double Temp = -100;
             double Cloud = 100;
+            double RGC = -1;
+            double Wet = 0;
             DateTime XVal;
 
             //Read weather station value
             if (ObsControl.objWSApp.CMD_GetBoltwoodString())
             {
+                //Display small widget
                 Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
                 Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
                 XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
+                RGC = ObsControl.objWSApp.BoltwoodState.RGCVal;
+                Wet = ObsControl.objWSApp.BoltwoodState.WetSensorVal;
 
 
                 //draw value
-                weatherChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-                weatherChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                if (Temp!= -100) weatherChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                if (Cloud != 100) weatherChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
 
                 txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
 
+                //display RMS
+                txtTemp.Text = Temp.ToString();
+                txtCloudState.Text = Cloud.ToString();
+
+
+                //Display large widget
+                //draw value
+                if (Temp != -100) chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                if (Cloud != 100) chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+
+                if (RGC >=0 ) chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
+                if (Wet > 0) chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), Wet);
+
+                txtWTTemp.Text = Temp.ToString();
+                txtWTCloudIdx.Text = Cloud.ToString();
+                txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
+                txtWTPreassure.Text = ObsControl.objWSApp.BoltwoodState.Preassure.ToString();
+                txtWTRGC.Text = RGC.ToString();
+                txtWTWet.Text = Wet.ToString();
+
             }
-            else
-            {
-                Random rand1 = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
 
-                Temp = Math.Round(rand1.Next(0, 200) / 10.0, 1);
-                Cloud = Math.Round(rand1.Next(90, 200) / 10.0, 1);
-                XVal = DateTime.Now;
-
-                Temp = -100;
-                Cloud = -100;
-                XVal = DateTime.Now;
-
-            }
-
-
-            //display RMS
-            txtTemp.Text = Temp.ToString();
-            txtCloudState.Text = Cloud.ToString();
 
         }
 
