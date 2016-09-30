@@ -15,6 +15,9 @@ to do:
 - web platform for remote control
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.12 [28.09.16]
+- weather data usability
+
 0.5.11 [28.09.16]
 - additional tab with weather data
 

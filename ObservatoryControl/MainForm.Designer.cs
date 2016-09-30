@@ -118,7 +118,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.weatherChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label25 = new System.Windows.Forms.Label();
             this.txtRainCondition = new System.Windows.Forms.TextBox();
             this.txtCloudState = new System.Windows.Forms.TextBox();
             this.txtTemp = new System.Windows.Forms.TextBox();
@@ -1051,7 +1050,6 @@
             this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox9.Controls.Add(this.weatherChart);
-            this.groupBox9.Controls.Add(this.label25);
             this.groupBox9.Controls.Add(this.txtRainCondition);
             this.groupBox9.Controls.Add(this.txtCloudState);
             this.groupBox9.Controls.Add(this.txtTemp);
@@ -1090,38 +1088,32 @@
             this.weatherChart.TabIndex = 5;
             this.weatherChart.Text = "chart2";
             // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(6, 16);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(34, 13);
-            this.label25.TabIndex = 2;
-            this.label25.Text = "Temp";
-            // 
             // txtRainCondition
             // 
-            this.txtRainCondition.Location = new System.Drawing.Point(181, 13);
+            this.txtRainCondition.Location = new System.Drawing.Point(121, 13);
             this.txtRainCondition.Name = "txtRainCondition";
             this.txtRainCondition.ReadOnly = true;
-            this.txtRainCondition.Size = new System.Drawing.Size(59, 20);
+            this.txtRainCondition.Size = new System.Drawing.Size(119, 20);
             this.txtRainCondition.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtRainCondition, "Rain state");
             // 
             // txtCloudState
             // 
-            this.txtCloudState.Location = new System.Drawing.Point(110, 13);
+            this.txtCloudState.Location = new System.Drawing.Point(5, 13);
             this.txtCloudState.Name = "txtCloudState";
             this.txtCloudState.ReadOnly = true;
-            this.txtCloudState.Size = new System.Drawing.Size(59, 20);
+            this.txtCloudState.Size = new System.Drawing.Size(44, 20);
             this.txtCloudState.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtCloudState, "Cloud sensor index");
             // 
             // txtTemp
             // 
-            this.txtTemp.Location = new System.Drawing.Point(43, 13);
+            this.txtTemp.Location = new System.Drawing.Point(80, 13);
             this.txtTemp.Name = "txtTemp";
             this.txtTemp.ReadOnly = true;
             this.txtTemp.Size = new System.Drawing.Size(35, 20);
             this.txtTemp.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtTemp, "Current temperature");
             // 
             // groupBoxRoof
             // 
@@ -2250,7 +2242,6 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox txtTemp;
         private System.Windows.Forms.DataVisualization.Charting.Chart weatherChart;
         private System.Windows.Forms.Timer mainTimer_VeryLong;

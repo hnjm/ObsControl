@@ -238,6 +238,7 @@ namespace ObservatoryCenter
         #endregion *** TIMERS *****************************************************************
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        private bool HadWeatherData = false;
         /// <summary>
         /// Update weather state
         /// </summary>
@@ -245,14 +246,18 @@ namespace ObservatoryCenter
         {
 
             double Temp = -100;
-            double Cloud = 100;
+            double Cloud = -100;
             double RGC = -1;
             double Wet = 0;
             DateTime XVal;
 
+            DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
+
             //Read weather station value
             if (ObsControl.objWSApp.CMD_GetBoltwoodString())
             {
+                HadWeatherData = true; //flag, that at least one value was received
+
                 //Display small widget
                 Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
                 Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
@@ -262,24 +267,61 @@ namespace ObservatoryCenter
 
 
                 //draw value
-                if (Temp!= -100) weatherChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-                if (Cloud != 100) weatherChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                if (Temp > -100){
+                    weatherChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                } else {
+                    weatherChart.Series["Temp"].Points.Add(EmptyP);
+                }
+                if (Cloud > -100)
+                {
+                    weatherChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                }else {
+                    weatherChart.Series["CloudIdx"].Points.Add(EmptyP);
+                }
 
                 txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
 
-                //display RMS
+                //Data in small widget
                 txtTemp.Text = Temp.ToString();
                 txtCloudState.Text = Cloud.ToString();
 
 
                 //Display large widget
                 //draw value
-                if (Temp != -100) chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-                if (Cloud != 100) chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                if (Temp > -100)
+                {
+                    chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                }
+                else
+                {
+                    chartWT.Series["Temp"].Points.Add(EmptyP);
+                }
+                if (Cloud > -100)
+                {
+                    chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                }
+                else
+                {
+                    chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+                }
+                if (RGC >= 0)
+                {
+                    chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
+                }
+                else
+                {
+                    chartWT.Series["RGC"].Points.Add(EmptyP);
+                }
+                if (Wet > 0)
+                {
+                    chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), 1024 - Wet);
+                }
+                else
+                {
+                    chartWT.Series["Wet"].Points.Add(EmptyP);
+                }
 
-                if (RGC >=0 ) chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
-                if (Wet > 0) chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), Wet);
-
+                //Data in large widget
                 txtWTTemp.Text = Temp.ToString();
                 txtWTCloudIdx.Text = Cloud.ToString();
                 txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
@@ -287,6 +329,28 @@ namespace ObservatoryCenter
                 txtWTRGC.Text = RGC.ToString();
                 txtWTWet.Text = Wet.ToString();
 
+            }
+            else if (HadWeatherData)  
+            {
+
+                weatherChart.Series["Temp"].Points.Add(EmptyP);
+                weatherChart.Series["CloudIdx"].Points.Add(EmptyP);
+
+                chartWT.Series["Temp"].Points.Add(EmptyP);
+                chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+                chartWT.Series["RGC"].Points.Add(EmptyP);
+                chartWT.Series["Wet"].Points.Add(EmptyP);
+
+                //Data in small widget
+                txtTemp.Text = String.Empty;
+                txtCloudState.Text = String.Empty;
+                //Data in large widget
+                txtWTTemp.Text = String.Empty;
+                txtWTCloudIdx.Text = String.Empty;
+                txtWTCaseTemp.Text = String.Empty;
+                txtWTPreassure.Text = String.Empty;
+                txtWTRGC.Text = String.Empty;
+                txtWTWet.Text = String.Empty;
             }
 
 

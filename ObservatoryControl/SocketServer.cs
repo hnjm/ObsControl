@@ -177,10 +177,11 @@ namespace ObservatoryCenter
             }
             catch (Exception Ex)
             {
-                Logging.LogExceptionMessage(Ex, "Socket connection to "+ ServerSocket.RemoteEndPoint.ToString() + " failed");
+                string St = "Socket connection to " + ipAddr.ToString() + ":" + port.ToString() + " failed";
+                Logging.LogExceptionMessage(Ex, St);
                 ServerSocket = null;
                 ErrorCode = -1;
-                return "Socket connection to " + ServerSocket.RemoteEndPoint.ToString() + " failed";
+                return St;
             }
         }
 
