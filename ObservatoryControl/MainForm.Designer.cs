@@ -177,7 +177,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panelTelescopeH = new System.Windows.Forms.Panel();
             this.panelTelescopeV = new System.Windows.Forms.Panel();
             this.mainTimer_Long = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_runprograms = new System.ComponentModel.BackgroundWorker();
@@ -1526,7 +1525,6 @@
             this.groupBoxTelescope.Controls.Add(this.label3);
             this.groupBoxTelescope.Controls.Add(this.label2);
             this.groupBoxTelescope.Controls.Add(this.label1);
-            this.groupBoxTelescope.Controls.Add(this.panelTelescopeH);
             this.groupBoxTelescope.Controls.Add(this.panelTelescopeV);
             this.groupBoxTelescope.Location = new System.Drawing.Point(739, 1);
             this.groupBoxTelescope.Margin = new System.Windows.Forms.Padding(2);
@@ -1713,16 +1711,6 @@
             this.label1.Size = new System.Drawing.Size(19, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Az";
-            // 
-            // panelTelescopeH
-            // 
-            this.panelTelescopeH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTelescopeH.Location = new System.Drawing.Point(128, 128);
-            this.panelTelescopeH.Margin = new System.Windows.Forms.Padding(2);
-            this.panelTelescopeH.Name = "panelTelescopeH";
-            this.panelTelescopeH.Size = new System.Drawing.Size(136, 65);
-            this.panelTelescopeH.TabIndex = 4;
-            this.panelTelescopeH.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTelescopeH_Paint);
             // 
             // panelTelescopeV
             // 
@@ -2143,7 +2131,6 @@
         private System.Windows.Forms.TextBox txtCameraCoolerPower;
         private System.Windows.Forms.GroupBox groupBoxTelescope;
         private System.Windows.Forms.Panel panelTelescopeV;
-        private System.Windows.Forms.Panel panelTelescopeH;
         private System.Windows.Forms.Button btnPark;
         private System.Windows.Forms.TextBox txtTelescopeDec;
         private System.Windows.Forms.TextBox txtTelescopeAlt;

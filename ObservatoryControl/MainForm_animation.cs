@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
-
+using CPI.Plot3D;
 
 namespace ObservatoryCenter
 {
@@ -312,16 +312,253 @@ namespace ObservatoryCenter
         Point TelescopeVertical_startPos = new Point(50, 50);
         Point TelescopeHoriz_startPos = new Point(50, 50);
         Point PierV_startPos = new Point(50, 50);
+        //////////////////////////////////////////////////////////////////////////////////////////////////        
+        public float LatitudeGrad = 56.0F;
 
+        int PARAM_DecAxix_Len = 50;
+        int PARAM_DecAxix_Thick = 10; //unused in 3d
+
+        int PARAM_RAAxix_Len = 50;
+        int PARAM_RAAxix_Thick = 4;
+
+        int PARAM_Telescope_Thick = 30;
+        int PARAM_Telescope_Len = 100;
+
+        public CPI.Plot3D.Point3D CameraPosition;
+        public CPI.Plot3D.Point3D StartDrawingPosition;
+
+        public float DECGrad, DECRad;
+        public float HAGrad, HARad;
+
+        public int X0;
+        public int Y0;
+        //////////////////////////////////////////////////////////////////////////////////////////////////        
         private void panelTelescopeV_Paint(object sender, PaintEventArgs e)
         {
+            CalculateTelescopeData();
             DrawTelescopeV((Panel)sender);
         }
 
-        private void panelTelescopeH_Paint(object sender, PaintEventArgs e)
+        //////////////////////////////////////////////////////////////////////////////////////////////////        
+        private void CalculateTelescopeData()
         {
-            DrawTelescopeH((Panel)sender);
+            //update fields
+
+            //txtTelescopeAz.Text = Convert.ToString(Math.Truncate(ObsControl.objTelescope.Azimuth)) + " " + Convert.ToString(Math.Truncatse(ObsControl.objTelescope.Azimuth));
+            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
+            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
+            txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(ObsControl.objTelescope.RightAscension);
+            txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Declination);
+
+            if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+            {
+                txtPierSide.Text = "East, looking West";
+                PoinitingSide = false;
+                VAzAdjust = 180;
+            }
+            else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+            {
+                txtPierSide.Text = "West, looking East";
+                PoinitingSide = true;
+                VAzAdjust = 0;
+            }
+            else
+            {
+                txtPierSide.Text = "Unknown";
+            }
+
+            //Redraw
+            angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection + VAzAdjust);
+
+
+            if (PoinitingSide)
+            {
+                angelAlt = (Int16)(Math.Round(ObsControl.objTelescope.Altitude + 180));
+            }
+            else
+            {
+                angelAlt = (Int16)(Math.Round(ObsControl.objTelescope.Altitude));
+            }
+            //HTelescope Az corrections
+            if (ObsControl.objTelescope.Azimuth < 90 || ObsControl.objTelescope.Azimuth > 270)
+            {
+                angelAlt = 180 - angelAlt;
+            }
+            angelAlt_raw = ObsControl.objTelescope.Altitude;
+
+
+
+            /*X0 = (int)(panel1.Width / 2);
+            Y0 = (int)(panel1.Height / 2);
+
+            DECGrad = (float)udDec.Value;
+            HAGrad = (float)((double)udHA_hours.Value * (360.0 / 24.0) + (double)udHA_mins.Value / 60.0);
+
+            TelescopeBack_X_Skew = (float)((double)udSkewX.Value / 180.0 * Math.PI);
+
+            //Camera positon
+            CameraPosition = new CPI.Plot3D.Point3D(Convert.ToInt32(txtCameraPos_X.Text), Convert.ToInt32(txtCameraPos_Y.Text), Convert.ToInt32(txtCameraPos_Z.Text));
+            //Start postion
+            StartDrawingPosition = new CPI.Plot3D.Point3D(X0, Y0, 0);
+            */
         }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void Draw3DTelescope(PaintEventArgs e)
+        {
+
+            using (Graphics graphicsObj = e.Graphics)
+            //using (Graphics graphicsObj = panel1.CreateGraphics())
+            {
+                graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+                //Create graph objects
+                SolidBrush Brush1 = new SolidBrush(Color.LightGray); //закраска
+                SolidBrush RedBrush = new SolidBrush(Color.Red); //закраска
+
+                Pen grayPen = new Pen(Color.LightGray, 1); //цвет линии
+                Pen blackPen = new Pen(Color.Black, 3); //цвет линии
+
+                //1. Сместить и повернуть холст
+                //1.1. Сместить на центр, чтобы вращение было по точке соприкосновения с телескопом
+                graphicsObj.TranslateTransform(X0, Y0);
+                //1.2. Повернуть на широту
+                graphicsObj.RotateTransform(LatitudeGrad);
+                //1.3. Вернуть начало координат в начало
+                graphicsObj.TranslateTransform(-X0, -Y0);
+
+                //Обозначим цетр
+                graphicsObj.FillEllipse(RedBrush, X0 - 2, Y0 - 2, 4, 4);
+
+                //1. Ось RA
+                Rectangle recRAAxis_el1 = new Rectangle((int)(X0 - PARAM_RAAxix_Thick / 2), (int)(Y0), (int)(PARAM_RAAxix_Thick), (int)(PARAM_RAAxix_Len));
+                graphicsObj.DrawRectangle(Pens.Black, recRAAxis_el1);
+
+
+                using (CPI.Plot3D.Plotter3D p = new CPI.Plot3D.Plotter3D(graphicsObj, new Pen(Color.Black, 1), CameraPosition))
+                {
+                    //System.Threading.Thread.Sleep(50);
+                    //g.Clear(this.BackColor);
+
+                    //Camera positon
+                    p.Location = StartDrawingPosition;
+
+                    //2. Ось DEC
+                    p.PenUp();
+                    p.TurnLeft(90);
+                    p.TurnDown(90);
+
+                    p.TurnRight(HAGrad); //Rotate Hour Angle
+
+                    p.Forward(PARAM_DecAxix_Len / 2);
+                    p.TurnRight(180);
+                    p.PenDown();
+                    p.Forward(PARAM_DecAxix_Len); //Dec axis
+
+                    //3. Телескоп
+                    p.PenUp();
+                    p.TurnDown(90);
+                    p.TurnRight(90);
+
+                    p.TurnRight(DECGrad); //Rotate DEC
+
+                    // Move to telescope start
+                    p.Forward(PARAM_Telescope_Len / 2);
+                    p.TurnUp(90);
+                    p.Forward(PARAM_Telescope_Thick);
+                    p.TurnRight(90);
+                    p.Forward(PARAM_Telescope_Thick / 2);
+                    p.TurnRight(90);
+                    p.TurnUp(90);
+                    p.PenDown();
+
+                    Draw3DCube(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, PARAM_Telescope_Thick);
+
+                    //4. Телексоп front
+                    p.TurnDown(90);
+                    Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, new Pen(Color.Blue));
+
+                    //5. Телексоп строна к монтировке
+                    p.PenUp();
+                    p.Forward(PARAM_Telescope_Thick);
+                    p.TurnUp(90);
+                    p.PenDown();
+                    Draw3DRect(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, new Pen(Color.Silver));
+                }
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // 3D
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        public void Draw3DRect(Plotter3D p, float sideWidth, float sideHeight)
+        {
+            p.Forward(sideWidth);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideWidth);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+        }
+
+        public void Draw3DRect(Plotter3D p, float sideWidth, float sideHeight, Pen PenColor)
+        {
+            p.Forward(sideWidth, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideWidth, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+        }
+
+
+        public void Draw3DCube(Plotter3D p, float XWidth, float YHeight, float ZThick)
+        {
+            /*            for (int i = 0; i < 4; i++)
+                        {
+                            //DrawSquare(p, sideLength);
+                            DrawRect(p, sideLength+10, sideLength-10);
+                            p.Forward(sideLength);
+                            p.TurnDown(90);
+                        }
+            */
+            Draw3DRect(p, XWidth, YHeight);
+
+            p.Forward(XWidth);
+
+            p.TurnDown(90);
+            Draw3DRect(p, ZThick, YHeight);
+
+            p.Forward(ZThick);
+            p.TurnDown(90);
+            Draw3DRect(p, XWidth, YHeight);
+
+            p.Forward(XWidth);
+            p.TurnDown(90);
+            Draw3DRect(p, ZThick, YHeight);
+
+            //and go to initial position
+            p.PenUp();
+            p.Forward(ZThick);  // Draw a line sideLength long
+            p.TurnDown(90);
+            p.PenDown();
+
+        }
+        //////////////////////////////////////////////////////////////////////
 
         private void DrawTelescopeV(Panel pannelV)
         {
