@@ -774,7 +774,7 @@ namespace ObservatoryCenter
                     //btnTrack.Text = "UnParked";
                     btnTrack.BackColor = OffColor;
                 }
-                
+
                 //update fields
                 /*
                 //txtTelescopeAz.Text = Convert.ToString(Math.Truncate(ObsControl.objTelescope.Azimuth)) + " " + Convert.ToString(Math.Truncatse(ObsControl.objTelescope.Azimuth));
@@ -819,6 +819,7 @@ namespace ObservatoryCenter
                 }
                 angelAlt_raw = ObsControl.objTelescope.Altitude;
                 */
+                calculateTelescopePositionsVars();
                 panelTele3D.Invalidate();
             }
             else
@@ -1306,7 +1307,6 @@ namespace ObservatoryCenter
 
         private void panelTele3D_Paint(object sender, PaintEventArgs e)
         {
-            calculateTelescopePositionsVars((Panel)sender);
             Draw3DTelescope(e);
         }
 

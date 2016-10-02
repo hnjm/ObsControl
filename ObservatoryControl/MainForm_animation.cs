@@ -387,7 +387,7 @@ namespace ObservatoryCenter
             graphicsObj.DrawEllipse(Pen2, MountRect);
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public float LatitudeGrad = 56.0F;
+        public float LatitudeGrad = 90.0F - 56.0F;
 
         int PARAM_DecAxix_Len = 50;
 
@@ -401,49 +401,53 @@ namespace ObservatoryCenter
         public CPI.Plot3D.Point3D StartDrawingPosition;
 
         public float DECGrad;
-        public float HAGrad, RAGrad;
+        public float HA, HAGrad, RA;
 
         public int X0;
         public int Y0;
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void calculateTelescopePositionsVars(Panel pannelTel)
+        private void calculateTelescopePositionsVars()
         {
             //Init position
-            X0 = (int)(pannelTel.Width / 2);
-            Y0 = (int)(pannelTel.Height / 2);
+            X0 = (int)(panelTele3D.Width / 2);
+            Y0 = (int)(panelTele3D.Height / 2);
 
             //update fields
             DECGrad = (float)ObsControl.objTelescope.Declination;
-            RAGrad= (float)ObsControl.objTelescope.RightAscension;
-            HAGrad = (float)(ObsControl.objTelescope.SiderealTime - RAGrad);
-            if (HAGrad < 0)     HAGrad = HAGrad + 360.0F;
-            if (HAGrad > 360)   HAGrad = HAGrad - 360.0F;
+            RA = (float)ObsControl.objTelescope.RightAscension;
+            HA = (float)(ObsControl.objTelescope.SiderealTime - RA);
+            if (HA < 0) HA = HA + 24.0F;
+            if (HA > 24) HA = HA - 24.0F;
+            HAGrad = (float) (Math.Truncate(HA) * 15 + HA-Math.Truncate(HA)); //conver to degrees
+
 
             txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
             txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
 
-            txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RAGrad);
+            txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RA);
             txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DECGrad);
 
-            txtHA.Text = ObsControl.ASCOMUtils.HoursToHMS(HAGrad);
+            txtHA.Text = ObsControl.ASCOMUtils.HoursToHMS(HA);
 
             if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
             {
                 txtPierSide.Text = "East, looking West";
                 PoinitingSide = false;
-                VAzAdjust = 180;
+                VAzAdjust = 0;
             }
             else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
             {
                 txtPierSide.Text = "West, looking East";
                 PoinitingSide = true;
-                VAzAdjust = 0;
+                VAzAdjust = 180;
             }
             else
             {
                 txtPierSide.Text = "Unknown";
             }
+
+            HAGrad = HAGrad - VAzAdjust;
 
             //Camera positon
             CameraPosition = new CPI.Plot3D.Point3D(X0, Y0, -1000);
