@@ -112,6 +112,9 @@
     <Reference Include="ASCOM.Utilities, Version=6.0.0.0, Culture=neutral, PublicKeyToken=565de7938946fba7, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
+    <Reference Include="CPI.Plot3D">
+      <HintPath>..\CPI.Plot3D\CPI.Plot3D\bin\Debug\CPI.Plot3D.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic">
       <Private>False</Private>
     </Reference>

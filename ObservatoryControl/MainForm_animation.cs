@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
-
+using CPI.Plot3D;
 
 namespace ObservatoryCenter
 {
@@ -287,10 +287,10 @@ namespace ObservatoryCenter
                 btnOpenRoof.Enabled = false;
             }
         }
-#endregion draw roof
+        #endregion draw roof
 
 #region ////// DRAW TELESCOPE /////////////////////||||||||||||||||||||///////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
         Int16 angelAz = 0;
         int angelAlt = -45;
         double angelAlt_raw = -45.0;
@@ -313,15 +313,9 @@ namespace ObservatoryCenter
         Point TelescopeHoriz_startPos = new Point(50, 50);
         Point PierV_startPos = new Point(50, 50);
 
-        private void panelTelescopeV_Paint(object sender, PaintEventArgs e)
-        {
-            DrawTelescopeV((Panel)sender);
-        }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private void panelTelescopeH_Paint(object sender, PaintEventArgs e)
-        {
-            DrawTelescopeH((Panel)sender);
-        }
+
 
         private void DrawTelescopeV(Panel pannelV)
         {
@@ -392,47 +386,227 @@ namespace ObservatoryCenter
 
             graphicsObj.DrawEllipse(Pen2, MountRect);
         }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public float LatitudeGrad = 56.0F;
 
-        private void DrawTelescopeH(Panel pannelH)
+        int PARAM_DecAxix_Len = 50;
+
+        int PARAM_RAAxix_Len = 50;
+        int PARAM_RAAxix_Thick = 4;
+
+        int PARAM_Telescope_Thick = 30;
+        int PARAM_Telescope_Len = 100;
+
+        public CPI.Plot3D.Point3D CameraPosition;
+        public CPI.Plot3D.Point3D StartDrawingPosition;
+
+        public float DECGrad;
+        public float HAGrad, RAGrad;
+
+        public int X0;
+        public int Y0;
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void calculateTelescopePositionsVars(Panel pannelTel)
         {
-            
-            //calculate pos parameters
-            TelescopeHoriz_startPos.X = (pannelH.Width - TelH) / 2;
-            TelescopeHoriz_startPos.Y = (pannelH.Height - TelW) / 2;
+            //Init position
+            X0 = (int)(pannelTel.Width / 2);
+            Y0 = (int)(pannelTel.Height / 2);
 
-            //create rectangles
-            if (PoinitingSide)
+            //update fields
+            DECGrad = (float)ObsControl.objTelescope.Declination;
+            RAGrad= (float)ObsControl.objTelescope.RightAscension;
+            HAGrad = (float)(ObsControl.objTelescope.SiderealTime - RAGrad);
+            if (HAGrad < 0)     HAGrad = HAGrad + 360.0F;
+            if (HAGrad > 360)   HAGrad = HAGrad - 360.0F;
+
+            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
+            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
+
+            txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RAGrad);
+            txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DECGrad);
+
+            txtHA.Text = ObsControl.ASCOMUtils.HoursToHMS(HAGrad);
+
+            if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
             {
-                TelescopeHoriz = new Rectangle(TelescopeHoriz_startPos.X + Tel2H, TelescopeHoriz_startPos.Y, TelH - Tel2H, TelW);
-                TelescopeHoriz2 = new Rectangle((TelescopeHoriz_startPos.X), TelescopeHoriz_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+                txtPierSide.Text = "East, looking West";
+                PoinitingSide = false;
+                VAzAdjust = 180;
+            }
+            else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+            {
+                txtPierSide.Text = "West, looking East";
+                PoinitingSide = true;
+                VAzAdjust = 0;
             }
             else
             {
-                TelescopeHoriz = new Rectangle(TelescopeHoriz_startPos.X, TelescopeHoriz_startPos.Y, TelH - Tel2H, TelW);
-                TelescopeHoriz2 = new Rectangle((TelescopeHoriz_startPos.X + TelH - Tel2H), TelescopeHoriz_startPos.Y + (TelW - Tel2W) / 2, Tel2H, Tel2W);
+                txtPierSide.Text = "Unknown";
             }
 
-            //graph objects
-            Graphics graphicsObj = pannelH.CreateGraphics();
-            Pen myPen = new Pen(Color.Red, 1);
-            graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            //Camera positon
+            CameraPosition = new CPI.Plot3D.Point3D(X0, Y0, -1000);
+            //Start postion
+            StartDrawingPosition = new CPI.Plot3D.Point3D(X0, Y0, 0);
 
-            //the central point of the rotation
-            graphicsObj.TranslateTransform(pannelH.Width / 2, pannelH.Height / 2);
-            //rotation procedure
-            graphicsObj.RotateTransform(angelAlt);
-            //return transformation to start
-            graphicsObj.TranslateTransform(-(pannelH.Width / 2), -(pannelH.Height / 2));
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public void Draw3DTelescope(PaintEventArgs e)
+        {
 
-            //draw rectangles
-            graphicsObj.DrawRectangle(myPen, TelescopeHoriz);
-            graphicsObj.DrawRectangle(myPen, TelescopeHoriz2);
+            using (Graphics graphicsObj = e.Graphics)
+            //using (Graphics graphicsObj = panel1.CreateGraphics())
+            {
+                graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+                //Create graph objects
+                SolidBrush Brush1 = new SolidBrush(Color.LightGray); //закраска
+                SolidBrush RedBrush = new SolidBrush(Color.Red); //закраска
+
+                Pen grayPen = new Pen(Color.LightGray, 1); //цвет линии
+                Pen blackPen = new Pen(Color.Black, 3); //цвет линии
+
+                //1. Сместить и повернуть холст
+                //1.1. Сместить на центр, чтобы вращение было по точке соприкосновения с телескопом
+                graphicsObj.TranslateTransform(X0, Y0);
+                //1.2. Повернуть на широту
+                graphicsObj.RotateTransform(LatitudeGrad);
+                //1.3. Вернуть начало координат в начало
+                graphicsObj.TranslateTransform(-X0, -Y0);
+
+                //Обозначим цетр
+                graphicsObj.FillEllipse(RedBrush, X0 - 2, Y0 - 2, 4, 4);
+
+                //1. Ось RA
+                Rectangle recRAAxis_el1 = new Rectangle((int)(X0 - PARAM_RAAxix_Thick / 2), (int)(Y0), (int)(PARAM_RAAxix_Thick), (int)(PARAM_RAAxix_Len));
+                graphicsObj.DrawRectangle(Pens.Black, recRAAxis_el1);
+
+
+                using (CPI.Plot3D.Plotter3D p = new CPI.Plot3D.Plotter3D(graphicsObj, new Pen(Color.Black, 1), CameraPosition))
+                {
+                    //System.Threading.Thread.Sleep(50);
+                    //g.Clear(this.BackColor);
+
+                    //Camera positon
+                    p.Location = StartDrawingPosition;
+
+                    //2. Ось DEC
+                    p.PenUp();
+                    p.TurnLeft(90);
+                    p.TurnDown(90);
+
+                    p.TurnRight(HAGrad); //Rotate Hour Angle
+
+                    p.Forward(PARAM_DecAxix_Len / 2);
+                    p.TurnRight(180);
+                    p.PenDown();
+                    p.Forward(PARAM_DecAxix_Len); //Dec axis
+
+                    //3. Телескоп
+                    p.PenUp();
+                    p.TurnDown(90);
+                    p.TurnRight(90);
+
+                    p.TurnRight(DECGrad); //Rotate DEC
+
+                    // Move to telescope start
+                    p.Forward(PARAM_Telescope_Len / 2);
+                    p.TurnUp(90);
+                    p.Forward(PARAM_Telescope_Thick);
+                    p.TurnRight(90);
+                    p.Forward(PARAM_Telescope_Thick / 2);
+                    p.TurnRight(90);
+                    p.TurnUp(90);
+                    p.PenDown();
+
+                    Draw3DCube(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, PARAM_Telescope_Thick);
+
+                    //4. Телексоп front
+                    p.TurnDown(90);
+                    Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, new Pen(Color.Blue));
+
+                    //5. Телексоп строна к монтировке
+                    p.PenUp();
+                    p.Forward(PARAM_Telescope_Thick);
+                    p.TurnUp(90);
+                    p.PenDown();
+                    Draw3DRect(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, new Pen(Color.Silver));
+                }
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // 3D
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        public void Draw3DRect(Plotter3D p, float sideWidth, float sideHeight)
+        {
+            p.Forward(sideWidth);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideWidth);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+        }
+
+        public void Draw3DRect(Plotter3D p, float sideWidth, float sideHeight, Pen PenColor)
+        {
+            p.Forward(sideWidth, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideWidth, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
+
+            p.Forward(sideHeight, PenColor);  // Draw a line sideLength long
+            p.TurnRight(90);        // Turn right 90 degrees
         }
 
 
+        public void Draw3DCube(Plotter3D p, float XWidth, float YHeight, float ZThick)
+        {
+            /*            for (int i = 0; i < 4; i++)
+                        {
+                            //DrawSquare(p, sideLength);
+                            DrawRect(p, sideLength+10, sideLength-10);
+                            p.Forward(sideLength);
+                            p.TurnDown(90);
+                        }
+            */
+            Draw3DRect(p, XWidth, YHeight);
 
+            p.Forward(XWidth);
 
-#endregion draw telescope
+            p.TurnDown(90);
+            Draw3DRect(p, ZThick, YHeight);
+
+            p.Forward(ZThick);
+            p.TurnDown(90);
+            Draw3DRect(p, XWidth, YHeight);
+
+            p.Forward(XWidth);
+            p.TurnDown(90);
+            Draw3DRect(p, ZThick, YHeight);
+
+            //and go to initial position
+            p.PenUp();
+            p.Forward(ZThick);  // Draw a line sideLength long
+            p.TurnDown(90);
+            p.PenDown();
+
+        }
+        //////////////////////////////////////////////////////////////////////
+
+        #endregion draw telescope
 
     }
 }

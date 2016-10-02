@@ -137,7 +137,7 @@ namespace ObservatoryCenter
             }
 
             //init vars
-            DrawTelescopeV(panelTelescopeV);
+            //DrawTelescopeV(panelTelescope);
 
             //Init versiondata static class
             VersionData.initVersionData();
@@ -776,7 +776,7 @@ namespace ObservatoryCenter
                 }
                 
                 //update fields
-                
+                /*
                 //txtTelescopeAz.Text = Convert.ToString(Math.Truncate(ObsControl.objTelescope.Azimuth)) + " " + Convert.ToString(Math.Truncatse(ObsControl.objTelescope.Azimuth));
                 txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
                 txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
@@ -802,7 +802,7 @@ namespace ObservatoryCenter
 
                 //Redraw
                 angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection + VAzAdjust);
-                panelTelescopeV.Invalidate();
+                panelTelescope.Invalidate();
 
                 if (PoinitingSide)
                 {
@@ -818,8 +818,8 @@ namespace ObservatoryCenter
                     angelAlt = 180-angelAlt;
                 }
                 angelAlt_raw = ObsControl.objTelescope.Altitude;
-
-                panelTelescopeH.Invalidate();
+                */
+                panelTele3D.Invalidate();
             }
             else
             {
@@ -1303,11 +1303,12 @@ namespace ObservatoryCenter
             }
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+
+        private void panelTele3D_Paint(object sender, PaintEventArgs e)
         {
-
+            calculateTelescopePositionsVars((Panel)sender);
+            Draw3DTelescope(e);
         }
-
 
     }
 }
