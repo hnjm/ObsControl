@@ -238,7 +238,7 @@ namespace ObservatoryCenter
         #endregion *** TIMERS *****************************************************************
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private bool HadWeatherData = false;
+        private bool HadWeatherData = false; //was at least once data received?
         /// <summary>
         /// Update weather state
         /// </summary>
@@ -254,7 +254,7 @@ namespace ObservatoryCenter
             DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
 
             //Read weather station value
-            if (ObsControl.objWSApp.CMD_GetBoltwoodString())
+            if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
             {
                 HadWeatherData = true; //flag, that at least one value was received
 

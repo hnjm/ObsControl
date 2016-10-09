@@ -62,6 +62,7 @@ namespace Examples
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnDominoKnockDownX = new System.Windows.Forms.Button();
             this.btnDominoSetUpX = new System.Windows.Forms.Button();
+            this.txtTest = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -89,6 +90,7 @@ namespace Examples
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.txtStartPos_Z);
+            this.tabPage2.Controls.Add(this.txtTest);
             this.tabPage2.Controls.Add(this.txtCameraPos_Z);
             this.tabPage2.Controls.Add(this.txtStartPos_Y);
             this.tabPage2.Controls.Add(this.txtCameraPos_Y);
@@ -233,7 +235,7 @@ namespace Examples
             this.btnRotateHoriz.TabIndex = 2;
             this.btnRotateHoriz.Text = "Rotate Horizontal";
             this.btnRotateHoriz.UseVisualStyleBackColor = true;
-            this.btnRotateHoriz.Click += new System.EventHandler(this.btnRotateHorizontal_Click);
+            this.btnRotateHoriz.Click += new System.EventHandler(this.btnRotateLine_Click);
             // 
             // btnRotateCubeAroundEdge
             // 
@@ -427,6 +429,15 @@ namespace Examples
             this.btnDominoSetUpX.UseVisualStyleBackColor = true;
             this.btnDominoSetUpX.Click += new System.EventHandler(this.btnDominoSetUpX_Click);
             // 
+            // txtTest
+            // 
+            this.txtTest.Location = new System.Drawing.Point(614, 3);
+            this.txtTest.Multiline = true;
+            this.txtTest.Name = "txtTest";
+            this.txtTest.Size = new System.Drawing.Size(362, 84);
+            this.txtTest.TabIndex = 2;
+            this.txtTest.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -483,6 +494,7 @@ namespace Examples
         private System.Windows.Forms.TextBox txtStartPos_X;
         private System.Windows.Forms.Button btnRotateHoriz;
         private System.Windows.Forms.Button btnRotateVertical;
+        private System.Windows.Forms.TextBox txtTest;
     }
 }
 

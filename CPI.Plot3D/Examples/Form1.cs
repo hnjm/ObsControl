@@ -180,6 +180,38 @@ namespace Examples
             }
         }
 
+        private void btnRotateLine_Click(object sender, EventArgs e)
+        {
+            using (Graphics g = this.CreateGraphics())
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                for (int angle = 0; angle <= 30; angle += 3)
+                {
+                    using (CPI.Plot3D.Plotter3D p = new CPI.Plot3D.Plotter3D(g, CameraLocatioin))
+                    {
+                        //txtTest.Text = angle.ToString();
+
+                        System.Threading.Thread.Sleep(100);
+
+                        g.Clear(this.BackColor);
+
+                        p.Location = StartLocation;
+
+                        p.TurnDown(angle);
+
+                        p.PenDown();
+
+                        Point3D P_start = p.Location;
+                        p.Forward(100);
+                        Point3D P_end = p.Location;
+
+                        txtTest.Text = P_start.ToString() + P_end.ToString();
+                    }
+                }
+            }
+        }
+
+
         private void btnRotateHorizontal_Click(object sender, EventArgs e)
         {
             using (Graphics g = this.CreateGraphics())

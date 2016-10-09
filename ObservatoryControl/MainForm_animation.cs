@@ -295,7 +295,7 @@ namespace ObservatoryCenter
         int angelAlt = -45;
         double angelAlt_raw = -45.0;
 
-        bool PoinitingSide = true; //true - direct (west side), false - rear (east side)
+        bool PoinitingSideWtoE = true; //true - direct (west side), false - rear (east side)
         Int16 VAzAdjust = 0; //adjust for pierflip (vertical)
 
         public Int16 NorthAzimuthCorrection = 0;
@@ -342,7 +342,7 @@ namespace ObservatoryCenter
 
             //create rectangles
             MountRect = new Rectangle(PierV_startPos.X, PierV_startPos.Y, PierVSize, PierVSize);
-            if (PoinitingSide)
+            if (PoinitingSideWtoE)
             {
                 TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X + Tel2H_proj, TelescopeVertical_startPos.Y, TelH_proj - Tel2H_proj, TelW);
                 TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H_proj, Tel2W);
@@ -410,8 +410,8 @@ namespace ObservatoryCenter
         private void calculateTelescopePositionsVars()
         {
             //Init position
-            X0 = (int)(panelTele3D.Width / 2);
-            Y0 = (int)(panelTele3D.Height / 2);
+            X0 = (int)(panelTele3D.Width / 2 );
+            Y0 = (int)(panelTele3D.Height / 2 * 1.3);
 
             //update fields
             DECGrad = (float)ObsControl.objTelescope.Declination;
@@ -433,14 +433,14 @@ namespace ObservatoryCenter
             if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
             {
                 txtPierSide.Text = "East, looking West";
-                PoinitingSide = false;
+                PoinitingSideWtoE = false;
                 VAzAdjust = 0;
             }
             else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
             {
                 txtPierSide.Text = "West, looking East";
-                PoinitingSide = true;
-                VAzAdjust = 180;
+                PoinitingSideWtoE = true;
+                VAzAdjust = 00;
             }
             else
             {
@@ -465,8 +465,10 @@ namespace ObservatoryCenter
                 graphicsObj.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
                 //Create graph objects
-                SolidBrush Brush1 = new SolidBrush(Color.LightGray); //закраска
-                SolidBrush RedBrush = new SolidBrush(Color.Red); //закраска
+                SolidBrush redBrush = new SolidBrush(Color.Red); //закраска
+                SolidBrush blackBrush = new SolidBrush(Color.Black); //закраска
+                SolidBrush grayBrush = new SolidBrush(Color.LightGray); //закраска
+                
 
                 Pen grayPen = new Pen(Color.LightGray, 1); //цвет линии
                 Pen blackPen = new Pen(Color.Black, 3); //цвет линии
@@ -480,11 +482,11 @@ namespace ObservatoryCenter
                 graphicsObj.TranslateTransform(-X0, -Y0);
 
                 //Обозначим цетр
-                graphicsObj.FillEllipse(RedBrush, X0 - 2, Y0 - 2, 4, 4);
+                graphicsObj.FillEllipse((PoinitingSideWtoE ? blackBrush : grayBrush), X0 - 2, Y0 - 2, 4, 4);
 
                 //1. Ось RA
-                Rectangle recRAAxis_el1 = new Rectangle((int)(X0 - PARAM_RAAxix_Thick / 2), (int)(Y0), (int)(PARAM_RAAxix_Thick), (int)(PARAM_RAAxix_Len));
-                graphicsObj.DrawRectangle(Pens.Black, recRAAxis_el1);
+                Rectangle recRAAxis = new Rectangle((int)(X0 - PARAM_RAAxix_Thick / 2), (int)(Y0), (int)(PARAM_RAAxix_Thick), (int)(PARAM_RAAxix_Len));
+                graphicsObj.DrawRectangle((PoinitingSideWtoE ? Pens.Black : Pens.LightGray), recRAAxis);
 
 
                 using (CPI.Plot3D.Plotter3D p = new CPI.Plot3D.Plotter3D(graphicsObj, new Pen(Color.Black, 1), CameraPosition))
@@ -505,7 +507,7 @@ namespace ObservatoryCenter
                     p.Forward(PARAM_DecAxix_Len / 2);
                     p.TurnRight(180);
                     p.PenDown();
-                    p.Forward(PARAM_DecAxix_Len); //Dec axis
+                    p.Forward(PARAM_DecAxix_Len, (PoinitingSideWtoE ? Pens.Black : Pens.LightGray)); //Dec axis
 
                     //3. Телескоп
                     p.PenUp();
@@ -524,18 +526,58 @@ namespace ObservatoryCenter
                     p.TurnUp(90);
                     p.PenDown();
 
+                    //Сам телескоп
                     Draw3DCube(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, PARAM_Telescope_Thick);
 
                     //4. Телексоп front
+                    //initial pos: верхняя дальня (по Z) точка фермы (when in home pos)
+                    //initial dir: вдоль фермы вниз
+                    //orientation: 
+                    p.Forward(20, Pens.Red);
                     p.TurnDown(90);
-                    Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, new Pen(Color.Blue));
+                    p.Forward(20, Pens.Red);
+                    if (p.Location.Z > PARAM_Telescope_Thick / 2)
+                    {
+                        p.TurnDown(90);
+                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideWtoE ? Pens.Blue : Pens.LightBlue));
+                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideWtoE ? Pens.Blue : Pens.LightBlue));
+                    }
 
-                    //5. Телексоп строна к монтировке
-                    p.PenUp();
-                    p.Forward(PARAM_Telescope_Thick);
-                    p.TurnUp(90);
-                    p.PenDown();
-                    Draw3DRect(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, new Pen(Color.Silver));
+                    //p.Forward(20, Pens.Red);
+
+
+
+                    ////p.TurnDown(90);
+                    //if (PoinitingSideWtoE)
+                    //{
+                    //    p.PenUp();
+                    //    p.Forward(2);
+                    //    p.TurnRight(90);
+                    //    p.Forward(2);
+                    //    p.TurnLeft(90);
+                    //    p.PenDown();
+
+                    //    Draw3DRect(p, PARAM_Telescope_Thick - 4, PARAM_Telescope_Thick - 4, new Pen(Color.Blue));
+                    //}
+
+                    ////5. Телексоп back
+                    //p.TurnLeft(90);
+                    //p.Forward(2, Pens.Red);
+                    //p.TurnLeft(90);
+                    //p.Forward(2, Pens.Red);
+                    //p.TurnDown(90);
+                    //p.Forward(PARAM_Telescope_Len, Pens.Green);
+                    //p.TurnDown(90);
+                    //p.Forward(PARAM_Telescope_Len, Pens.Orange);
+                    ////p.Forward(100, Pens.Red);
+                    //Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideWtoE ? Pens.Red : Pens.Red));
+
+                    ////5. Телексоп строна к монтировке
+                    //p.PenUp();
+                    //p.Forward(PARAM_Telescope_Thick);
+                    //p.TurnUp(90);
+                    //p.PenDown();
+                    //Draw3DRect(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, new Pen(Color.Silver));
                 }
             }
         }
