@@ -295,7 +295,8 @@ namespace ObservatoryCenter
         int angelAlt = -45;
         double angelAlt_raw = -45.0;
 
-        bool PoinitingSideWtoE = true; //true - direct (west side), false - rear (east side)
+        bool PoinitingSideEtoW = true; //true - direct (east side), false - rear (west side)
+        bool PoinitingPhysicalSideE = true; //true - direct (east side), false - rear (west side)
         Int16 VAzAdjust = 0; //adjust for pierflip (vertical)
 
         public Int16 NorthAzimuthCorrection = 0;
@@ -342,7 +343,7 @@ namespace ObservatoryCenter
 
             //create rectangles
             MountRect = new Rectangle(PierV_startPos.X, PierV_startPos.Y, PierVSize, PierVSize);
-            if (PoinitingSideWtoE)
+            if (PoinitingSideEtoW)
             {
                 TelescopeVertical = new Rectangle(TelescopeVertical_startPos.X + Tel2H_proj, TelescopeVertical_startPos.Y, TelH_proj - Tel2H_proj, TelW);
                 TelescopeVertical2 = new Rectangle((TelescopeVertical_startPos.X), TelescopeVertical_startPos.Y + (TelW - Tel2W) / 2, Tel2H_proj, Tel2W);
@@ -401,7 +402,8 @@ namespace ObservatoryCenter
         public CPI.Plot3D.Point3D StartDrawingPosition;
 
         public float DECGrad;
-        public float HA, HAGrad, RA;
+        public float HA, HA_grad, RA;
+        public float HA_mech, HA_mech_grad;
 
         public int X0;
         public int Y0;
@@ -419,7 +421,70 @@ namespace ObservatoryCenter
             HA = (float)(ObsControl.objTelescope.SiderealTime - RA);
             if (HA < 0) HA = HA + 24.0F;
             if (HA > 24) HA = HA - 24.0F;
-            HAGrad = (float) (Math.Truncate(HA) * 15 + HA-Math.Truncate(HA)); //conver to degrees
+
+            //Determine physical side of peir and calculate Mechanical HA
+            if (HA>=0 && HA<6)
+            {
+                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                {
+                    PoinitingSideEtoW = true;
+                    PoinitingPhysicalSideE = true;
+                    HA_mech = HA;
+                }else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                {
+                    PoinitingSideEtoW = false;
+                    PoinitingPhysicalSideE = false;
+                    HA_mech = HA + 12.0f;
+                }
+            }
+            else if (HA >= 6 && HA < 12)
+            {
+                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                {
+                    PoinitingSideEtoW = true;
+                    PoinitingPhysicalSideE = false;
+                    HA_mech = HA;
+                }
+                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                {
+                    PoinitingSideEtoW = false;
+                    PoinitingPhysicalSideE = true;
+                    HA_mech = HA + 12.0f;
+                }
+            }
+            else if (HA >= 12 && HA < 18)
+            {
+                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                {
+                    PoinitingSideEtoW = true;
+                    PoinitingPhysicalSideE = false;
+                    HA_mech = HA;
+                }
+                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                {
+                    PoinitingSideEtoW = false;
+                    PoinitingPhysicalSideE = true;
+                    HA_mech = HA - 12.0f;
+                }
+            }
+            else if (HA >= 18 && HA < 24)
+            {
+                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                {
+                    PoinitingSideEtoW = true;
+                    PoinitingPhysicalSideE = true;
+                    HA_mech = HA;
+                }
+                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                {
+                    PoinitingSideEtoW = false;
+                    PoinitingPhysicalSideE = false;
+                    HA_mech = HA - 12.0f;
+                }
+            }
+
+            HA_grad = (float) (Math.Truncate(HA) * 15 + HA-Math.Truncate(HA)); //conver to degrees
+            HA_mech_grad = (float)(Math.Truncate(HA_mech) * 15 + HA_mech - Math.Truncate(HA_mech)); //conver to degrees
 
 
             txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
@@ -429,25 +494,25 @@ namespace ObservatoryCenter
             txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DECGrad);
 
             txtHA.Text = ObsControl.ASCOMUtils.HoursToHMS(HA);
+            txtHAmech.Text = ObsControl.ASCOMUtils.HoursToHMS(HA_mech);
 
-            if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+            if (PoinitingSideEtoW)
             {
                 txtPierSide.Text = "East, looking West";
-                PoinitingSideWtoE = false;
-                VAzAdjust = 0;
             }
-            else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+            else 
             {
                 txtPierSide.Text = "West, looking East";
-                PoinitingSideWtoE = true;
-                VAzAdjust = 00;
+            }
+
+            if (PoinitingPhysicalSideE)
+            {
+                txtPierPhysSide.Text = "East, looking West";
             }
             else
             {
-                txtPierSide.Text = "Unknown";
+                txtPierPhysSide.Text = "West, looking East";
             }
-
-            HAGrad = HAGrad - VAzAdjust;
 
             //Camera positon
             CameraPosition = new CPI.Plot3D.Point3D(X0, Y0, -1000);
@@ -482,11 +547,11 @@ namespace ObservatoryCenter
                 graphicsObj.TranslateTransform(-X0, -Y0);
 
                 //Обозначим цетр
-                graphicsObj.FillEllipse((PoinitingSideWtoE ? blackBrush : grayBrush), X0 - 2, Y0 - 2, 4, 4);
+                graphicsObj.FillEllipse((PoinitingSideEtoW ? blackBrush : grayBrush), X0 - 2, Y0 - 2, 4, 4);
 
                 //1. Ось RA
                 Rectangle recRAAxis = new Rectangle((int)(X0 - PARAM_RAAxix_Thick / 2), (int)(Y0), (int)(PARAM_RAAxix_Thick), (int)(PARAM_RAAxix_Len));
-                graphicsObj.DrawRectangle((PoinitingSideWtoE ? Pens.Black : Pens.LightGray), recRAAxis);
+                graphicsObj.DrawRectangle((PoinitingSideEtoW ? Pens.Black : Pens.LightGray), recRAAxis);
 
 
                 using (CPI.Plot3D.Plotter3D p = new CPI.Plot3D.Plotter3D(graphicsObj, new Pen(Color.Black, 1), CameraPosition))
@@ -502,12 +567,12 @@ namespace ObservatoryCenter
                     p.TurnLeft(90);
                     p.TurnDown(90);
 
-                    p.TurnRight(HAGrad); //Rotate Hour Angle
+                    p.TurnRight(HA_mech_grad); //Rotate Hour Angle
 
                     p.Forward(PARAM_DecAxix_Len / 2);
                     p.TurnRight(180);
                     p.PenDown();
-                    p.Forward(PARAM_DecAxix_Len, (PoinitingSideWtoE ? Pens.Black : Pens.LightGray)); //Dec axis
+                    p.Forward(PARAM_DecAxix_Len, (PoinitingSideEtoW ? Pens.Black : Pens.LightGray)); //Dec axis
 
                     //3. Телескоп
                     p.PenUp();
@@ -539,8 +604,8 @@ namespace ObservatoryCenter
                     if (p.Location.Z > PARAM_Telescope_Thick / 2)
                     {
                         p.TurnDown(90);
-                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideWtoE ? Pens.Blue : Pens.LightBlue));
-                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideWtoE ? Pens.Blue : Pens.LightBlue));
+                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideEtoW ? Pens.Blue : Pens.LightBlue));
+                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideEtoW ? Pens.Blue : Pens.LightBlue));
                     }
 
                     //p.Forward(20, Pens.Red);
