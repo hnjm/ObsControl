@@ -224,7 +224,7 @@ namespace ObservatoryCenter
             }
         }
 
-        public static string LogExceptionMessage(Exception Ex, string MESSAGEST)
+        public static string LogExceptionMessage(Exception Ex, string MESSAGEST, bool ImportantLogFlag = true)
         {
             StackTrace st = new StackTrace(Ex, true);
             StackFrame[] frames = st.GetFrames();
@@ -241,7 +241,7 @@ namespace ObservatoryCenter
                     + Environment.NewLine + Environment.NewLine + messstr;
             //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-            Logging.AddLog(MESSAGEST+", exception: " + Ex.Message, LogLevel.Important, Highlight.Error);
+            Logging.AddLog(MESSAGEST+", exception: " + Ex.Message, (ImportantLogFlag ? LogLevel.Important : LogLevel.Debug), Highlight.Error);
             Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
 
             return FullMessage;

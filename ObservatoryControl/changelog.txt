@@ -15,8 +15,8 @@ to do:
 - unkown excetption reason on Dome Connect!!!! to resolve
 
 
-0.5.15 [09.10.16]
-- correct pier side calculation
+0.5.15 [16.10.16]
+- correct drawing incl objective poiniting
 
 0.5.14 [09.10.16]
 - 3d telesope continued

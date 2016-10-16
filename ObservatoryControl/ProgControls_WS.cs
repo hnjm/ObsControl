@@ -147,7 +147,12 @@ namespace ObservatoryCenter
             //if wasn't connected earlier, connect again
             if (ProgramSocket == null)
             {
-                EstablishConnection();
+                if (!EstablishConnection())
+                {
+                    Logging.AddLog("Failed to connect to Weather Station", LogLevel.Activity, Highlight.Error);
+                    result = "";
+                    return false;
+                }
             }
 
             Logging.AddLog("WS sending comand: " + message, LogLevel.Debug);

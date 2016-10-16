@@ -256,6 +256,10 @@ namespace ObservatoryCenter
             //Read weather station value
             if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
             {
+                if (!HadWeatherData)
+                {
+                    Logging.AddLog("Weather Station connected", LogLevel.Activity);
+                }
                 HadWeatherData = true; //flag, that at least one value was received
 
                 //Display small widget

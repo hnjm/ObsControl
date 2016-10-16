@@ -178,7 +178,7 @@ namespace ObservatoryCenter
             catch (Exception Ex)
             {
                 string St = "Socket connection to " + ipAddr.ToString() + ":" + port.ToString() + " failed";
-                Logging.LogExceptionMessage(Ex, St);
+                Logging.LogExceptionMessage(Ex, St, false);
                 ServerSocket = null;
                 ErrorCode = -1;
                 return St;

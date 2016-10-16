@@ -401,12 +401,18 @@ namespace ObservatoryCenter
         public CPI.Plot3D.Point3D CameraPosition;
         public CPI.Plot3D.Point3D StartDrawingPosition;
 
-        public float DECGrad;
+        public float DEC_grad;
+        public float DEC_mech_grad;
         public float HA, HA_grad, RA;
         public float HA_mech, HA_mech_grad;
+        public float HA_mech_grad2;
 
         public int X0;
         public int Y0;
+
+        //Telescope Enter Visibility
+        private Point3D P1, P2;
+        private bool TelescopeEnterVisible;
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private void calculateTelescopePositionsVars()
@@ -416,12 +422,14 @@ namespace ObservatoryCenter
             Y0 = (int)(panelTele3D.Height / 2 * 1.3);
 
             //update fields
-            DECGrad = (float)ObsControl.objTelescope.Declination;
+            DEC_grad = (float)ObsControl.objTelescope.Declination;
             RA = (float)ObsControl.objTelescope.RightAscension;
+
             HA = (float)(ObsControl.objTelescope.SiderealTime - RA);
             if (HA < 0) HA = HA + 24.0F;
             if (HA > 24) HA = HA - 24.0F;
 
+             
             //Determine physical side of peir and calculate Mechanical HA
             if (HA>=0 && HA<6)
             {
@@ -430,11 +438,14 @@ namespace ObservatoryCenter
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
-                }else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                    DEC_mech_grad = DEC_grad;
+                }
+                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA + 12.0f;
+                    DEC_mech_grad = 180.0F - DEC_grad;
                 }
             }
             else if (HA >= 6 && HA < 12)
@@ -444,12 +455,14 @@ namespace ObservatoryCenter
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
+                    DEC_mech_grad = DEC_grad;
                 }
                 else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA + 12.0f;
+                    DEC_mech_grad = 180.0F - DEC_grad;
                 }
             }
             else if (HA >= 12 && HA < 18)
@@ -459,42 +472,51 @@ namespace ObservatoryCenter
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
+                    DEC_mech_grad = DEC_grad;
                 }
                 else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA - 12.0f;
+                    DEC_mech_grad = 180.0F - DEC_grad;
                 }
             }
-            else if (HA >= 18 && HA < 24)
+            else  if (HA >= 18 && HA < 24)
             {
                 if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
+                    DEC_mech_grad = DEC_grad;
                 }
                 else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA - 12.0f;
+                    DEC_mech_grad = 180.0F - DEC_grad;
                 }
             }
+
 
             HA_grad = (float) (Math.Truncate(HA) * 15 + HA-Math.Truncate(HA)); //conver to degrees
             HA_mech_grad = (float)(Math.Truncate(HA_mech) * 15 + HA_mech - Math.Truncate(HA_mech)); //conver to degrees
 
+            //DEC_mech_grad = DEC_grad;//for debug only
 
             txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
             txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
 
             txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RA);
-            txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DECGrad);
+            txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DEC_grad);
 
             txtHA.Text = ObsControl.ASCOMUtils.HoursToHMS(HA);
             txtHAmech.Text = ObsControl.ASCOMUtils.HoursToHMS(HA_mech);
+
+            txtDEC_mech.Text = ObsControl.ASCOMUtils.DegreesToDMS(DEC_mech_grad);
+
 
             if (PoinitingSideEtoW)
             {
@@ -537,6 +559,8 @@ namespace ObservatoryCenter
 
                 Pen grayPen = new Pen(Color.LightGray, 1); //цвет линии
                 Pen blackPen = new Pen(Color.Black, 3); //цвет линии
+                Pen TracePen = new Pen(Color.Red, 2); //цвет линии
+                Pen TracePen2 = new Pen(Color.PaleVioletRed, 2); //цвет линии
 
                 //1. Сместить и повернуть холст
                 //1.1. Сместить на центр, чтобы вращение было по точке соприкосновения с телескопом
@@ -547,11 +571,11 @@ namespace ObservatoryCenter
                 graphicsObj.TranslateTransform(-X0, -Y0);
 
                 //Обозначим цетр
-                graphicsObj.FillEllipse((PoinitingSideEtoW ? blackBrush : grayBrush), X0 - 2, Y0 - 2, 4, 4);
+                graphicsObj.FillEllipse((PoinitingPhysicalSideE ? grayBrush : blackBrush), X0 - 2, Y0 - 2, 4, 4);
 
                 //1. Ось RA
                 Rectangle recRAAxis = new Rectangle((int)(X0 - PARAM_RAAxix_Thick / 2), (int)(Y0), (int)(PARAM_RAAxix_Thick), (int)(PARAM_RAAxix_Len));
-                graphicsObj.DrawRectangle((PoinitingSideEtoW ? Pens.Black : Pens.LightGray), recRAAxis);
+                graphicsObj.DrawRectangle((PoinitingPhysicalSideE ? Pens.LightGray : Pens.Black), recRAAxis);
 
 
                 using (CPI.Plot3D.Plotter3D p = new CPI.Plot3D.Plotter3D(graphicsObj, new Pen(Color.Black, 1), CameraPosition))
@@ -572,14 +596,14 @@ namespace ObservatoryCenter
                     p.Forward(PARAM_DecAxix_Len / 2);
                     p.TurnRight(180);
                     p.PenDown();
-                    p.Forward(PARAM_DecAxix_Len, (PoinitingSideEtoW ? Pens.Black : Pens.LightGray)); //Dec axis
+                    p.Forward(PARAM_DecAxix_Len, (PoinitingPhysicalSideE ? Pens.LightGray : Pens.Black)); //Dec axis
 
                     //3. Телескоп
                     p.PenUp();
                     p.TurnDown(90);
                     p.TurnRight(90);
 
-                    p.TurnRight(DECGrad); //Rotate DEC
+                    p.TurnRight(DEC_mech_grad); //Rotate DEC
 
                     // Move to telescope start
                     p.Forward(PARAM_Telescope_Len / 2);
@@ -591,23 +615,97 @@ namespace ObservatoryCenter
                     p.TurnUp(90);
                     p.PenDown();
 
-                    //Сам телескоп
+
+
+
+                    // Нарисовать телескоп
+                    // Нулевое направление:
+                    // - точка пересеения небесного меридиана/экватора на юге
+                    // - расположение трубы восточная сторона на запад
                     Draw3DCube(p, PARAM_Telescope_Len, PARAM_Telescope_Thick, PARAM_Telescope_Thick);
 
-                    //4. Телексоп front
-                    //initial pos: верхняя дальня (по Z) точка фермы (when in home pos)
-                    //initial dir: вдоль фермы вниз
-                    //orientation: 
-                    p.Forward(20, Pens.Red);
+                    /*
+                    //dir test
+                    p.Forward(20, TracePen);
                     p.TurnDown(90);
-                    p.Forward(20, Pens.Red);
-                    if (p.Location.Z > PARAM_Telescope_Thick / 2)
+                    p.Forward(20, TracePen);
+                    */
+
+                    //4. Телексоп front
+                    //4.1 Point P1
+                    //initial pos: верхняя (меньшая по Y, помним, что Y увеличивается вниз) передняя (ближняя, по Z) точка фермы (when in zero pos, см. выше)
+                    //initial dir: вдоль фермы вниз
+                    //orientation: на зрителя
+                     P1 = p.Location;
+                        txtP1_X.Text = P1.X.ToString();
+                        txtP1_Y.Text = P1.Y.ToString();
+                        txtP1_Z.Text = P1.Z.ToString();
+                        //Draw3DRect(p, 3, 3, TracePen); //draw point for debug
+
+                    //4.2 Point P2
+                    //initial pos: верхняя (меньшая по Y, помним, что Y увеличивается вниз) задняя (дальняя, по Z) точка фермы (when in zero pos, см. выше)
+                    //после перехода к точке dir: вдоль фермы вниз
+                    //после перехода к точке orientation: на зрителя
+                    //go to it
+                    p.PenUp();
+                    p.TurnDown(90);
+                    p.Forward(PARAM_Telescope_Thick);
+
+                    P2 = p.Location;
+                        txtP2_X.Text = P2.X.ToString();
+                        txtP2_Y.Text = P2.Y.ToString();
+                        txtP2_Z.Text = P2.Z.ToString();
+                        //p.PenDown();
+                        //Draw3DRect(p, 3, 3, TracePen2);//draw point for debug
+                        //p.PenUp();
+
+                    //Return from P2 to P1
+                    p.TurnUp(180);
+                    p.Forward(PARAM_Telescope_Thick);
+                    p.TurnDown(90);
+                    p.PenDown();
+                    p.TurnDown(90);
+
+                    // Определим - виден ли вход трубы?
+                    if ( (P1.Z< P2.Z) && (P1.X > P2.X)  || (P1.Z > P2.Z) && (P1.X > P2.X))
                     {
-                        p.TurnDown(90);
-                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideEtoW ? Pens.Blue : Pens.LightBlue));
-                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingSideEtoW ? Pens.Blue : Pens.LightBlue));
+                        if (PoinitingSideEtoW)
+                        {
+                            TelescopeEnterVisible = true;
+                        }
+                        else
+                        {
+                            TelescopeEnterVisible = false;
+                        }
+                    }
+                    else
+                    {
+                        if (PoinitingSideEtoW)
+                        {
+                            TelescopeEnterVisible = false;
+                        }
+                        else
+                        {
+                            TelescopeEnterVisible = true;
+                        }
                     }
 
+
+                    Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (TelescopeEnterVisible ? Pens.Blue : Pens.LightBlue));
+
+
+                    /*
+                    p.TurnDown(90);
+                    if (p.Location.Z < -(PARAM_Telescope_Thick+ PARAM_DecAxix_Len / 2))
+                    {
+                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, Pens.Blue);
+                        //Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, (PoinitingPhysicalSideE ? Pens.Blue : Pens.LightBlue));
+                    }
+                    else
+                    {
+                        Draw3DRect(p, PARAM_Telescope_Thick, PARAM_Telescope_Thick, Pens.LightBlue);
+                    }
+                    */
                     //p.Forward(20, Pens.Red);
 
 
