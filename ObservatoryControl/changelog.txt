@@ -1,10 +1,13 @@
 ﻿Observatory control software
-Copyright by Emchenko Boris 2014-2015
+Copyright by Emchenko Boris 2014-2016
 http://astromania.info
 
 to do:
 - reading data from TelescopeTempControl
 - parsing CCDAP activity and send it to server
+- SafetyModule: check enviroment for open roof
+- SafetyModule: check enviroment when opened roof
+- SafetyModule: telescope postion
 - check internet connection (ping) during startup
 - ip cameras displaying
 - web cameras displaying
@@ -12,6 +15,8 @@ to do:
 - ability to detect unhandle shutdown at startup and park observatory
 - network command reading and responding
 - web platform for remote control
+
+bugs:
 - unkown excetption reason on Dome Connect!!!! to resolve
 
 
