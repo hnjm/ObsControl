@@ -10,6 +10,12 @@ using System.Threading;
 
 namespace ObservatoryCenter
 {
+    /// <summary>
+    /// Class definitions for all programs you can find if ProgControls files:
+    /// ProgControls_classes.cs - abstract class definitions
+    /// ProgControls_[prog abrv].cs - special class definition for [prog]
+    /// ProgControls_others.cs - class definitions for other programs (short text usually)
+    /// </summary>
 
     public partial class ObservatoryControls
     {
