@@ -141,6 +141,7 @@
   <ItemGroup>
     <Compile Include="About.cs" />
     <Compile Include="CCDAPParser.cs" />
+    <Compile Include="ObservatoryControls_classes.cs" />
     <Compile Include="ObservatoryControls_scenarios.cs" />
     <Compile Include="CommandInterpretator.cs" />
     <Compile Include="Logging.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="ObservatoryControls_config.cs" />
     <Compile Include="ObservatoryControls_switch.cs" />
     <Compile Include="ProgControls_PHD.cs" />
+    <Compile Include="ProgControls_TTC.cs" />
     <Compile Include="ProgControls_WS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

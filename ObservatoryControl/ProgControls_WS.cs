@@ -78,7 +78,6 @@ namespace ObservatoryCenter
     public enum WetFlag { wetFlagDry = 0, wetFlagLastminute = 1, wetFlagRightnow = 2 }
     public enum WetSensorsMode { wetSensBoth = 0, wetSensWetOnly = 1, wetSensRGCOnly = 2 }
 
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // WEATHER STATION class
@@ -87,182 +86,26 @@ namespace ObservatoryCenter
     /// <summary>
     /// Weather station class
     /// </summary>
-    public class WeatherStation : ExternalApplication
+    public class WeatherStation : ExternalApplicationSocketServer
     {
-        public Int32 ServerPort = 1604; //port to connect socket server
-        private Socket ProgramSocket = null;
-
         public BoltwoodFields BoltwoodState;
-
-        public bool LastCommand_Result = false;
-        public string LastCommand_Message = "";
 
         public WeatherStation() : base()
         {
             BoltwoodState = new BoltwoodFields();
-        }
-
-
-        /// <summary>
-        /// Establish connection to server
-        /// </summary>
-        /// <returns>true if successful</returns>
-        public bool EstablishConnection()
-        {
-            bool res = false;
-            if (ProgramSocket == null)
-            {
-                //Connect
-                string output = SocketServerClass.ConnectToServer(IPAddress.Parse("127.0.0.1"), ServerPort, out ProgramSocket, out Error);
-                if (Error >= 0)
-                {
-                    Thread.Sleep(1000);
-
-                    //Read response
-                    string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
-
-                    //Parse response
-                    HandleServerResponse(output2);
-
-                    res = true;
-                }
-            }
-            else
-            {
-                Logging.AddLog("WeatherStation already connected", LogLevel.Activity);
-                res = true;
-            }
-            return res;
-        }
-
-
-        /// <summary>
-        /// Send commnad
-        /// </summary>
-        /// <returns></returns>
-        public bool SendCommand(string message, out string result)
-        {
-            bool res = false;
-
-            //if wasn't connected earlier, connect again
-            if (ProgramSocket == null)
-            {
-                if (!EstablishConnection())
-                {
-                    Logging.AddLog("Failed to connect to Weather Station", LogLevel.Activity, Highlight.Error);
-                    result = "";
-                    return false;
-                }
-            }
-
-            Logging.AddLog("WS sending comand: " + message, LogLevel.Debug);
-
-            //Send command
-            string output = SocketServerClass.SendToServer(ProgramSocket, message, out Error);
-            if (ProgramSocket!=null && Error != 0)
-            {
-                ProgramSocket.Shutdown(SocketShutdown.Both);
-                ProgramSocket.Close();
-                ProgramSocket = null;
-            }
-            if (Error >= 0)
-            {
-                Thread.Sleep(300);
-
-                //Read response
-                string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
-
-                //Check
-                if (output2 == null || output2 == String.Empty )
-                {
-                    Error = -1;
-                    ErrorSt = LastCommand_Message;
-                    result = "";
-                    Logging.AddLog("WS command failed: " + LastCommand_Message + "]", LogLevel.Debug, Highlight.Error);
-                }
-                else
-                {
-                    Error = 0;
-                    ErrorSt = "";
-                    result = output2;
-                    Logging.AddLog("WS command succesfull", LogLevel.Debug);
-                    res = true;
-                }
-            }
-            else
-            {
-                result = "";
-                Logging.AddLog("WS send command error: " + ErrorSt, LogLevel.Debug, Highlight.Error);
-            }
-
-            return res;
+            ServerPort = 1604;
+            LogPrefix = "WS";
         }
 
         /// <summary>
-        /// SendCommand overload with only 1 parameter
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public bool SendCommand(string message)
-        {
-            string dumbstring = "";
-            bool res = SendCommand(message, out dumbstring);
-            return res;
-        }
-
-
-        /// <summary>
-        /// Handle response string
-        /// </summary>
-        /// <param name="responsest">Raw string as returned from WS</param>
-        /// <returns>true if succesfull</returns>
-        public bool HandleServerResponse(string responsest, out string result)
-        {
-            bool res = false;
-            result = "";
-
-            if (responsest == null) return false;
-
-            //1. Split into lines
-            string[] lines = responsest.Split(new string[] { "\r\n", "\n\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            //2. Loop through lines
-            foreach (string curline in lines)
-            {
-                LastCommand_Result = true;
-                LastCommand_Message = BoltwoodState.ToString();
-                result = BoltwoodState.ToString();
-                res = true;
-                Logging.AddLog("Weather station message: " + curline, LogLevel.Debug);
-            }
-
-            return res;
-        }
-
-
-        /// <summary>
-        /// Overload HandleServerResponse with only 1 argument (no need in result string)
-        /// </summary>
-        /// <param name="responsest"></param>
-        /// <returns></returns>
-        public bool HandleServerResponse(string responsest)
-        {
-            string dumbstring = "";
-            bool res = HandleServerResponse(responsest, out dumbstring);
-            return res;
-        }
-
-
-
-        /// <summary>
-        /// Connect equipment
+        /// Get data from WS
         /// </summary>
         /// <returns></returns>
         public bool CMD_GetBoltwoodString()
         {
             string message = @"GET_BOLTWOOD_STRING_JSON" + "\r\n";
 
-            string jsonstring = "", boltwstr="";
+            string jsonstring = "", boltwstr = "";
             bool res = SendCommand(message, out jsonstring);
             bool res2 = HandleBoltwoodDataServerResponse(jsonstring, out boltwstr);
 
@@ -352,6 +195,7 @@ namespace ObservatoryCenter
         }
 
     }
+
 }
 
 

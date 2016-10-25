@@ -20,6 +20,10 @@ bugs:
 - unkown excetption reason on Dome Connect!!!! to resolve
 
 
+0.5.16 [25.10.16]
+- new class for socket server applications
+- TTC almost added
+
 0.5.15 [16.10.16]
 - correct drawing incl objective poiniting
 
