@@ -21,7 +21,8 @@ bugs:
 
 
 0.5.16 [25.10.16]
-- new class for socket server applications
+- architecture for external app changed: new class for socket server applications
+- architecture for external app changed: new souce code file structure
 - TTC almost added
 
 0.5.15 [16.10.16]
