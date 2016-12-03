@@ -103,7 +103,7 @@ namespace ObservatoryCenter
         /// <returns></returns>
         public bool CMD_GetBoltwoodString()
         {
-            string message = @"GET_BOLTWOOD_STRING_JSON" + "\r\n";
+            string message = @"GET_BOLTWOOD_STRING_JSON" + "\n\r";
 
             string jsonstring = "", boltwstr = "";
             bool res = SendCommand(message, out jsonstring);

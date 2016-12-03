@@ -36,6 +36,8 @@ namespace ObservatoryCenter
         public Maxim_ExternalApplication objMaxim;
 
         public WeatherStation objWSApp;
+        public TelescopeTempControl objTTCApp;
+        
 
         //public Process MaximDL_Process = new Process();
 
@@ -74,11 +76,13 @@ namespace ObservatoryCenter
             objMaxim.Name = "MaxIm_DL";
             objMaxim.FullName = ObsConfig.getString("programsPath", "MAXIMDL") ?? @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
 
-
             //WeatherStation
             objWSApp = new WeatherStation();
             objWSApp.Name = "WeatherStation";
 
+            //TelescopeTempControl
+            objTTCApp = new TelescopeTempControl();
+            objTTCApp.Name = "TelescopeTempControl";
         }
 
         #region Programs Controlling  ///////////////////////////////////////////////////////////////////

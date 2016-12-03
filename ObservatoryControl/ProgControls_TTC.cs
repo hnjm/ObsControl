@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,6 +23,14 @@ namespace ObservatoryCenter
         public double HeaterPWM = -1; //0-255
         public bool AutoControl_FanSpeed = false;
         public bool AutoControl_Heater = false;
+
+        public double Temp = -100.0;
+        public double Humidity = -1.0;
+        public double DHT_Temp = -100.0;
+
+        public double MainMirrorTemp = -100.0;
+        public double SecondMirrorTemp = -100.0;
+
         public double DeltaTemp_Main = -100.0;
         public double DeltaTemp_Secondary = -100.0;
         public double DewPoint = -100.0;
@@ -50,9 +59,9 @@ namespace ObservatoryCenter
         /// Connect equipment
         /// </summary>
         /// <returns></returns>
-        public bool CMD_GetBoltwoodString()
+        public bool CMD_GetSocketData()
         {
-            string cmd_string = @"GET_DATA_JSON" + "\r\n";
+            string cmd_string = @"GET_DATA_JSON" + "\n\r";
 
             string jsonstring = "", ttcstr = "";
             bool res = SendCommand(cmd_string, out jsonstring);
@@ -63,13 +72,13 @@ namespace ObservatoryCenter
             //Check
             if (!res)
             {
-                output = LogPrefix+" get boltwood string error";
+                output = LogPrefix+" get socket string error";
                 Logging.AddLog(output, LogLevel.Debug, Highlight.Error);
 
             }
             else
             {
-                output = LogPrefix+" get boltwood string";
+                output = LogPrefix+ " get socket string";
                 Logging.AddLog(output, LogLevel.Debug);
             }
 
@@ -101,13 +110,7 @@ namespace ObservatoryCenter
                 try
                 {
                     //Just for try
-                    var json = new JavaScriptSerializer().Deserialize<Dictionary<string, dynamic>>(curline);
-
-                    //if (!DateTime.TryParse(BoltwoodState.LastMeasure_s, out BoltwoodState.LastMeasure))
-                    //{
-                    //    BoltwoodState.LastMeasure = DateTime.MinValue;
-                    //}
-
+                    TelescopeTempControl_State = JsonConvert.DeserializeObject<TelescopeTempControlData>(curline);
 
                     Logging.AddLog(LogPrefix+" message: " + curline, LogLevel.Debug);
 

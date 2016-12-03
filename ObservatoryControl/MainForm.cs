@@ -185,10 +185,9 @@ namespace ObservatoryCenter
             UpdateTelescopeStatus();
             UpdateRoofPicture();
             UpdateSettingsTabStatusFileds();
+            UpdateApplicationsRunningStatus();
 
             UpdateCCDCameraFieldsStatus();
-
-            UpdateApplicationsStatus();
 
             UpdatePHDstate();
             //UpdateGuiderFieldsStatus(); //Maxim Guider
@@ -211,7 +210,9 @@ namespace ObservatoryCenter
         private void mainTime_VeryLong_Tick(object sender, EventArgs e)
         {
             UpdateWeatherData();
-            
+
+            UpdateTelescopeTempControlData();
+
         }
 
 
@@ -357,6 +358,116 @@ namespace ObservatoryCenter
                 txtWTWet.Text = String.Empty;
             }
 
+        }
+
+        private bool HadTTCData = false; //was at least once data received?
+        /// <summary>
+        /// Update TelecopeTempControl state
+        /// </summary>
+        private void UpdateTelescopeTempControlData()
+        {
+
+            DateTime XVal;
+
+            DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
+
+            //Read weather station value
+            if (ObsControl.objTTCApp.IsRunning() && ObsControl.objTTCApp.CMD_GetSocketData())
+            {
+                if (!HadTTCData)
+                {
+                    Logging.AddLog("TelescopeTempControl connected", LogLevel.Activity);
+                }
+                HadTTCData = true; //flag, that at least one value was received
+
+
+
+                //Data in small widget
+                txtTTC_W_MainDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
+                txtTTC_W_SecondDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
+
+                txtTTC_W_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
+                txtTTC_W_Heater.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
+
+                //Graphics
+                XVal = ObsControl.objTTCApp.TelescopeTempControl_State.LastTimeDataParsed;
+                //draw value
+                if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main > -100)
+                {
+                    chartTTC.Series["MainDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main);
+                }
+                else
+                {
+                    chartTTC.Series["MainDelta"].Points.Add(EmptyP);
+                }
+                if (ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM >= 0)
+                {
+                    chartTTC.Series["FanRPM"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM);
+                }
+                else
+                {
+                    chartTTC.Series["FanRPM"].Points.Add(EmptyP);
+                }
+
+                if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary > -100 )
+                {
+                    chartTTC.Series["SecondDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary);
+                }
+                else
+                {
+                    chartTTC.Series["SecondDelta"].Points.Add(EmptyP);
+                }
+                if (ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower >= 0)
+                {
+                    chartTTC.Series["Heater"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower);
+                }
+                else
+                {
+                    chartTTC.Series["Heater"].Points.Add(EmptyP);
+                }
+
+
+                //Data in large widget
+                txtTTC_Temp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Temp.ToString();
+                txtTTC_Hum.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Humidity.ToString();
+
+                txtTTC_MainMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.MainMirrorTemp.ToString();
+                txtTTC_SecondMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp.ToString();
+
+                txtTTC_MainMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
+                txtTTC_SecondMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
+
+                txtTTC_FanPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_FPWM.ToString();
+                txtTTC_HeaterPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
+                txtTTC_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
+            }
+            else if (HadTTCData)
+            {
+
+                weatherChart.Series["Temp"].Points.Add(EmptyP);
+                weatherChart.Series["CloudIdx"].Points.Add(EmptyP);
+
+                chartWT.Series["Temp"].Points.Add(EmptyP);
+                chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+                chartWT.Series["RGC"].Points.Add(EmptyP);
+                chartWT.Series["Wet"].Points.Add(EmptyP);
+
+                //Data in small widget
+
+                //Data in large widget
+                txtTTC_Temp.Text = String.Empty;
+                txtTTC_Hum.Text = String.Empty;
+
+                txtTTC_MainMirrorTemp.Text = String.Empty;
+                txtTTC_SecondMirrorTemp.Text = String.Empty;
+
+                txtTTC_MainMirrorDelta.Text = String.Empty;
+                txtTTC_SecondMirrorDelta.Text = String.Empty;
+
+                txtTTC_FanPower.Text = String.Empty;
+                txtTTC_HeaterPower.Text = String.Empty;
+                txtTTC_FanRPM.Text = String.Empty;
+            }
 
         }
 
@@ -418,8 +529,9 @@ namespace ObservatoryCenter
         /// <summary>
         /// Update application status
         /// </summary>
-        private void UpdateApplicationsStatus()
+        private void UpdateApplicationsRunningStatus()
         {
+            //PHD2 status
             if (ObsControl.objPHD2App.IsRunning())
             {
                 linkPHD2.LinkColor = Color.Green;
@@ -432,13 +544,27 @@ namespace ObservatoryCenter
                 btnGuiderConnect.Enabled = false;
                 btnGuide.Enabled = false;
             }
+            //PHD Broker status
             if (ObsControl.objPHDBrokerApp.IsRunning()) { linkPHDBroker.LinkColor = Color.Green; } else { linkPHDBroker.LinkColor = Color.DeepPink; }
 
+            //CdC status
             if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
+
+            //FocusMax status
             if (ObsControl.objFocusMaxApp.IsRunning()) { linkFocusMax.LinkColor = Color.Green; } else { linkFocusMax.LinkColor = Color.DeepPink; }
+
+            //CCDAP status
             if (ObsControl.objCCDAPApp.IsRunning()) { linkCCDAP.LinkColor = Color.Green; } else { linkCCDAP.LinkColor = Color.DeepPink; }
 
+            //MaximDl status
             if (ObsControl.objMaxim.IsRunning()) { linkMaximDL.LinkColor = Color.Green; } else { linkMaximDL.LinkColor = Color.DeepPink; }
+
+            //WeatherStation status
+            if (ObsControl.objWSApp.IsRunning()) { linkWeatherStation.LinkColor = Color.Green; } else { linkWeatherStation.LinkColor = Color.DeepPink; }
+
+            //TelescopeTempControl status
+            if (ObsControl.objTTCApp.IsRunning()) { linkTelescopeTempControl.LinkColor = Color.Green; } else { linkTelescopeTempControl.LinkColor = Color.DeepPink; }
+
 
         }
 
@@ -1060,8 +1186,8 @@ namespace ObservatoryCenter
 #endregion Scenarios run procedures
 //End of autorun procedures block
 
-        // Settings block
-        #region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
+// Settings block
+#region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnSettings_Click(object sender, EventArgs e)
         {
             SetForm.ShowDialog();
@@ -1114,10 +1240,10 @@ namespace ObservatoryCenter
 
 
         #endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
-        // End of settings block
+// End of settings block
 
-        // Telescope routines
-        #region //// Telescope routines //////////////////////////////////////
+// Telescope routines
+#region //// Telescope routines //////////////////////////////////////
 
         private void btnConnectTelescope_Click(object sender, EventArgs e)
         {
@@ -1192,11 +1318,7 @@ namespace ObservatoryCenter
 
 #endregion About information
 
-        private void btnGuider_Click(object sender, EventArgs e)
-        {
-
-        }
-
+#region //// AppLinks Events //////////////////////////////////////
         private void linkCdC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startPlanetarium();
@@ -1235,6 +1357,7 @@ namespace ObservatoryCenter
         {
             ObsControl.startFocusMax();
         }
+#endregion //// AppLinks Events //////////////////////////////////////
 
         //Change log level control
         private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
