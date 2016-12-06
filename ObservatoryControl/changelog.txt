@@ -4,13 +4,14 @@ http://astromania.info
 
 to do:
 - run AstroTortilla throug AutoIt
-- run PAM throug AutoIt
+- abort button
 - parsing CCDAP activity and send it to server
+- run PAM throug AutoIt
 - implement focusing throug FocusMax
 - SafetyModule: check enviroment for open roof
 - SafetyModule: check enviroment when opened roof
 - SafetyModule: telescope postion
-- check internet connection (ping) during startup
+- check internet connection (vpn) during startup
 - ip cameras displaying
 - web cameras displaying
 - communicating with watchdog on router
