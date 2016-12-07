@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -83,5 +84,69 @@ namespace ObservatoryCenter
         public FocusMax_ExternatApplication() : base()
         { }
     }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // AstroTortilla class
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// AstroTortilla class
+    /// </summary>
+    public class AstroTortilla : ExternalApplication
+    {
+        public AstroTortilla() : base()
+        { }
+
+
+        private Process objProcessAutoIt = new Process();
+        public string FullNameAutoIt = ""; //path to run
+        
+
+        public int Solve()
+        {
+            Error = -1;
+
+            try
+            {
+                objProcessAutoIt.StartInfo.FileName = FullName;
+                objProcessAutoIt.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+                objProcessAutoIt.StartInfo.UseShellExecute = true;
+                objProcessAutoIt.Start();
+                objProcessAutoIt.WaitForInputIdle(10000); //wait for program to start
+                Logging.AddLog("Astrotortilla Solver started", LogLevel.Activity);
+                ErrorSt = "";
+                Error = 0;
+
+                do
+                {
+                    if (!objProcessAutoIt.HasExited)
+                    {
+                        if (!objProcessAutoIt.Responding)
+                        {
+                            Logging.AddLog("Astrotortilla Solver not responding", LogLevel.Debug, Highlight.Error);
+                        }
+                    }
+                }
+                while (!objProcessAutoIt.WaitForExit(1000));
+
+                Error = objProcessAutoIt.ExitCode;
+                ErrorSt = objProcessAutoIt.ExitCode.ToString();
+
+                return Error;
+            }
+            catch (Exception Ex)
+            {
+                ErrorSt = "Astrotortilla Solver starting error! " + Ex.Message;
+                Error = -1;
+                Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
+
+                return Error;
+            }
+        }
+
+    }
+
 
 }

@@ -22,6 +22,8 @@ to do:
 bugs:
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.18 [07.12.16]
+- AstroTortilla almost run
 
 0.5.17 [27.11.16]
 - TTC added

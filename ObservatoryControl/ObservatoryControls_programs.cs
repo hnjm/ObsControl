@@ -37,7 +37,8 @@ namespace ObservatoryCenter
 
         public WeatherStation objWSApp;
         public TelescopeTempControl objTTCApp;
-        
+        public AstroTortilla objAstroTortilla;
+
 
         //public Process MaximDL_Process = new Process();
 
@@ -83,6 +84,13 @@ namespace ObservatoryCenter
             //TelescopeTempControl
             objTTCApp = new TelescopeTempControl();
             objTTCApp.Name = "TelescopeTempControl";
+
+            //Astrotortilla
+            objAstroTortilla = new AstroTortilla();
+            objAstroTortilla.Name = "Astrotortilla";
+            objAstroTortilla.FullName = ObsConfig.getString("programsPath", "ASTROTORTILLA") ?? @"c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe";
+            objAstroTortilla.FullNameAutoIt= ObsConfig.getString("programsPath", "ASTROTORTILLA_AUTOIT") ?? @"c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe";
+
         }
 
         #region Programs Controlling  ///////////////////////////////////////////////////////////////////
@@ -122,6 +130,12 @@ namespace ObservatoryCenter
             objMaxim.Run(); //Run maximdl
             objMaxim.Init(); //Init maxin objects 
             return objMaxim.ErrorSt;
+        }
+
+        public string startAstrotortillaSolve()
+        {
+            objAstroTortilla.Solve(); //Run solving
+            return objAstroTortilla.ErrorSt;
         }
 
         #endregion Program controlling

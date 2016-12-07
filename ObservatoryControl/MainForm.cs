@@ -1437,5 +1437,9 @@ namespace ObservatoryCenter
             Draw3DTelescope(e);
         }
 
+        private void btnAstrotortillaSolve_Click(object sender, EventArgs e)
+        {
+            ObsControl.startAstrotortillaSolve(); 
+        }
     }
 }
