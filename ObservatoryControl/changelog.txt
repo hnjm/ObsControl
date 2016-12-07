@@ -3,11 +3,11 @@ Copyright by Emchenko Boris 2014-2016
 http://astromania.info
 
 to do:
-- run AstroTortilla throug AutoIt
-- abort button
 - parsing CCDAP activity and send it to server
+- abort button
 - run PAM throug AutoIt
 - implement focusing throug FocusMax
+- calculate and set suitable cooling temp
 - SafetyModule: check enviroment for open roof
 - SafetyModule: check enviroment when opened roof
 - SafetyModule: telescope postion
@@ -20,6 +20,7 @@ to do:
 - web platform for remote control
 
 bugs:
+- roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
 0.5.18 [07.12.16]
