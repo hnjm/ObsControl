@@ -132,10 +132,9 @@ namespace ObservatoryCenter
             return objMaxim.ErrorSt;
         }
 
-        public string startAstrotortillaSolve()
+        public void startAstrotortillaSolve()
         {
             objAstroTortilla.Solve(); //Run solving
-            return objAstroTortilla.ErrorSt;
         }
 
         #endregion Program controlling

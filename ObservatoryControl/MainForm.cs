@@ -1439,7 +1439,12 @@ namespace ObservatoryCenter
 
         private void btnAstrotortillaSolve_Click(object sender, EventArgs e)
         {
-            ObsControl.startAstrotortillaSolve(); 
+            //Run async
+            ThreadStart RunThreadRef = new ThreadStart(ObsControl.startAstrotortillaSolve);
+            Thread childThread = new Thread(RunThreadRef);
+            childThread.Start();
+            //Logging.AddLog("Command 'Prepare run' was initiated", LogLevel.Debug);
+
         }
     }
 }

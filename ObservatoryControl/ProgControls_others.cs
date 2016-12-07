@@ -110,7 +110,7 @@ namespace ObservatoryCenter
 
             try
             {
-                objProcessAutoIt.StartInfo.FileName = FullName;
+                objProcessAutoIt.StartInfo.FileName = FullNameAutoIt;
                 objProcessAutoIt.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
                 objProcessAutoIt.StartInfo.UseShellExecute = true;
                 objProcessAutoIt.Start();
@@ -127,12 +127,22 @@ namespace ObservatoryCenter
                         {
                             Logging.AddLog("Astrotortilla Solver not responding", LogLevel.Debug, Highlight.Error);
                         }
+                        Logging.AddLog("Astrotortilla Solver still running", LogLevel.Trace);
                     }
                 }
                 while (!objProcessAutoIt.WaitForExit(1000));
 
                 Error = objProcessAutoIt.ExitCode;
                 ErrorSt = objProcessAutoIt.ExitCode.ToString();
+
+                if (Error == 0)
+                {
+                    Logging.AddLog("Astrotortilla Solver has found solution!", LogLevel.Activity);
+                }
+                else
+                {
+                    Logging.AddLog("Astrotortilla Solver didn't found any solution. Returned code: " + Error, LogLevel.Activity, Highlight.Error);
+                }
 
                 return Error;
             }
