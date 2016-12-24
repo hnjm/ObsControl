@@ -23,6 +23,10 @@ bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.19 [24.12.16]
+- new settings instrument (xml config) now working: grid to edit; reload; save
+- some optimization
+
 0.5.18 [07.12.16]
 - AstroTortilla solver added
 

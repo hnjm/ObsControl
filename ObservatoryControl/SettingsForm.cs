@@ -47,58 +47,12 @@ namespace ObservatoryCenter
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            TempRoofDuration = ParentMainForm.RoofDuration;
+
+            //Load XML into grid
+            LoadDataIntoGrids("programsPath"); //dataGridConfig_programsPath_name
+            LoadDataIntoGrids("scenarioMainParams"); //dataGridConfig_scenarioMainParams_name
 
 
-            XmlNode xnlNodes = ObsConfig.configXML.SelectSingleNode("//programsPath");
-
-            int curRowIndex = 0;
-            foreach (XmlNode xndNode in xnlNodes.ChildNodes)
-            {
-                string name = xndNode.Name;
-                string val = xndNode.Attributes["value"].Value; ;
-
-                //Add sensor to grid
-                curRowIndex = dataGridConfig.Rows.Add();
-                dataGridConfig.Rows[curRowIndex].Cells["SettingsName"].Value = name;
-                dataGridConfig.Rows[curRowIndex].Cells["SettingsValue"].Value = val;
-
-            }
-
-            /*
-
-            dataGridConfig.Rows.Clear();
-            foreach (SensorElement DataSensor in ParentMainForm.Hardware.SensorsList.Values)
-            {
-                if (DataSensor != null)
-                {
-                    //Add sensor to grid
-                    curRowIndex = dataGridSensors.Rows.Add();
-
-                    dataGridSensors.Rows[curRowIndex].Cells["SensorName"].Value = DataSensor.SensorName;
-                    dataGridSensors.Rows[curRowIndex].Cells["SensorType"].Value = DataSensor.SensorType.ToString();
-                    dataGridSensors.Rows[curRowIndex].Cells["SensorEnabled"].Value = DataSensor.Enabled;
-                    dataGridSensors.Rows[curRowIndex].Cells["SendToWeb"].Value = DataSensor.SendToWebFlag;
-                    dataGridSensors.Rows[curRowIndex].Cells["SendToNarodmon"].Value = DataSensor.SendToNarodMon;
-                    dataGridSensors.Rows[curRowIndex].Cells["ArduinoName"].Value = DataSensor.SensorArduinoField;
-                    dataGridSensors.Rows[curRowIndex].Cells["WebCustomName"].Value = DataSensor.WebCustomName;
-                    dataGridSensors.Rows[curRowIndex].Cells["FormFieldName"].Value = (DataSensor.SensorFormField != "" ? DataSensor.SensorFormField : "(none)");
-
-
-                    //FILL IN TEMP SENSORS
-                    if (DataSensor.SensorType == SensorTypeEnum.Temp)
-                    {
-                        cmbBaseTempSensor.Items.Add(DataSensor.SensorName);
-                    }
-                }
-            }
-            */
-            //var arrConfigData = ObsSettings.config.AppSettings.Settings;
-            //foreach (KeyValueConfigurationElement El in arrConfigData)
-            //{
-            //    dataGridConfig.Rows.Add(new { El.Key, El.Value});
-            //}
-            //dataGridConfig.DataSource = query;
 
 
             //Workaround about "Controls contained in a TabPage are not created until the tab page is shown, and any data bindings in these controls are not activated until the tab page is shown."
@@ -106,9 +60,164 @@ namespace ObservatoryCenter
             {
                 tp.Show();
             }
+            TempRoofDuration = ParentMainForm.RoofDuration;
 
         }
-        
+
+
+        private IEnumerable<Control> GetAllDataGrdiControls(Control container)
+        {
+            List<Control> controlList = new List<Control>();
+            foreach (Control c in container.Controls)
+            {
+                controlList.AddRange(GetAllDataGrdiControls(c));
+                if (c is DataGridView)
+                    controlList.Add(c);
+            }
+            return controlList;
+        }
+
+        /// <summary>
+        /// Load settings from XML into GRID
+        /// </summary>
+        /// <param name="SectionName">Name of the XML SECTION to load. If not specified - try current tab. If specify "All" = reloads all nodes</param>
+        private void LoadDataIntoGrids(string SectionName = "All")
+        {
+            //If paramter was empty, then try current
+            if (SectionName==String.Empty)
+            {
+                SectionName = tabSettings.SelectedTab.Name;
+            }
+
+            //Get all grids
+            var configGridsCollection = GetAllDataGrdiControls(this);
+            DataGridView curDataGrid=null;
+
+            try
+            {
+                XmlNode xmlSections = ObsConfig.configXML.SelectSingleNode("configuration");
+                
+                //Loop throug all sections (all because it is possible to load all or only specific)
+                foreach (System.Xml.XmlNode xSection in xmlSections)
+                {
+                    if (SectionName == "All" || xSection.Name==SectionName)
+                    {
+                        //Current NODE to parse and load into grid
+                        XmlNode xnlNodes = ObsConfig.configXML.SelectSingleNode("//" + xSection.Name);
+
+                        //Get current grid
+                        foreach (DataGridView DataGridEl in configGridsCollection)
+                        {
+                            if (DataGridEl.Name == "dataGridConfig_" + xnlNodes.Name) 
+                                curDataGrid = DataGridEl;
+                        }
+
+                        //EmpryGrid (for case, where we want to reload data
+                        curDataGrid.Rows.Clear();
+
+                        //Loop throgh all data nodes
+                        int curRowIndex = 0;
+                        foreach (XmlNode xndNode in xnlNodes.ChildNodes)
+                        {
+                            //Read data
+                            string name = xndNode.Name;
+                            string val = xndNode.Attributes["value"].Value; ;
+
+                            //Add data row to to grid
+                            curRowIndex = curDataGrid.Rows.Add();
+                            curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_name"].Value = name;
+                            curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_value"].Value = val;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "Exception when loading CONFIG XML sections" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog(FullMessage, LogLevel.Important, Highlight.Error);
+            }
+        }
+
+
+        /// <summary>
+        /// Load settings from XML into GRID
+        /// </summary>
+        /// <param name="SectionName">Name of the XML SECTION to load. If not specified - try current tab. If specify "All" = reloads all nodes</param>
+        private void SaveDataFromGrid()
+        {
+            //Get all grids
+            var configGridsCollection = GetAllDataGrdiControls(this);
+            string sectionName = "";
+            string curName = "",curValue = "";
+
+            try
+            {
+                XmlNode xmlSections = ObsConfig.configXML.SelectSingleNode("configuration");
+
+
+                //Loop through all grids
+                foreach (DataGridView curDataGrid in configGridsCollection)
+                {
+                    sectionName = curDataGrid.Name.Substring(15);
+
+                    //Loop through grid
+                    foreach (DataGridViewRow curDataGridRow in curDataGrid.Rows)
+                    {
+                        curName = curDataGridRow.Cells[curDataGrid.Name + "_name"].Value.ToString();
+                        curValue = curDataGridRow.Cells[curDataGrid.Name + "_value"].Value.ToString();
+
+                        //Current NODE to parse and load into grid
+                        XmlNode xnlNodes = ObsConfig.configXML.SelectSingleNode("//" + sectionName);
+                        int curRowIndex = 0;
+
+                        foreach (XmlNode xndNode in xnlNodes.ChildNodes)
+                        {
+                            //Update data
+                            if (xndNode.Name == curName)
+                            {
+                                xndNode.Attributes["value"].Value = curValue;
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "Exception when loading CONFIG XML sections" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog(FullMessage, LogLevel.Important, Highlight.Error);
+            }
+        }
+
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             try
@@ -159,7 +268,13 @@ namespace ObservatoryCenter
                 
                 //Load params into vars
                 ParentMainForm.LoadParams();
-                
+
+
+                //Update XML
+                SaveDataFromGrid();
+                //Write config file to disk
+                ObsConfig.Save();
+
                 this.Close();
             }
             catch (FormatException ex)
@@ -195,7 +310,16 @@ namespace ObservatoryCenter
         private void btnRestoreDefaults_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Do you want to reset all settings to their default values (this can't be undone)?", "Reset to default values", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            {
+                //for classic settings, at least до тех пор, пока полностью не перейдем на CUSTOM XML
                 Properties.Settings.Default.Reset();
+
+                //Загрузить из файла
+                ObsConfig.Load();
+                //Перерисовать
+                LoadDataIntoGrids("All");
+
+            }
         }
 
 

@@ -1179,7 +1179,10 @@ namespace ObservatoryCenter
         /// <param name="e"></param>
         private void btnMaximStart_Click(object sender, EventArgs e)
         {
-            ObsControl.StartMaximDLroutines();
+            ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartMaximDLroutines);
+            Thread childThread = new Thread(RunThreadRef);
+            childThread.Start();
+            Logging.AddLog("Command 'Prepare maxim' was initiated", LogLevel.Debug);
         }
 
 
@@ -1335,7 +1338,11 @@ namespace ObservatoryCenter
 
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.startPHD2();
+            ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
+            
+            Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
+
+            ObsControl.CommandParser.ParseSingleCommand("PHD2_CONNECT");
         }
 
         private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
