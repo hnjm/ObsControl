@@ -199,8 +199,12 @@ namespace ObservatoryCenter
         /// </summary>
         private void mainTimer_Long_Tick(object sender, EventArgs e)
         {
-            ///check power switch status
+            //check power switch status
             CheckPowerSwitchStatus_caller();
+
+
+            //update AstroTortilla solver status
+            UpdateSolverFileds();
 
         }
 
@@ -1032,12 +1036,24 @@ namespace ObservatoryCenter
 
 
         }
+
+
+
+        /// <summary>
+        /// Update solver messages
+        /// </summary>
+        public void UpdateSolverFileds()
+        {
+            //AstroTortilla
+            txtATSolver_Status.Text = ObsControl.objAstroTortilla.LastAttemptMessage;
+            txtATSolver_Status.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
+        }
 #endregion update visual elements
-// end of block
+            // end of block
 
 
-// Region block with hadnling power management visual interface
-#region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
+            // Region block with hadnling power management visual interface
+            #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);

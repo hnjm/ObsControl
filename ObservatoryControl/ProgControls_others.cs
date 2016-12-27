@@ -102,7 +102,9 @@ namespace ObservatoryCenter
 
         private Process objProcessAutoIt = new Process();
         public string FullNameAutoIt = ""; //path to run
-        
+
+        internal bool? LastAttemptSolvedFlag = null;
+        internal string LastAttemptMessage = "";
 
         public int Solve()
         {
@@ -138,10 +140,15 @@ namespace ObservatoryCenter
                 if (Error == 0)
                 {
                     Logging.AddLog("Astrotortilla Solver has found solution!", LogLevel.Activity);
+
+                    LastAttemptSolvedFlag = true;
+                    LastAttemptMessage = "Attempt run at " + DateTime.Now.ToString("HH:mm:ss") + ". Solved";
                 }
                 else
                 {
                     Logging.AddLog("Astrotortilla Solver didn't found any solution. Returned code: " + Error, LogLevel.Activity, Highlight.Error);
+                    LastAttemptSolvedFlag = false;
+                    LastAttemptMessage = "Attempt run at "+ DateTime.Now.ToString("HH:mm:ss") + ". No solution was found";
                 }
 
                 return Error;
