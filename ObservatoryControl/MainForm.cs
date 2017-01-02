@@ -1046,10 +1046,12 @@ namespace ObservatoryCenter
         {
             //AstroTortilla
             txtATSolver_Status.Text = ObsControl.objAstroTortilla.LastAttemptMessage;
-            txtATSolver_Status.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
-
             txtATSolutionRA.Text = ObsControl.objAstroTortilla.Solution_RA;
             txtATSolutionDec.Text = ObsControl.objAstroTortilla.Solution_Dec;
+
+            txtATSolver_Status.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
+            txtATSolutionRA.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
+            txtATSolutionDec.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
         }
         #endregion update visual elements
         // end of block
