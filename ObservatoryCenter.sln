@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObservatoryCenter", "ObservatoryControl\ObservatoryCenter.csproj", "{D60368F3-AD27-459E-BBF8-07944FB4BE5D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F17582A-8F09-46CB-8018-B07C83182421}"
+	ProjectSection(SolutionItems) = preProject
+		ObservatoryControl\astrotortilla_solve_12.au3 = ObservatoryControl\astrotortilla_solve_12.au3
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DProjection", "WindowsFormsApplication1\3DProjection.csproj", "{184EDBDB-7CD3-40FB-A6D4-8FBBB3B493A8}"
 EndProject

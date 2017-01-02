@@ -1047,13 +1047,16 @@ namespace ObservatoryCenter
             //AstroTortilla
             txtATSolver_Status.Text = ObsControl.objAstroTortilla.LastAttemptMessage;
             txtATSolver_Status.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
+
+            txtATSolutionRA.Text = ObsControl.objAstroTortilla.Solution_RA;
+            txtATSolutionDec.Text = ObsControl.objAstroTortilla.Solution_Dec;
         }
-#endregion update visual elements
-            // end of block
+        #endregion update visual elements
+        // end of block
 
 
-            // Region block with hadnling power management visual interface
-            #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
+        // Region block with hadnling power management visual interface
+        #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);

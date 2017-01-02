@@ -23,6 +23,9 @@ bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.5.21 [03.01.17]
+- astrotortilla displaying result details
+
 0.5.20 [26.12.16]
 - astrotortilla displaying result
 
