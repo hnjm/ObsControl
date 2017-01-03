@@ -67,7 +67,7 @@ namespace ObservatoryCenter
                 {
                     ErrorSt = "Process [" + Name + "] already running";
                     Error = 1;
-                    Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(ErrorSt, LogLevel.Activity);
 
                     return true;
                 }

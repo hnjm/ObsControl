@@ -164,12 +164,12 @@ namespace ObservatoryCenter
                 {
                     CCDCamera.CoolerOn = true;
                     CCDCamera.TemperatureSetpoint = SetTemp; ////////
-                    Logging.AddLog("Cooler set to " + SetTemp + " deg", LogLevel.Activity);
+                    Logging.AddLog("Cooler set to " + SetTemp + " deg", LogLevel.Debug);
                     return "Cooler set to " + SetTemp + " deg";
                 }
                 else
                 {
-                    Logging.AddLog("Camera can't set temperature", LogLevel.Activity);
+                    Logging.AddLog("Camera can't set temperature", LogLevel.Debug); //'Debug' to not dublicate messages
                     return "Camera can't set temperature";
                 }
 

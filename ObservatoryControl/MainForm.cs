@@ -191,6 +191,8 @@ namespace ObservatoryCenter
 
             UpdatePHDstate();
             //UpdateGuiderFieldsStatus(); //Maxim Guider
+
+            UpdateCCDAPstate();
         }
 
 
@@ -526,6 +528,17 @@ namespace ObservatoryCenter
             }
 
         }
+
+        /// <summary>
+        /// Update state of CCDAP prog
+        /// including log details
+        /// </summary>
+        private void UpdateCCDAPstate()
+        {
+            ObsControl.objCCDAPApp.GetCurrentLogFile();
+            ObsControl.objCCDAPApp.ReadLogFile();
+        }
+
 
         bool aMaximRunning = false;
         bool aPHDRunning = false;

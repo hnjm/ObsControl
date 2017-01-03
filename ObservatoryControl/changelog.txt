@@ -23,6 +23,10 @@ bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+
+0.6.01 [03.01.17]
+- aparsing CCDAP activity (started)
+
 0.5.21 [03.01.17]
 - astrotortilla displaying result details
 

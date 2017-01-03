@@ -50,6 +50,9 @@ namespace ObservatoryCenter
             try
             {
                 listenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                listenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                //listenerSocket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.ExclusiveAddressUse, true);
+                
                 listenerSocket.Bind(new IPEndPoint(serverIP, serverPort));
                 listenerSocket.Listen(10);
                 while (true)
@@ -63,7 +66,7 @@ namespace ObservatoryCenter
             }
             catch (Exception Ex)
             {
-                Logging.AddLog("Server connection errror [" + Ex.Message+"]",LogLevel.Important,Highlight.Error);
+                Logging.AddLog("Server connection error [" + Ex.Message+"]",LogLevel.Important,Highlight.Error);
             }
         }
 

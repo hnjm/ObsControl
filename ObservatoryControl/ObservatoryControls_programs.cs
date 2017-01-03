@@ -66,7 +66,9 @@ namespace ObservatoryCenter
             objCCDAPApp = new CCDAP_ExternatApplication();
             objCCDAPApp.Name = "CCDAutoPilot5";
             objCCDAPApp.FullName = ObsConfig.getString("programsPath", "CCDAP") ?? @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
+            objCCDAPApp.LogPath = ObsConfig.getString("programsPath", "CCDAP_Logs") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs";
 
+             
             //FocusMax
             objFocusMaxApp = new FocusMax_ExternatApplication();
             objFocusMaxApp.Name = "FocusMax";

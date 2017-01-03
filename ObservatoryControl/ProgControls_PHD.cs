@@ -164,7 +164,7 @@ namespace ObservatoryCenter
 
             if (Error >= 0)
             {
-                Thread.Sleep(300);
+                Thread.Sleep(600);
 
                 //Read response
                 string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
