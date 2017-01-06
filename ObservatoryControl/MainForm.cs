@@ -536,7 +536,7 @@ namespace ObservatoryCenter
         private void UpdateCCDAPstate()
         {
             ObsControl.objCCDAPApp.GetCurrentLogFile();
-            ObsControl.objCCDAPApp.ReadLogFile();
+            ObsControl.objCCDAPApp.ParseLogFile();
         }
 
 
