@@ -1381,7 +1381,10 @@ namespace ObservatoryCenter
 
         private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.startMaximDL();
+            ObsControl.CommandParser.ParseSingleCommand("MAXIM_RUN");
+            ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
+            ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
+            ObsControl.CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
         }
 
         private void linkCCDAP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

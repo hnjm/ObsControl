@@ -99,7 +99,7 @@ namespace ObservatoryCenter
                 //1. Check date filed
                 if (DateTime.TryParse(curLine.Substring(0, 9), out curLineTime))
                 {
-                    //Line starts with time
+                    //A. Line starts with time
 
                     //1. check - if previously was concatenate mode
                     if (needConcat)
@@ -114,7 +114,7 @@ namespace ObservatoryCenter
                     if (curLineData.Length > 2)
                     {
                         //use this data for cur line
-                        strDataConcat
+                        //rDataConcat
                     }
                     else
                     {
@@ -125,13 +125,13 @@ namespace ObservatoryCenter
                 }
                 else
                 {
-                    //no date field - concatenate lines!
+                    //B. no date field - concatenate lines!
                     strDataConcat += curLine;
                 }
 
 
 
-                //parse lines
+                //2. parse lines
                 if (curLine.Contains(""))
                 {
 
