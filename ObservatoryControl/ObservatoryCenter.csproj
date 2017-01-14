@@ -177,12 +177,13 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SocketServer.cs" />
-    <Compile Include="TestEquipment.cs">
+    <Compile Include="TestEquipmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestEquipment.Designer.cs">
-      <DependentUpon>TestEquipment.cs</DependentUpon>
+    <Compile Include="TestEquipmentForm.Designer.cs">
+      <DependentUpon>TestEquipmentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestEquipmentClass.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,8 +200,8 @@
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestEquipment.resx">
-      <DependentUpon>TestEquipment.cs</DependentUpon>
+    <EmbeddedResource Include="TestEquipmentForm.resx">
+      <DependentUpon>TestEquipmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>

@@ -1,6 +1,6 @@
 ﻿namespace ObservatoryCenter
 {
-    partial class TestEquipment
+    partial class TestEquipmentForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestEquipmentForm));
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
@@ -54,8 +55,9 @@
             this.chkTestMaximDl_Run = new System.Windows.Forms.CheckBox();
             this.btnRunObservatoryTest = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.txtLog = new System.Windows.Forms.RichTextBox();
+            this.txtTestFormLog = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.backgroundWorker_test = new System.ComponentModel.BackgroundWorker();
             this.groupBox14.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -77,6 +79,8 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
+            this.checkBox5.Checked = true;
+            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox5.Location = new System.Drawing.Point(21, 59);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(200, 24);
@@ -87,6 +91,8 @@
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
+            this.checkBox6.Checked = true;
+            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox6.Location = new System.Drawing.Point(21, 29);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(93, 24);
@@ -108,6 +114,8 @@
             // checkBox7
             // 
             this.checkBox7.AutoSize = true;
+            this.checkBox7.Checked = true;
+            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox7.Location = new System.Drawing.Point(21, 59);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.Size = new System.Drawing.Size(157, 24);
@@ -118,6 +126,8 @@
             // checkBox8
             // 
             this.checkBox8.AutoSize = true;
+            this.checkBox8.Checked = true;
+            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox8.Location = new System.Drawing.Point(21, 29);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(85, 24);
@@ -140,6 +150,8 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox1.Location = new System.Drawing.Point(21, 89);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(133, 24);
@@ -150,6 +162,8 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox3.Location = new System.Drawing.Point(21, 59);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(139, 24);
@@ -160,6 +174,8 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox4.Location = new System.Drawing.Point(21, 29);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(105, 24);
@@ -185,6 +201,8 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox2.Location = new System.Drawing.Point(21, 55);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(100, 24);
@@ -195,6 +213,8 @@
             // checkBox9
             // 
             this.checkBox9.AutoSize = true;
+            this.checkBox9.Checked = true;
+            this.checkBox9.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox9.Location = new System.Drawing.Point(21, 174);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(90, 24);
@@ -205,6 +225,8 @@
             // checkBox10
             // 
             this.checkBox10.AutoSize = true;
+            this.checkBox10.Checked = true;
+            this.checkBox10.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox10.Location = new System.Drawing.Point(21, 145);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(138, 24);
@@ -215,6 +237,8 @@
             // checkBox11
             // 
             this.checkBox11.AutoSize = true;
+            this.checkBox11.Checked = true;
+            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox11.Location = new System.Drawing.Point(21, 115);
             this.checkBox11.Name = "checkBox11";
             this.checkBox11.Size = new System.Drawing.Size(148, 24);
@@ -225,6 +249,8 @@
             // checkBox12
             // 
             this.checkBox12.AutoSize = true;
+            this.checkBox12.Checked = true;
+            this.checkBox12.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox12.Location = new System.Drawing.Point(21, 85);
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(174, 24);
@@ -235,6 +261,8 @@
             // checkBox13
             // 
             this.checkBox13.AutoSize = true;
+            this.checkBox13.Checked = true;
+            this.checkBox13.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.checkBox13.Location = new System.Drawing.Point(21, 29);
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(167, 24);
@@ -260,7 +288,9 @@
             // chkTestMaximDl_setcooling
             // 
             this.chkTestMaximDl_setcooling.AutoSize = true;
-            this.chkTestMaximDl_setcooling.Location = new System.Drawing.Point(21, 116);
+            this.chkTestMaximDl_setcooling.Checked = true;
+            this.chkTestMaximDl_setcooling.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestMaximDl_setcooling.Location = new System.Drawing.Point(21, 119);
             this.chkTestMaximDl_setcooling.Name = "chkTestMaximDl_setcooling";
             this.chkTestMaximDl_setcooling.Size = new System.Drawing.Size(238, 24);
             this.chkTestMaximDl_setcooling.TabIndex = 0;
@@ -270,7 +300,9 @@
             // chkTestMaximDl_CameraShoot
             // 
             this.chkTestMaximDl_CameraShoot.AutoSize = true;
-            this.chkTestMaximDl_CameraShoot.Location = new System.Drawing.Point(21, 174);
+            this.chkTestMaximDl_CameraShoot.Checked = true;
+            this.chkTestMaximDl_CameraShoot.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestMaximDl_CameraShoot.Location = new System.Drawing.Point(21, 149);
             this.chkTestMaximDl_CameraShoot.Name = "chkTestMaximDl_CameraShoot";
             this.chkTestMaximDl_CameraShoot.Size = new System.Drawing.Size(202, 24);
             this.chkTestMaximDl_CameraShoot.TabIndex = 0;
@@ -280,7 +312,9 @@
             // chkTestMaximDl_FilterWheel
             // 
             this.chkTestMaximDl_FilterWheel.AutoSize = true;
-            this.chkTestMaximDl_FilterWheel.Location = new System.Drawing.Point(21, 145);
+            this.chkTestMaximDl_FilterWheel.Checked = true;
+            this.chkTestMaximDl_FilterWheel.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestMaximDl_FilterWheel.Location = new System.Drawing.Point(21, 179);
             this.chkTestMaximDl_FilterWheel.Name = "chkTestMaximDl_FilterWheel";
             this.chkTestMaximDl_FilterWheel.Size = new System.Drawing.Size(180, 24);
             this.chkTestMaximDl_FilterWheel.TabIndex = 0;
@@ -290,7 +324,9 @@
             // chkTestMaximDl_telescopeconnect
             // 
             this.chkTestMaximDl_telescopeconnect.AutoSize = true;
-            this.chkTestMaximDl_telescopeconnect.Location = new System.Drawing.Point(21, 87);
+            this.chkTestMaximDl_telescopeconnect.Checked = true;
+            this.chkTestMaximDl_telescopeconnect.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestMaximDl_telescopeconnect.Location = new System.Drawing.Point(21, 89);
             this.chkTestMaximDl_telescopeconnect.Name = "chkTestMaximDl_telescopeconnect";
             this.chkTestMaximDl_telescopeconnect.Size = new System.Drawing.Size(235, 24);
             this.chkTestMaximDl_telescopeconnect.TabIndex = 0;
@@ -300,7 +336,9 @@
             // chkTestMaximDl_cameraconnect
             // 
             this.chkTestMaximDl_cameraconnect.AutoSize = true;
-            this.chkTestMaximDl_cameraconnect.Location = new System.Drawing.Point(21, 58);
+            this.chkTestMaximDl_cameraconnect.Checked = true;
+            this.chkTestMaximDl_cameraconnect.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestMaximDl_cameraconnect.Location = new System.Drawing.Point(21, 59);
             this.chkTestMaximDl_cameraconnect.Name = "chkTestMaximDl_cameraconnect";
             this.chkTestMaximDl_cameraconnect.Size = new System.Drawing.Size(219, 24);
             this.chkTestMaximDl_cameraconnect.TabIndex = 0;
@@ -310,6 +348,8 @@
             // chkTestMaximDl_Run
             // 
             this.chkTestMaximDl_Run.AutoSize = true;
+            this.chkTestMaximDl_Run.Checked = true;
+            this.chkTestMaximDl_Run.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chkTestMaximDl_Run.Location = new System.Drawing.Point(21, 29);
             this.chkTestMaximDl_Run.Name = "chkTestMaximDl_Run";
             this.chkTestMaximDl_Run.Size = new System.Drawing.Size(128, 24);
@@ -325,26 +365,27 @@
             this.btnRunObservatoryTest.TabIndex = 8;
             this.btnRunObservatoryTest.Text = "Run test";
             this.btnRunObservatoryTest.UseVisualStyleBackColor = true;
+            this.btnRunObservatoryTest.Click += new System.EventHandler(this.btnRunObservatoryTest_Click);
             // 
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(12, 965);
+            this.progressBar1.Maximum = 10;
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(1284, 37);
             this.progressBar1.TabIndex = 7;
-            this.progressBar1.Value = 20;
             // 
-            // txtLog
+            // txtTestFormLog
             // 
-            this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtTestFormLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLog.Location = new System.Drawing.Point(392, 24);
-            this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(904, 923);
-            this.txtLog.TabIndex = 9;
-            this.txtLog.Text = "";
+            this.txtTestFormLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTestFormLog.Location = new System.Drawing.Point(392, 24);
+            this.txtTestFormLog.Name = "txtTestFormLog";
+            this.txtTestFormLog.Size = new System.Drawing.Size(904, 923);
+            this.txtTestFormLog.TabIndex = 9;
+            this.txtTestFormLog.Text = "";
             // 
             // button1
             // 
@@ -355,12 +396,19 @@
             this.button1.Text = "Run operation test";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // TestEquipment
+            // backgroundWorker_test
+            // 
+            this.backgroundWorker_test.WorkerReportsProgress = true;
+            this.backgroundWorker_test.WorkerSupportsCancellation = true;
+            this.backgroundWorker_test.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_test_DoWork);
+            this.backgroundWorker_test.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_test_ProgressChanged_1);
+            // 
+            // TestEquipmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1308, 1014);
-            this.Controls.Add(this.txtLog);
+            this.Controls.Add(this.txtTestFormLog);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnRunObservatoryTest);
             this.Controls.Add(this.progressBar1);
@@ -369,8 +417,11 @@
             this.Controls.Add(this.groupBox13);
             this.Controls.Add(this.groupBox16);
             this.Controls.Add(this.groupBox12);
-            this.Name = "TestEquipment";
-            this.Text = "TestEquipment";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "TestEquipmentForm";
+            this.Text = "Test Equipment";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestEquipment_FormClosing);
+            this.Load += new System.EventHandler(this.TestEquipment_Load);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox15.ResumeLayout(false);
@@ -413,7 +464,8 @@
         private System.Windows.Forms.CheckBox chkTestMaximDl_Run;
         private System.Windows.Forms.Button btnRunObservatoryTest;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.RichTextBox txtLog;
+        private System.Windows.Forms.RichTextBox txtTestFormLog;
         private System.Windows.Forms.Button button1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_test;
     }
 }

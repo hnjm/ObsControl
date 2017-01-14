@@ -23,7 +23,7 @@ namespace ObservatoryCenter
         // Есть одна особенность хранения файла (во вермя разработки, по крайней мере)
         // Чтобы он синхронизировался через GITHUB он должен лежать там, где хранится весь SourceCode ("c:\Users\Emchenko Boris\Source\Repos\ObsControl\ObservatoryControl\ObservatoryControl.config")
         // Но для того, чтоыб он подгружался во время запуска,  он должен лежать в "c:\Users\Emchenko Boris\Source\Repos\ObsControl\ObservatoryControl\bin\Debug\config" (ну или Release\config)
-        // Поэтому нужно помнить, что из два и синхронизировать правки (просто копируя его)
+        // Поэтому нужно помнить, что их два и синхронизировать правки (просто копируя его)
         public static string CONFIG_FILENAME = "ObservatoryControl.config";
         public static string CONFIG_PATH = Path.Combine(Environment.CurrentDirectory, "config") + "\\";
 
@@ -84,7 +84,7 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                Logging.AddLog("getString [" + key + "] error: " + ex.Message, LogLevel.Important, Highlight.Error);
+                Logging.AddLog("Config parameter [" + section + "][" + key + "] not found: " + ex.Message, LogLevel.Activity, Highlight.Error);
                 Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                 res = null;
             }

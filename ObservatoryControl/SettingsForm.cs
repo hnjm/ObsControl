@@ -65,6 +65,14 @@ namespace ObservatoryCenter
         }
 
 
+        //Prevent from unloading the form
+        private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+
         private IEnumerable<Control> GetAllDataGrdiControls(Control container)
         {
             List<Control> controlList = new List<Control>();
@@ -360,7 +368,6 @@ namespace ObservatoryCenter
             ParentMainForm.ObsControl.objDome = null;
             ParentMainForm.ObsControl.connectDome = true;
         }
- 
 
     }
 }

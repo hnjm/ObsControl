@@ -37,6 +37,11 @@ namespace ObservatoryCenter
         /// </summary>
         public SocketServerClass SocketServer;
 
+        /// <summary>
+        /// Test form object
+        /// </summary>
+        public TestEquipmentForm TestForm;
+
         //Color constants
         Color OnColor = Color.DarkSeaGreen;
         Color OffColor = Color.Tomato;
@@ -62,6 +67,7 @@ namespace ObservatoryCenter
             
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
+            TestForm = new TestEquipmentForm(this);
 
             //Prepare separate thread obj (just dummy init, because it couldn't be null)
             //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
@@ -535,8 +541,11 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateCCDAPstate()
         {
-            ObsControl.objCCDAPApp.GetCurrentLogFile();
-            ObsControl.objCCDAPApp.ParseLogFile();
+            if (ObsControl.objCCDAPApp.IsRunning())
+            {
+                ObsControl.objCCDAPApp.GetCurrentLogFile();
+                ObsControl.objCCDAPApp.ParseLogFile();
+            }
         }
 
 
@@ -1489,6 +1498,11 @@ namespace ObservatoryCenter
             childThread.Start();
             //Logging.AddLog("Command 'Prepare run' was initiated", LogLevel.Debug);
 
+        }
+
+        private void btnRunTest_Click(object sender, EventArgs e)
+        {
+            TestForm.Show();
         }
     }
 }
