@@ -257,6 +257,201 @@ namespace ObservatoryCenter
             }
             return TestResult;
         }
+
+
+
+
+        /// <summary>
+        /// Test PHD RUN
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestPHD2Run()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: PHD2 run test started");
+
+            //run test
+            ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
+
+            //check result
+            try
+            {
+                if (ObsControl.objPHD2App.IsRunning())
+                { 
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: PHD2 process started");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: PHD2 test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: PHD2 run test failed");
+            }
+            return TestResult;
+        }
+
+        /// <summary>
+        /// Test PHD CONNECT
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestPHD2Connect()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: PHD2 connect test started");
+
+            //run test
+            Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 300); //wait a bit
+            string stout = "";
+
+            string res = ObsControl.objPHD2App.CMD_GetCurrentProfile();
+
+           //check result
+            try
+            {
+                if (res != String.Empty )
+                {
+                    TestResult.AddStr("TestEquipment: phd2 equipment list: " + res + "");
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: PHD2 connect test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: PHD2 connect failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: PHD2 connect test failed");
+            }
+            return TestResult;
+        }
+
+        /// <summary>
+        /// Test PHD GUIDE
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestPHD2Guide()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: PHD2 guide test started");
+
+            //run test
+            string stout = "";
+            stout = ObsControl.objPHD2App.CMD_ConnectEquipment();
+
+            Thread.Sleep(300);
+
+            int resout = ObsControl.objPHD2App.CMD_StartGuiding();
+
+            Thread.Sleep(5000);
+
+            //check result
+            try
+            {
+                ObsControl.objPHD2App.CheckProgramEvents();
+
+                TestResult.AddStr("TestEquipment: PHD2 state = " + ObsControl.objPHD2App.currentState);
+
+                if (ObsControl.objPHD2App.currentState == PHDState.Calibrating || ObsControl.objPHD2App.currentState == PHDState.Dithered || ObsControl.objPHD2App.currentState == PHDState.Guiding || ObsControl.objPHD2App.currentState == PHDState.Looping || ObsControl.objPHD2App.currentState == PHDState.Settling )
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: PHD2 guide test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: PHD2 guide test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: PHD2 guide test failed");
+            }
+            return TestResult;
+        }
+
+
+        /// <summary>
+        /// Test CdC RUN
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestCdCRun()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: CdC run test started");
+
+            //run test
+            ObsControl.CommandParser.ParseSingleCommand("CdC_RUN");
+
+            //check result
+            try
+            {
+                if (ObsControl.objCdCApp.IsRunning())
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: CdC run test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: CdC run test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: CdC run test failed");
+            }
+            return TestResult;
+        }
+
+        /// <summary>
+        /// Test CdC Connect
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestCdCConnect()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: CdC connect test started");
+
+            //Connect
+            ObsControl.CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
+
+            //check result
+            try
+            {
+                Thread.Sleep(500);
+
+                string res = ObsControl.objCdCApp.GET_TelescopePos();
+                TestResult.AddStr("TestEquipment: CdC pos = " + res);
+
+                if (res.Contains("OK"))
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: CdC connect test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: CdC connect test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: CdC connect test failed");
+            }
+            return TestResult;
+        }
+        
     }
 }
 

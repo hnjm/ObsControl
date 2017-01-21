@@ -317,7 +317,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1143, 663);
+            this.tabControl1.Size = new System.Drawing.Size(1105, 663);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageLog
@@ -329,7 +329,7 @@
             this.tabPageLog.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageLog.Name = "tabPageLog";
             this.tabPageLog.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageLog.Size = new System.Drawing.Size(1135, 630);
+            this.tabPageLog.Size = new System.Drawing.Size(1097, 630);
             this.tabPageLog.TabIndex = 0;
             this.tabPageLog.Text = "Log";
             this.tabPageLog.UseVisualStyleBackColor = true;
@@ -481,7 +481,7 @@
             this.MaximGuider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximGuider.Name = "MaximGuider";
             this.MaximGuider.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximGuider.Size = new System.Drawing.Size(712, 142);
+            this.MaximGuider.Size = new System.Drawing.Size(674, 142);
             this.MaximGuider.TabIndex = 4;
             this.MaximGuider.TabStop = false;
             this.MaximGuider.Text = "MaximGuider";
@@ -572,7 +572,7 @@
             this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLog.Location = new System.Drawing.Point(3, 3);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(1122, 610);
+            this.txtLog.Size = new System.Drawing.Size(1084, 610);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "";
             // 
@@ -1712,7 +1712,7 @@
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
             this.statusBar.ShowItemToolTips = true;
-            this.statusBar.Size = new System.Drawing.Size(1550, 38);
+            this.statusBar.Size = new System.Drawing.Size(1512, 38);
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusBar";
             // 
@@ -1720,7 +1720,7 @@
             // 
             this.toolStripStatus_Switch.DoubleClickEnabled = true;
             this.toolStripStatus_Switch.Name = "toolStripStatus_Switch";
-            this.toolStripStatus_Switch.Size = new System.Drawing.Size(94, 33);
+            this.toolStripStatus_Switch.Size = new System.Drawing.Size(77, 33);
             this.toolStripStatus_Switch.Text = "SWITCH";
             this.toolStripStatus_Switch.DoubleClick += new System.EventHandler(this.toolStripStatus_Switch_DoubleClick);
             // 
@@ -1728,27 +1728,27 @@
             // 
             this.toolStripStatus_Dome.DoubleClickEnabled = true;
             this.toolStripStatus_Dome.Name = "toolStripStatus_Dome";
-            this.toolStripStatus_Dome.Size = new System.Drawing.Size(76, 33);
+            this.toolStripStatus_Dome.Size = new System.Drawing.Size(64, 33);
             this.toolStripStatus_Dome.Text = "DOME";
             this.toolStripStatus_Dome.Click += new System.EventHandler(this.toolStripStatus_Dome_Click);
             // 
             // toolStripStatus_Telescope
             // 
             this.toolStripStatus_Telescope.Name = "toolStripStatus_Telescope";
-            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(123, 33);
+            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(101, 33);
             this.toolStripStatus_Telescope.Text = "TELESCOPE";
             this.toolStripStatus_Telescope.ToolTipText = "test";
             // 
             // toolStripStatus_Focuser
             // 
             this.toolStripStatus_Focuser.Name = "toolStripStatus_Focuser";
-            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(106, 33);
+            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(88, 33);
             this.toolStripStatus_Focuser.Text = "FOCUSER";
             // 
             // toolStripStatus_Camera
             // 
             this.toolStripStatus_Camera.Name = "toolStripStatus_Camera";
-            this.toolStripStatus_Camera.Size = new System.Drawing.Size(99, 33);
+            this.toolStripStatus_Camera.Size = new System.Drawing.Size(83, 33);
             this.toolStripStatus_Camera.Text = "CAMERA";
             this.toolStripStatus_Camera.Click += new System.EventHandler(this.toolStripStatus_Camera_Click);
             // 
@@ -1765,7 +1765,7 @@
             this.toolStripDropDownLogLevel.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownLogLevel.Image")));
             this.toolStripDropDownLogLevel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownLogLevel.Name = "toolStripDropDownLogLevel";
-            this.toolStripDropDownLogLevel.Size = new System.Drawing.Size(305, 36);
+            this.toolStripDropDownLogLevel.Size = new System.Drawing.Size(256, 36);
             this.toolStripDropDownLogLevel.Text = "toolStripDropDownLogLevel";
             this.toolStripDropDownLogLevel.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripDropDownLogLevel_DropDownItemClicked);
             // 
@@ -2148,7 +2148,7 @@
             this.groupBox5.Controls.Add(this.txtFilterName);
             this.groupBox5.Location = new System.Drawing.Point(390, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(718, 225);
+            this.groupBox5.Size = new System.Drawing.Size(680, 225);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
@@ -2165,7 +2165,7 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.txtCameraTemp);
             this.groupBox3.Controls.Add(this.txtCameraCoolerPower);
-            this.groupBox3.Location = new System.Drawing.Point(524, 14);
+            this.groupBox3.Location = new System.Drawing.Point(486, 14);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2357,7 +2357,7 @@
             this.groupBoxTelescope.Controls.Add(this.label3);
             this.groupBoxTelescope.Controls.Add(this.label2);
             this.groupBoxTelescope.Controls.Add(this.label1);
-            this.groupBoxTelescope.Location = new System.Drawing.Point(1114, 2);
+            this.groupBoxTelescope.Location = new System.Drawing.Point(1076, 2);
             this.groupBoxTelescope.Name = "groupBoxTelescope";
             this.groupBoxTelescope.Size = new System.Drawing.Size(418, 400);
             this.groupBoxTelescope.TabIndex = 3;
@@ -2496,7 +2496,7 @@
             this.PHDGuiding.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PHDGuiding.Name = "PHDGuiding";
             this.PHDGuiding.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.PHDGuiding.Size = new System.Drawing.Size(718, 298);
+            this.PHDGuiding.Size = new System.Drawing.Size(680, 298);
             this.PHDGuiding.TabIndex = 4;
             this.PHDGuiding.TabStop = false;
             this.PHDGuiding.Text = "PHDGuiding";
@@ -2538,7 +2538,7 @@
             legend1.Enabled = false;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(472, 17);
+            this.chart1.Location = new System.Drawing.Point(434, 17);
             this.chart1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chart1.Name = "chart1";
             series11.ChartArea = "ChartArea1";
@@ -2624,7 +2624,7 @@
             // btnClearGuidingStat
             // 
             this.btnClearGuidingStat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearGuidingStat.Location = new System.Drawing.Point(396, 32);
+            this.btnClearGuidingStat.Location = new System.Drawing.Point(358, 32);
             this.btnClearGuidingStat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClearGuidingStat.Name = "btnClearGuidingStat";
             this.btnClearGuidingStat.Size = new System.Drawing.Size(68, 32);
@@ -2724,7 +2724,7 @@
             this.groupBox8.Controls.Add(this.txtLastFocusHFD);
             this.groupBox8.Controls.Add(this.btnAcquireStar);
             this.groupBox8.Controls.Add(this.btnFocus);
-            this.groupBox8.Location = new System.Drawing.Point(1114, 412);
+            this.groupBox8.Location = new System.Drawing.Point(1076, 412);
             this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2780,7 +2780,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1550, 1263);
+            this.ClientSize = new System.Drawing.Size(1512, 1263);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.PHDGuiding);
             this.Controls.Add(this.groupBoxTelescope);
@@ -2791,7 +2791,7 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(1438, 917);
+            this.MinimumSize = new System.Drawing.Size(1280, 917);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";

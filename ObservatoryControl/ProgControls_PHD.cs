@@ -119,17 +119,18 @@ namespace ObservatoryCenter
             bool res = false;
             if (ProgramSocket == null)
             {
-                //Connect
+                //Make connection to server
                 string output = SocketServerClass.ConnectToServer(IPAddress.Parse("127.0.0.1"), ServerPort, out ProgramSocket, out Error);
+
                 if (Error >= 0)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(600);
 
                     //Read response
                     string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
 
                     //Parse response
-                    HandleServerResponse(output2);
+                    ParseServerResponse(output2);
 
                     res = true;
                 }
@@ -164,13 +165,14 @@ namespace ObservatoryCenter
 
             if (Error >= 0)
             {
-                Thread.Sleep(600);
+                Thread.Sleep(200);
 
                 //Read response
                 string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
+                Logging.AddLog("PHD2_SendCommand: server response = " + output2, LogLevel.Debug, Highlight.Error);
 
                 //Parse response
-                HandleServerResponse(output2, out result);
+                ParseServerResponse(output2, out result);
 
                 //Check
                 if (!LastCommand_Result)
@@ -207,8 +209,10 @@ namespace ObservatoryCenter
             bool res = SendCommand(message, out dumbstring);
             return res;
         }
+
+
         /// <summary>
-        /// Check for incoming PHD messages
+        /// Run this method to check if there are incoming PHD messages and parse them
         /// </summary>
         /// <returns></returns>
         public bool CheckProgramEvents()
@@ -220,7 +224,7 @@ namespace ObservatoryCenter
             //Parse response
             if (output != null)
             {
-                HandleServerResponse(output);
+                ParseServerResponse(output);
                 res = true;
 
             }
@@ -234,7 +238,7 @@ namespace ObservatoryCenter
         /// </summary>
         /// <param name="responsest">Raw string as returned from PHD2</param>
         /// <returns>true if succesfull</returns>
-        public bool HandleServerResponse(string responsest, out string result)
+        public bool ParseServerResponse(string responsest, out string result)
         {
             bool res = false;
             result = "";
@@ -243,19 +247,21 @@ namespace ObservatoryCenter
 
             //1. Split into lines
             string[] lines = responsest.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            
+            Logging.AddLog("PHD2_ParseServerResponse: response lines count = " + lines.Count(), LogLevel.Debug, Highlight.Error);
+
             //2. Loop through lines
             foreach (string curline in lines)
             {
 
                 //3. Split response string into parts
                 string attribs = "", id = "", st_event = "";
-                st_event = ParseServerString(curline, out attribs, out id);
+                st_event = ParseResponseString(curline, out attribs, out id);
+                Logging.AddLog("PHD2_ParseResponseString result: st_event = " + st_event + ", attributes = " + attribs + "", LogLevel.Debug, Highlight.Error);
 
                 //Logging.AddLog("PHD2 response. Event: " + st_event + ". Attributes: " + attribs + ". ID: " + id, LogLevel.Trace);
 
                 //4. Parse string into commands
-                
+
                 //4. Check for response type
                 //4.1. Response on command
                 if (st_event == "result" || st_event == "error")
@@ -297,10 +303,10 @@ namespace ObservatoryCenter
         /// </summary>
         /// <param name="responsest"></param>
         /// <returns></returns>
-        public bool HandleServerResponse(string responsest)
+        public bool ParseServerResponse(string responsest)
         {
             string dumbstring = "";
-            bool res = HandleServerResponse(responsest, out dumbstring);
+            bool res = ParseServerResponse(responsest, out dumbstring);
             return res;
         }
 
@@ -312,7 +318,7 @@ namespace ObservatoryCenter
         /// <param name="attributes"></param>
         /// <param name="id"></param>
         /// <returns>event name or response tag</returns>
-        private string ParseServerString(string responsestr, out string attributes, out string id, string jsonstring="")
+        private string ParseResponseString(string responsestr, out string attributes, out string id, string jsonstring="")
         {
             //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
             //{"Event":"CalibrationComplete","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"Mount":"On Camera"}
@@ -504,7 +510,7 @@ namespace ObservatoryCenter
         {
             string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": 1}" + "\r\n";
             
-            bool res = SendCommand(message);
+            bool res = SendCommand(message); //send command to connect equipment to phd2
 
             string output = "";
 
@@ -552,17 +558,52 @@ namespace ObservatoryCenter
                 output = "Get pixel scale command result: " + result_st;
                 Logging.AddLog(output, LogLevel.Activity);
             }
+            
+            //Parse data
             if (!Double.TryParse(result_st, out result)) result = -1;
 
             return result;
         }
 
+        /// <summary>
+        /// Get current equipment list
+        /// </summary>
+        /// <returns></returns>
+        public string CMD_GetCurrentProfile()
+        {
+            //{"method": "get_profile", "id": 1}
+            string message = @"{""method"": ""get_profile"", ""id"": 1}" + "\r\n";
+            string result = "";
+            string result_st = "";
+            bool res = SendCommand(message, out result_st);
+
+            string output = "";
+
+            //Check
+            if (!res)
+            {
+                output = "Get Current Profile command error";
+                Logging.AddLog(output, LogLevel.Important, Highlight.Error);
+
+            }
+            else
+            {
+                output = "Get Current Profile command result: " + result_st;
+                result = result_st;
+                Logging.AddLog(output, LogLevel.Activity);
+            }
+
+            //Parse data
+            //for now without parsings, json string
+            return result;
+        }
+        
 
         /// <summary>
         /// Star guiding
         /// </summary>
         /// <returns></returns>
-        public double CMD_StartGuiding()
+        public int CMD_StartGuiding()
         {
 
             //{"method": "guide", "params": [{"pixels": 1.5, "time": 8, "timeout": 40}, false], "id": 42}
@@ -578,7 +619,7 @@ namespace ObservatoryCenter
             //{"Event":"Settling","Timestamp":1474578855.289,"Host":"MAIN","Inst":1,"Distance":0.42,"Time":0.0,"SettleTime":8.0}
             //{"Event":"GuideStep","Timestamp":1474578855.289,"Host":"MAIN","Inst":1,"Frame":1,"Time":5.140,"Mount":"On Camera","dx":0.303,"dy":-0.176,"RADistanceRaw":-0.252,"DECDistanceRaw":-0.236,"RADistanceGuide":-0.159,"DECDistanceGuide":0.000,"RADuration":46,"RADirection":"East","StarMass":71113,"SNR":16.15,"AvgDi
             string message = @"{""method"": ""guide"", ""params"": [{""pixels"": 1.5, ""time"": 8, ""timeout"": 40}, false], ""id"": 1}" + "\r\n";
-            double result = -1;
+            int result = -1;
             string result_st = "";
             bool res = SendCommand(message, out result_st);
 
@@ -596,7 +637,7 @@ namespace ObservatoryCenter
                 output = "Start guiding command result: " + result_st;
                 Logging.AddLog(output, LogLevel.Activity);
             }
-            if (!Double.TryParse(result_st, out result)) result = -1;
+            if (!int.TryParse(result_st, out result)) result = -1;
 
             return result;
         }
@@ -608,7 +649,7 @@ namespace ObservatoryCenter
             message = message + "\r\n";
             string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, message, out Error);
             string attribs = "", id = "";
-            ParseServerString(output, out attribs, out id);
+            ParseResponseString(output, out attribs, out id);
             if (!output.Contains("{\"jsonrpc\":\"2.0\",\"result\":0,\"id\":1}\r\n"))
             {
                 Error = -2;

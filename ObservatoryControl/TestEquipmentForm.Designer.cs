@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestEquipmentForm));
             this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.chkTestCdC_connect = new System.Windows.Forms.CheckBox();
+            this.chkTestCdC_run = new System.Windows.Forms.CheckBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.chkTestPHD_guiding = new System.Windows.Forms.CheckBox();
+            this.chkTestPHD_connect = new System.Windows.Forms.CheckBox();
+            this.chkTestPHD_run = new System.Windows.Forms.CheckBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -58,17 +58,22 @@
             this.txtTestFormLog = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.backgroundWorker_test = new System.ComponentModel.BackgroundWorker();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkTTC_fan = new System.Windows.Forms.CheckBox();
+            this.chkTTC_run = new System.Windows.Forms.CheckBox();
+            this.chkTTC_heating = new System.Windows.Forms.CheckBox();
             this.groupBox14.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox14
             // 
-            this.groupBox14.Controls.Add(this.checkBox5);
-            this.groupBox14.Controls.Add(this.checkBox6);
+            this.groupBox14.Controls.Add(this.chkTestCdC_connect);
+            this.groupBox14.Controls.Add(this.chkTestCdC_run);
             this.groupBox14.Location = new System.Drawing.Point(12, 359);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Size = new System.Drawing.Size(365, 94);
@@ -76,29 +81,29 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Cartes du Ciel";
             // 
-            // checkBox5
+            // chkTestCdC_connect
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Checked = true;
-            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox5.Location = new System.Drawing.Point(21, 59);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(200, 24);
-            this.checkBox5.TabIndex = 0;
-            this.checkBox5.Text = "CdC telescope connect";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.chkTestCdC_connect.AutoSize = true;
+            this.chkTestCdC_connect.Checked = true;
+            this.chkTestCdC_connect.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestCdC_connect.Location = new System.Drawing.Point(21, 59);
+            this.chkTestCdC_connect.Name = "chkTestCdC_connect";
+            this.chkTestCdC_connect.Size = new System.Drawing.Size(200, 24);
+            this.chkTestCdC_connect.TabIndex = 0;
+            this.chkTestCdC_connect.Text = "CdC telescope connect";
+            this.chkTestCdC_connect.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // chkTestCdC_run
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Checked = true;
-            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox6.Location = new System.Drawing.Point(21, 29);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(93, 24);
-            this.checkBox6.TabIndex = 0;
-            this.checkBox6.Text = "CdC run";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.chkTestCdC_run.AutoSize = true;
+            this.chkTestCdC_run.Checked = true;
+            this.chkTestCdC_run.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestCdC_run.Location = new System.Drawing.Point(21, 29);
+            this.chkTestCdC_run.Name = "chkTestCdC_run";
+            this.chkTestCdC_run.Size = new System.Drawing.Size(93, 24);
+            this.chkTestCdC_run.TabIndex = 0;
+            this.chkTestCdC_run.Text = "CdC run";
+            this.chkTestCdC_run.UseVisualStyleBackColor = true;
             // 
             // groupBox15
             // 
@@ -137,9 +142,9 @@
             // 
             // groupBox13
             // 
-            this.groupBox13.Controls.Add(this.checkBox1);
-            this.groupBox13.Controls.Add(this.checkBox3);
-            this.groupBox13.Controls.Add(this.checkBox4);
+            this.groupBox13.Controls.Add(this.chkTestPHD_guiding);
+            this.groupBox13.Controls.Add(this.chkTestPHD_connect);
+            this.groupBox13.Controls.Add(this.chkTestPHD_run);
             this.groupBox13.Location = new System.Drawing.Point(12, 229);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(365, 124);
@@ -147,41 +152,41 @@
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "PHD2";
             // 
-            // checkBox1
+            // chkTestPHD_guiding
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox1.Location = new System.Drawing.Point(21, 89);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(133, 24);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "PHD2 guiding";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkTestPHD_guiding.AutoSize = true;
+            this.chkTestPHD_guiding.Checked = true;
+            this.chkTestPHD_guiding.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestPHD_guiding.Location = new System.Drawing.Point(21, 89);
+            this.chkTestPHD_guiding.Name = "chkTestPHD_guiding";
+            this.chkTestPHD_guiding.Size = new System.Drawing.Size(133, 24);
+            this.chkTestPHD_guiding.TabIndex = 0;
+            this.chkTestPHD_guiding.Text = "PHD2 guiding";
+            this.chkTestPHD_guiding.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // chkTestPHD_connect
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox3.Location = new System.Drawing.Point(21, 59);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(139, 24);
-            this.checkBox3.TabIndex = 0;
-            this.checkBox3.Text = "PHD2 connect";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.chkTestPHD_connect.AutoSize = true;
+            this.chkTestPHD_connect.Checked = true;
+            this.chkTestPHD_connect.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestPHD_connect.Location = new System.Drawing.Point(21, 59);
+            this.chkTestPHD_connect.Name = "chkTestPHD_connect";
+            this.chkTestPHD_connect.Size = new System.Drawing.Size(139, 24);
+            this.chkTestPHD_connect.TabIndex = 0;
+            this.chkTestPHD_connect.Text = "PHD2 connect";
+            this.chkTestPHD_connect.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // chkTestPHD_run
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Checked = true;
-            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox4.Location = new System.Drawing.Point(21, 29);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(105, 24);
-            this.checkBox4.TabIndex = 0;
-            this.checkBox4.Text = "PHD2 run";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.chkTestPHD_run.AutoSize = true;
+            this.chkTestPHD_run.Checked = true;
+            this.chkTestPHD_run.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestPHD_run.Location = new System.Drawing.Point(21, 29);
+            this.chkTestPHD_run.Name = "chkTestPHD_run";
+            this.chkTestPHD_run.Size = new System.Drawing.Size(105, 24);
+            this.chkTestPHD_run.TabIndex = 0;
+            this.chkTestPHD_run.Text = "PHD2 run";
+            this.chkTestPHD_run.UseVisualStyleBackColor = true;
             // 
             // groupBox16
             // 
@@ -191,9 +196,9 @@
             this.groupBox16.Controls.Add(this.checkBox11);
             this.groupBox16.Controls.Add(this.checkBox12);
             this.groupBox16.Controls.Add(this.checkBox13);
-            this.groupBox16.Location = new System.Drawing.Point(12, 662);
+            this.groupBox16.Location = new System.Drawing.Point(12, 770);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(365, 242);
+            this.groupBox16.Size = new System.Drawing.Size(365, 208);
             this.groupBox16.TabIndex = 5;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Operation test";
@@ -359,7 +364,7 @@
             // 
             // btnRunObservatoryTest
             // 
-            this.btnRunObservatoryTest.Location = new System.Drawing.Point(12, 561);
+            this.btnRunObservatoryTest.Location = new System.Drawing.Point(12, 698);
             this.btnRunObservatoryTest.Name = "btnRunObservatoryTest";
             this.btnRunObservatoryTest.Size = new System.Drawing.Size(178, 37);
             this.btnRunObservatoryTest.TabIndex = 8;
@@ -369,10 +374,11 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 965);
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar1.Location = new System.Drawing.Point(0, 1045);
             this.progressBar1.Maximum = 10;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1284, 37);
+            this.progressBar1.Size = new System.Drawing.Size(1172, 37);
             this.progressBar1.TabIndex = 7;
             // 
             // txtTestFormLog
@@ -383,13 +389,13 @@
             this.txtTestFormLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTestFormLog.Location = new System.Drawing.Point(392, 24);
             this.txtTestFormLog.Name = "txtTestFormLog";
-            this.txtTestFormLog.Size = new System.Drawing.Size(904, 923);
+            this.txtTestFormLog.Size = new System.Drawing.Size(768, 991);
             this.txtTestFormLog.TabIndex = 9;
             this.txtTestFormLog.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 910);
+            this.button1.Location = new System.Drawing.Point(12, 1002);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(178, 37);
             this.button1.TabIndex = 8;
@@ -403,11 +409,60 @@
             this.backgroundWorker_test.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_test_DoWork);
             this.backgroundWorker_test.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_test_ProgressChanged_1);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkTTC_heating);
+            this.groupBox1.Controls.Add(this.chkTTC_fan);
+            this.groupBox1.Controls.Add(this.chkTTC_run);
+            this.groupBox1.Location = new System.Drawing.Point(12, 561);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(365, 121);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Telescope Temp Control";
+            // 
+            // chkTTC_fan
+            // 
+            this.chkTTC_fan.AutoSize = true;
+            this.chkTTC_fan.Checked = true;
+            this.chkTTC_fan.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTTC_fan.Location = new System.Drawing.Point(21, 59);
+            this.chkTTC_fan.Name = "chkTTC_fan";
+            this.chkTTC_fan.Size = new System.Drawing.Size(118, 24);
+            this.chkTTC_fan.TabIndex = 0;
+            this.chkTTC_fan.Text = "Fan Control";
+            this.chkTTC_fan.UseVisualStyleBackColor = true;
+            // 
+            // chkTTC_run
+            // 
+            this.chkTTC_run.AutoSize = true;
+            this.chkTTC_run.Checked = true;
+            this.chkTTC_run.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTTC_run.Location = new System.Drawing.Point(21, 29);
+            this.chkTTC_run.Name = "chkTTC_run";
+            this.chkTTC_run.Size = new System.Drawing.Size(91, 24);
+            this.chkTTC_run.TabIndex = 0;
+            this.chkTTC_run.Text = "TTC run";
+            this.chkTTC_run.UseVisualStyleBackColor = true;
+            // 
+            // chkTTC_heating
+            // 
+            this.chkTTC_heating.AutoSize = true;
+            this.chkTTC_heating.Checked = true;
+            this.chkTTC_heating.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTTC_heating.Location = new System.Drawing.Point(21, 91);
+            this.chkTTC_heating.Name = "chkTTC_heating";
+            this.chkTTC_heating.Size = new System.Drawing.Size(146, 24);
+            this.chkTTC_heating.TabIndex = 1;
+            this.chkTTC_heating.Text = "Heating Control";
+            this.chkTTC_heating.UseVisualStyleBackColor = true;
+            // 
             // TestEquipmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1308, 1014);
+            this.ClientSize = new System.Drawing.Size(1172, 1082);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtTestFormLog);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnRunObservatoryTest);
@@ -432,6 +487,8 @@
             this.groupBox16.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -439,15 +496,15 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox14;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox chkTestCdC_connect;
+        private System.Windows.Forms.CheckBox chkTestCdC_run;
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.GroupBox groupBox13;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox chkTestPHD_guiding;
+        private System.Windows.Forms.CheckBox chkTestPHD_connect;
+        private System.Windows.Forms.CheckBox chkTestPHD_run;
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox9;
@@ -467,5 +524,9 @@
         private System.Windows.Forms.RichTextBox txtTestFormLog;
         private System.Windows.Forms.Button button1;
         private System.ComponentModel.BackgroundWorker backgroundWorker_test;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox chkTTC_heating;
+        private System.Windows.Forms.CheckBox chkTTC_fan;
+        private System.Windows.Forms.CheckBox chkTTC_run;
     }
 }

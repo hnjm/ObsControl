@@ -37,6 +37,16 @@ namespace ObservatoryCenter
             }
             return output;
         }
+
+        public string GET_TelescopePos()
+        {
+            string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, "GETSCOPERADEC\r\n", out Error);
+            ErrorSt = output;
+            Logging.AddLog("GET_TelescopePos: "+ output, LogLevel.Debug, Highlight.Error);
+
+            return output;
+        }
+
     }
 
 

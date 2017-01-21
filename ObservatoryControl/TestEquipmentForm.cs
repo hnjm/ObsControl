@@ -42,6 +42,7 @@ namespace ObservatoryCenter
         //Initialize test sequence
         public void InitTestSequence()
         {
+            //MaximDL sequences
             TestSequence.Add("Maxim Run", new TestSequenceElement { ChkBox = chkTestMaximDl_Run, Proc = TestEquipmentObj.TestMaximDLRun });
             TestSequence.Add("Maxim Camera", new TestSequenceElement { ChkBox = chkTestMaximDl_cameraconnect, Proc = TestEquipmentObj.TestMaximDLCamera });
             TestSequence.Add("Maxim Telescope", new TestSequenceElement { ChkBox = chkTestMaximDl_telescopeconnect, Proc = TestEquipmentObj.TestMaximDLTelescope });
@@ -49,6 +50,16 @@ namespace ObservatoryCenter
             TestSequence.Add("Maxim Shoot", new TestSequenceElement { ChkBox = chkTestMaximDl_CameraShoot, Proc = TestEquipmentObj.TestMaximDLShoot });
             TestSequence.Add("Maxim Filter", new TestSequenceElement { ChkBox = chkTestMaximDl_FilterWheel, Proc = TestEquipmentObj.TestMaximDLFilterWheel });
             
+            //PHP sequences
+            TestSequence.Add("PHD Run", new TestSequenceElement { ChkBox = chkTestPHD_run, Proc = TestEquipmentObj.TestPHD2Run });
+            TestSequence.Add("PHD Connect", new TestSequenceElement { ChkBox = chkTestPHD_connect, Proc = TestEquipmentObj.TestPHD2Connect });
+            TestSequence.Add("PHD Guiding", new TestSequenceElement { ChkBox = chkTestPHD_guiding, Proc = TestEquipmentObj.TestPHD2Guide });
+  
+
+            //CdC sequences
+            TestSequence.Add("CdC Run", new TestSequenceElement { ChkBox = chkTestCdC_run, Proc = TestEquipmentObj.TestCdCRun });
+            TestSequence.Add("CdC Connect", new TestSequenceElement { ChkBox = chkTestCdC_connect, Proc = TestEquipmentObj.TestCdCConnect });
+
 
 
             //calc progressbar
@@ -56,7 +67,9 @@ namespace ObservatoryCenter
         }
 
 
-        //Start test
+        /// <summary>
+        /// Start test button pressed
+        /// </summary>
         private void btnRunObservatoryTest_Click(object sender, EventArgs e)
         {
             //Reset checkbox state

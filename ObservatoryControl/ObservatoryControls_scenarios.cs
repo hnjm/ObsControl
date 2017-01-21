@@ -68,12 +68,12 @@ namespace ObservatoryCenter
                 CommandParser.ParseSingleCommand("PHD2_RUN");
             }
 
-            Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
+            Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 300);
 
             //2.2 PHD2 Connect equipment
             if (ObsConfig.getBool("scenarioMainParams", "PHD2_CONNECT") ?? false)
             {
-                Logging.AddLog("StartUp run: connect equipeun in PHD2", LogLevel.Debug);
+                Logging.AddLog("StartUp run: connect equipment in PHD2", LogLevel.Debug);
                 CommandParser.ParseSingleCommand("PHD2_CONNECT");
             }
 
