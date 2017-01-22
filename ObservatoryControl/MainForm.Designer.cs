@@ -29,28 +29,29 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series19 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series20 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series21 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series22 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series23 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series24 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageLog = new System.Windows.Forms.TabPage();
+            this.MaximGuider = new System.Windows.Forms.GroupBox();
             this.panelDebug = new System.Windows.Forms.Panel();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -65,7 +66,6 @@
             this.txtP1_Z = new System.Windows.Forms.TextBox();
             this.txtP1_Y = new System.Windows.Forms.TextBox();
             this.txtP1_X = new System.Windows.Forms.TextBox();
-            this.MaximGuider = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
             this.txtGuiderErrorMaxim = new System.Windows.Forms.RichTextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -191,9 +191,6 @@
             this.txtRainCondition = new System.Windows.Forms.TextBox();
             this.txtCloudState = new System.Windows.Forms.TextBox();
             this.txtTemp = new System.Windows.Forms.TextBox();
-            this.groupBoxRoof = new System.Windows.Forms.GroupBox();
-            this.btnStopRoof = new System.Windows.Forms.Button();
-            this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkPHDBroker = new System.Windows.Forms.LinkLabel();
             this.linkTelescopeTempControl = new System.Windows.Forms.LinkLabel();
@@ -206,6 +203,9 @@
             this.linkMaximDL = new System.Windows.Forms.LinkLabel();
             this.btnBeforeImaging = new System.Windows.Forms.Button();
             this.btnMaximStart = new System.Windows.Forms.Button();
+            this.groupBoxRoof = new System.Windows.Forms.GroupBox();
+            this.btnStopRoof = new System.Windows.Forms.Button();
+            this.shapeContainer2 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.mainTimer_Short = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker_SocketServer = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -267,10 +267,11 @@
             this.btnAcquireStar = new System.Windows.Forms.Button();
             this.btnFocus = new System.Windows.Forms.Button();
             this.mainTimer_VeryLong = new System.Windows.Forms.Timer(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPageLog.SuspendLayout();
-            this.panelDebug.SuspendLayout();
             this.MaximGuider.SuspendLayout();
+            this.panelDebug.SuspendLayout();
             this.tabPoiniting.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -289,8 +290,8 @@
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weatherChart)).BeginInit();
-            this.groupBoxRoof.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBoxRoof.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updownCameraSetPoint)).BeginInit();
@@ -298,6 +299,7 @@
             this.PHDGuiding.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox8.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -313,26 +315,49 @@
             this.tabControl1.Controls.Add(this.tabPageCameras);
             this.tabControl1.Controls.Add(this.tabPageSettings);
             this.tabControl1.Controls.Add(this.tabPageAbout);
-            this.tabControl1.Location = new System.Drawing.Point(388, 537);
+            this.tabControl1.Location = new System.Drawing.Point(301, 472);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1105, 663);
+            this.tabControl1.Size = new System.Drawing.Size(953, 454);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageLog
             // 
-            this.tabPageLog.Controls.Add(this.panelDebug);
             this.tabPageLog.Controls.Add(this.MaximGuider);
             this.tabPageLog.Controls.Add(this.txtLog);
             this.tabPageLog.Location = new System.Drawing.Point(4, 29);
             this.tabPageLog.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageLog.Name = "tabPageLog";
             this.tabPageLog.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageLog.Size = new System.Drawing.Size(1097, 630);
+            this.tabPageLog.Size = new System.Drawing.Size(945, 421);
             this.tabPageLog.TabIndex = 0;
             this.tabPageLog.Text = "Log";
             this.tabPageLog.UseVisualStyleBackColor = true;
+            // 
+            // MaximGuider
+            // 
+            this.MaximGuider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaximGuider.Controls.Add(this.panelDebug);
+            this.MaximGuider.Controls.Add(this.label20);
+            this.MaximGuider.Controls.Add(this.txtGuiderErrorMaxim);
+            this.MaximGuider.Controls.Add(this.label19);
+            this.MaximGuider.Controls.Add(this.label18);
+            this.MaximGuider.Controls.Add(this.txtGuiderExposure);
+            this.MaximGuider.Controls.Add(this.txtGuiderLastErrSt);
+            this.MaximGuider.Controls.Add(this.txtGuider_AggY);
+            this.MaximGuider.Controls.Add(this.txtGuider_AggX);
+            this.MaximGuider.Controls.Add(this.btnGuider);
+            this.MaximGuider.Location = new System.Drawing.Point(400, 14);
+            this.MaximGuider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximGuider.Name = "MaximGuider";
+            this.MaximGuider.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximGuider.Size = new System.Drawing.Size(522, 189);
+            this.MaximGuider.TabIndex = 4;
+            this.MaximGuider.TabStop = false;
+            this.MaximGuider.Text = "MaximGuider";
+            this.MaximGuider.Visible = false;
             // 
             // panelDebug
             // 
@@ -349,10 +374,10 @@
             this.panelDebug.Controls.Add(this.txtP1_Z);
             this.panelDebug.Controls.Add(this.txtP1_Y);
             this.panelDebug.Controls.Add(this.txtP1_X);
-            this.panelDebug.Location = new System.Drawing.Point(776, 165);
+            this.panelDebug.Location = new System.Drawing.Point(205, 127);
             this.panelDebug.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(351, 260);
+            this.panelDebug.Size = new System.Drawing.Size(293, 162);
             this.panelDebug.TabIndex = 5;
             this.panelDebug.Visible = false;
             // 
@@ -464,29 +489,6 @@
             this.txtP1_X.Size = new System.Drawing.Size(50, 26);
             this.txtP1_X.TabIndex = 6;
             // 
-            // MaximGuider
-            // 
-            this.MaximGuider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MaximGuider.Controls.Add(this.label20);
-            this.MaximGuider.Controls.Add(this.txtGuiderErrorMaxim);
-            this.MaximGuider.Controls.Add(this.label19);
-            this.MaximGuider.Controls.Add(this.label18);
-            this.MaximGuider.Controls.Add(this.txtGuiderExposure);
-            this.MaximGuider.Controls.Add(this.txtGuiderLastErrSt);
-            this.MaximGuider.Controls.Add(this.txtGuider_AggY);
-            this.MaximGuider.Controls.Add(this.txtGuider_AggX);
-            this.MaximGuider.Controls.Add(this.btnGuider);
-            this.MaximGuider.Location = new System.Drawing.Point(400, 14);
-            this.MaximGuider.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximGuider.Name = "MaximGuider";
-            this.MaximGuider.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximGuider.Size = new System.Drawing.Size(674, 142);
-            this.MaximGuider.TabIndex = 4;
-            this.MaximGuider.TabStop = false;
-            this.MaximGuider.Text = "MaximGuider";
-            this.MaximGuider.Visible = false;
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -570,9 +572,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLog.Location = new System.Drawing.Point(3, 3);
+            this.txtLog.Location = new System.Drawing.Point(-1, 0);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(1084, 610);
+            this.txtLog.Size = new System.Drawing.Size(945, 421);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "";
             // 
@@ -582,7 +584,7 @@
             this.tabPoiniting.Location = new System.Drawing.Point(4, 29);
             this.tabPoiniting.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPoiniting.Name = "tabPoiniting";
-            this.tabPoiniting.Size = new System.Drawing.Size(1135, 630);
+            this.tabPoiniting.Size = new System.Drawing.Size(945, 395);
             this.tabPoiniting.TabIndex = 6;
             this.tabPoiniting.Text = "Pointing";
             this.tabPoiniting.UseVisualStyleBackColor = true;
@@ -822,88 +824,88 @@
             this.tabPageWeather.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageWeather.Name = "tabPageWeather";
             this.tabPageWeather.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageWeather.Size = new System.Drawing.Size(1135, 630);
+            this.tabPageWeather.Size = new System.Drawing.Size(945, 395);
             this.tabPageWeather.TabIndex = 1;
             this.tabPageWeather.Text = "Weather";
             this.tabPageWeather.UseVisualStyleBackColor = true;
             // 
             // chartWT
             // 
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.Interval = 5D;
-            chartArea1.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea1.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea1.InnerPlotPosition.Auto = false;
-            chartArea1.InnerPlotPosition.Height = 90F;
-            chartArea1.InnerPlotPosition.Width = 93F;
-            chartArea1.InnerPlotPosition.X = 4F;
-            chartArea1.InnerPlotPosition.Y = 4F;
-            chartArea1.Name = "TempCA";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 46F;
-            chartArea1.Position.Width = 97F;
-            chartArea1.Position.X = 2F;
-            chartArea1.Position.Y = 2F;
-            chartArea2.AxisX.IsLabelAutoFit = false;
-            chartArea2.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea2.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea2.AxisY.Interval = 5D;
-            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea2.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea2.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea2.AxisY2.IsLabelAutoFit = false;
-            chartArea2.AxisY2.LabelAutoFitMaxFontSize = 6;
-            chartArea2.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea2.AxisY2.MajorGrid.Enabled = false;
-            chartArea2.AxisY2.MajorTickMark.Size = 0.2F;
-            chartArea2.InnerPlotPosition.Auto = false;
-            chartArea2.InnerPlotPosition.Height = 90F;
-            chartArea2.InnerPlotPosition.Width = 93F;
-            chartArea2.InnerPlotPosition.X = 4F;
-            chartArea2.InnerPlotPosition.Y = 4F;
-            chartArea2.Name = "WetCA";
-            chartArea2.Position.Auto = false;
-            chartArea2.Position.Height = 46F;
-            chartArea2.Position.Width = 97F;
-            chartArea2.Position.X = 2F;
-            chartArea2.Position.Y = 52F;
-            this.chartWT.ChartAreas.Add(chartArea1);
-            this.chartWT.ChartAreas.Add(chartArea2);
+            chartArea7.AxisX.IsLabelAutoFit = false;
+            chartArea7.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea7.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea7.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea7.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea7.AxisY.Interval = 5D;
+            chartArea7.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea7.AxisY.IsLabelAutoFit = false;
+            chartArea7.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea7.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            chartArea7.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea7.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea7.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea7.InnerPlotPosition.Auto = false;
+            chartArea7.InnerPlotPosition.Height = 90F;
+            chartArea7.InnerPlotPosition.Width = 93F;
+            chartArea7.InnerPlotPosition.X = 4F;
+            chartArea7.InnerPlotPosition.Y = 4F;
+            chartArea7.Name = "TempCA";
+            chartArea7.Position.Auto = false;
+            chartArea7.Position.Height = 46F;
+            chartArea7.Position.Width = 97F;
+            chartArea7.Position.X = 2F;
+            chartArea7.Position.Y = 2F;
+            chartArea8.AxisX.IsLabelAutoFit = false;
+            chartArea8.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea8.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea8.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea8.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea8.AxisY.Interval = 5D;
+            chartArea8.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea8.AxisY.IsLabelAutoFit = false;
+            chartArea8.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea8.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea8.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea8.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea8.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea8.AxisY2.IsLabelAutoFit = false;
+            chartArea8.AxisY2.LabelAutoFitMaxFontSize = 6;
+            chartArea8.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea8.AxisY2.MajorGrid.Enabled = false;
+            chartArea8.AxisY2.MajorTickMark.Size = 0.2F;
+            chartArea8.InnerPlotPosition.Auto = false;
+            chartArea8.InnerPlotPosition.Height = 90F;
+            chartArea8.InnerPlotPosition.Width = 93F;
+            chartArea8.InnerPlotPosition.X = 4F;
+            chartArea8.InnerPlotPosition.Y = 4F;
+            chartArea8.Name = "WetCA";
+            chartArea8.Position.Auto = false;
+            chartArea8.Position.Height = 46F;
+            chartArea8.Position.Width = 97F;
+            chartArea8.Position.X = 2F;
+            chartArea8.Position.Y = 52F;
+            this.chartWT.ChartAreas.Add(chartArea7);
+            this.chartWT.ChartAreas.Add(chartArea8);
             this.chartWT.Location = new System.Drawing.Point(9, 117);
             this.chartWT.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chartWT.Name = "chartWT";
-            series1.ChartArea = "TempCA";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series1.Name = "CloudIdx";
-            series2.ChartArea = "TempCA";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series2.Name = "Temp";
-            series3.ChartArea = "WetCA";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
-            series3.Name = "RGC";
-            series3.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            series4.ChartArea = "WetCA";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series4.Name = "Wet";
-            this.chartWT.Series.Add(series1);
-            this.chartWT.Series.Add(series2);
-            this.chartWT.Series.Add(series3);
-            this.chartWT.Series.Add(series4);
+            series13.ChartArea = "TempCA";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series13.Name = "CloudIdx";
+            series14.ChartArea = "TempCA";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series14.Name = "Temp";
+            series15.ChartArea = "WetCA";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
+            series15.Name = "RGC";
+            series15.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series16.ChartArea = "WetCA";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series16.Name = "Wet";
+            this.chartWT.Series.Add(series13);
+            this.chartWT.Series.Add(series14);
+            this.chartWT.Series.Add(series15);
+            this.chartWT.Series.Add(series16);
             this.chartWT.Size = new System.Drawing.Size(1098, 402);
             this.chartWT.TabIndex = 5;
             this.chartWT.Text = "chart2";
@@ -1045,7 +1047,7 @@
             this.tabTTC.Controls.Add(this.chartTTC);
             this.tabTTC.Location = new System.Drawing.Point(4, 29);
             this.tabTTC.Name = "tabTTC";
-            this.tabTTC.Size = new System.Drawing.Size(1135, 630);
+            this.tabTTC.Size = new System.Drawing.Size(945, 395);
             this.tabTTC.TabIndex = 7;
             this.tabTTC.Text = "TelescopeTemp";
             this.tabTTC.UseVisualStyleBackColor = true;
@@ -1223,83 +1225,83 @@
             // 
             // chartTTC
             // 
-            chartArea3.AxisX.IsLabelAutoFit = false;
-            chartArea3.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea3.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea3.AxisY.Interval = 2D;
-            chartArea3.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea3.AxisY.IsLabelAutoFit = false;
-            chartArea3.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea3.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea3.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea3.AxisY2.MajorGrid.Enabled = false;
-            chartArea3.InnerPlotPosition.Auto = false;
-            chartArea3.InnerPlotPosition.Height = 90F;
-            chartArea3.InnerPlotPosition.Width = 93F;
-            chartArea3.InnerPlotPosition.X = 4F;
-            chartArea3.InnerPlotPosition.Y = 4F;
-            chartArea3.Name = "MainMirrror";
-            chartArea3.Position.Auto = false;
-            chartArea3.Position.Height = 46F;
-            chartArea3.Position.Width = 97F;
-            chartArea3.Position.X = 2F;
-            chartArea3.Position.Y = 2F;
-            chartArea4.AxisX.IsLabelAutoFit = false;
-            chartArea4.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea4.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea4.AxisY.Interval = 5D;
-            chartArea4.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea4.AxisY.IsLabelAutoFit = false;
-            chartArea4.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea4.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea4.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea4.AxisY2.IsLabelAutoFit = false;
-            chartArea4.AxisY2.LabelAutoFitMaxFontSize = 6;
-            chartArea4.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea4.AxisY2.MajorGrid.Enabled = false;
-            chartArea4.AxisY2.MajorTickMark.Size = 0.2F;
-            chartArea4.InnerPlotPosition.Auto = false;
-            chartArea4.InnerPlotPosition.Height = 90F;
-            chartArea4.InnerPlotPosition.Width = 93F;
-            chartArea4.InnerPlotPosition.X = 4F;
-            chartArea4.InnerPlotPosition.Y = 4F;
-            chartArea4.Name = "SeconMirror";
-            chartArea4.Position.Auto = false;
-            chartArea4.Position.Height = 46F;
-            chartArea4.Position.Width = 97F;
-            chartArea4.Position.X = 2F;
-            chartArea4.Position.Y = 52F;
-            this.chartTTC.ChartAreas.Add(chartArea3);
-            this.chartTTC.ChartAreas.Add(chartArea4);
+            chartArea9.AxisX.IsLabelAutoFit = false;
+            chartArea9.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea9.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea9.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea9.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea9.AxisY.Interval = 2D;
+            chartArea9.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea9.AxisY.IsLabelAutoFit = false;
+            chartArea9.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea9.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            chartArea9.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea9.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea9.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea9.AxisY2.MajorGrid.Enabled = false;
+            chartArea9.InnerPlotPosition.Auto = false;
+            chartArea9.InnerPlotPosition.Height = 90F;
+            chartArea9.InnerPlotPosition.Width = 93F;
+            chartArea9.InnerPlotPosition.X = 4F;
+            chartArea9.InnerPlotPosition.Y = 4F;
+            chartArea9.Name = "MainMirrror";
+            chartArea9.Position.Auto = false;
+            chartArea9.Position.Height = 46F;
+            chartArea9.Position.Width = 97F;
+            chartArea9.Position.X = 2F;
+            chartArea9.Position.Y = 2F;
+            chartArea10.AxisX.IsLabelAutoFit = false;
+            chartArea10.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea10.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea10.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea10.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea10.AxisY.Interval = 5D;
+            chartArea10.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea10.AxisY.IsLabelAutoFit = false;
+            chartArea10.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea10.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea10.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea10.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea10.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea10.AxisY2.IsLabelAutoFit = false;
+            chartArea10.AxisY2.LabelAutoFitMaxFontSize = 6;
+            chartArea10.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea10.AxisY2.MajorGrid.Enabled = false;
+            chartArea10.AxisY2.MajorTickMark.Size = 0.2F;
+            chartArea10.InnerPlotPosition.Auto = false;
+            chartArea10.InnerPlotPosition.Height = 90F;
+            chartArea10.InnerPlotPosition.Width = 93F;
+            chartArea10.InnerPlotPosition.X = 4F;
+            chartArea10.InnerPlotPosition.Y = 4F;
+            chartArea10.Name = "SeconMirror";
+            chartArea10.Position.Auto = false;
+            chartArea10.Position.Height = 46F;
+            chartArea10.Position.Width = 97F;
+            chartArea10.Position.X = 2F;
+            chartArea10.Position.Y = 52F;
+            this.chartTTC.ChartAreas.Add(chartArea9);
+            this.chartTTC.ChartAreas.Add(chartArea10);
             this.chartTTC.Location = new System.Drawing.Point(18, 114);
             this.chartTTC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chartTTC.Name = "chartTTC";
-            series5.ChartArea = "MainMirrror";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series5.Name = "MainDelta";
-            series6.ChartArea = "MainMirrror";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series6.Name = "FanRPM";
-            series6.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            series7.ChartArea = "SeconMirror";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series7.Name = "SecondDelta";
-            series8.ChartArea = "SeconMirror";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series8.Name = "Heater";
-            series8.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            this.chartTTC.Series.Add(series5);
-            this.chartTTC.Series.Add(series6);
-            this.chartTTC.Series.Add(series7);
-            this.chartTTC.Series.Add(series8);
+            series17.ChartArea = "MainMirrror";
+            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series17.Name = "MainDelta";
+            series18.ChartArea = "MainMirrror";
+            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series18.Name = "FanRPM";
+            series18.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series19.ChartArea = "SeconMirror";
+            series19.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series19.Name = "SecondDelta";
+            series20.ChartArea = "SeconMirror";
+            series20.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series20.Name = "Heater";
+            series20.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            this.chartTTC.Series.Add(series17);
+            this.chartTTC.Series.Add(series18);
+            this.chartTTC.Series.Add(series19);
+            this.chartTTC.Series.Add(series20);
             this.chartTTC.Size = new System.Drawing.Size(1098, 402);
             this.chartTTC.TabIndex = 6;
             this.chartTTC.Text = "chart2";
@@ -1309,7 +1311,7 @@
             this.tabPageAllsky.Location = new System.Drawing.Point(4, 29);
             this.tabPageAllsky.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageAllsky.Name = "tabPageAllsky";
-            this.tabPageAllsky.Size = new System.Drawing.Size(1135, 630);
+            this.tabPageAllsky.Size = new System.Drawing.Size(945, 395);
             this.tabPageAllsky.TabIndex = 2;
             this.tabPageAllsky.Text = "AllSky";
             this.tabPageAllsky.UseVisualStyleBackColor = true;
@@ -1319,7 +1321,7 @@
             this.tabPageCameras.Location = new System.Drawing.Point(4, 29);
             this.tabPageCameras.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageCameras.Name = "tabPageCameras";
-            this.tabPageCameras.Size = new System.Drawing.Size(1135, 630);
+            this.tabPageCameras.Size = new System.Drawing.Size(945, 395);
             this.tabPageCameras.TabIndex = 3;
             this.tabPageCameras.Text = "Cameras";
             this.tabPageCameras.UseVisualStyleBackColor = true;
@@ -1332,7 +1334,7 @@
             this.tabPageSettings.Controls.Add(this.groupBox4);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 29);
             this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Size = new System.Drawing.Size(1135, 630);
+            this.tabPageSettings.Size = new System.Drawing.Size(945, 395);
             this.tabPageSettings.TabIndex = 4;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -1486,7 +1488,7 @@
             this.tabPageAbout.Location = new System.Drawing.Point(4, 29);
             this.tabPageAbout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Size = new System.Drawing.Size(1135, 630);
+            this.tabPageAbout.Size = new System.Drawing.Size(945, 395);
             this.tabPageAbout.TabIndex = 5;
             this.tabPageAbout.Text = "About";
             this.tabPageAbout.UseVisualStyleBackColor = true;
@@ -1556,20 +1558,21 @@
             this.groupBox1.Controls.Add(this.btnRoofPower);
             this.groupBox1.Controls.Add(this.btnFocuserPower);
             this.groupBox1.Controls.Add(this.btnTelescopePower);
-            this.groupBox1.Location = new System.Drawing.Point(8, 228);
+            this.groupBox1.Location = new System.Drawing.Point(8, 193);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(369, 248);
+            this.groupBox1.Size = new System.Drawing.Size(284, 152);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Power";
             // 
             // btnPowerAll
             // 
-            this.btnPowerAll.Location = new System.Drawing.Point(8, 126);
+            this.btnPowerAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPowerAll.Location = new System.Drawing.Point(9, 108);
             this.btnPowerAll.Name = "btnPowerAll";
-            this.btnPowerAll.Size = new System.Drawing.Size(352, 35);
+            this.btnPowerAll.Size = new System.Drawing.Size(131, 35);
             this.btnPowerAll.TabIndex = 7;
             this.btnPowerAll.Text = "Power all";
             this.btnPowerAll.UseVisualStyleBackColor = true;
@@ -1577,20 +1580,22 @@
             // 
             // btnHeating
             // 
+            this.btnHeating.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHeating.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnHeating.Location = new System.Drawing.Point(98, 168);
+            this.btnHeating.Location = new System.Drawing.Point(151, 108);
             this.btnHeating.Name = "btnHeating";
-            this.btnHeating.Size = new System.Drawing.Size(165, 35);
+            this.btnHeating.Size = new System.Drawing.Size(120, 35);
             this.btnHeating.TabIndex = 6;
             this.btnHeating.Text = "Heating";
             this.btnHeating.UseVisualStyleBackColor = false;
             // 
             // btnCameraPower
             // 
+            this.btnCameraPower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCameraPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnCameraPower.Location = new System.Drawing.Point(195, 77);
+            this.btnCameraPower.Location = new System.Drawing.Point(151, 68);
             this.btnCameraPower.Name = "btnCameraPower";
-            this.btnCameraPower.Size = new System.Drawing.Size(165, 43);
+            this.btnCameraPower.Size = new System.Drawing.Size(120, 35);
             this.btnCameraPower.TabIndex = 6;
             this.btnCameraPower.Text = "Camera power";
             this.btnCameraPower.UseVisualStyleBackColor = false;
@@ -1598,10 +1603,11 @@
             // 
             // btnRoofPower
             // 
+            this.btnRoofPower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRoofPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnRoofPower.Location = new System.Drawing.Point(195, 28);
+            this.btnRoofPower.Location = new System.Drawing.Point(151, 29);
             this.btnRoofPower.Name = "btnRoofPower";
-            this.btnRoofPower.Size = new System.Drawing.Size(165, 43);
+            this.btnRoofPower.Size = new System.Drawing.Size(120, 35);
             this.btnRoofPower.TabIndex = 6;
             this.btnRoofPower.Text = "Roof power";
             this.btnRoofPower.UseVisualStyleBackColor = false;
@@ -1610,9 +1616,9 @@
             // btnFocuserPower
             // 
             this.btnFocuserPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnFocuserPower.Location = new System.Drawing.Point(8, 77);
+            this.btnFocuserPower.Location = new System.Drawing.Point(9, 68);
             this.btnFocuserPower.Name = "btnFocuserPower";
-            this.btnFocuserPower.Size = new System.Drawing.Size(165, 43);
+            this.btnFocuserPower.Size = new System.Drawing.Size(131, 35);
             this.btnFocuserPower.TabIndex = 6;
             this.btnFocuserPower.Text = "Focuser";
             this.btnFocuserPower.UseVisualStyleBackColor = false;
@@ -1621,9 +1627,9 @@
             // btnTelescopePower
             // 
             this.btnTelescopePower.BackColor = System.Drawing.Color.Tomato;
-            this.btnTelescopePower.Location = new System.Drawing.Point(8, 28);
+            this.btnTelescopePower.Location = new System.Drawing.Point(9, 28);
             this.btnTelescopePower.Name = "btnTelescopePower";
-            this.btnTelescopePower.Size = new System.Drawing.Size(165, 43);
+            this.btnTelescopePower.Size = new System.Drawing.Size(131, 35);
             this.btnTelescopePower.TabIndex = 6;
             this.btnTelescopePower.Text = "Mount power";
             this.btnTelescopePower.UseVisualStyleBackColor = false;
@@ -1631,10 +1637,10 @@
             // 
             // btnStartAll
             // 
-            this.btnStartAll.Location = new System.Drawing.Point(12, 29);
+            this.btnStartAll.Location = new System.Drawing.Point(9, 29);
             this.btnStartAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStartAll.Name = "btnStartAll";
-            this.btnStartAll.Size = new System.Drawing.Size(220, 74);
+            this.btnStartAll.Size = new System.Drawing.Size(131, 35);
             this.btnStartAll.TabIndex = 3;
             this.btnStartAll.Text = "Prepare";
             this.toolTip1.SetToolTip(this.btnStartAll, resources.GetString("btnStartAll.ToolTip"));
@@ -1643,11 +1649,12 @@
             // 
             // btnOpenRoof
             // 
+            this.btnOpenRoof.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenRoof.Enabled = false;
-            this.btnOpenRoof.Location = new System.Drawing.Point(242, 162);
+            this.btnOpenRoof.Location = new System.Drawing.Point(178, 147);
             this.btnOpenRoof.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOpenRoof.Name = "btnOpenRoof";
-            this.btnOpenRoof.Size = new System.Drawing.Size(105, 35);
+            this.btnOpenRoof.Size = new System.Drawing.Size(99, 29);
             this.btnOpenRoof.TabIndex = 2;
             this.btnOpenRoof.Text = "Open roof";
             this.btnOpenRoof.UseVisualStyleBackColor = true;
@@ -1655,11 +1662,12 @@
             // 
             // btnCloseRoof
             // 
+            this.btnCloseRoof.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCloseRoof.Enabled = false;
-            this.btnCloseRoof.Location = new System.Drawing.Point(12, 162);
+            this.btnCloseRoof.Location = new System.Drawing.Point(8, 147);
             this.btnCloseRoof.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCloseRoof.Name = "btnCloseRoof";
-            this.btnCloseRoof.Size = new System.Drawing.Size(105, 37);
+            this.btnCloseRoof.Size = new System.Drawing.Size(91, 29);
             this.btnCloseRoof.TabIndex = 1;
             this.btnCloseRoof.Text = "Close roof";
             this.btnCloseRoof.UseVisualStyleBackColor = true;
@@ -1708,11 +1716,11 @@
             this.toolStripStatus_Camera,
             this.toolStripStatus_Connection,
             this.toolStripDropDownLogLevel});
-            this.statusBar.Location = new System.Drawing.Point(0, 1225);
+            this.statusBar.Location = new System.Drawing.Point(0, 931);
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
             this.statusBar.ShowItemToolTips = true;
-            this.statusBar.Size = new System.Drawing.Size(1512, 38);
+            this.statusBar.Size = new System.Drawing.Size(1258, 38);
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusBar";
             // 
@@ -1780,13 +1788,12 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel4.Controls.Add(this.groupBox7);
             this.panel4.Controls.Add(this.groupBox9);
-            this.panel4.Controls.Add(this.groupBoxRoof);
             this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Controls.Add(this.groupBox1);
-            this.panel4.Location = new System.Drawing.Point(4, 2);
+            this.panel4.Location = new System.Drawing.Point(0, 2);
             this.panel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(384, 1198);
+            this.panel4.Size = new System.Drawing.Size(298, 924);
             this.panel4.TabIndex = 2;
             // 
             // groupBox7
@@ -1796,9 +1803,9 @@
             this.groupBox7.Controls.Add(this.txtTTC_W_SecondDelta);
             this.groupBox7.Controls.Add(this.txtTTC_W_FanRPM);
             this.groupBox7.Controls.Add(this.txtTTC_W_Heater);
-            this.groupBox7.Location = new System.Drawing.Point(8, 1070);
+            this.groupBox7.Location = new System.Drawing.Point(8, 851);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(369, 71);
+            this.groupBox7.Size = new System.Drawing.Size(284, 69);
             this.groupBox7.TabIndex = 3;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "TelescopeTempControl";
@@ -1832,7 +1839,7 @@
             // 
             // txtTTC_W_FanRPM
             // 
-            this.txtTTC_W_FanRPM.Location = new System.Drawing.Point(208, 27);
+            this.txtTTC_W_FanRPM.Location = new System.Drawing.Point(204, 27);
             this.txtTTC_W_FanRPM.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTTC_W_FanRPM.Name = "txtTTC_W_FanRPM";
             this.txtTTC_W_FanRPM.ReadOnly = true;
@@ -1850,57 +1857,55 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox9.Controls.Add(this.weatherChart);
             this.groupBox9.Controls.Add(this.txtRainCondition);
             this.groupBox9.Controls.Add(this.txtCloudState);
             this.groupBox9.Controls.Add(this.txtTemp);
-            this.groupBox9.Location = new System.Drawing.Point(8, 822);
+            this.groupBox9.Location = new System.Drawing.Point(8, 603);
             this.groupBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox9.Size = new System.Drawing.Size(369, 240);
+            this.groupBox9.Size = new System.Drawing.Size(284, 240);
             this.groupBox9.TabIndex = 4;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Weather";
             // 
             // weatherChart
             // 
-            chartArea5.AxisX.IsLabelAutoFit = false;
-            chartArea5.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea5.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea5.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea5.AxisY.Interval = 5D;
-            chartArea5.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea5.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea5.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea5.Name = "ChartArea1";
-            this.weatherChart.ChartAreas.Add(chartArea5);
-            this.weatherChart.Location = new System.Drawing.Point(8, 55);
+            chartArea11.AxisX.IsLabelAutoFit = false;
+            chartArea11.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea11.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea11.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea11.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea11.AxisY.Interval = 5D;
+            chartArea11.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea11.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea11.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea11.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea11.Name = "ChartArea1";
+            this.weatherChart.ChartAreas.Add(chartArea11);
+            this.weatherChart.Location = new System.Drawing.Point(2, 55);
             this.weatherChart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.weatherChart.Name = "weatherChart";
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series9.Name = "CloudIdx";
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series10.Name = "Temp";
-            this.weatherChart.Series.Add(series9);
-            this.weatherChart.Series.Add(series10);
-            this.weatherChart.Size = new System.Drawing.Size(352, 175);
+            series21.ChartArea = "ChartArea1";
+            series21.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series21.Name = "CloudIdx";
+            series22.ChartArea = "ChartArea1";
+            series22.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series22.Name = "Temp";
+            this.weatherChart.Series.Add(series21);
+            this.weatherChart.Series.Add(series22);
+            this.weatherChart.Size = new System.Drawing.Size(278, 175);
             this.weatherChart.TabIndex = 5;
             this.weatherChart.Text = "chart2";
             // 
             // txtRainCondition
             // 
-            this.txtRainCondition.Location = new System.Drawing.Point(182, 20);
+            this.txtRainCondition.Location = new System.Drawing.Point(147, 20);
             this.txtRainCondition.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtRainCondition.Name = "txtRainCondition";
             this.txtRainCondition.ReadOnly = true;
-            this.txtRainCondition.Size = new System.Drawing.Size(176, 26);
+            this.txtRainCondition.Size = new System.Drawing.Size(133, 26);
             this.txtRainCondition.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtRainCondition, "Rain state");
             // 
@@ -1910,60 +1915,19 @@
             this.txtCloudState.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtCloudState.Name = "txtCloudState";
             this.txtCloudState.ReadOnly = true;
-            this.txtCloudState.Size = new System.Drawing.Size(64, 26);
+            this.txtCloudState.Size = new System.Drawing.Size(51, 26);
             this.txtCloudState.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtCloudState, "Cloud sensor index");
             // 
             // txtTemp
             // 
-            this.txtTemp.Location = new System.Drawing.Point(120, 20);
+            this.txtTemp.Location = new System.Drawing.Point(85, 20);
             this.txtTemp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtTemp.Name = "txtTemp";
             this.txtTemp.ReadOnly = true;
             this.txtTemp.Size = new System.Drawing.Size(50, 26);
             this.txtTemp.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtTemp, "Current temperature");
-            // 
-            // groupBoxRoof
-            // 
-            this.groupBoxRoof.Controls.Add(this.btnStopRoof);
-            this.groupBoxRoof.Controls.Add(this.btnCloseRoof);
-            this.groupBoxRoof.Controls.Add(this.btnOpenRoof);
-            this.groupBoxRoof.Controls.Add(this.shapeContainer2);
-            this.groupBoxRoof.Location = new System.Drawing.Point(8, 0);
-            this.groupBoxRoof.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxRoof.Name = "groupBoxRoof";
-            this.groupBoxRoof.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxRoof.Size = new System.Drawing.Size(369, 217);
-            this.groupBoxRoof.TabIndex = 3;
-            this.groupBoxRoof.TabStop = false;
-            this.groupBoxRoof.Text = "Roof";
-            // 
-            // btnStopRoof
-            // 
-            this.btnStopRoof.Enabled = false;
-            this.btnStopRoof.Location = new System.Drawing.Point(146, 162);
-            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnStopRoof.Name = "btnStopRoof";
-            this.btnStopRoof.Size = new System.Drawing.Size(69, 37);
-            this.btnStopRoof.TabIndex = 1;
-            this.btnStopRoof.Text = "Stop";
-            this.btnStopRoof.UseVisualStyleBackColor = true;
-            this.btnStopRoof.Click += new System.EventHandler(this.btnStopRoof_Click);
-            // 
-            // shapeContainer2
-            // 
-            this.shapeContainer2.Location = new System.Drawing.Point(4, 24);
-            this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer2.Name = "shapeContainer2";
-            this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape2,
-            this.lineShape1,
-            this.rectRoof,
-            this.rectBase});
-            this.shapeContainer2.Size = new System.Drawing.Size(361, 188);
-            this.shapeContainer2.TabIndex = 0;
-            this.shapeContainer2.TabStop = false;
             // 
             // groupBox2
             // 
@@ -1979,11 +1943,11 @@
             this.groupBox2.Controls.Add(this.btnBeforeImaging);
             this.groupBox2.Controls.Add(this.btnMaximStart);
             this.groupBox2.Controls.Add(this.btnStartAll);
-            this.groupBox2.Location = new System.Drawing.Point(8, 485);
+            this.groupBox2.Location = new System.Drawing.Point(8, 350);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(369, 328);
+            this.groupBox2.Size = new System.Drawing.Size(284, 248);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Scenarios";
@@ -1992,7 +1956,7 @@
             // 
             this.linkPHDBroker.AutoSize = true;
             this.linkPHDBroker.LinkColor = System.Drawing.Color.Blue;
-            this.linkPHDBroker.Location = new System.Drawing.Point(81, 215);
+            this.linkPHDBroker.Location = new System.Drawing.Point(81, 143);
             this.linkPHDBroker.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkPHDBroker.Name = "linkPHDBroker";
             this.linkPHDBroker.Size = new System.Drawing.Size(90, 20);
@@ -2005,18 +1969,18 @@
             // 
             this.linkTelescopeTempControl.AutoSize = true;
             this.linkTelescopeTempControl.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.linkTelescopeTempControl.Location = new System.Drawing.Point(140, 252);
+            this.linkTelescopeTempControl.Location = new System.Drawing.Point(140, 180);
             this.linkTelescopeTempControl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkTelescopeTempControl.Name = "linkTelescopeTempControl";
-            this.linkTelescopeTempControl.Size = new System.Drawing.Size(173, 20);
+            this.linkTelescopeTempControl.Size = new System.Drawing.Size(121, 20);
             this.linkTelescopeTempControl.TabIndex = 4;
             this.linkTelescopeTempControl.TabStop = true;
-            this.linkTelescopeTempControl.Text = "TelescopeTempControl";
+            this.linkTelescopeTempControl.Text = "TelTempControl";
             // 
             // linkTest
             // 
             this.linkTest.AutoSize = true;
-            this.linkTest.Location = new System.Drawing.Point(9, 286);
+            this.linkTest.Location = new System.Drawing.Point(9, 214);
             this.linkTest.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkTest.Name = "linkTest";
             this.linkTest.Size = new System.Drawing.Size(40, 20);
@@ -2029,7 +1993,7 @@
             // 
             this.linkWeatherStation.AutoSize = true;
             this.linkWeatherStation.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.linkWeatherStation.Location = new System.Drawing.Point(9, 252);
+            this.linkWeatherStation.Location = new System.Drawing.Point(9, 180);
             this.linkWeatherStation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkWeatherStation.Name = "linkWeatherStation";
             this.linkWeatherStation.Size = new System.Drawing.Size(121, 20);
@@ -2041,7 +2005,7 @@
             // 
             this.linkFocusMax.AutoSize = true;
             this.linkFocusMax.LinkColor = System.Drawing.Color.Blue;
-            this.linkFocusMax.Location = new System.Drawing.Point(182, 215);
+            this.linkFocusMax.Location = new System.Drawing.Point(182, 143);
             this.linkFocusMax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkFocusMax.Name = "linkFocusMax";
             this.linkFocusMax.Size = new System.Drawing.Size(82, 20);
@@ -2053,7 +2017,7 @@
             // linkCdC
             // 
             this.linkCdC.AutoSize = true;
-            this.linkCdC.Location = new System.Drawing.Point(160, 180);
+            this.linkCdC.Location = new System.Drawing.Point(160, 108);
             this.linkCdC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkCdC.Name = "linkCdC";
             this.linkCdC.Size = new System.Drawing.Size(40, 20);
@@ -2065,7 +2029,7 @@
             // linkPHD2
             // 
             this.linkPHD2.AutoSize = true;
-            this.linkPHD2.Location = new System.Drawing.Point(94, 180);
+            this.linkPHD2.Location = new System.Drawing.Point(94, 108);
             this.linkPHD2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkPHD2.Name = "linkPHD2";
             this.linkPHD2.Size = new System.Drawing.Size(52, 20);
@@ -2078,7 +2042,7 @@
             // 
             this.linkCCDAP.AutoSize = true;
             this.linkCCDAP.LinkColor = System.Drawing.Color.Blue;
-            this.linkCCDAP.Location = new System.Drawing.Point(9, 215);
+            this.linkCCDAP.Location = new System.Drawing.Point(9, 143);
             this.linkCCDAP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkCCDAP.Name = "linkCCDAP";
             this.linkCCDAP.Size = new System.Drawing.Size(64, 20);
@@ -2090,7 +2054,7 @@
             // linkMaximDL
             // 
             this.linkMaximDL.AutoSize = true;
-            this.linkMaximDL.Location = new System.Drawing.Point(9, 180);
+            this.linkMaximDL.Location = new System.Drawing.Point(9, 108);
             this.linkMaximDL.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkMaximDL.Name = "linkMaximDL";
             this.linkMaximDL.Size = new System.Drawing.Size(75, 20);
@@ -2101,12 +2065,12 @@
             // 
             // btnBeforeImaging
             // 
-            this.btnBeforeImaging.Location = new System.Drawing.Point(242, 29);
+            this.btnBeforeImaging.Location = new System.Drawing.Point(147, 28);
             this.btnBeforeImaging.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnBeforeImaging.Name = "btnBeforeImaging";
-            this.btnBeforeImaging.Size = new System.Drawing.Size(118, 74);
+            this.btnBeforeImaging.Size = new System.Drawing.Size(120, 35);
             this.btnBeforeImaging.TabIndex = 3;
-            this.btnBeforeImaging.Text = "Preapare Imaging";
+            this.btnBeforeImaging.Text = "Prep. Imaging";
             this.toolTip1.SetToolTip(this.btnBeforeImaging, "Предсъемочный цикл:\r\n1.\tОткрыть крышу\r\n2.\tПодвигать фокусером туда сюда (300 ед)\r" +
         "\n3.\tВыключить ИК подсветку камеры\r\n4.\tЗапустить CCDAP\r\n");
             this.btnBeforeImaging.UseVisualStyleBackColor = true;
@@ -2114,10 +2078,10 @@
             // 
             // btnMaximStart
             // 
-            this.btnMaximStart.Location = new System.Drawing.Point(12, 112);
+            this.btnMaximStart.Location = new System.Drawing.Point(9, 68);
             this.btnMaximStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnMaximStart.Name = "btnMaximStart";
-            this.btnMaximStart.Size = new System.Drawing.Size(128, 45);
+            this.btnMaximStart.Size = new System.Drawing.Size(131, 35);
             this.btnMaximStart.TabIndex = 3;
             this.btnMaximStart.Text = "Prepare Maxim";
             this.toolTip1.SetToolTip(this.btnMaximStart, "1. Switch on power\r\n2. Run MaximDL\r\n3. Run FocusMax\r\n4. CameraConnect\r\n5. Set cam" +
@@ -2125,6 +2089,48 @@
         "ax\r\n");
             this.btnMaximStart.UseVisualStyleBackColor = true;
             this.btnMaximStart.Click += new System.EventHandler(this.btnMaximStart_Click);
+            // 
+            // groupBoxRoof
+            // 
+            this.groupBoxRoof.Controls.Add(this.btnStopRoof);
+            this.groupBoxRoof.Controls.Add(this.btnCloseRoof);
+            this.groupBoxRoof.Controls.Add(this.btnOpenRoof);
+            this.groupBoxRoof.Controls.Add(this.shapeContainer2);
+            this.groupBoxRoof.Location = new System.Drawing.Point(8, 2);
+            this.groupBoxRoof.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxRoof.Name = "groupBoxRoof";
+            this.groupBoxRoof.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxRoof.Size = new System.Drawing.Size(284, 186);
+            this.groupBoxRoof.TabIndex = 3;
+            this.groupBoxRoof.TabStop = false;
+            this.groupBoxRoof.Text = "Roof";
+            // 
+            // btnStopRoof
+            // 
+            this.btnStopRoof.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnStopRoof.Enabled = false;
+            this.btnStopRoof.Location = new System.Drawing.Point(107, 147);
+            this.btnStopRoof.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnStopRoof.Name = "btnStopRoof";
+            this.btnStopRoof.Size = new System.Drawing.Size(56, 29);
+            this.btnStopRoof.TabIndex = 1;
+            this.btnStopRoof.Text = "Stop";
+            this.btnStopRoof.UseVisualStyleBackColor = true;
+            this.btnStopRoof.Click += new System.EventHandler(this.btnStopRoof_Click);
+            // 
+            // shapeContainer2
+            // 
+            this.shapeContainer2.Location = new System.Drawing.Point(4, 24);
+            this.shapeContainer2.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer2.Name = "shapeContainer2";
+            this.shapeContainer2.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape2,
+            this.lineShape1,
+            this.rectRoof,
+            this.rectBase});
+            this.shapeContainer2.Size = new System.Drawing.Size(276, 157);
+            this.shapeContainer2.TabIndex = 0;
+            this.shapeContainer2.TabStop = false;
             // 
             // mainTimer_Short
             // 
@@ -2146,9 +2152,9 @@
             this.groupBox5.Controls.Add(this.txtCameraStatus);
             this.groupBox5.Controls.Add(this.txtCameraBinMode);
             this.groupBox5.Controls.Add(this.txtFilterName);
-            this.groupBox5.Location = new System.Drawing.Point(390, 2);
+            this.groupBox5.Location = new System.Drawing.Point(301, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(680, 225);
+            this.groupBox5.Size = new System.Drawing.Size(656, 225);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Camera";
@@ -2165,7 +2171,7 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.txtCameraTemp);
             this.groupBox3.Controls.Add(this.txtCameraCoolerPower);
-            this.groupBox3.Location = new System.Drawing.Point(486, 14);
+            this.groupBox3.Location = new System.Drawing.Point(462, 14);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2316,7 +2322,7 @@
             this.txtCameraStatus.Location = new System.Drawing.Point(84, 22);
             this.txtCameraStatus.Name = "txtCameraStatus";
             this.txtCameraStatus.ReadOnly = true;
-            this.txtCameraStatus.Size = new System.Drawing.Size(422, 26);
+            this.txtCameraStatus.Size = new System.Drawing.Size(371, 26);
             this.txtCameraStatus.TabIndex = 1;
             // 
             // txtCameraBinMode
@@ -2357,27 +2363,27 @@
             this.groupBoxTelescope.Controls.Add(this.label3);
             this.groupBoxTelescope.Controls.Add(this.label2);
             this.groupBoxTelescope.Controls.Add(this.label1);
-            this.groupBoxTelescope.Location = new System.Drawing.Point(1076, 2);
+            this.groupBoxTelescope.Location = new System.Drawing.Point(963, 2);
             this.groupBoxTelescope.Name = "groupBoxTelescope";
-            this.groupBoxTelescope.Size = new System.Drawing.Size(418, 400);
+            this.groupBoxTelescope.Size = new System.Drawing.Size(291, 345);
             this.groupBoxTelescope.TabIndex = 3;
             this.groupBoxTelescope.TabStop = false;
             this.groupBoxTelescope.Text = "Telescope";
             // 
             // panelTele3D
             // 
-            this.panelTele3D.Location = new System.Drawing.Point(8, 22);
+            this.panelTele3D.Location = new System.Drawing.Point(11, 22);
             this.panelTele3D.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelTele3D.Name = "panelTele3D";
-            this.panelTele3D.Size = new System.Drawing.Size(398, 232);
+            this.panelTele3D.Size = new System.Drawing.Size(270, 189);
             this.panelTele3D.TabIndex = 9;
             this.panelTele3D.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTele3D_Paint);
             // 
             // btnConnectTelescope
             // 
-            this.btnConnectTelescope.Location = new System.Drawing.Point(15, 349);
+            this.btnConnectTelescope.Location = new System.Drawing.Point(11, 218);
             this.btnConnectTelescope.Name = "btnConnectTelescope";
-            this.btnConnectTelescope.Size = new System.Drawing.Size(152, 38);
+            this.btnConnectTelescope.Size = new System.Drawing.Size(113, 38);
             this.btnConnectTelescope.TabIndex = 7;
             this.btnConnectTelescope.Text = "Connect";
             this.btnConnectTelescope.UseVisualStyleBackColor = true;
@@ -2385,7 +2391,7 @@
             // 
             // btnTrack
             // 
-            this.btnTrack.Location = new System.Drawing.Point(320, 349);
+            this.btnTrack.Location = new System.Drawing.Point(207, 219);
             this.btnTrack.Name = "btnTrack";
             this.btnTrack.Size = new System.Drawing.Size(74, 37);
             this.btnTrack.TabIndex = 7;
@@ -2394,7 +2400,7 @@
             // 
             // btnPark
             // 
-            this.btnPark.Location = new System.Drawing.Point(225, 349);
+            this.btnPark.Location = new System.Drawing.Point(134, 219);
             this.btnPark.Name = "btnPark";
             this.btnPark.Size = new System.Drawing.Size(74, 37);
             this.btnPark.TabIndex = 7;
@@ -2403,28 +2409,28 @@
             // 
             // txtTelescopeDec
             // 
-            this.txtTelescopeDec.Location = new System.Drawing.Point(274, 300);
+            this.txtTelescopeDec.Location = new System.Drawing.Point(189, 300);
             this.txtTelescopeDec.Name = "txtTelescopeDec";
-            this.txtTelescopeDec.Size = new System.Drawing.Size(112, 26);
+            this.txtTelescopeDec.Size = new System.Drawing.Size(90, 26);
             this.txtTelescopeDec.TabIndex = 6;
             // 
             // txtTelescopeAlt
             // 
-            this.txtTelescopeAlt.Location = new System.Drawing.Point(56, 300);
+            this.txtTelescopeAlt.Location = new System.Drawing.Point(34, 300);
             this.txtTelescopeAlt.Name = "txtTelescopeAlt";
             this.txtTelescopeAlt.Size = new System.Drawing.Size(90, 26);
             this.txtTelescopeAlt.TabIndex = 6;
             // 
             // txtTelescopeRA
             // 
-            this.txtTelescopeRA.Location = new System.Drawing.Point(274, 268);
+            this.txtTelescopeRA.Location = new System.Drawing.Point(189, 269);
             this.txtTelescopeRA.Name = "txtTelescopeRA";
-            this.txtTelescopeRA.Size = new System.Drawing.Size(112, 26);
+            this.txtTelescopeRA.Size = new System.Drawing.Size(90, 26);
             this.txtTelescopeRA.TabIndex = 6;
             // 
             // txtTelescopeAz
             // 
-            this.txtTelescopeAz.Location = new System.Drawing.Point(56, 268);
+            this.txtTelescopeAz.Location = new System.Drawing.Point(34, 269);
             this.txtTelescopeAz.Name = "txtTelescopeAz";
             this.txtTelescopeAz.Size = new System.Drawing.Size(90, 26);
             this.txtTelescopeAz.TabIndex = 6;
@@ -2432,7 +2438,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(226, 305);
+            this.label4.Location = new System.Drawing.Point(150, 303);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 20);
             this.label4.TabIndex = 5;
@@ -2441,7 +2447,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(226, 272);
+            this.label3.Location = new System.Drawing.Point(150, 272);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 20);
             this.label3.TabIndex = 5;
@@ -2450,7 +2456,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 305);
+            this.label2.Location = new System.Drawing.Point(7, 303);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 20);
             this.label2.TabIndex = 5;
@@ -2459,7 +2465,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 272);
+            this.label1.Location = new System.Drawing.Point(7, 272);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 20);
             this.label1.TabIndex = 5;
@@ -2474,29 +2480,26 @@
             // 
             this.PHDGuiding.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.PHDGuiding.Controls.Add(this.panel1);
             this.PHDGuiding.Controls.Add(this.chart1);
             this.PHDGuiding.Controls.Add(this.txtGuiderErrorPHD);
-            this.PHDGuiding.Controls.Add(this.txtRMS_prevframe);
             this.PHDGuiding.Controls.Add(this.txtRMS);
-            this.PHDGuiding.Controls.Add(this.txtRMS_Y_prevframe);
             this.PHDGuiding.Controls.Add(this.txtRMS_Y);
             this.PHDGuiding.Controls.Add(this.btnGuide);
             this.PHDGuiding.Controls.Add(this.btnGuiderConnect);
             this.PHDGuiding.Controls.Add(this.btnClearGuidingStat);
-            this.PHDGuiding.Controls.Add(this.txtRMS_X_prevframe);
             this.PHDGuiding.Controls.Add(this.txtRMS_X);
             this.PHDGuiding.Controls.Add(this.txtPHDState);
             this.PHDGuiding.Controls.Add(this.label30);
             this.PHDGuiding.Controls.Add(this.label29);
             this.PHDGuiding.Controls.Add(this.label24);
-            this.PHDGuiding.Controls.Add(this.label31);
             this.PHDGuiding.Controls.Add(this.label27);
             this.PHDGuiding.Controls.Add(this.label21);
-            this.PHDGuiding.Location = new System.Drawing.Point(390, 229);
+            this.PHDGuiding.Location = new System.Drawing.Point(301, 229);
             this.PHDGuiding.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PHDGuiding.Name = "PHDGuiding";
             this.PHDGuiding.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.PHDGuiding.Size = new System.Drawing.Size(680, 298);
+            this.PHDGuiding.Size = new System.Drawing.Size(656, 239);
             this.PHDGuiding.TabIndex = 4;
             this.PHDGuiding.TabStop = false;
             this.PHDGuiding.Text = "PHDGuiding";
@@ -2504,72 +2507,75 @@
             // chart1
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea6.AxisX.Crossing = 0D;
-            chartArea6.AxisX.Interval = 1D;
-            chartArea6.AxisX.IsLabelAutoFit = false;
-            chartArea6.AxisX.IsStartedFromZero = false;
-            chartArea6.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea6.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea6.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea6.AxisX.LabelStyle.IsStaggered = true;
-            chartArea6.AxisX.MajorGrid.Interval = 1D;
-            chartArea6.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea6.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea6.AxisX.Maximum = 2D;
-            chartArea6.AxisX.Minimum = -2D;
-            chartArea6.AxisX.MinorTickMark.Enabled = true;
-            chartArea6.AxisX.MinorTickMark.Interval = 0.5D;
-            chartArea6.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
-            chartArea6.AxisY.Crossing = 0D;
-            chartArea6.AxisY.Interval = 1D;
-            chartArea6.AxisY.IsLabelAutoFit = false;
-            chartArea6.AxisY.IsStartedFromZero = false;
-            chartArea6.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea6.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea6.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea6.AxisY.MajorGrid.Interval = 1D;
-            chartArea6.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea6.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea6.AxisY.Maximum = 2D;
-            chartArea6.AxisY.Minimum = -2D;
-            chartArea6.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
-            chartArea6.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea6);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(434, 17);
+            chartArea12.AxisX.Crossing = 0D;
+            chartArea12.AxisX.Interval = 1D;
+            chartArea12.AxisX.IsLabelAutoFit = false;
+            chartArea12.AxisX.IsStartedFromZero = false;
+            chartArea12.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea12.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea12.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea12.AxisX.LabelStyle.IsStaggered = true;
+            chartArea12.AxisX.MajorGrid.Interval = 1D;
+            chartArea12.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea12.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea12.AxisX.Maximum = 2D;
+            chartArea12.AxisX.Minimum = -2D;
+            chartArea12.AxisX.MinorTickMark.Enabled = true;
+            chartArea12.AxisX.MinorTickMark.Interval = 0.5D;
+            chartArea12.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea12.AxisY.Crossing = 0D;
+            chartArea12.AxisY.Interval = 1D;
+            chartArea12.AxisY.IsLabelAutoFit = false;
+            chartArea12.AxisY.IsStartedFromZero = false;
+            chartArea12.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea12.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea12.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea12.AxisY.MajorGrid.Interval = 1D;
+            chartArea12.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea12.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea12.AxisY.Maximum = 2D;
+            chartArea12.AxisY.Minimum = -2D;
+            chartArea12.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea12.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea12);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(435, 20);
             this.chart1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chart1.Name = "chart1";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series11.Legend = "Legend1";
-            series11.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
-            series11.Name = "SeriesGuideError";
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series12.Color = System.Drawing.Color.Red;
-            series12.Legend = "Legend1";
-            series12.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
-            series12.Name = "SeriesGuideErrorOutOfScale";
-            this.chart1.Series.Add(series11);
-            this.chart1.Series.Add(series12);
-            this.chart1.Size = new System.Drawing.Size(232, 238);
+            series23.ChartArea = "ChartArea1";
+            series23.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series23.Legend = "Legend1";
+            series23.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
+            series23.Name = "SeriesGuideError";
+            series24.ChartArea = "ChartArea1";
+            series24.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series24.Color = System.Drawing.Color.Red;
+            series24.Legend = "Legend1";
+            series24.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
+            series24.Name = "SeriesGuideErrorOutOfScale";
+            this.chart1.Series.Add(series23);
+            this.chart1.Series.Add(series24);
+            this.chart1.Size = new System.Drawing.Size(213, 213);
             this.chart1.TabIndex = 6;
             this.chart1.Text = "chart1";
             // 
             // txtGuiderErrorPHD
             // 
-            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(183, 148);
+            this.txtGuiderErrorPHD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGuiderErrorPHD.Enabled = false;
+            this.txtGuiderErrorPHD.Location = new System.Drawing.Point(252, 20);
             this.txtGuiderErrorPHD.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtGuiderErrorPHD.Name = "txtGuiderErrorPHD";
-            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(160, 106);
+            this.txtGuiderErrorPHD.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txtGuiderErrorPHD.Size = new System.Drawing.Size(178, 213);
             this.txtGuiderErrorPHD.TabIndex = 3;
             this.txtGuiderErrorPHD.Text = "";
             // 
             // txtRMS_prevframe
             // 
-            this.txtRMS_prevframe.Location = new System.Drawing.Point(369, 217);
+            this.txtRMS_prevframe.Location = new System.Drawing.Point(39, 105);
             this.txtRMS_prevframe.Name = "txtRMS_prevframe";
             this.txtRMS_prevframe.ReadOnly = true;
             this.txtRMS_prevframe.Size = new System.Drawing.Size(66, 26);
@@ -2577,7 +2583,7 @@
             // 
             // txtRMS
             // 
-            this.txtRMS.Location = new System.Drawing.Point(108, 217);
+            this.txtRMS.Location = new System.Drawing.Point(107, 198);
             this.txtRMS.Name = "txtRMS";
             this.txtRMS.ReadOnly = true;
             this.txtRMS.Size = new System.Drawing.Size(66, 26);
@@ -2585,7 +2591,7 @@
             // 
             // txtRMS_Y_prevframe
             // 
-            this.txtRMS_Y_prevframe.Location = new System.Drawing.Point(369, 183);
+            this.txtRMS_Y_prevframe.Location = new System.Drawing.Point(39, 71);
             this.txtRMS_Y_prevframe.Name = "txtRMS_Y_prevframe";
             this.txtRMS_Y_prevframe.ReadOnly = true;
             this.txtRMS_Y_prevframe.Size = new System.Drawing.Size(66, 26);
@@ -2593,7 +2599,7 @@
             // 
             // txtRMS_Y
             // 
-            this.txtRMS_Y.Location = new System.Drawing.Point(108, 183);
+            this.txtRMS_Y.Location = new System.Drawing.Point(107, 164);
             this.txtRMS_Y.Name = "txtRMS_Y";
             this.txtRMS_Y.ReadOnly = true;
             this.txtRMS_Y.Size = new System.Drawing.Size(66, 26);
@@ -2601,10 +2607,10 @@
             // 
             // btnGuide
             // 
-            this.btnGuide.Location = new System.Drawing.Point(228, 71);
+            this.btnGuide.Location = new System.Drawing.Point(150, 61);
             this.btnGuide.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnGuide.Name = "btnGuide";
-            this.btnGuide.Size = new System.Drawing.Size(117, 32);
+            this.btnGuide.Size = new System.Drawing.Size(94, 32);
             this.btnGuide.TabIndex = 0;
             this.btnGuide.Text = "Guide";
             this.btnGuide.UseVisualStyleBackColor = true;
@@ -2612,10 +2618,10 @@
             // 
             // btnGuiderConnect
             // 
-            this.btnGuiderConnect.Location = new System.Drawing.Point(14, 71);
+            this.btnGuiderConnect.Location = new System.Drawing.Point(8, 61);
             this.btnGuiderConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnGuiderConnect.Name = "btnGuiderConnect";
-            this.btnGuiderConnect.Size = new System.Drawing.Size(130, 32);
+            this.btnGuiderConnect.Size = new System.Drawing.Size(121, 32);
             this.btnGuiderConnect.TabIndex = 0;
             this.btnGuiderConnect.Text = "Connect";
             this.btnGuiderConnect.UseVisualStyleBackColor = true;
@@ -2624,18 +2630,18 @@
             // btnClearGuidingStat
             // 
             this.btnClearGuidingStat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearGuidingStat.Location = new System.Drawing.Point(358, 32);
+            this.btnClearGuidingStat.Location = new System.Drawing.Point(216, 204);
             this.btnClearGuidingStat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClearGuidingStat.Name = "btnClearGuidingStat";
-            this.btnClearGuidingStat.Size = new System.Drawing.Size(68, 32);
+            this.btnClearGuidingStat.Size = new System.Drawing.Size(29, 29);
             this.btnClearGuidingStat.TabIndex = 0;
-            this.btnClearGuidingStat.Text = "Clear";
+            this.btnClearGuidingStat.Text = "C";
             this.btnClearGuidingStat.UseVisualStyleBackColor = true;
             this.btnClearGuidingStat.Click += new System.EventHandler(this.btnClearGuidingStat_Click);
             // 
             // txtRMS_X_prevframe
             // 
-            this.txtRMS_X_prevframe.Location = new System.Drawing.Point(369, 148);
+            this.txtRMS_X_prevframe.Location = new System.Drawing.Point(39, 36);
             this.txtRMS_X_prevframe.Name = "txtRMS_X_prevframe";
             this.txtRMS_X_prevframe.ReadOnly = true;
             this.txtRMS_X_prevframe.Size = new System.Drawing.Size(66, 26);
@@ -2643,7 +2649,7 @@
             // 
             // txtRMS_X
             // 
-            this.txtRMS_X.Location = new System.Drawing.Point(108, 148);
+            this.txtRMS_X.Location = new System.Drawing.Point(107, 129);
             this.txtRMS_X.Name = "txtRMS_X";
             this.txtRMS_X.ReadOnly = true;
             this.txtRMS_X.Size = new System.Drawing.Size(66, 26);
@@ -2651,16 +2657,16 @@
             // 
             // txtPHDState
             // 
-            this.txtPHDState.Location = new System.Drawing.Point(108, 34);
+            this.txtPHDState.Location = new System.Drawing.Point(111, 27);
             this.txtPHDState.Name = "txtPHDState";
             this.txtPHDState.ReadOnly = true;
-            this.txtPHDState.Size = new System.Drawing.Size(235, 26);
+            this.txtPHDState.Size = new System.Drawing.Size(134, 26);
             this.txtPHDState.TabIndex = 1;
             // 
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(9, 222);
+            this.label30.Location = new System.Drawing.Point(8, 203);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(88, 20);
@@ -2670,7 +2676,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(9, 188);
+            this.label29.Location = new System.Drawing.Point(8, 169);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(82, 20);
@@ -2680,7 +2686,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(9, 122);
+            this.label24.Location = new System.Drawing.Point(8, 103);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(150, 20);
@@ -2690,7 +2696,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(334, 122);
+            this.label31.Location = new System.Drawing.Point(4, 10);
             this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(128, 20);
@@ -2700,7 +2706,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(9, 152);
+            this.label27.Location = new System.Drawing.Point(8, 133);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(76, 20);
@@ -2710,7 +2716,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(9, 38);
+            this.label21.Location = new System.Drawing.Point(8, 30);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(90, 20);
@@ -2724,11 +2730,11 @@
             this.groupBox8.Controls.Add(this.txtLastFocusHFD);
             this.groupBox8.Controls.Add(this.btnAcquireStar);
             this.groupBox8.Controls.Add(this.btnFocus);
-            this.groupBox8.Location = new System.Drawing.Point(1076, 412);
+            this.groupBox8.Location = new System.Drawing.Point(963, 357);
             this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox8.Size = new System.Drawing.Size(418, 115);
+            this.groupBox8.Size = new System.Drawing.Size(291, 111);
             this.groupBox8.TabIndex = 4;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Focusing";
@@ -2736,7 +2742,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(222, 35);
+            this.label28.Location = new System.Drawing.Point(11, 71);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(78, 20);
@@ -2745,7 +2751,7 @@
             // 
             // txtLastFocusHFD
             // 
-            this.txtLastFocusHFD.Location = new System.Drawing.Point(300, 29);
+            this.txtLastFocusHFD.Location = new System.Drawing.Point(108, 68);
             this.txtLastFocusHFD.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtLastFocusHFD.Name = "txtLastFocusHFD";
             this.txtLastFocusHFD.Size = new System.Drawing.Size(80, 26);
@@ -2753,7 +2759,7 @@
             // 
             // btnAcquireStar
             // 
-            this.btnAcquireStar.Location = new System.Drawing.Point(104, 29);
+            this.btnAcquireStar.Location = new System.Drawing.Point(102, 28);
             this.btnAcquireStar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAcquireStar.Name = "btnAcquireStar";
             this.btnAcquireStar.Size = new System.Drawing.Size(110, 32);
@@ -2763,7 +2769,7 @@
             // 
             // btnFocus
             // 
-            this.btnFocus.Location = new System.Drawing.Point(9, 29);
+            this.btnFocus.Location = new System.Drawing.Point(8, 28);
             this.btnFocus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnFocus.Name = "btnFocus";
             this.btnFocus.Size = new System.Drawing.Size(86, 32);
@@ -2776,13 +2782,26 @@
             this.mainTimer_VeryLong.Interval = 5000;
             this.mainTimer_VeryLong.Tick += new System.EventHandler(this.mainTime_VeryLong_Tick);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label31);
+            this.panel1.Controls.Add(this.txtRMS_X_prevframe);
+            this.panel1.Controls.Add(this.txtRMS_Y_prevframe);
+            this.panel1.Controls.Add(this.txtRMS_prevframe);
+            this.panel1.Location = new System.Drawing.Point(285, 76);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(121, 83);
+            this.panel1.TabIndex = 7;
+            this.panel1.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1512, 1263);
+            this.ClientSize = new System.Drawing.Size(1258, 969);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.PHDGuiding);
+            this.Controls.Add(this.groupBoxRoof);
             this.Controls.Add(this.groupBoxTelescope);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.panel4);
@@ -2791,7 +2810,7 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(1280, 917);
+            this.MinimumSize = new System.Drawing.Size(1280, 1024);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";
@@ -2799,10 +2818,10 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPageLog.ResumeLayout(false);
-            this.panelDebug.ResumeLayout(false);
-            this.panelDebug.PerformLayout();
             this.MaximGuider.ResumeLayout(false);
             this.MaximGuider.PerformLayout();
+            this.panelDebug.ResumeLayout(false);
+            this.panelDebug.PerformLayout();
             this.tabPoiniting.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
@@ -2831,9 +2850,9 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weatherChart)).EndInit();
-            this.groupBoxRoof.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBoxRoof.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -2846,6 +2865,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3071,6 +3092,7 @@
         private System.Windows.Forms.TextBox txtTTC_W_Heater;
         private System.Windows.Forms.TextBox txtATSolver_Status;
         private System.Windows.Forms.Button btnRunTest;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

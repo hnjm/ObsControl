@@ -932,51 +932,8 @@ namespace ObservatoryCenter
                 }
 
                 //update fields
-                /*
-                //txtTelescopeAz.Text = Convert.ToString(Math.Truncate(ObsControl.objTelescope.Azimuth)) + " " + Convert.ToString(Math.Truncatse(ObsControl.objTelescope.Azimuth));
-                txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
-                txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
-                txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(ObsControl.objTelescope.RightAscension);
-                txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Declination);
-
-                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
-                {
-                    txtPierSide.Text = "East, looking West";
-                    PoinitingSide = false;
-                    VAzAdjust = 180;
-                }
-                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
-                {
-                    txtPierSide.Text = "West, looking East";
-                    PoinitingSide = true;
-                    VAzAdjust = 0;
-                }
-                else
-                {
-                    txtPierSide.Text = "Unknown";
-                }
-
-                //Redraw
-                angelAz = (Int16)(Math.Round(ObsControl.objTelescope.Azimuth) + NorthAzimuthCorrection + VAzAdjust);
-                panelTelescope.Invalidate();
-
-                if (PoinitingSide)
-                {
-                    angelAlt = (Int16)(Math.Round(ObsControl.objTelescope.Altitude+180));
-                }
-                else
-                {
-                    angelAlt = (Int16)(Math.Round(ObsControl.objTelescope.Altitude));
-                }
-                //HTelescope Az corrections
-                if (ObsControl.objTelescope.Azimuth < 90 || ObsControl.objTelescope.Azimuth > 270)
-                {
-                    angelAlt = 180-angelAlt;
-                }
-                angelAlt_raw = ObsControl.objTelescope.Altitude;
-                */
-                calculateTelescopePositionsVars();
-                panelTele3D.Invalidate();
+                calculateTelescopePositionsVars(); //recalculate vars
+                panelTele3D.Invalidate(); //calls repaint, which invoke panelTele3D_Paint event handler and calls Draw3DTelescope(e)
             }
             else
             {
@@ -989,9 +946,6 @@ namespace ObservatoryCenter
                 btnTrack.Enabled = false;
             }
 
-            //init variables (will not draw anyway)
-            //DrawTelescopeV(panelTelescopeV);
-            //DrawTelescopeH(panelTelescopeH);
         }
 
 
