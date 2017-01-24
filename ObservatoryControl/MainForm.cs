@@ -900,6 +900,7 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateTelescopeStatus()
         {
+
             if (ObsControl.objTelescope != null)
             {
                 txtTelescopeAz.Enabled = true;
@@ -908,6 +909,21 @@ namespace ObservatoryCenter
                 txtTelescopeDec.Enabled = true;
                 btnPark.Enabled = true;
                 btnTrack.Enabled = true;
+
+                //Change Connect Button for current status
+                if (ObsControl.Mount_connected_flag)
+                {
+                    btnConnectTelescope.Text = "Diconnect";
+                    btnConnectTelescope.BackColor = OnColor;
+                }
+                else
+                {
+                    btnConnectTelescope.Text = "Connect";
+                    btnConnectTelescope.BackColor = OffColor;
+                    btnTrack.BackColor = SystemColors.Control;
+                    btnPark.BackColor = SystemColors.Control;
+                }
+
 
                 if (ObsControl.objTelescope.AtPark)
                 {
@@ -1245,28 +1261,11 @@ namespace ObservatoryCenter
 // Telescope routines
 #region //// Telescope routines //////////////////////////////////////
 
-        private void btnConnectTelescope_Click(object sender, EventArgs e)
-        {
-            if (btnConnectTelescope.Text == "Connect")
-            {
-                ObsControl.connectMount = true;
-                btnConnectTelescope.Text = "Diconnect";
-                btnConnectTelescope.BackColor = OnColor;
-            }
-            else
-            {
-                ObsControl.connectMount = false;
-                btnConnectTelescope.Text = "Connect";
-                btnConnectTelescope.BackColor = OffColor;
-                btnTrack.BackColor = SystemColors.Control;
-                btnPark.BackColor = SystemColors.Control;
-            }
-        }
 
-#endregion Telescope routines
-// End of telescope routines
+        #endregion Telescope routines
+        // End of telescope routines
 
-#region //// Status bar events handling //////////////////////////////////////
+        #region //// Status bar events handling //////////////////////////////////////
         private void toolStripStatus_Switch_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -1292,9 +1291,23 @@ namespace ObservatoryCenter
             }
 
         }
-#endregion Status bar event handling
 
-#region //// About information //////////////////////////////////////
+
+        private void toolStripStatus_Telescope_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ObsControl.connectMount = !ObsControl.Mount_connected_flag;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception in telescope connect/disconnect! " + ex.ToString());
+            }
+
+        }
+        #endregion Status bar event handling
+
+        #region //// About information //////////////////////////////////////
         private void LoadAboutData()   
         {
             lblVersion.Text += "Publish version: " + VersionData.PublishVersionSt;
@@ -1458,5 +1471,6 @@ namespace ObservatoryCenter
         {
             TestForm.Show();
         }
+
     }
 }

@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs" />
+    <Compile Include="ObservatoryControls_ASCOM.cs" />
     <Compile Include="ProgControls_CCDAP.cs" />
     <Compile Include="ProgControls_classes.cs" />
     <Compile Include="ObservatoryControls_scenarios.cs" />
@@ -162,7 +163,7 @@
     <Compile Include="ProgControls_Maxim.cs" />
     <Compile Include="ObservatoryControls.cs" />
     <Compile Include="ObservatoryControls_config.cs" />
-    <Compile Include="ObservatoryControls_switch.cs" />
+    <Compile Include="ObservatoryControls_ASCOM_switch.cs" />
     <Compile Include="ProgControls_others.cs" />
     <Compile Include="ProgControls_PHD.cs" />
     <Compile Include="ProgControls_TTC.cs" />

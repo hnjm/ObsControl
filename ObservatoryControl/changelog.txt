@@ -24,6 +24,9 @@ bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.6.06 [24.01.17]
+- some code optmization (ASCOM intefaces, Tests and so on)
+
 0.6.05 [23.01.17]
 - size optimization to 1280*1024 resolution
 - some code cleaning

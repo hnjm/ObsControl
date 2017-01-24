@@ -131,7 +131,7 @@ namespace ObservatoryCenter
             progressBar1.Value = e.ProgressPercentage;
 
             // Set the text.
-            this.Text = e.ProgressPercentage.ToString();
+            //this.Text = e.ProgressPercentage.ToString();
         }
     }
 }

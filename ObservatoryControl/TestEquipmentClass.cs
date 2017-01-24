@@ -91,8 +91,15 @@ namespace ObservatoryCenter
                 string name = ObsControl.objMaxim.CCDCamera.CameraName;
                 MaxIm.CameraStatusCode status = ObsControl.objMaxim.CCDCamera.CameraStatus;
                 TestResult.AddStr("TestEquipment: Maxim DL camera name: " + name + ", status: " + status);
-                TestResult.res = true;
-                TestResult.AddStr("TestEquipment: Maxim DL Camera Connect test passed");
+                if (status!= MaxIm.CameraStatusCode.csError && status !=MaxIm.CameraStatusCode.csNoCamera)
+                { 
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: Maxim DL Camera Connect test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: Maxim DL Camera Connect test failed");
+                }
             }
             catch (Exception Ex)
             {
@@ -121,8 +128,16 @@ namespace ObservatoryCenter
             {
                 bool status = ObsControl.objMaxim.MaximApplicationObj.TelescopeConnected;
                 TestResult.AddStr("TestEquipment: Maxim DL Telescope connected status: " + status);
-                TestResult.res = true;
-                TestResult.AddStr("TestEquipment: Maxim DL Telescope Connect test passed");
+                if (status)
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: Maxim DL Telescope Connect test passed");
+                }
+                else
+                {
+                    TestResult.res = false;
+                    TestResult.AddStr("TestEquipment: Maxim DL Telescope Connect test failed");
+                }
             }
             catch (Exception Ex)
             {
@@ -152,10 +167,19 @@ namespace ObservatoryCenter
                 double Temp = ObsControl.objMaxim.GetCameraTemp();
                 double SetPoint = ObsControl.objMaxim.GetCameraSetpoint();
                 double Power = ObsControl.objMaxim.GetCoolerPower();
+                bool CanSetTemperature = ObsControl.objMaxim.CCDCamera.CanSetTemperature;
 
-                TestResult.AddStr("TestEquipment: Maxim DL camera setpoint: " + SetPoint + ", temp: " + Temp + ", power: " + Power);
-                TestResult.res = true;
-                TestResult.AddStr("TestEquipment: Maxim DL Camera Cooling test passed");
+                TestResult.AddStr("TestEquipment: Maxim DL camera setpoint info: can set temp = " + CanSetTemperature + ", setpoint = " + SetPoint + ", temp = " + Temp + ", power = " + Power);
+
+                if (CanSetTemperature && SetPoint > -50 && SetPoint<50)
+                { 
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: Maxim DL Camera Cooling test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: Maxim DL Camera Cooling test failed");
+                }
             }
             catch (Exception Ex)
             {
