@@ -31,7 +31,7 @@ namespace ObservatoryCenter
         public PHD_ExternatApplication objPHD2App;
         public PHDBroker_ExternatApplication objPHDBrokerApp;
         public CCDAP_ExternatApplication objCCDAPApp;
-        public FocusMax_ExternatApplication objFocusMaxApp;
+        public FocusMax_ExternalApplication objFocusMaxApp;
 
         public Maxim_ExternalApplication objMaxim;
 
@@ -70,7 +70,7 @@ namespace ObservatoryCenter
 
              
             //FocusMax
-            objFocusMaxApp = new FocusMax_ExternatApplication();
+            objFocusMaxApp = new FocusMax_ExternalApplication();
             objFocusMaxApp.Name = "FocusMax";
             objFocusMaxApp.FullName = ObsConfig.getString("programsPath", "FOCUSMAX") ?? @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 

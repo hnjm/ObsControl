@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs" />
+    <Compile Include="ProgControls_FocusMax.cs" />
     <Compile Include="ObservatoryControls_ASCOM.cs" />
     <Compile Include="ProgControls_CCDAP.cs" />
     <Compile Include="ProgControls_classes.cs" />
@@ -253,6 +254,15 @@
     <None Include="Resources\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="FocusMax">
+      <Guid>{DE162D2C-1116-4D7B-9AFB-52D86279E2C0}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="MaxIm">
       <Guid>{B4955EC7-F7F2-11D2-AA9C-444553540000}</Guid>
       <VersionMajor>1</VersionMajor>
