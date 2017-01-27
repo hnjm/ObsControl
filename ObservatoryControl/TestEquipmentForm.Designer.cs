@@ -33,8 +33,8 @@
             this.chkTestCdC_connect = new System.Windows.Forms.CheckBox();
             this.chkTestCdC_run = new System.Windows.Forms.CheckBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.chkTestFM_focusermove = new System.Windows.Forms.CheckBox();
+            this.chkTestFM_run = new System.Windows.Forms.CheckBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.chkTestPHD_guiding = new System.Windows.Forms.CheckBox();
             this.chkTestPHD_connect = new System.Windows.Forms.CheckBox();
@@ -59,9 +59,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.backgroundWorker_test = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkTTC_heating = new System.Windows.Forms.CheckBox();
             this.chkTTC_fan = new System.Windows.Forms.CheckBox();
             this.chkTTC_run = new System.Windows.Forms.CheckBox();
-            this.chkTTC_heating = new System.Windows.Forms.CheckBox();
             this.groupBox14.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -107,8 +107,8 @@
             // 
             // groupBox15
             // 
-            this.groupBox15.Controls.Add(this.checkBox7);
-            this.groupBox15.Controls.Add(this.checkBox8);
+            this.groupBox15.Controls.Add(this.chkTestFM_focusermove);
+            this.groupBox15.Controls.Add(this.chkTestFM_run);
             this.groupBox15.Location = new System.Drawing.Point(12, 459);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Size = new System.Drawing.Size(365, 96);
@@ -116,29 +116,29 @@
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "FocusMax";
             // 
-            // checkBox7
+            // chkTestFM_focusermove
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Checked = true;
-            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox7.Location = new System.Drawing.Point(21, 59);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(157, 24);
-            this.checkBox7.TabIndex = 0;
-            this.checkBox7.Text = "FM focuser move";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.chkTestFM_focusermove.AutoSize = true;
+            this.chkTestFM_focusermove.Checked = true;
+            this.chkTestFM_focusermove.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestFM_focusermove.Location = new System.Drawing.Point(21, 59);
+            this.chkTestFM_focusermove.Name = "chkTestFM_focusermove";
+            this.chkTestFM_focusermove.Size = new System.Drawing.Size(157, 24);
+            this.chkTestFM_focusermove.TabIndex = 0;
+            this.chkTestFM_focusermove.Text = "FM focuser move";
+            this.chkTestFM_focusermove.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // chkTestFM_run
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Checked = true;
-            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.checkBox8.Location = new System.Drawing.Point(21, 29);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(85, 24);
-            this.checkBox8.TabIndex = 0;
-            this.checkBox8.Text = "FM run";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            this.chkTestFM_run.AutoSize = true;
+            this.chkTestFM_run.Checked = true;
+            this.chkTestFM_run.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTestFM_run.Location = new System.Drawing.Point(21, 29);
+            this.chkTestFM_run.Name = "chkTestFM_run";
+            this.chkTestFM_run.Size = new System.Drawing.Size(85, 24);
+            this.chkTestFM_run.TabIndex = 0;
+            this.chkTestFM_run.Text = "FM run";
+            this.chkTestFM_run.UseVisualStyleBackColor = true;
             // 
             // groupBox13
             // 
@@ -421,6 +421,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Telescope Temp Control";
             // 
+            // chkTTC_heating
+            // 
+            this.chkTTC_heating.AutoSize = true;
+            this.chkTTC_heating.Checked = true;
+            this.chkTTC_heating.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.chkTTC_heating.Location = new System.Drawing.Point(21, 91);
+            this.chkTTC_heating.Name = "chkTTC_heating";
+            this.chkTTC_heating.Size = new System.Drawing.Size(146, 24);
+            this.chkTTC_heating.TabIndex = 1;
+            this.chkTTC_heating.Text = "Heating Control";
+            this.chkTTC_heating.UseVisualStyleBackColor = true;
+            // 
             // chkTTC_fan
             // 
             this.chkTTC_fan.AutoSize = true;
@@ -444,18 +456,6 @@
             this.chkTTC_run.TabIndex = 0;
             this.chkTTC_run.Text = "TTC run";
             this.chkTTC_run.UseVisualStyleBackColor = true;
-            // 
-            // chkTTC_heating
-            // 
-            this.chkTTC_heating.AutoSize = true;
-            this.chkTTC_heating.Checked = true;
-            this.chkTTC_heating.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.chkTTC_heating.Location = new System.Drawing.Point(21, 91);
-            this.chkTTC_heating.Name = "chkTTC_heating";
-            this.chkTTC_heating.Size = new System.Drawing.Size(146, 24);
-            this.chkTTC_heating.TabIndex = 1;
-            this.chkTTC_heating.Text = "Heating Control";
-            this.chkTTC_heating.UseVisualStyleBackColor = true;
             // 
             // TestEquipmentForm
             // 
@@ -499,8 +499,8 @@
         private System.Windows.Forms.CheckBox chkTestCdC_connect;
         private System.Windows.Forms.CheckBox chkTestCdC_run;
         private System.Windows.Forms.GroupBox groupBox15;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox chkTestFM_focusermove;
+        private System.Windows.Forms.CheckBox chkTestFM_run;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.CheckBox chkTestPHD_guiding;
         private System.Windows.Forms.CheckBox chkTestPHD_connect;

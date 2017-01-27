@@ -475,7 +475,92 @@ namespace ObservatoryCenter
             }
             return TestResult;
         }
+
+
         
+        /// <summary>
+        /// Test FocusMax RUN
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestFMRun()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: FocusMax run test started");
+            Thread.Sleep(2000);
+
+            //run test
+            ObsControl.CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
+
+            //check result
+            try
+            {
+                string ver = ObsControl.objFocusMaxApp.FocusControlObj.Version;
+                TestResult.AddStr("TestEquipment: FocusMax version " + ver);
+                TestResult.res = true;
+                TestResult.AddStr("TestEquipment: FocusMax run test passed");
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: FocusMax run test failed");
+            }
+            return TestResult;
+        }
+
+        /// <summary>
+        /// Test FocusMax Foucser Move
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestFMFocuserMove()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: FocusMax foucser move test started");
+
+            //check result
+            try
+            {
+                //connect
+                ObsControl.objFocusMaxApp.FocuserObj.Link = true;
+
+                int startpos = ObsControl.objFocusMaxApp.FocuserObj.Position;
+                int curpos = startpos;
+                ObsControl.objFocusMaxApp.FocuserObj.Move(startpos + 500);
+
+                for (int i = 1; i < 5; i++)
+                {
+                    //wait
+                    Thread.Sleep(500);
+
+                    //check result
+                    bool focuserready = !ObsControl.objFocusMaxApp.FocuserObj.IsMoving;
+                    curpos = ObsControl.objFocusMaxApp.FocuserObj.Position;
+                    TestResult.AddStr("TestEquipment: FocusMax foucser: is moving = " + !focuserready + ", start pos = " + startpos + ", current pos = " + curpos);
+
+                    if (focuserready)
+                    {
+                        break;
+                    }
+                }
+
+                if (startpos != curpos)
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: FocusMax foucser move test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: FocusMax foucser move test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: FocusMax foucser move test failed");
+            }
+            return TestResult;
+        }
     }
 }
 

@@ -42,6 +42,7 @@ namespace ObservatoryCenter
         //Initialize test sequence
         public void InitTestSequence()
         {
+            /*
             //MaximDL sequences
             TestSequence.Add("Maxim Run", new TestSequenceElement { ChkBox = chkTestMaximDl_Run, Proc = TestEquipmentObj.TestMaximDLRun });
             TestSequence.Add("Maxim Camera", new TestSequenceElement { ChkBox = chkTestMaximDl_cameraconnect, Proc = TestEquipmentObj.TestMaximDLCamera });
@@ -59,7 +60,10 @@ namespace ObservatoryCenter
             //CdC sequences
             TestSequence.Add("CdC Run", new TestSequenceElement { ChkBox = chkTestCdC_run, Proc = TestEquipmentObj.TestCdCRun });
             TestSequence.Add("CdC Connect", new TestSequenceElement { ChkBox = chkTestCdC_connect, Proc = TestEquipmentObj.TestCdCConnect });
-
+            */
+            //FM sequences
+            TestSequence.Add("FM Run", new TestSequenceElement { ChkBox = chkTestFM_run, Proc = TestEquipmentObj.TestFMRun });
+            TestSequence.Add("FM FocuserMove", new TestSequenceElement { ChkBox = chkTestFM_focusermove, Proc = TestEquipmentObj.TestFMFocuserMove});
 
 
             //calc progressbar

@@ -24,6 +24,9 @@ bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+0.6.8 [28.01.17]
+- FocusMax tests
+
 0.6.7 [26.01.17]
 - FocusMax COM connected (need to be expanded)
 
