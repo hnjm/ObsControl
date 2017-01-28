@@ -199,6 +199,8 @@ namespace ObservatoryCenter
             //UpdateGuiderFieldsStatus(); //Maxim Guider
 
             UpdateCCDAPstate();
+
+            UpdateTimePannel();
         }
 
 
@@ -1472,5 +1474,13 @@ namespace ObservatoryCenter
             TestForm.Show();
         }
 
+
+        private void UpdateTimePannel()
+        {
+            txtTime_UTC.Text = DateTime.UtcNow.ToString("HH:mm:ss");
+            txtTime_JD.Text = AstroUtils.GetJD().ToString();
+
+
+        }
     }
 }
