@@ -25,10 +25,20 @@ namespace ObservatoryCenter
         public FocusMax_ExternalApplication() : base()
         { }
 
+        /// <summary>
+        /// Init main COM objects for FOCUS MAX
+        /// </summary>
         public void Init()
         {
-            if (FocusControlObj == null)  FocusControlObj = new FocusMax.FocusControl();
-            if (FocuserObj == null) FocuserObj = new FocusMax.Focuser();
+            try { 
+                if (FocusControlObj == null)  FocusControlObj = new FocusMax.FocusControl();
+                if (FocuserObj == null) FocuserObj = new FocusMax.Focuser();
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("FocusMax COM objects creation error", LogLevel.Important, Highlight.Error);
+                Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
         }
 
         /// <summary>

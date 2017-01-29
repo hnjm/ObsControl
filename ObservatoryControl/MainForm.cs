@@ -1479,7 +1479,8 @@ namespace ObservatoryCenter
         {
             txtTime_UTC.Text = DateTime.UtcNow.ToString("HH:mm:ss");
             txtTime_JD.Text = AstroUtils.GetJD().ToString();
-
+            txtTime_sideral.Text = AstroUtils.NowLAST().ToString();
+            txtTime_sideral2.Text = AstroUtils.NowLMST().ToString(); 
 
         }
     }

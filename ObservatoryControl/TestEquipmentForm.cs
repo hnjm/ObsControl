@@ -35,6 +35,8 @@ namespace ObservatoryCenter
         //Prevent from unloading the form
         private void TestEquipment_FormClosing(object sender, FormClosingEventArgs e)
         {
+            backgroundWorker_test.CancelAsync();
+
             e.Cancel = true;
             this.Hide();
         }
@@ -102,10 +104,19 @@ namespace ObservatoryCenter
 
             foreach (TestSequenceElement TestSeqEl in TestSequence.Values)
             {
-                //run test procedure
-                TestRes = TestSeqEl.Proc();
-                //report it result
-                backgroundWorker_test.ReportProgress(++i, new TestResultUserStateClass(){TestResult = TestRes, TestSequenceLink = TestSeqEl });
+                if (!backgroundWorker_test.CancellationPending)
+                { 
+                    //run test procedure
+                    TestRes = TestSeqEl.Proc();
+                    //report it result
+                    backgroundWorker_test.ReportProgress(++i, new TestResultUserStateClass(){TestResult = TestRes, TestSequenceLink = TestSeqEl });
+                }
+                else
+                {
+                    //break signaled
+                    Logging.AddLog("TestEquipment was interrupted by user", LogLevel.Activity);
+                    break;
+                }
             }
         }
 
