@@ -1478,10 +1478,11 @@ namespace ObservatoryCenter
         private void UpdateTimePannel()
         {
             txtTime_UTC.Text = DateTime.UtcNow.ToString("HH:mm:ss");
-            txtTime_JD.Text = AstroUtils.GetJD().ToString();
-            txtTime_sideral.Text = AstroUtils.NowLAST().ToString();
-            txtTime_sideral2.Text = AstroUtils.GetSideralTimeSt(); 
+            txtTime_JD.Text = AstroUtilsClass.GetJD().ToString();
+            txtTime_sideral.Text = AstroUtilsClass.NowLAST().ToString();
+            txtTime_sideral2.Text = AstroUtilsClass.GetSideralTimeSt(); 
 
         }
+
     }
 }

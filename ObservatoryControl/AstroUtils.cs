@@ -5,19 +5,25 @@ using System.Text;
 using ASCOM.Utilities;
 using ASCOM.Astrometry;
 using ASCOM;
+using System.Collections;
+using ASCOM.Astrometry.AstroUtils;
 
 namespace ObservatoryCenter
 {
-    public class AstroUtils
+    public class AstroUtilsClass
     {
         static ASCOM.Utilities.Util ASCOMUtils;
+        static ASCOM.Astrometry.AstroUtils.AstroUtils ASCOMAUtils;
 
-        static double longitude = 38.7133333333333;
 
+        static double Latitude = 56.0;
+        static double Longitude = 38.7133333333333;
+        static double SiteTimeZone = 3;
 
-        static AstroUtils()
+        static AstroUtilsClass()
         {
             ASCOMUtils = new Util();
+            ASCOMAUtils = new AstroUtils();
         }
 
         static DateTime GetUTCTime()
@@ -39,13 +45,16 @@ namespace ObservatoryCenter
 
             var currJD = ast.JulianDateUT1(0);
 
-            double lstNow = 0;
+            double gstNow = 0;
             var res = nov.SiderealTime(
-                currJD, 0d, 0, GstType.GreenwichApparentSiderealTime, Method.EquinoxBased, Accuracy.Full, ref lstNow);
+                currJD, 0d, 0, GstType.GreenwichApparentSiderealTime, Method.CIOBased, Accuracy.Reduced, ref gstNow);
 
             if (res != 0) throw new InvalidValueException("Error getting Greenwich Apparent Sidereal time");
 
-            return (lstNow + longitude / 15);
+            double lstNow = gstNow + Longitude / 15;
+            lstNow = lstNow - (lstNow >= 24 ? 24 : 0);
+
+            return lstNow;
         }
 
         //Calculates Greenwich Mean Sidereal time
@@ -56,26 +65,65 @@ namespace ObservatoryCenter
 
             var currJD = ast.JulianDateUT1(0);
 
-            double lstNow = 0;
+            double gstNow = 0;
             var res = nov.SiderealTime(
-                currJD, 0d, 0, GstType.GreenwichMeanSiderealTime, Method.EquinoxBased, Accuracy.Full, ref lstNow);
+                currJD, 0d, 0, GstType.GreenwichMeanSiderealTime, Method.EquinoxBased, Accuracy.Full, ref gstNow);
 
             if (res != 0) throw new InvalidValueException("Error getting Greenwich Mean Sidereal time");
 
-            return (lstNow + longitude / 15);
+            double lstNow = gstNow + Longitude / 15;
+            lstNow = lstNow - (lstNow >= 24 ? 24 : 0);
+
+            return lstNow;
         }
 
         static public string GetSideralTimeSt()
         {
-            double stm = NowLMST();
-            int h = (int) Math.Truncate(stm);
+            double stm = NowLAST();
+            int h = (int)Math.Truncate(stm);
             int m = (int)Math.Truncate((stm - h) * 60);
-            int s = (int)Math.Truncate((stm - h - m/60) * 3600 );
+            int s = (int)Math.Truncate((stm - h - m / 60.0) * 3600);
 
-            return h + ":" + m + ":" + s;
+            return h.ToString("D2") + ":" + m.ToString("D2") + ":" + s.ToString("D2");
         }
 
-        static public double GetSideralTime()
+
+        static double MoonRiseSet()
+        {
+            ArrayList EventList = new ArrayList();
+            try
+            {
+                // Get the rise and set events list
+                EventList = ASCOMAUtils.EventTimes(EventType.MoonRiseMoonSet, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone); 
+            }
+            catch (ASCOM.InvalidValueException) 
+            {
+                // Indicates that an invalid day has been specified e.g. 31st of February so ignore it
+            }
+            catch (Exception ex)
+            {
+                // Any other unexpected exception
+                Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+
+            if (EventList.Count > 0)
+            {
+
+            }
+
+            return 0.0;
+
+        }
+
+
+
+
+
+
+
+
+
+        static public double GetSideralTime_()
         {
 
             DateTime dateTime = DateTime.Now;
@@ -94,7 +142,7 @@ namespace ObservatoryCenter
             double siderealTimeUT = siderealTimeHours +
                 (366.2422 / 365.2422) * (double)dateTime.TimeOfDay.TotalHours;
 
-            double siderealTime = siderealTimeUT * 15 + longitude;
+            double siderealTime = siderealTimeUT * 15 + Longitude;
 
             return siderealTime;
         }
