@@ -65,6 +65,16 @@ namespace ObservatoryCenter
             return (lstNow + longitude / 15);
         }
 
+        static public string GetSideralTimeSt()
+        {
+            double stm = NowLMST();
+            int h = (int) Math.Truncate(stm);
+            int m = (int)Math.Truncate((stm - h) * 60);
+            int s = (int)Math.Truncate((stm - h - m/60) * 3600 );
+
+            return h + ":" + m + ":" + s;
+        }
+
         static public double GetSideralTime()
         {
 

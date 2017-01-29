@@ -256,7 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="FocusMax">
-      <Guid>{DE162D2C-1116-4D7B-9AFB-52D86279E2C0}</Guid>
+      <Guid>{25B3D266-CCAD-4241-AA26-C6AFB68487CA}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
