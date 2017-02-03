@@ -15,29 +15,73 @@ namespace ObservatoryCenter
         static ASCOM.Utilities.Util ASCOMUtils;
         static ASCOM.Astrometry.AstroUtils.AstroUtils ASCOMAUtils;
 
-
-        static double Latitude = 56.0;
+        // OBSERVATORY LOCATION
+        static double Latitude = 55.9452777777778;
         static double Longitude = 38.7133333333333;
         static double SiteTimeZone = 3;
 
+        /// <summary>
+        /// Atuo constructor
+        /// </summary>
         static AstroUtilsClass()
         {
             ASCOMUtils = new Util();
             ASCOMAUtils = new AstroUtils();
         }
 
-        static DateTime GetUTCTime()
+
+        /// <summary>
+        /// Service function to convert from HourDouble format into "HH:mm:ss" string format
+        /// </summary>
+        /// <param name="HourDouble"></param>
+        /// <returns></returns>
+        static public string ConvertToTimeString(double HourDouble)
+        {
+            int h = (int)Math.Truncate(HourDouble);
+            int m = (int)Math.Truncate((HourDouble - h) * 60);
+            int s = (int)Math.Truncate((HourDouble - h - m / 60.0) * 3600);
+
+            return h.ToString("D2") + ":" + m.ToString("D2") + ":" + s.ToString("D2");
+        }
+
+
+        /// <summary>
+        /// Get UTC time in DateTime format
+        /// </summary>
+        /// <returns>DateTime UTC time</returns>
+        static public DateTime GetUTCDateTime()
         {
             return DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Get UTC time in HourDouble format
+        /// </summary>
+        /// <returns>double UTC time</returns>
+        static public double GetUTCTime()
+        {
+            double h = DateTime.UtcNow.Hour;
+            double m = DateTime.UtcNow.Minute;
+            double s = DateTime.UtcNow.Second;
+
+            return (h + m / 60.0 + s / 3600.0);
+        }
+
+
+        /// <summary>
+        /// Get JulianDate
+        /// </summary>
+        /// <returns>Classic Julian Date</returns>
         static public double GetJD()
         {
             return ASCOMUtils.JulianDate;
         }
 
 
-        //Calculates Greenwich Apparent Sidereal time
+        /// <summary>
+        /// Calculates Greenwich Apparent Sidereal time
+        /// </summary>
+        /// <returns>HourDouble format</returns>
         static public double NowLAST()
         {
             var nov = new ASCOM.Astrometry.NOVAS.NOVAS31();
@@ -57,7 +101,10 @@ namespace ObservatoryCenter
             return lstNow;
         }
 
-        //Calculates Greenwich Mean Sidereal time
+        /// <summary>
+        /// Calculates Greenwich Mean Sidereal time
+        /// </summary>
+        /// <returns>HourDouble format</returns>
         static public double NowLMST()
         {
             var nov = new ASCOM.Astrometry.NOVAS.NOVAS31();
@@ -77,24 +124,55 @@ namespace ObservatoryCenter
             return lstNow;
         }
 
-        static public string GetSideralTimeSt()
-        {
-            double stm = NowLAST();
-            int h = (int)Math.Truncate(stm);
-            int m = (int)Math.Truncate((stm - h) * 60);
-            int s = (int)Math.Truncate((stm - h - m / 60.0) * 3600);
 
-            return h.ToString("D2") + ":" + m.ToString("D2") + ":" + s.ToString("D2");
+
+        /// <summary>
+        /// Return Moon Set time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double MoonSet(int DayShift = 0)
+        {
+            ArrayList EventList = CalcMoonRiseSet(DayShift);
+            return (double)EventList[1];
         }
 
+        /// <summary>
+        /// Return Moon Rise time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double MoonRise(int DayShift = 0)
+        {
+            ArrayList EventList = CalcMoonRiseSet(DayShift);
+            return (double)EventList[0];
+        }
 
-        static double MoonRiseSet()
+        /// <summary>
+        /// Caclulate Moon rise and set events
+        /// </summary>
+        /// <param name="DayShift">number of days to shift</param>
+        /// <returns></returns>
+        static public ArrayList CalcMoonRiseSet(int DayShift = 0)
         {
             ArrayList EventList = new ArrayList();
+            ArrayList ReturnEventList = new ArrayList();
             try
             {
                 // Get the rise and set events list
-                EventList = ASCOMAUtils.EventTimes(EventType.MoonRiseMoonSet, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone); 
+                EventList = ASCOMAUtils.EventTimes(EventType.MoonRiseMoonSet, DateTime.Now.Day + DayShift, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone);
+
+                int MoonRiseCount = (int)EventList[1];
+                int MoonSetCount = (int)EventList[2];
+
+                double MoonRise = (double)EventList[2+ MoonRiseCount]; //last rise
+                double MoonSet = (double)EventList[2 + MoonRiseCount+ MoonSetCount]; //last set
+
+                ReturnEventList.Add(MoonRise);
+                ReturnEventList.Add(MoonSet);
+
+                //Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+
             }
             catch (ASCOM.InvalidValueException) 
             {
@@ -102,8 +180,7 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                // Any other unexpected exception
-                Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+                Logging.AddLog("CalcMoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
             }
 
             if (EventList.Count > 0)
@@ -111,9 +188,290 @@ namespace ObservatoryCenter
 
             }
 
-            return 0.0;
-
+            return ReturnEventList;
         }
+
+
+        /// <summary>
+        /// Return Sun Set time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double SunSet(int DayShift = 0)
+        {
+            ArrayList EventList = CalcSunRiseSet(DayShift);
+            return (double)EventList[1];
+        }
+
+        /// <summary>
+        /// Return Sun Rise time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double SunRise(int DayShift = 0)
+        {
+            ArrayList EventList = CalcSunRiseSet(DayShift);
+            return (double)EventList[0];
+        }
+        /// <summary>
+        /// Caclulate Sun rise and set events
+        /// </summary>
+        /// <param name="DayShift">number of days to shift</param>
+        /// <returns></returns>
+        static public ArrayList CalcSunRiseSet(int DayShift = 0)
+        {
+            ArrayList EventList = new ArrayList();
+            ArrayList ReturnEventList = new ArrayList();
+            try
+            {
+                // Get the rise and set events list
+                EventList = ASCOMAUtils.EventTimes(EventType.SunRiseSunset, DateTime.Now.Day + DayShift, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone);
+
+                int SunRiseCount = (int)EventList[1];
+                int SunSetCount = (int)EventList[2];
+
+                double SunRise = (double)EventList[2 + SunRiseCount]; //last rise
+                double SunSet = (double)EventList[2 + SunRiseCount + SunSetCount]; //last set
+
+                ReturnEventList.Add(SunRise);
+                ReturnEventList.Add(SunSet);
+
+                //Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+
+            }
+            catch (ASCOM.InvalidValueException)
+            {
+                // Indicates that an invalid day has been specified e.g. 31st of February so ignore it
+            }
+            catch (Exception ex)
+            {
+                // Any other unexpected exception
+                Logging.AddLog("CalcSunRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+
+            if (EventList.Count > 0)
+            {
+
+            }
+
+            return ReturnEventList;
+        }
+
+
+
+        /// <summary>
+        /// Return Civil Twilight start time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double CivilTwilightRise(int DayShift = 0)
+        {
+            ArrayList EventList = CalcCivilTwilight(DayShift);
+            return (double)EventList[0];
+        }
+        /// <summary>
+        /// Return Civil Twilight end  time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double CivilTwilightSet(int DayShift = 0)
+        {
+            ArrayList EventList = CalcCivilTwilight(DayShift);
+            return (double)EventList[1];
+        }
+        /// <summary>
+        /// Caclulate Civil Twilight events
+        /// </summary>
+        /// <param name="DayShift">number of days to shift</param>
+        /// <returns></returns>
+        static public ArrayList CalcCivilTwilight(int DayShift = 0)
+        {
+            ArrayList EventList = new ArrayList();
+            ArrayList ReturnEventList = new ArrayList();
+            try
+            {
+                // Get the rise and set events list
+                EventList = ASCOMAUtils.EventTimes(EventType.CivilTwilight, DateTime.Now.Day + DayShift, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone);
+
+                int RiseCount = (int)EventList[1];
+                int SetCount = (int)EventList[2];
+
+                double RiseHr = (double)EventList[2 + RiseCount]; //last rise
+                double SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+
+                ReturnEventList.Add(RiseHr);
+                ReturnEventList.Add(SetHr);
+
+                //Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+            catch (ASCOM.InvalidValueException)
+            {
+                // Indicates that an invalid day has been specified e.g. 31st of February so ignore it
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("CalcCivilTwilight exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+
+            if (EventList.Count > 0)
+            {
+
+            }
+
+            return ReturnEventList;
+        }
+
+        /// <summary>
+        /// Return Naut Twilight start time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double NautTwilightRise(int DayShift = 0)
+        {
+            ArrayList EventList = CalcNautTwilight(DayShift);
+            return (double)EventList[0];
+        }
+        /// <summary>
+        /// Return Naut Twilight end  time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double NautTwilightSet(int DayShift = 0)
+        {
+            ArrayList EventList = CalcNautTwilight(DayShift);
+            return (double)EventList[1];
+        }
+        /// <summary>
+        /// Caclulate Naut Twilight events
+        /// </summary>
+        /// <param name="DayShift">number of days to shift</param>
+        /// <returns></returns>
+        static public ArrayList CalcNautTwilight(int DayShift = 0)
+        {
+            ArrayList EventList = new ArrayList();
+            ArrayList ReturnEventList = new ArrayList();
+            try
+            {
+                // Get the rise and set events list
+                EventList = ASCOMAUtils.EventTimes(EventType.NauticalTwilight, DateTime.Now.Day + DayShift, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone);
+
+                int RiseCount = (int)EventList[1];
+                int SetCount = (int)EventList[2];
+
+                double RiseHr = (double)EventList[2 + RiseCount]; //last rise
+                double SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+
+                ReturnEventList.Add(RiseHr);
+                ReturnEventList.Add(SetHr);
+
+                //Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+            catch (ASCOM.InvalidValueException)
+            {
+                // Indicates that an invalid day has been specified e.g. 31st of February so ignore it
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("CalcNautTwilight exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+
+            if (EventList.Count > 0)
+            {
+
+            }
+
+            return ReturnEventList;
+        }
+
+
+        /// <summary>
+        /// Return Astron Twilight start time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double AstronTwilightRise(int DayShift = 0)
+        {
+            ArrayList EventList = CalcAstronTwilight(DayShift);
+            return (double)EventList[0];
+        }
+        /// <summary>
+        /// Return Astron Twilight end  time in HourDouble
+        /// Wrapper for EventTime calculations
+        /// </summary>
+        /// <returns></returns>
+        static public double AstronTwilightSet(int DayShift = 0)
+        {
+            ArrayList EventList = CalcAstronTwilight(DayShift);
+            return (double)EventList[1];
+        }
+        /// <summary>
+        /// Caclulate Astron Twilight events
+        /// </summary>
+        /// <param name="DayShift">number of days to shift</param>
+        /// <returns></returns>
+        static public ArrayList CalcAstronTwilight(int DayShift = 0)
+        {
+            ArrayList EventList = new ArrayList();
+            ArrayList ReturnEventList = new ArrayList();
+            try
+            {
+                // Get the rise and set events list
+                EventList = ASCOMAUtils.EventTimes(EventType.AstronomicalTwilight, DateTime.Now.Day + DayShift, DateTime.Now.Month, DateTime.Now.Year, Latitude, Longitude, SiteTimeZone);
+
+                int RiseCount = (int)EventList[1];
+                int SetCount = (int)EventList[2];
+
+                double RiseHr = (double)EventList[2 + RiseCount]; //last rise
+                double SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+
+                ReturnEventList.Add(RiseHr);
+                ReturnEventList.Add(SetHr);
+
+                //Logging.AddLog("MoonRiseSet exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+            catch (ASCOM.InvalidValueException)
+            {
+                // Indicates that an invalid day has been specified e.g. 31st of February so ignore it
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("CalcAstronTwilight exception! " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+
+            if (EventList.Count > 0)
+            {
+
+            }
+
+            return ReturnEventList;
+        }
+
+
+        static public double MoonIllumination()
+        {
+            double phase = ASCOMAUtils.MoonIllumination(ASCOMAUtils.JulianDateUtc);
+
+            return phase;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

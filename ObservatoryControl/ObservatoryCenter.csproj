@@ -244,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="changelog.txt" />
+    <None Include="Resources\Twilight_chart.png" />
     <None Include="Resources\logo_observ2.ico" />
     <None Include="Resources\logo_observ2.png" />
     <None Include="Resources\logo_observ3.ico" />

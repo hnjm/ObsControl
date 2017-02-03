@@ -3,8 +3,8 @@ Copyright by Emchenko Boris 2014-2016
 http://astromania.info
 
 to do:
-- parsing CCDAP activity and send it to server
 - test observatory
+- parsing CCDAP activity and send it to server
 - abort button
 - run PAM throug AutoIt
 - implement focusing throug FocusMax
@@ -23,6 +23,10 @@ to do:
 bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
+
+0.6.10 [29.01.17]
+- UTC/JD/LST
+- Sun, moon, twilight events
 
 0.6.9 [28.01.17]
 - Form DPI scaling workaround

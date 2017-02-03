@@ -227,6 +227,8 @@ namespace ObservatoryCenter
 
             UpdateTelescopeTempControlData();
 
+            UpdateEvents();
+
         }
 
 
@@ -1477,11 +1479,29 @@ namespace ObservatoryCenter
 
         private void UpdateTimePannel()
         {
+            txtTime_local.Text = DateTime.Now.ToString("HH:mm:ss");
             txtTime_UTC.Text = DateTime.UtcNow.ToString("HH:mm:ss");
-            txtTime_JD.Text = AstroUtilsClass.GetJD().ToString();
-            txtTime_sideral.Text = AstroUtilsClass.NowLAST().ToString();
-            txtTime_sideral2.Text = AstroUtilsClass.GetSideralTimeSt(); 
+            txtTime_sideral.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NowLAST());
 
+            txtTime_CurDate.Text = DateTime.Now.ToString("dd.MM.yyyy");
+            txtTime_JD.Text = Math.Truncate(AstroUtilsClass.GetJD()).ToString("N0");
+        }
+
+        private void UpdateEvents()
+        {
+            txtEvents_SunSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunSet());
+            txtEvents_NautTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightSet());
+            txtEvents_AstrTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.AstronTwilightSet());
+
+            txtEvents_AstrTwilEnd.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.AstronTwilightRise(1));
+            txtEvents_NautTwilEnd.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightRise(1));
+
+            txtEvents_SunRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunRise(1));
+
+
+            txtEvents_MoonRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonRise());
+            txtEvents_MoonSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonSet());
+            txtEvents_MoonPhase.Text = AstroUtilsClass.MoonIllumination().ToString("P2");
         }
 
     }
