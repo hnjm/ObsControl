@@ -117,7 +117,7 @@
             // 
             this.tabPageProgramPath.Controls.Add(this.dataGridConfig_programsPath);
             this.tabPageProgramPath.Location = new System.Drawing.Point(4, 29);
-            this.tabPageProgramPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPageProgramPath.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageProgramPath.Name = "tabPageProgramPath";
             this.tabPageProgramPath.Size = new System.Drawing.Size(866, 407);
             this.tabPageProgramPath.TabIndex = 5;
@@ -164,7 +164,7 @@
             // 
             this.tabPagescenarioMainParams.Controls.Add(this.dataGridConfig_scenarioMainParams);
             this.tabPagescenarioMainParams.Location = new System.Drawing.Point(4, 29);
-            this.tabPagescenarioMainParams.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPagescenarioMainParams.Margin = new System.Windows.Forms.Padding(2);
             this.tabPagescenarioMainParams.Name = "tabPagescenarioMainParams";
             this.tabPagescenarioMainParams.Size = new System.Drawing.Size(866, 407);
             this.tabPagescenarioMainParams.TabIndex = 6;
@@ -594,7 +594,7 @@
             this.tabPageMisc.Controls.Add(this.label9);
             this.tabPageMisc.Location = new System.Drawing.Point(4, 29);
             this.tabPageMisc.Name = "tabPageMisc";
-            this.tabPageMisc.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageMisc.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageMisc.Size = new System.Drawing.Size(866, 407);
             this.tabPageMisc.TabIndex = 2;
             this.tabPageMisc.Text = "Misc";
@@ -667,8 +667,7 @@
             // SettingsForm
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(880, 503);
             this.Controls.Add(this.btnCancel);

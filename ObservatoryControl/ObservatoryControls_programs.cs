@@ -82,10 +82,12 @@ namespace ObservatoryCenter
             //WeatherStation
             objWSApp = new WeatherStation();
             objWSApp.Name = "WeatherStation";
+            objWSApp.FullName = ObsConfig.getString("programsPath", "WS") ?? @"C:\Users\Emchenko\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Astromania.info\WeatherStation Monitor.appref-ms";
 
             //TelescopeTempControl
             objTTCApp = new TelescopeTempControl();
             objTTCApp.Name = "TelescopeTempControl";
+            objTTCApp.FullName = ObsConfig.getString("programsPath", "TTC") ?? @"C:\Users\Emchenko\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Astromania.info\TelescopeTempControl.appref-ms";
 
             //Astrotortilla
             objAstroTortilla = new AstroTortilla();
@@ -139,6 +141,20 @@ namespace ObservatoryCenter
         {
             objAstroTortilla.Solve(); //Run solving
         }
+
+
+        public string startTTC()
+        {
+            objTTCApp.Run(); //Run TTC
+            return objTTCApp.ErrorSt;
+        }
+
+        public string startWS()
+        {
+            objWSApp.Run(); //Run WS
+            return objWSApp.ErrorSt;
+        }
+
 
         #endregion Program controlling
 

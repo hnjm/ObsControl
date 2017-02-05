@@ -52,6 +52,7 @@ namespace ObservatoryCenter
             TelescopeTempControl_State = new TelescopeTempControlData();
             LogPrefix = "TTC";
             ServerPort = 1054;
+            ParameterString = "-start";
         }
 
 
@@ -61,11 +62,11 @@ namespace ObservatoryCenter
         /// <returns></returns>
         public bool CMD_GetSocketData()
         {
-            string cmd_string = @"GET_DATA_JSON" + "\n\r";
+            string cmd_string = @"GET_DATA_JSON" + "\r\n";
 
             string jsonstring = "", ttcstr = "";
             bool res = SendCommand(cmd_string, out jsonstring);
-            bool res2 = HandleTTCDataServerResponse(jsonstring, out ttcstr);
+            bool res2 = Handle_TTC_JSON_Data_ServerResponse(jsonstring, out ttcstr);
 
             string output = "";
 
@@ -92,7 +93,7 @@ namespace ObservatoryCenter
         /// </summary>
         /// <param name="responsest">Raw string as returned from WS</param>
         /// <returns>true if succesfull</returns>
-        public bool HandleTTCDataServerResponse(string responsest, out string result)
+        public bool Handle_TTC_JSON_Data_ServerResponse(string responsest, out string result)
         {
             bool res = false;
             result = "";
@@ -112,7 +113,7 @@ namespace ObservatoryCenter
                     //Just for try
                     TelescopeTempControl_State = JsonConvert.DeserializeObject<TelescopeTempControlData>(curline);
 
-                    Logging.AddLog(LogPrefix+" message: " + curline, LogLevel.Debug);
+                    Logging.AddLog(LogPrefix + " message: " + curline, LogLevel.Debug);
 
                     LastCommand_Result = true;
                     LastCommand_Message = TelescopeTempControl_State.ToString();
@@ -121,7 +122,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception Ex)
                 {
-                    Logging.LogExceptionMessage(Ex, LogPrefix+" bad message");
+                    Logging.LogExceptionMessage(Ex, LogPrefix + " bad message");
 
                     //reset command result
                     LastCommand_Result = false;
@@ -134,6 +135,54 @@ namespace ObservatoryCenter
 
             return res;
         }
+
+
+        /// <summary>
+        /// Send command to switch autocontrol on
+        /// </summary>
+        /// <returns></returns>
+        public string CMD_SetFANControl_ON()
+        {
+            string cmd_string = @"SET_FAN_AUTOCONTROL 1" + "\r\n";
+
+            string output = "";
+
+            bool res = SendCommand(cmd_string, out output);
+
+
+            //Check
+            if (!res)
+            {
+                output = LogPrefix + " get socket string error (" + output + ")";
+                Logging.AddLog(output, LogLevel.Debug, Highlight.Error);
+            }
+            else
+            {
+                output = LogPrefix + " get socket string (" + output + ")";
+                Logging.AddLog(output, LogLevel.Debug);
+            }
+
+            LastCommand_Message = output;
+            LastCommand_Result = res;
+            return output;
+        }
+
+        internal string CMD_SetFANControl_OFF()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal string CMD_SetHeaterControl_ON()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal string CMD_SetHeaterControl_OFF()
+        {
+            throw new NotImplementedException();
+        }
+
+
 
     }
 }

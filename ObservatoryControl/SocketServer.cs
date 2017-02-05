@@ -387,9 +387,11 @@ namespace ObservatoryCenter
         /// </summary>
         public MainForm ParentMainForm;
 
+        private byte[] welcomeMsg = Encoding.UTF8.GetBytes("Connected to ObservatoryCenter\r\n");
+        const string STOP_MESSAGE = "TheEnd";
 
         // Буфер для входящих данных
-        byte[] bytes = new byte[1024];
+        byte[] incomingBuffer = new byte[1024];
 
         public ClientManager(MainForm MF)
         {
@@ -410,40 +412,67 @@ namespace ObservatoryCenter
         {
 
             //Отправляем приветственное сообщение
-            byte[] welcomeMessage = Encoding.UTF8.GetBytes("Connected to ObservatoryCenter\n\r");
-            ClientSocket.Send(welcomeMessage);
+            ClientSocket.Send(welcomeMsg);
 
-            while (true)
+            try
             {
-                // Получаем ответ от клиента
-                int incomingMess_bytes = ClientSocket.Receive(bytes);
+                //запускаем бесконечный цикл
+                while (true)
+                {
+                    // Получаем ответ от клиента (если нет данных, то висим)
+                    // method will block run until data is available
+                    int incomingMess_bytes = ClientSocket.Receive(incomingBuffer);
 
-                string incomingMess = Encoding.UTF8.GetString(bytes, 0, incomingMess_bytes);
-                Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + incomingMess,LogLevel.Chat);
+                    if (!(incomingMess_bytes == 2 && incomingBuffer[0] == 13 && incomingBuffer[1] == 10)) //  \r = 0D, 13  \n = 0A, 10
+                    {
+                        //Convert message from UTF8
+                        string incomingMess = Encoding.UTF8.GetString(incomingBuffer, 0, incomingMess_bytes);
+                        Logging.AddLog("Message from сlient [" + ClientSocket.RemoteEndPoint + "]: " + incomingMess, LogLevel.Chat);
 
-                string cmdOutputMess=SocketCommandInterpretator(incomingMess);
+                        string cmdOutputMess = SocketCommandInterpretator(incomingMess);
 
-                byte[] cmdOutputMess_bytes = Encoding.UTF8.GetBytes(cmdOutputMess + "\n\r");
-                ClientSocket.Send(cmdOutputMess_bytes);
+                        byte[] cmdOutputMess_bytes = Encoding.UTF8.GetBytes(cmdOutputMess + "\r\n");
+                        ClientSocket.Send(cmdOutputMess_bytes);
+                    }
+                }
             }
-
+            catch (Exception ex)
+            {
+                Logging.AddLog("Socket client [" + ClientSocket.RemoteEndPoint + "] exception: " + ex.ToString(), LogLevel.Important, Highlight.Error);
+            }
 
             //Отображаем кол-во соединений в форме
             //ParentMainForm.toolStripStatus_Connection.Text = "CONNECTION: " + clientsList.Count;
         }
 
+        /// <summary>
+        /// Stop client socket and thread
+        /// </summary>
+        public void StopClientThread()
+        {
+            ClientSocket.Shutdown(SocketShutdown.Both);
+            ClientSocket.Close();
+            //curThread.Abort(); // НЕ НУЖНО! Поток и так завершиться после BREAK в цикле
+        }
+
+        /// <summary>
+        /// Receives Command and make neccesary action:
+        /// - if it is ENDMESSAGE shutdown socket
+        /// - else run CommandParser class 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
         public string SocketCommandInterpretator(string cmd)
         {
             string msg = "";
             
             switch (cmd)
             {
-                case "TheEnd":
-                // Освобождаем сокет
+                case STOP_MESSAGE:
+                    // Освобождаем сокет
                     Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "] has ended connection", LogLevel.Chat);
-                    ClientSocket.Shutdown(SocketShutdown.Both);
-                    ClientSocket.Close();
-                    msg = "";
+                    StopClientThread();
+                    msg = STOP_MESSAGE;
                     break;
                 default:
                     string cmd_output = "";

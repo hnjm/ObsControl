@@ -179,8 +179,8 @@ namespace ObservatoryCenter
         }
 
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region *** TIMERS *****************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#region *** TIMERS *****************************************************************
         /// <summary>
         /// Main timer tick
         /// </summary>
@@ -253,7 +253,7 @@ namespace ObservatoryCenter
         }
 
         #endregion *** TIMERS *****************************************************************
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         private bool HadWeatherData = false; //was at least once data received?
         /// <summary>
@@ -552,9 +552,6 @@ namespace ObservatoryCenter
             }
         }
 
-
-        bool aMaximRunning = false;
-        bool aPHDRunning = false;
 
         /// <summary>
         /// Update application status
@@ -1052,9 +1049,8 @@ namespace ObservatoryCenter
         #endregion update visual elements
         // end of block
 
-
-        // Region block with hadnling power management visual interface
-        #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
+// Region block with hadnling power management visual interface
+#region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
@@ -1267,9 +1263,9 @@ namespace ObservatoryCenter
 
 
         #endregion Telescope routines
-        // End of telescope routines
+// End of telescope routines
 
-        #region //// Status bar events handling //////////////////////////////////////
+#region //// Status bar events handling //////////////////////////////////////
         private void toolStripStatus_Switch_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -1311,7 +1307,7 @@ namespace ObservatoryCenter
         }
         #endregion Status bar event handling
 
-        #region //// About information //////////////////////////////////////
+#region //// About information //////////////////////////////////////
         private void LoadAboutData()   
         {
             lblVersion.Text += "Publish version: " + VersionData.PublishVersionSt;
@@ -1471,12 +1467,19 @@ namespace ObservatoryCenter
 
         }
 
+        /// <summary>
+        /// Run TestEquipment Form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRunTest_Click(object sender, EventArgs e)
         {
             TestForm.Show();
         }
 
-
+        /// <summary>
+        /// Update times (Sideral, UTC, etc)
+        /// </summary>
         private void UpdateTimePannel()
         {
             txtTime_local.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -1487,6 +1490,9 @@ namespace ObservatoryCenter
             txtTime_JD.Text = Math.Truncate(AstroUtilsClass.GetJD()).ToString("N0");
         }
 
+        /// <summary>
+        /// Update astro events
+        /// </summary>
         private void UpdateEvents()
         {
             txtEvents_SunSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunSet());

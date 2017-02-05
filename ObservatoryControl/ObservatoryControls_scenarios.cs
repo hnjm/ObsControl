@@ -14,12 +14,17 @@ namespace ObservatoryCenter
         /// </summary>
         public void InitComandInterpretator()
         {
+            CommandParser.Commands.Add("HELP", () => this.CommandParser.ListCommands());
+
             CommandParser.Commands.Add("MAXIM_RUN", () => this.startMaximDL());
             CommandParser.Commands.Add("FOCUSMAX_RUN", () => this.startFocusMax());
             CommandParser.Commands.Add("CdC_RUN", () => this.startPlanetarium());
             CommandParser.Commands.Add("CCDAP_RUN", () => this.startCCDAP());
             CommandParser.Commands.Add("PHD2_RUN", () => this.startPHD2());
             CommandParser.Commands.Add("PHDBROKER_RUN", () => this.startPHDBroker());
+
+            CommandParser.Commands.Add("TTC_RUN", () => this.startTTC());
+            CommandParser.Commands.Add("WS_RUN", () => this.startWS());
 
             CommandParser.Commands.Add("POWER_MOUNT_ON", () => this.PowerMountOn());
             CommandParser.Commands.Add("POWER_MOUNT_OFF", () => this.PowerMountOff());
@@ -43,6 +48,12 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("PHD2_CONNECT", () => this.objPHD2App.CMD_ConnectEquipment());
 
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
+
+            CommandParser.Commands.Add("TTC_FANAUTO_ON", () => this.objTTCApp.CMD_SetFANControl_ON());
+            CommandParser.Commands.Add("TTC_FANAUTO_OFF", () => this.objTTCApp.CMD_SetFANControl_OFF());
+
+            CommandParser.Commands.Add("TTC_HEATERAUTO_ON", () => this.objTTCApp.CMD_SetHeaterControl_ON());
+            CommandParser.Commands.Add("TTC_HEATERAUTO_OFF", () => this.objTTCApp.CMD_SetHeaterControl_OFF());
         }
 
         #region Scenarios section ////////////////////////////////////////////////////////

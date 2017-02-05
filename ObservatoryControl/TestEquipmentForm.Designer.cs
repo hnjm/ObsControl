@@ -74,7 +74,7 @@
             // 
             this.groupBox14.Controls.Add(this.chkTestCdC_connect);
             this.groupBox14.Controls.Add(this.chkTestCdC_run);
-            this.groupBox14.Location = new System.Drawing.Point(12, 359);
+            this.groupBox14.Location = new System.Drawing.Point(12, 341);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Size = new System.Drawing.Size(365, 94);
             this.groupBox14.TabIndex = 2;
@@ -109,7 +109,7 @@
             // 
             this.groupBox15.Controls.Add(this.chkTestFM_focusermove);
             this.groupBox15.Controls.Add(this.chkTestFM_run);
-            this.groupBox15.Location = new System.Drawing.Point(12, 459);
+            this.groupBox15.Location = new System.Drawing.Point(12, 441);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Size = new System.Drawing.Size(365, 96);
             this.groupBox15.TabIndex = 3;
@@ -145,7 +145,7 @@
             this.groupBox13.Controls.Add(this.chkTestPHD_guiding);
             this.groupBox13.Controls.Add(this.chkTestPHD_connect);
             this.groupBox13.Controls.Add(this.chkTestPHD_run);
-            this.groupBox13.Location = new System.Drawing.Point(12, 229);
+            this.groupBox13.Location = new System.Drawing.Point(12, 211);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(365, 124);
             this.groupBox13.TabIndex = 4;
@@ -192,13 +192,14 @@
             // 
             this.groupBox16.Controls.Add(this.checkBox2);
             this.groupBox16.Controls.Add(this.checkBox9);
+            this.groupBox16.Controls.Add(this.button1);
             this.groupBox16.Controls.Add(this.checkBox10);
             this.groupBox16.Controls.Add(this.checkBox11);
             this.groupBox16.Controls.Add(this.checkBox12);
             this.groupBox16.Controls.Add(this.checkBox13);
-            this.groupBox16.Location = new System.Drawing.Point(12, 770);
+            this.groupBox16.Location = new System.Drawing.Point(12, 713);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(365, 208);
+            this.groupBox16.Size = new System.Drawing.Size(365, 203);
             this.groupBox16.TabIndex = 5;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Operation test";
@@ -283,9 +284,9 @@
             this.groupBox12.Controls.Add(this.chkTestMaximDl_telescopeconnect);
             this.groupBox12.Controls.Add(this.chkTestMaximDl_cameraconnect);
             this.groupBox12.Controls.Add(this.chkTestMaximDl_Run);
-            this.groupBox12.Location = new System.Drawing.Point(12, 12);
+            this.groupBox12.Location = new System.Drawing.Point(12, 2);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(365, 211);
+            this.groupBox12.Size = new System.Drawing.Size(365, 203);
             this.groupBox12.TabIndex = 6;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Maxim DL";
@@ -364,7 +365,7 @@
             // 
             // btnRunObservatoryTest
             // 
-            this.btnRunObservatoryTest.Location = new System.Drawing.Point(12, 698);
+            this.btnRunObservatoryTest.Location = new System.Drawing.Point(12, 670);
             this.btnRunObservatoryTest.Name = "btnRunObservatoryTest";
             this.btnRunObservatoryTest.Size = new System.Drawing.Size(178, 37);
             this.btnRunObservatoryTest.TabIndex = 8;
@@ -375,10 +376,10 @@
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 1045);
+            this.progressBar1.Location = new System.Drawing.Point(0, 932);
             this.progressBar1.Maximum = 10;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1172, 37);
+            this.progressBar1.Size = new System.Drawing.Size(1258, 37);
             this.progressBar1.TabIndex = 7;
             // 
             // txtTestFormLog
@@ -387,15 +388,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTestFormLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTestFormLog.Location = new System.Drawing.Point(392, 24);
+            this.txtTestFormLog.Location = new System.Drawing.Point(392, 12);
             this.txtTestFormLog.Name = "txtTestFormLog";
-            this.txtTestFormLog.Size = new System.Drawing.Size(768, 991);
+            this.txtTestFormLog.Size = new System.Drawing.Size(854, 904);
             this.txtTestFormLog.TabIndex = 9;
             this.txtTestFormLog.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 1002);
+            this.button1.Location = new System.Drawing.Point(181, 160);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(178, 37);
             this.button1.TabIndex = 8;
@@ -414,7 +415,7 @@
             this.groupBox1.Controls.Add(this.chkTTC_heating);
             this.groupBox1.Controls.Add(this.chkTTC_fan);
             this.groupBox1.Controls.Add(this.chkTTC_run);
-            this.groupBox1.Location = new System.Drawing.Point(12, 561);
+            this.groupBox1.Location = new System.Drawing.Point(12, 543);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(365, 121);
             this.groupBox1.TabIndex = 4;
@@ -459,12 +460,11 @@
             // 
             // TestEquipmentForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1172, 1082);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(1258, 969);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtTestFormLog);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnRunObservatoryTest);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.groupBox14);
@@ -473,6 +473,7 @@
             this.Controls.Add(this.groupBox16);
             this.Controls.Add(this.groupBox12);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(1280, 1024);
             this.Name = "TestEquipmentForm";
             this.Text = "Test Equipment";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestEquipment_FormClosing);

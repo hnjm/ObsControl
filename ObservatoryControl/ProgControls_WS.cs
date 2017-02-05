@@ -95,6 +95,7 @@ namespace ObservatoryCenter
             BoltwoodState = new BoltwoodFields();
             ServerPort = 1604;
             LogPrefix = "WS";
+            ParameterString = "-start";
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace ObservatoryCenter
         /// <returns></returns>
         public bool CMD_GetBoltwoodString()
         {
-            string message = @"GET_BOLTWOOD_STRING_JSON" + "\n\r";
+            string message = @"GET_BOLTWOOD_STRING_JSON" + "\r\n";
 
             string jsonstring = "", boltwstr = "";
             bool res = SendCommand(message, out jsonstring);

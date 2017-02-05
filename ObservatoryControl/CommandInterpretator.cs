@@ -27,8 +27,8 @@ namespace ObservatoryCenter
         /// <returns>false if command doesn't exist</returns>
         public bool ParseSingleCommand(string CommandString)
         {
-            string cmd_output = "";
-            bool ret = ParseSingleCommand(CommandString, out cmd_output);
+            string dummy_cmd_output = "";
+            bool ret = ParseSingleCommand(CommandString, out dummy_cmd_output);
             return ret;
         }
 
@@ -42,16 +42,38 @@ namespace ObservatoryCenter
         {
             Logging.AddLog("Parse command [" + CommandString + "] enter", LogLevel.Trace);
             bool ret = true;
+            //Check if command exists
             if (!Commands.ContainsKey(CommandString))
             {
                 Logging.AddLog("Команды [" + CommandString + "] не существует", 0, Highlight.Error);
                 ret = false;
+                cmd_output = "Команды [" + CommandString + "] не существует";
             }
-            cmd_output = Commands[CommandString]();
-            Logging.AddLog("Parse command [" + CommandString + "] output: " + cmd_output, LogLevel.Trace);
-            Logging.AddLog("Parse command [" + CommandString + "] exit, res=" + ret, LogLevel.Trace);
+            else
+            {
+                //run it
+                cmd_output = Commands[CommandString]();
+                Logging.AddLog("Parse command [" + CommandString + "] output: " + cmd_output, LogLevel.Trace);
+                Logging.AddLog("Parse command [" + CommandString + "] exit, res=" + ret, LogLevel.Trace);
+            }
             return ret;
         }
 
+
+        /// <summary>
+        /// List all commands
+        /// </summary>
+        /// <returns>string list of commands</returns>
+        public string ListCommands()
+        {
+            string st = "";
+
+            foreach (KeyValuePair<string, Func<string>> entry in Commands)
+            {
+                st += entry.Key + ";";
+            }
+
+            return st;
+        }
     }
 }

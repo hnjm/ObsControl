@@ -54,7 +54,7 @@ namespace ObservatoryCenter
                 {
                     objProcess.StartInfo.FileName = FullName;
                     objProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                    objProcess.StartInfo.UseShellExecute = false;
+                    objProcess.StartInfo.UseShellExecute = true;
                     objProcess.StartInfo.Arguments = ParameterString;
                     objProcess.Start();
                     objProcess.WaitForInputIdle(waitForProgramStartTimeOut); //wait for program to start

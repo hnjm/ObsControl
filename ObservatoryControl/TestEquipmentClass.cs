@@ -108,7 +108,6 @@ namespace ObservatoryCenter
             return TestResult;
         }
 
-
         /// <summary>
         /// Test MAXIM TELESCOPE CONNECT
         /// </summary>
@@ -145,7 +144,6 @@ namespace ObservatoryCenter
             }
             return TestResult;
         }
-
 
         /// <summary>
         /// Test MAXIM CAMERA SET COOLING
@@ -187,7 +185,6 @@ namespace ObservatoryCenter
             }
             return TestResult;
         }
-
 
         /// <summary>
         /// Test MAXIM CAMERA SHOOTING
@@ -281,6 +278,7 @@ namespace ObservatoryCenter
             }
             return TestResult;
         }
+
 
 
 
@@ -401,6 +399,8 @@ namespace ObservatoryCenter
             }
             return TestResult;
         }
+
+
 
 
         /// <summary>
@@ -524,9 +524,11 @@ namespace ObservatoryCenter
             {
                 //connect
                 ObsControl.objFocusMaxApp.FocuserObj.Link = true;
-
+                
+                //Read current pos
                 int startpos = ObsControl.objFocusMaxApp.FocuserObj.Position;
                 int curpos = startpos;
+                //Move +500 pos
                 ObsControl.objFocusMaxApp.FocuserObj.Move(startpos + 500);
 
                 for (int i = 1; i < 5; i++)
@@ -549,6 +551,9 @@ namespace ObservatoryCenter
                 {
                     TestResult.res = true;
                     TestResult.AddStr("TestEquipment: FocusMax foucser move test passed");
+
+                    //Return focuser to start pos
+                    ObsControl.objFocusMaxApp.FocuserObj.Move(startpos);
                 }
                 else
                 {
@@ -558,6 +563,77 @@ namespace ObservatoryCenter
             catch (Exception Ex)
             {
                 TestResult.AddStr("TestEquipment: FocusMax foucser move test failed");
+            }
+            return TestResult;
+        }
+
+
+
+        /// <summary>
+        /// Test TTC RUN
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestTTCRun()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: TelescopeTempControl run test started");
+
+            //run test
+            ObsControl.CommandParser.ParseSingleCommand("TTC_RUN");
+
+            //check result
+            try
+            {
+                if (ObsControl.objTTCApp.IsRunning())
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl run test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl run test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: TelescopeTempControl run test failed");
+            }
+            return TestResult;
+        }
+
+
+        /// <summary>
+        /// Test TTC RUN
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestTTCTestFan()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control run test started");
+
+            //run test
+            ObsControl.CommandParser.ParseSingleCommand("TTC_FANAUTO_OFF");
+
+            //check result
+            try
+            {
+                if (ObsControl.objTTCApp.IsRunning())
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control  test passed");
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control  test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control  test failed");
             }
             return TestResult;
         }
