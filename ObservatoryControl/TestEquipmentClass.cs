@@ -582,6 +582,7 @@ namespace ObservatoryCenter
 
             //run test
             ObsControl.CommandParser.ParseSingleCommand("TTC_RUN");
+            Thread.Sleep(500);
 
             //check result
             try
@@ -605,7 +606,7 @@ namespace ObservatoryCenter
 
 
         /// <summary>
-        /// Test TTC RUN
+        /// Test TTC FAN CONTROL
         /// </summary>
         /// <returns></returns>
         internal TestResultClass TestTTCTestFan()
@@ -613,27 +614,158 @@ namespace ObservatoryCenter
             TestResultClass TestResult = new TestResultClass();
             TestResult.res = false;
 
-            TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control run test started");
+            TestResult.AddStr("TestEquipment: TelescopeTempControl Fan test started");
 
-            //run test
-            ObsControl.CommandParser.ParseSingleCommand("TTC_FANAUTO_OFF");
+            bool autocontrolon = false;
+            double startFanSpeed = 0.0;
+            double startFanPWR = 0.0;
+            //Get fresh data
+            ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+            startFanSpeed = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM;
+            startFanPWR = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_FPWM;
+            TestResult.AddStr("TestEquipment: TelescopeTempControl start fan speed = " + startFanSpeed + ", fan PWR = " + startFanPWR);
+
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_FanSpeed)
+            {
+                //Switch fan autocontroll off
+                autocontrolon = true;
+                ObsControl.CommandParser.ParseSingleCommand("TTC_FANAUTO_OFF");
+                Thread.Sleep(1000);
+            }
+
+            //Set fan PWR to another value
+            int setFanPWR = 0;
+            if (startFanPWR > 120)
+            {
+                setFanPWR = 0;
+            }
+            else
+            {
+                setFanPWR = 255;
+            }
+            ObsControl.CommandParser.ParseSingleCommand("TTC_SETFANPWR "+ setFanPWR);
+            Thread.Sleep(5000);
+
+            //Get fresh data
+            ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+            double newFanSpeed = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM;
+
+            TestResult.AddStr("TestEquipment: TelescopeTempControl start fan speed = " + newFanSpeed + ", fan PWR = " + setFanPWR);
 
             //check result
             try
             {
-                if (ObsControl.objTTCApp.IsRunning())
+                if (newFanSpeed != startFanSpeed)
                 {
                     TestResult.res = true;
-                    TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control  test passed");
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl Fan test passed");
+
+                    //if fan autocontroll was on, switch back
+                    if (autocontrolon)
+                    {
+                        ObsControl.CommandParser.ParseSingleCommand("TTC_FANAUTO_ON");
+                        Thread.Sleep(1000);
+                    }
+                    ObsControl.CommandParser.ParseSingleCommand("TTC_SETFANPWR " + startFanPWR);
+
                 }
                 else
                 {
-                    TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control  test failed");
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl Fan test failed");
                 }
             }
             catch (Exception Ex)
             {
-                TestResult.AddStr("TestEquipment: TelescopeTempControl Fan Control  test failed");
+                TestResult.AddStr("TestEquipment: TelescopeTempControl Fan test failed");
+            }
+            return TestResult;
+        }
+
+
+        /// <summary>
+        /// Test TTC HEATER CONTROL
+        /// </summary>
+        /// <returns></returns>
+        internal TestResultClass TestTTCTestHeater()
+        {
+            TestResultClass TestResult = new TestResultClass();
+            TestResult.res = false;
+
+            TestResult.AddStr("TestEquipment: TelescopeTempControl Heater test started");
+
+            bool autocontrolon = false;
+            double startSecondTemp = 0.0;
+            double startExtTemp = 0.0;
+            double startHeaterPWR = 0.0;
+            //Get fresh data
+            ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+            startSecondTemp = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp;
+            startExtTemp = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
+            startHeaterPWR = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPWM;
+            TestResult.AddStr("TestEquipment: TelescopeTempControl start secondary temp = " + startSecondTemp + ", ext temp = " + startExtTemp + ", heater PWR = " + startHeaterPWR);
+
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_Heater)
+            {
+                //Switch heater autocontroll off
+                autocontrolon = true;
+                ObsControl.CommandParser.ParseSingleCommand("TTC_HEATERAUTO_OFF");
+                Thread.Sleep(1000);
+            }
+
+            //Set PWR to another value
+            int setHeaterPWR = 0;
+            if (startHeaterPWR > 120)
+            {
+                setHeaterPWR = 0;
+            }
+            else
+            {
+                setHeaterPWR = 255;
+            }
+            ObsControl.CommandParser.ParseSingleCommand("TTC_SETHEATERPWR " + setHeaterPWR);
+            Thread.Sleep(5000);
+
+            //Get fresh data
+            double newSecondTemp = 0.0;
+            double newExtTemp = 0.0;
+
+            for (int i=1;i<=5;i++)
+            {
+                ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+                newSecondTemp = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp;
+                newExtTemp = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
+
+                TestResult.AddStr("TestEquipment: TelescopeTempControl cur secondary temp = " + newSecondTemp + ", ext temp = " + newExtTemp + ", heater PWR = " + setHeaterPWR);
+
+                Thread.Sleep(5000);
+            }
+
+
+            //check result
+            try
+            {
+                if ((newSecondTemp - newExtTemp) > (startSecondTemp - startExtTemp))
+                {
+                    TestResult.res = true;
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl heater test passed");
+
+                    //if heater autocontroll was on, switch back
+                    if (autocontrolon)
+                    {
+                        ObsControl.CommandParser.ParseSingleCommand("TTC_HEATERAUTO_ON");
+                        Thread.Sleep(1000);
+                    }
+                    ObsControl.CommandParser.ParseSingleCommand("TTC_SETHEATERPWR " + startHeaterPWR);
+
+                }
+                else
+                {
+                    TestResult.AddStr("TestEquipment: TelescopeTempControl heater test failed");
+                }
+            }
+            catch (Exception Ex)
+            {
+                TestResult.AddStr("TestEquipment: TelescopeTempControl heater test failed");
             }
             return TestResult;
         }

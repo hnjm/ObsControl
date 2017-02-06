@@ -44,7 +44,6 @@ namespace ObservatoryCenter
         //Initialize test sequence
         public void InitTestSequence()
         {
-           /* 
             //MaximDL sequences
             TestSequence.Add("Maxim Run", new TestSequenceElement { ChkBox = chkTestMaximDl_Run, Proc = TestEquipmentObj.TestMaximDLRun });
             TestSequence.Add("Maxim Camera", new TestSequenceElement { ChkBox = chkTestMaximDl_cameraconnect, Proc = TestEquipmentObj.TestMaximDLCamera });
@@ -66,11 +65,11 @@ namespace ObservatoryCenter
             //FM sequences
             TestSequence.Add("FM Run", new TestSequenceElement { ChkBox = chkTestFM_run, Proc = TestEquipmentObj.TestFMRun });
             TestSequence.Add("FM FocuserMove", new TestSequenceElement { ChkBox = chkTestFM_focusermove, Proc = TestEquipmentObj.TestFMFocuserMove});
-            */
+      
             //TTC sequences
             TestSequence.Add("TTC Run", new TestSequenceElement { ChkBox = chkTTC_run, Proc = TestEquipmentObj.TestTTCRun });
             TestSequence.Add("TTC SetFan", new TestSequenceElement { ChkBox = chkTTC_fan, Proc = TestEquipmentObj.TestTTCTestFan });
-            //TestSequence.Add("TTC SetHeater", new TestSequenceElement { ChkBox = chkTTC_heating, Proc = TestEquipmentObj.TestTTCTestHeater });
+            TestSequence.Add("TTC SetHeater", new TestSequenceElement { ChkBox = chkTTC_heating, Proc = TestEquipmentObj.TestTTCTestHeater });
 
             //calc progressbar
             progressBar1.Maximum = TestSequence.Count();

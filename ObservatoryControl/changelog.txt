@@ -24,6 +24,11 @@ bugs:
 - roof animation strange flickering
 - unkown excetption reason on Dome Connect!!!! to resolve
 
+
+0.6.12 [06.02.17]
+- commandinterpreator now works with parameters
+- TTC tests
+
 0.6.11 [05.02.17]
 - SocketServer improvements and erros
 

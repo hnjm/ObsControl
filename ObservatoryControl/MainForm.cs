@@ -388,7 +388,7 @@ namespace ObservatoryCenter
             DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
 
             //Read weather station value
-            if (ObsControl.objTTCApp.IsRunning() && ObsControl.objTTCApp.CMD_GetSocketData())
+            if (ObsControl.objTTCApp.IsRunning() && ObsControl.objTTCApp.CMD_GetJSONData())
             {
                 if (!HadTTCData)
                 {

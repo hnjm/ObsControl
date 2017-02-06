@@ -14,46 +14,46 @@ namespace ObservatoryCenter
         /// </summary>
         public void InitComandInterpretator()
         {
-            CommandParser.Commands.Add("HELP", () => this.CommandParser.ListCommands());
+            CommandParser.Commands.Add("HELP", (a) => this.CommandParser.ListCommands());
+            CommandParser.Commands.Add("VERSION", (a) => VersionData.getVersionString());
 
-            CommandParser.Commands.Add("MAXIM_RUN", () => this.startMaximDL());
-            CommandParser.Commands.Add("FOCUSMAX_RUN", () => this.startFocusMax());
-            CommandParser.Commands.Add("CdC_RUN", () => this.startPlanetarium());
-            CommandParser.Commands.Add("CCDAP_RUN", () => this.startCCDAP());
-            CommandParser.Commands.Add("PHD2_RUN", () => this.startPHD2());
-            CommandParser.Commands.Add("PHDBROKER_RUN", () => this.startPHDBroker());
+            CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());
+            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", (a) => objMaxim.ConnectCamera());
+            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.SetCameraCooling());
+            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", (a) => objMaxim.ConnectTelescope());
+            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", (a) => objMaxim.ConnectFocuser());
 
-            CommandParser.Commands.Add("TTC_RUN", () => this.startTTC());
-            CommandParser.Commands.Add("WS_RUN", () => this.startWS());
+            CommandParser.Commands.Add("FOCUSMAX_RUN", (a) => this.startFocusMax());
 
-            CommandParser.Commands.Add("POWER_MOUNT_ON", () => this.PowerMountOn());
-            CommandParser.Commands.Add("POWER_MOUNT_OFF", () => this.PowerMountOff());
+            CommandParser.Commands.Add("CdC_RUN", (a) => this.startPlanetarium());
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", (a) => this.objCdCApp.ConnectTelescope());
 
-            CommandParser.Commands.Add("POWER_CAMERA_ON", () => this.PowerCameraOn());
-            CommandParser.Commands.Add("POWER_CAMERA_OFF", () => this.PowerCameraOff());
+            CommandParser.Commands.Add("CCDAP_RUN", (a) => this.startCCDAP());
 
-            CommandParser.Commands.Add("POWER_FOCUSER_ON", () => this.PowerFocuserOn());
-            CommandParser.Commands.Add("POWER_FOCUSER_OFF", () => this.PowerFocuserOff());
+            CommandParser.Commands.Add("PHD2_RUN", (a) => this.startPHD2());
+            CommandParser.Commands.Add("PHD2_CONNECT", (a) => this.objPHD2App.CMD_ConnectEquipment());
+            CommandParser.Commands.Add("PHDBROKER_RUN", (a) => this.startPHDBroker());
 
-            CommandParser.Commands.Add("POWER_ROOF_ON", () => this.PowerRoofOn());
-            CommandParser.Commands.Add("POWER_ROOF_OFF", () => this.PowerRoofOff());
+            CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", (a) => this.OBS_connectTelescope());
+            CommandParser.Commands.Add("POWER_MOUNT_ON", (a) => this.PowerMountOn());
+            CommandParser.Commands.Add("POWER_MOUNT_OFF", (a) => this.PowerMountOff());
+            CommandParser.Commands.Add("POWER_CAMERA_ON", (a) => this.PowerCameraOn());
+            CommandParser.Commands.Add("POWER_CAMERA_OFF", (a) => this.PowerCameraOff());
+            CommandParser.Commands.Add("POWER_FOCUSER_ON", (a) => this.PowerFocuserOn());
+            CommandParser.Commands.Add("POWER_FOCUSER_OFF", (a) => this.PowerFocuserOff());
+            CommandParser.Commands.Add("POWER_ROOF_ON", (a) => this.PowerRoofOn());
+            CommandParser.Commands.Add("POWER_ROOF_OFF", (a) => this.PowerRoofOff());
 
-            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", () => objMaxim.ConnectCamera());
-            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", () => objMaxim.SetCameraCooling());
-            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", () => objMaxim.ConnectTelescope());
-            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", () => objMaxim.ConnectFocuser());
+            CommandParser.Commands.Add("WS_RUN", (a) => this.startWS());
 
-            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", () => this.objCdCApp.ConnectTelescope());
-
-            CommandParser.Commands.Add("PHD2_CONNECT", () => this.objPHD2App.CMD_ConnectEquipment());
-
-            CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", () => this.OBS_connectTelescope());
-
-            CommandParser.Commands.Add("TTC_FANAUTO_ON", () => this.objTTCApp.CMD_SetFANControl_ON());
-            CommandParser.Commands.Add("TTC_FANAUTO_OFF", () => this.objTTCApp.CMD_SetFANControl_OFF());
-
-            CommandParser.Commands.Add("TTC_HEATERAUTO_ON", () => this.objTTCApp.CMD_SetHeaterControl_ON());
-            CommandParser.Commands.Add("TTC_HEATERAUTO_OFF", () => this.objTTCApp.CMD_SetHeaterControl_OFF());
+            CommandParser.Commands.Add("TTC_RUN", (a) => this.startTTC());
+            CommandParser.Commands.Add("TTC_GETDATA", (a) => this.objTTCApp.CMD_GetJSONData().ToString());
+            CommandParser.Commands.Add("TTC_FANAUTO_ON", (a) => this.objTTCApp.CMD_SetFANControl_ON());
+            CommandParser.Commands.Add("TTC_FANAUTO_OFF", (a) => this.objTTCApp.CMD_SetFANControl_OFF());
+            CommandParser.Commands.Add("TTC_HEATERAUTO_ON", (a) => this.objTTCApp.CMD_SetHeaterControl_ON());
+            CommandParser.Commands.Add("TTC_HEATERAUTO_OFF", (a) => this.objTTCApp.CMD_SetHeaterControl_OFF());
+            CommandParser.Commands.Add("TTC_SETFANPWR", (a) => this.objTTCApp.CMD_SetFanPWR(a));
+            CommandParser.Commands.Add("TTC_SETHEATERPWR", (a) => this.objTTCApp.CMD_SetHeaterPWR(a));
         }
 
         #region Scenarios section ////////////////////////////////////////////////////////
