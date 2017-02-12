@@ -349,9 +349,16 @@ namespace ObservatoryCenter
 
 
 
-        public bool TestCamera()
+        public bool CheckCameraAvailable()
         {
             bool res = false;
+
+            if (CCDCamera == null || MaximApplicationObj == null)
+            {
+                if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
+                if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            }
+
             try
             {
                 res = (CCDCamera != null && CCDCamera.LinkEnabled && CCDCamera.CameraStatus != MaxIm.CameraStatusCode.csError);

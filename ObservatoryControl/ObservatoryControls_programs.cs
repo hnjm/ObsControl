@@ -120,6 +120,7 @@ namespace ObservatoryCenter
         public string startCCDAP()
         {
             objCCDAPApp.Run();
+            objCCDAPApp.Init();
             return objCCDAPApp.ErrorSt;
         }
 

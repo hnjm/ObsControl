@@ -200,7 +200,7 @@ namespace ObservatoryCenter
                 {
                     curShutterStatus = ShutterState.shutterError;
                     //Print if somebody try to connect if device isn't presetn. Mostly for debug
-                    Logging.AddLog("Domoe is not set. Couldn't return status of shutter", LogLevel.Debug, Highlight.Error);
+                    Logging.AddLog("Dome is not set. Couldn't return status of shutter", LogLevel.Debug, Highlight.Error);
                 }
 
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + curShutterStatus, LogLevel.Trace);

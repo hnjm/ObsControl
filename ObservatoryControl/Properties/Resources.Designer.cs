@@ -73,6 +73,16 @@ namespace ObservatoryCenter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon logo_48_blue {
+            get {
+                object obj = ResourceManager.GetObject("logo_48_blue", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon logo_observ {
             get {
                 object obj = ResourceManager.GetObject("logo_observ", resourceCulture);

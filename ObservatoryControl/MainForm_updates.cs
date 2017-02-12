@@ -173,7 +173,7 @@ namespace ObservatoryCenter
             toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
 
             //CAMERA
-            bool testCamera = ObsControl.objMaxim.TestCamera();
+            bool testCamera = ObsControl.objMaxim.CheckCameraAvailable();
             if (testCamera)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
@@ -265,66 +265,69 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateCCDCameraFieldsStatus()
         {
-            if (ObsControl.objMaxim.TestCamera())
+            if (ObsControl.objMaxim.IsRunning())
             {
-                //Binning
-                int bin = ObsControl.objMaxim.CCDCamera.BinX;
-                txtCameraBinMode.Text = Convert.ToString(bin) + "x" + Convert.ToString(bin);
-                //Filters
-                try
+                if (ObsControl.objMaxim.CheckCameraAvailable())
                 {
-                    var st = ObsControl.objMaxim.CCDCamera.FilterNames;
-                    txtFilterName.Text = Convert.ToString(st[ObsControl.objMaxim.CCDCamera.Filter]);
-                }
-                catch (Exception ex)
-                {
-                    txtFilterName.Text = "";
-                    Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                    Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-                }
+                    //Binning
+                    int bin = ObsControl.objMaxim.CCDCamera.BinX;
+                    txtCameraBinMode.Text = Convert.ToString(bin) + "x" + Convert.ToString(bin);
+                    //Filters
+                    try
+                    {
+                        var st = ObsControl.objMaxim.CCDCamera.FilterNames;
+                        txtFilterName.Text = Convert.ToString(st[ObsControl.objMaxim.CCDCamera.Filter]);
+                    }
+                    catch (Exception ex)
+                    {
+                        txtFilterName.Text = "";
+                        Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Important, Highlight.Error);
+                        Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                    }
 
-                //Cooling
-                txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraTemp());
-                updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraSetpoint());
-                txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.GetCoolerPower());
+                    //Cooling
+                    txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraTemp());
+                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraSetpoint());
+                    txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.GetCoolerPower());
 
-                //Camera current status
-                txtCameraStatus.Text = ObsControl.objMaxim.GetCameraStatus();
+                    //Camera current status
+                    txtCameraStatus.Text = ObsControl.objMaxim.GetCameraStatus();
 
 
-                txtFilterName.BackColor = OnColor;
-                txtCameraBinMode.BackColor = OnColor;
-                txtCameraStatus.BackColor = OnColor;
+                    txtFilterName.BackColor = OnColor;
+                    txtCameraBinMode.BackColor = OnColor;
+                    txtCameraStatus.BackColor = OnColor;
 
-                if (ObsControl.objMaxim.CCDCamera.CoolerOn)
-                {
-                    txtCameraTemp.BackColor = OnColor;
-                    updownCameraSetPoint.BackColor = OnColor;
-                    txtCameraCoolerPower.BackColor = OnColor;
+                    if (ObsControl.objMaxim.CCDCamera.CoolerOn)
+                    {
+                        txtCameraTemp.BackColor = OnColor;
+                        updownCameraSetPoint.BackColor = OnColor;
+                        txtCameraCoolerPower.BackColor = OnColor;
+                    }
+                    else
+                    {
+                        txtCameraTemp.BackColor = OffColor;
+                        updownCameraSetPoint.BackColor = OffColor;
+                        txtCameraCoolerPower.BackColor = OffColor;
+                    }
                 }
                 else
                 {
-                    txtCameraTemp.BackColor = OffColor;
-                    updownCameraSetPoint.BackColor = OffColor;
-                    txtCameraCoolerPower.BackColor = OffColor;
+                    txtCameraTemp.Text = "";
+                    txtFilterName.Text = "";
+                    txtCameraBinMode.Text = "";
+                    updownCameraSetPoint.Text = "";
+                    txtCameraCoolerPower.Text = "";
+                    txtCameraStatus.Text = "";
+
+                    txtFilterName.BackColor = SystemColors.Control;
+                    txtCameraBinMode.BackColor = SystemColors.Control;
+                    txtCameraStatus.BackColor = SystemColors.Control;
+
+                    txtCameraTemp.BackColor = SystemColors.Control;
+                    updownCameraSetPoint.BackColor = SystemColors.Control;
+                    txtCameraCoolerPower.BackColor = SystemColors.Control;
                 }
-            }
-            else
-            {
-                txtCameraTemp.Text = "";
-                txtFilterName.Text = "";
-                txtCameraBinMode.Text = "";
-                updownCameraSetPoint.Text = "";
-                txtCameraCoolerPower.Text = "";
-                txtCameraStatus.Text = "";
-
-                txtFilterName.BackColor = SystemColors.Control;
-                txtCameraBinMode.BackColor = SystemColors.Control;
-                txtCameraStatus.BackColor = SystemColors.Control;
-
-                txtCameraTemp.BackColor = SystemColors.Control;
-                updownCameraSetPoint.BackColor = SystemColors.Control;
-                txtCameraCoolerPower.BackColor = SystemColors.Control;
             }
         }
 
@@ -503,7 +506,7 @@ namespace ObservatoryCenter
             }
 
             //MAXIM DATA
-            if (ObsControl.objMaxim.TestCamera())
+            if (ObsControl.objMaxim.CheckCameraAvailable())
             {
                 txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CCDCamera.CameraName;
                 txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
@@ -615,8 +618,12 @@ namespace ObservatoryCenter
         {
             if (ObsControl.objCCDAPApp.IsRunning())
             {
-                ObsControl.objCCDAPApp.GetCurrentLogFile();
-                ObsControl.objCCDAPApp.ParseLogFile();
+                ObsControl.objCCDAPApp.GetLastLogFile(); //needs to be constanly updated
+                if (ObsControl.objCCDAPApp.checkLogFileIsValid())
+                {
+                    ObsControl.objCCDAPApp.ParseLogFile();
+                    txtCCDAPStatus.AppendText(ObsControl.objCCDAPApp.MessageText);
+                }
             }
         }
 
