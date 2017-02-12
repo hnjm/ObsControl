@@ -41,5 +41,14 @@
     <Setting Name="DomeDriverId" Type="System.String" Scope="User">
       <Value Profile="(Default)">ASCOM.Simulator.Dome</Value>
     </Setting>
+    <Setting Name="DeviceEnabled_Switch" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DeviceEnabled_Dome" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DeviceEnabled_Telescope" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

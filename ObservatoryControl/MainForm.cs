@@ -24,7 +24,7 @@ namespace ObservatoryCenter
 {
     public partial class MainForm : Form
     {
-        
+
         public ObservatoryControls ObsControl;
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace ObservatoryCenter
         public MainForm()
         {
             InitializeComponent();
-            
+
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
             TestForm = new TestEquipmentForm(this);
@@ -179,8 +179,8 @@ namespace ObservatoryCenter
         }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#region *** TIMERS *****************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region *** TIMERS *****************************************************************
         /// <summary>
         /// Main timer tick
         /// </summary>
@@ -255,347 +255,6 @@ namespace ObservatoryCenter
         #endregion *** TIMERS *****************************************************************
 
 
-        private bool HadWeatherData = false; //was at least once data received?
-        /// <summary>
-        /// Update weather state
-        /// </summary>
-        private void UpdateWeatherData()
-        {
-
-            double Temp = -100;
-            double Cloud = -100;
-            double RGC = -1;
-            double Wet = 0;
-            DateTime XVal;
-
-            DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
-
-            //Read weather station value
-            if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
-            {
-                if (!HadWeatherData)
-                {
-                    Logging.AddLog("Weather Station connected", LogLevel.Activity);
-                }
-                HadWeatherData = true; //flag, that at least one value was received
-
-                //Display small widget
-                Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
-                Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
-                XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
-                RGC = ObsControl.objWSApp.BoltwoodState.RGCVal;
-                Wet = ObsControl.objWSApp.BoltwoodState.WetSensorVal;
-
-
-                //draw value
-                if (Temp > -100){
-                    weatherChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-                } else {
-                    weatherChart.Series["Temp"].Points.Add(EmptyP);
-                }
-                if (Cloud > -100)
-                {
-                    weatherChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
-                }else {
-                    weatherChart.Series["CloudIdx"].Points.Add(EmptyP);
-                }
-
-                txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
-
-                //Data in small widget
-                txtTemp.Text = Temp.ToString();
-                txtCloudState.Text = Cloud.ToString();
-
-
-                //Display large widget
-                //draw value
-                if (Temp > -100)
-                {
-                    chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-                }
-                else
-                {
-                    chartWT.Series["Temp"].Points.Add(EmptyP);
-                }
-                if (Cloud > -100)
-                {
-                    chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
-                }
-                else
-                {
-                    chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-                }
-                if (RGC >= 0)
-                {
-                    chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
-                }
-                else
-                {
-                    chartWT.Series["RGC"].Points.Add(EmptyP);
-                }
-                if (Wet > 0)
-                {
-                    chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), 1024 - Wet);
-                }
-                else
-                {
-                    chartWT.Series["Wet"].Points.Add(EmptyP);
-                }
-
-                //Data in large widget
-                txtWTTemp.Text = Temp.ToString();
-                txtWTCloudIdx.Text = Cloud.ToString();
-                txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
-                txtWTPreassure.Text = ObsControl.objWSApp.BoltwoodState.Preassure.ToString();
-                txtWTRGC.Text = RGC.ToString();
-                txtWTWet.Text = Wet.ToString();
-
-            }
-            else if (HadWeatherData)  
-            {
-
-                weatherChart.Series["Temp"].Points.Add(EmptyP);
-                weatherChart.Series["CloudIdx"].Points.Add(EmptyP);
-
-                chartWT.Series["Temp"].Points.Add(EmptyP);
-                chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-                chartWT.Series["RGC"].Points.Add(EmptyP);
-                chartWT.Series["Wet"].Points.Add(EmptyP);
-
-                //Data in small widget
-                txtTemp.Text = String.Empty;
-                txtCloudState.Text = String.Empty;
-                //Data in large widget
-                txtWTTemp.Text = String.Empty;
-                txtWTCloudIdx.Text = String.Empty;
-                txtWTCaseTemp.Text = String.Empty;
-                txtWTPreassure.Text = String.Empty;
-                txtWTRGC.Text = String.Empty;
-                txtWTWet.Text = String.Empty;
-            }
-
-        }
-
-        private bool HadTTCData = false; //was at least once data received?
-        /// <summary>
-        /// Update TelecopeTempControl state
-        /// </summary>
-        private void UpdateTelescopeTempControlData()
-        {
-
-            DateTime XVal;
-
-            DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
-
-            //Read weather station value
-            if (ObsControl.objTTCApp.IsRunning() && ObsControl.objTTCApp.CMD_GetJSONData())
-            {
-                if (!HadTTCData)
-                {
-                    Logging.AddLog("TelescopeTempControl connected", LogLevel.Activity);
-                }
-                HadTTCData = true; //flag, that at least one value was received
-
-
-
-                //Data in small widget
-                txtTTC_W_MainDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
-                txtTTC_W_SecondDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
-
-                txtTTC_W_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
-                txtTTC_W_Heater.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
-
-                //Graphics
-                XVal = ObsControl.objTTCApp.TelescopeTempControl_State.LastTimeDataParsed;
-                //draw value
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main > -100)
-                {
-                    chartTTC.Series["MainDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main);
-                }
-                else
-                {
-                    chartTTC.Series["MainDelta"].Points.Add(EmptyP);
-                }
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM >= 0)
-                {
-                    chartTTC.Series["FanRPM"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM);
-                }
-                else
-                {
-                    chartTTC.Series["FanRPM"].Points.Add(EmptyP);
-                }
-
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary > -100 )
-                {
-                    chartTTC.Series["SecondDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary);
-                }
-                else
-                {
-                    chartTTC.Series["SecondDelta"].Points.Add(EmptyP);
-                }
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower >= 0)
-                {
-                    chartTTC.Series["Heater"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower);
-                }
-                else
-                {
-                    chartTTC.Series["Heater"].Points.Add(EmptyP);
-                }
-
-
-                //Data in large widget
-                txtTTC_Temp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Temp.ToString();
-                txtTTC_Hum.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Humidity.ToString();
-
-                txtTTC_MainMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.MainMirrorTemp.ToString();
-                txtTTC_SecondMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp.ToString();
-
-                txtTTC_MainMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
-                txtTTC_SecondMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
-
-                txtTTC_FanPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_FPWM.ToString();
-                txtTTC_HeaterPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
-                txtTTC_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
-            }
-            else if (HadTTCData)
-            {
-
-                weatherChart.Series["Temp"].Points.Add(EmptyP);
-                weatherChart.Series["CloudIdx"].Points.Add(EmptyP);
-
-                chartWT.Series["Temp"].Points.Add(EmptyP);
-                chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-                chartWT.Series["RGC"].Points.Add(EmptyP);
-                chartWT.Series["Wet"].Points.Add(EmptyP);
-
-                //Data in small widget
-
-                //Data in large widget
-                txtTTC_Temp.Text = String.Empty;
-                txtTTC_Hum.Text = String.Empty;
-
-                txtTTC_MainMirrorTemp.Text = String.Empty;
-                txtTTC_SecondMirrorTemp.Text = String.Empty;
-
-                txtTTC_MainMirrorDelta.Text = String.Empty;
-                txtTTC_SecondMirrorDelta.Text = String.Empty;
-
-                txtTTC_FanPower.Text = String.Empty;
-                txtTTC_HeaterPower.Text = String.Empty;
-                txtTTC_FanRPM.Text = String.Empty;
-            }
-
-        }
-
-        /// <summary>
-        /// Update PHD state
-        /// </summary>
-        private void UpdatePHDstate()
-        {
-            if (ObsControl.objPHD2App.IsRunning())
-            {
-                string curstate = ObsControl.objPHD2App.currentState.ToString();
-                txtPHDState.Text = curstate;
-
-                //Check if any pending events
-                if (ObsControl.objPHD2App.CheckProgramEvents())
-                {
-                    //If guiding now, calclulate and display stats
-                    if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
-                    {
-                        double XVal1 = Math.Round(ObsControl.objPHD2App.LastRAError, 2);
-                        double YVal1 = Math.Round(ObsControl.objPHD2App.LastDecError, 2);
-
-                        txtGuiderErrorPHD.AppendText(XVal1 + " / " + YVal1 + Environment.NewLine);
-
-                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError, 2); //* ObsControl.GuidePiexelScale
-                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError, 2); //* ObsControl.GuidePiexelScale
-
-                        GuidingStats.CalculateRMS(XVal, YVal);
-
-                        string sername = "SeriesGuideError";
-                        if (Math.Abs(XVal) > 1)
-                        {
-                            XVal = 2 * Math.Sign(XVal); sername = "SeriesGuideErrorOutOfScale";
-                        }
-                        if (Math.Abs(YVal) > 1)
-                        {
-                            YVal = 2 * Math.Sign(YVal); sername = "SeriesGuideErrorOutOfScale";
-                        }
-                        //draw value
-                        chart1.Series[sername].Points.AddXY(XVal, YVal);
-
-                        //display RMS
-                        txtRMS_X.Text = Math.Round(GuidingStats.RMS_X, 2).ToString();
-                        txtRMS_Y.Text = Math.Round(GuidingStats.RMS_Y, 2).ToString();
-                        txtRMS.Text = Math.Round(GuidingStats.RMS, 2).ToString();
-                    }
-                }
-            }
-            else
-            {
-                txtPHDState.Text = "Not running";
-            }
-
-        }
-
-        /// <summary>
-        /// Update state of CCDAP prog
-        /// including log details
-        /// </summary>
-        private void UpdateCCDAPstate()
-        {
-            if (ObsControl.objCCDAPApp.IsRunning())
-            {
-                ObsControl.objCCDAPApp.GetCurrentLogFile();
-                ObsControl.objCCDAPApp.ParseLogFile();
-            }
-        }
-
-
-        /// <summary>
-        /// Update application status
-        /// </summary>
-        private void UpdateApplicationsRunningStatus()
-        {
-            //PHD2 status
-            if (ObsControl.objPHD2App.IsRunning())
-            {
-                linkPHD2.LinkColor = Color.Green;
-                btnGuiderConnect.Enabled = true;
-                btnGuide.Enabled = true;
-            }
-            else
-            {
-                linkPHD2.LinkColor = Color.DeepPink;
-                btnGuiderConnect.Enabled = false;
-                btnGuide.Enabled = false;
-            }
-            //PHD Broker status
-            if (ObsControl.objPHDBrokerApp.IsRunning()) { linkPHDBroker.LinkColor = Color.Green; } else { linkPHDBroker.LinkColor = Color.DeepPink; }
-
-            //CdC status
-            if (ObsControl.objCdCApp.IsRunning()) { linkCdC.LinkColor = Color.Green; } else { linkCdC.LinkColor = Color.DeepPink; }
-
-            //FocusMax status
-            if (ObsControl.objFocusMaxApp.IsRunning()) { linkFocusMax.LinkColor = Color.Green; } else { linkFocusMax.LinkColor = Color.DeepPink; }
-
-            //CCDAP status
-            if (ObsControl.objCCDAPApp.IsRunning()) { linkCCDAP.LinkColor = Color.Green; } else { linkCCDAP.LinkColor = Color.DeepPink; }
-
-            //MaximDl status
-            if (ObsControl.objMaxim.IsRunning()) { linkMaximDL.LinkColor = Color.Green; } else { linkMaximDL.LinkColor = Color.DeepPink; }
-
-            //WeatherStation status
-            if (ObsControl.objWSApp.IsRunning()) { linkWeatherStation.LinkColor = Color.Green; } else { linkWeatherStation.LinkColor = Color.DeepPink; }
-
-            //TelescopeTempControl status
-            if (ObsControl.objTTCApp.IsRunning()) { linkTelescopeTempControl.LinkColor = Color.Green; } else { linkTelescopeTempControl.LinkColor = Color.DeepPink; }
-
-
-        }
-
-
         /// <summary>
         /// Wrapper to call check power switch status on background (separate thread)
         /// because in case of network timeout it can hang system
@@ -606,7 +265,7 @@ namespace ObservatoryCenter
             {
                 try
                 {
-                    if (CheckPowerStatusThread ==null || !CheckPowerStatusThread.IsAlive)
+                    if (CheckPowerStatusThread == null || !CheckPowerStatusThread.IsAlive)
                     {
                         CheckPowerStatusThread_startref = new ThreadStart(ObsControl.CheckPowerDeviceStatus);
                         CheckPowerStatusThread = new Thread(CheckPowerStatusThread_startref);
@@ -619,438 +278,20 @@ namespace ObservatoryCenter
                 }
             }
         }
-       
+
         /// <summary>
         /// Separate thread for socket server
         /// </summary>
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void backgroundWorker_SocketServer_DoWork(object sender, DoWorkEventArgs e)
         {
             SocketServer.ListenSocket();
         }
 
 
 
-// Block with update elements
-#region ///// Update visual elements (Status bar, telescope, etc) /////////////////////////////////////////////////////////////////////////////////////////////////
-        /// <summary>
-        /// Updates markers in status bar
-        /// </summary>
-        private void UpdateStatusbarASCOMStatus()
-        {
-            //SWITCH
-            if (ObsControl.Switch_connected_flag)
-            {
-                toolStripStatus_Switch.ForeColor = Color.Blue;
-            }
-            else
-            {
-                toolStripStatus_Switch.ForeColor = Color.Gray;
-            }
-            toolStripStatus_Switch.ToolTipText = "DRIVER: " + ObsControl.SWITCH_DRIVER_NAME + Environment.NewLine;
 
-            //DOME
-            if (ObsControl.Dome_connected_flag)
-            {
-                toolStripStatus_Dome.ForeColor = Color.Blue;
-            }
-            else
-            {
-                toolStripStatus_Dome.ForeColor = Color.Gray;
-            }
-            toolStripStatus_Dome.ToolTipText = "DRIVER: " + ObsControl.DOME_DRIVER_NAME+ Environment.NewLine;
-
-            //TELESCOPE
-            bool Tprog = (ObsControl.Mount_connected_flag);
-            bool Tmaxim = false;
-            try
-            {
-                Tmaxim = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.TelescopeConnected);
-            }
-            catch { Tmaxim = false; }
-            bool Tcdc=false; //later organize checking
-            toolStripStatus_Telescope.ToolTipText = "DRIVER: " + ObsControl.TELESCOPE_DRIVER_NAME + Environment.NewLine;
-            toolStripStatus_Telescope.ToolTipText += "Control center direct connection: " + (Tprog ? "ON" : "off") + Environment.NewLine;
-            toolStripStatus_Telescope.ToolTipText += "Maxim telescope connection: " + (Tmaxim ? "ON" : "off") + Environment.NewLine;
-            toolStripStatus_Telescope.ToolTipText += "CdC telescope connection: " + (Tcdc ? "ON" : "off") + Environment.NewLine;
-
-            if (Tprog && Tmaxim && Tcdc)
-            {
-                toolStripStatus_Telescope.ForeColor = Color.Blue;
-            }
-            else if (Tprog || Tmaxim || Tcdc)
-            {
-                toolStripStatus_Telescope.ForeColor = Color.MediumOrchid;
-            }
-            else
-            {
-                toolStripStatus_Telescope.ForeColor = Color.Gray;
-            }
-
-            //FOCUSER
-            bool testFocus=false;
-            string FocusSt = "";
-            try
-            {
-                testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
-            }
-            catch { testFocus = false; }
-            if (testFocus)
-            {
-                toolStripStatus_Focuser.ForeColor = Color.Blue;
-                FocusSt="";//?
-
-            }
-            else
-            {
-                toolStripStatus_Focuser.ForeColor = Color.Gray;
-            }
-            toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
-
-            //CAMERA
-            bool testCamera = ObsControl.objMaxim.TestCamera();
-            if (testCamera)
-            {
-                toolStripStatus_Camera.ForeColor = Color.Blue;
-            }
-            else
-            {
-                toolStripStatus_Camera.ForeColor = Color.Gray;
-            }
-
-        }
-
-        /// <summary>
-        /// Updates buttons status
-        /// </summary>
-        private void UpdatePowerButtonsStatus()
-        {
-            //Mount
-            if (ObsControl.Mount_power_flag == null)
-            {
-                btnTelescopePower.Enabled = false;
-                btnTelescopePower.BackColor = DisabledColor;
-            }
-            else
-            {
-                btnTelescopePower.Enabled = true;
-                btnTelescopePower.BackColor = ((bool)ObsControl.Mount_power_flag ? OnColor : OffColor);
-            }
-
-            //Camera
-            if (ObsControl.Camera_power_flag == null)
-            {
-                btnCameraPower.Enabled = false;
-                btnCameraPower.BackColor = DisabledColor;
-            }
-            else
-            {
-                btnCameraPower.Enabled = true;
-                btnCameraPower.BackColor = ((bool)ObsControl.Camera_power_flag ? OnColor : OffColor);
-            }
-
-            //Focuser
-            if (ObsControl.Focuser_power_flag == null)
-            {
-                btnFocuserPower.Enabled = false;
-                btnFocuserPower.BackColor = DisabledColor;
-            }
-            else
-            {
-                btnFocuserPower.Enabled = true;
-                btnFocuserPower.BackColor = ((bool)ObsControl.Focuser_power_flag ? OnColor : OffColor);
-            }
-
-            //Roof power
-            if (ObsControl.Roof_power_flag == null)
-            {
-                btnRoofPower.Enabled = false;
-                btnRoofPower.BackColor = DisabledColor;
-            }
-            else
-            {
-                btnRoofPower.Enabled = true;
-                btnRoofPower.BackColor = ((bool)ObsControl.Roof_power_flag ? OnColor : OffColor);
-            }
-
-            //All button
-            if (ObsControl.Roof_power_flag == true && ObsControl.Mount_power_flag == true && ObsControl.Focuser_power_flag == true && ObsControl.Camera_power_flag == true)
-            {
-                btnPowerAll.Text = "Depower all";
-            }
-            else
-            {
-                btnPowerAll.Text = "Power all";
-            }
-
-        }
-
-        /// <summary>
-        /// Updates CCD camera status
-        /// </summary>
-        private void UpdateCCDCameraFieldsStatus()
-        {
-            if (ObsControl.objMaxim.TestCamera())
-            {
-                //Binning
-                int bin=ObsControl.objMaxim.CCDCamera.BinX;
-                txtCameraBinMode.Text = Convert.ToString(bin) + "x" +Convert.ToString(bin);
-                //Filters
-                try
-                {
-                    var st = ObsControl.objMaxim.CCDCamera.FilterNames;
-                    txtFilterName.Text = Convert.ToString(st[ObsControl.objMaxim.CCDCamera.Filter]);
-                }
-                catch (Exception ex)
-                {
-                    txtFilterName.Text = "";
-                    Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                    Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-                }
-
-                //Cooling
-                txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraTemp());
-                updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraSetpoint());
-                txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.GetCoolerPower());
-
-                //Camera current status
-                txtCameraStatus.Text = ObsControl.objMaxim.GetCameraStatus();
-
-
-                txtFilterName.BackColor = OnColor;
-                txtCameraBinMode.BackColor = OnColor;
-                txtCameraStatus.BackColor = OnColor;
-
-                if (ObsControl.objMaxim.CCDCamera.CoolerOn)
-                {
-                    txtCameraTemp.BackColor = OnColor;
-                    updownCameraSetPoint.BackColor = OnColor;
-                    txtCameraCoolerPower.BackColor = OnColor;
-                }else
-                {
-                    txtCameraTemp.BackColor = OffColor;
-                    updownCameraSetPoint.BackColor = OffColor;
-                    txtCameraCoolerPower.BackColor = OffColor;
-                }
-            }
-            else
-            {
-                txtCameraTemp.Text = "";
-                txtFilterName.Text = "";
-                txtCameraBinMode.Text = "";
-                updownCameraSetPoint.Text = "";
-                txtCameraCoolerPower.Text = "";
-                txtCameraStatus.Text = "";
-
-                txtFilterName.BackColor = SystemColors.Control;
-                txtCameraBinMode.BackColor = SystemColors.Control;
-                txtCameraStatus.BackColor = SystemColors.Control;
-
-                txtCameraTemp.BackColor = SystemColors.Control;
-                updownCameraSetPoint.BackColor = SystemColors.Control;
-                txtCameraCoolerPower.BackColor = SystemColors.Control;
-            }
-        }
-
-        /// <summary>
-        /// Update guider status fields
-        /// </summary>
-        private void UpdateGuiderFieldsStatus()
-        {
-            bool testCamera = false;
-            try
-            {
-                testCamera = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled);
-            }
-            catch { testCamera = false; }
-
-            if (testCamera)
-            {
-                ObsControl.objMaxim.GuiderRunnig = ObsControl.objMaxim.CCDCamera.GuiderRunning;
-
-                btnGuider.Text = (ObsControl.objMaxim.GuiderRunnig ? "Guider running" : "Guider stoped");
-                btnGuider.BackColor = (ObsControl.objMaxim.GuiderRunnig ? OnColor : OffColor);
-
-                txtGuider_AggX.Text = Convert.ToString(ObsControl.objMaxim.CCDCamera.GuiderAggressivenessX);
-                txtGuider_AggY.Text = Convert.ToString(ObsControl.objMaxim.CCDCamera.GuiderAggressivenessY);
-
-                txtGuiderExposure.Text = Convert.ToString(ObsControl.objMaxim.CCDCamera.GuiderAngle); //for now
-                txtGuiderLastErrSt.Text=ObsControl.objMaxim.CCDCamera.LastGuiderError;
-
-                if (ObsControl.objMaxim.CCDCamera.GuiderNewMeasurement)
-                {
-                    ObsControl.objMaxim.GuiderXError=ObsControl.objMaxim.CCDCamera.GuiderXError;
-                    ObsControl.objMaxim.GuiderYError = ObsControl.objMaxim.CCDCamera.GuiderYError;
-
-                    string ErrTxt = String.Format("{0:0.00}  {1:0.00}" + Environment.NewLine, ObsControl.objMaxim.GuiderXError, ObsControl.objMaxim.GuiderYError);
-                    //if (txtGuiderError.Lines.Count() > 4)
-                    //{
-                    //    Array.Resize<String>(ref txtGuiderError.Lines,4);
-                    //    txtGuiderError.AppendText(ErrTxt);
-                    //}
-                }
-
-            }
-            else
-            {
-            }
-        }
-
-
-        /// <summary>
-        /// Update Telescope Fields and Draw
-        /// </summary>
-        private void UpdateTelescopeStatus()
-        {
-
-            if (ObsControl.objTelescope != null)
-            {
-                txtTelescopeAz.Enabled = true;
-                txtTelescopeAlt.Enabled = true;
-                txtTelescopeRA.Enabled = true;
-                txtTelescopeDec.Enabled = true;
-                btnPark.Enabled = true;
-                btnTrack.Enabled = true;
-
-                //Change Connect Button for current status
-                if (ObsControl.Mount_connected_flag)
-                {
-                    btnConnectTelescope.Text = "Diconnect";
-                    btnConnectTelescope.BackColor = OnColor;
-                }
-                else
-                {
-                    btnConnectTelescope.Text = "Connect";
-                    btnConnectTelescope.BackColor = OffColor;
-                    btnTrack.BackColor = SystemColors.Control;
-                    btnPark.BackColor = SystemColors.Control;
-                }
-
-
-                if (ObsControl.objTelescope.AtPark)
-                {
-                    //btnPark.Text = "Parked";
-                    btnPark.BackColor = OffColor;
-                }
-                else
-                {
-                    //btnPark.Text = "UnParked";
-                    btnPark.BackColor = OnColor;
-                }
-
-                if (ObsControl.objTelescope.Tracking)
-                {
-                    //btnTrack.Text = "Parked";
-                    btnTrack.BackColor = OnColor;
-                }
-                else
-                {
-                    //btnTrack.Text = "UnParked";
-                    btnTrack.BackColor = OffColor;
-                }
-
-                //update fields
-                calculateTelescopePositionsVars(); //recalculate vars
-                panelTele3D.Invalidate(); //calls repaint, which invoke panelTele3D_Paint event handler and calls Draw3DTelescope(e)
-            }
-            else
-            {
-                txtTelescopeAz.Enabled = false;
-                txtTelescopeAlt.Enabled = false;
-                txtTelescopeRA.Enabled = false;
-                txtTelescopeDec.Enabled = false;
-
-                btnPark.Enabled = false;
-                btnTrack.Enabled = false;
-            }
-
-        }
-
-
-        /// <summary>
-        /// Update values on settings tab
-        /// </summary>
-        public void UpdateSettingsTabStatusFileds()
-        {
-            //ASCOM DATA
-            txtSet_Switch.Text = ObsControl.SWITCH_DRIVER_NAME;
-            if (ObsControl.Switch_connected_flag == true)
-            {
-                txtSet_Switch.BackColor = OnColor;
-            }
-            else
-            {
-                txtSet_Switch.BackColor = SystemColors.Control;
-            }
-
-            txtSet_Dome.Text = ObsControl.DOME_DRIVER_NAME;
-            if (ObsControl.Dome_connected_flag == true)
-            {
-                txtSet_Dome.BackColor = OnColor;
-            }
-            else
-            {
-                txtSet_Dome.BackColor = SystemColors.Control;
-            }
-
-            txtSet_Telescope.Text = ObsControl.TELESCOPE_DRIVER_NAME;
-            if (ObsControl.Mount_connected_flag == true)
-            {
-                txtSet_Telescope.BackColor = OnColor;
-            }
-            else
-            {
-                txtSet_Telescope.BackColor = SystemColors.Control;
-            }
-
-            //MAXIM DATA
-            if (ObsControl.objMaxim.TestCamera())
-            {
-                txtSet_Maxim_Camera1.Text =  ObsControl.objMaxim.CCDCamera.CameraName;
-                txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor:SystemColors.Control);
-
-                txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
-                txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
-
-                //txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
-                //txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
-             }
-            else
-            {
-                txtSet_Maxim_Camera1.Text =  "";
-                txtSet_Maxim_Camera1.BackColor = SystemColors.Control;
-
-                txtSet_Maxim_Camera2.Text = "";
-                txtSet_Maxim_Camera2.BackColor = SystemColors.Control;
-            }
-
-
-            //testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
-            //testCamera2 = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled && ObsControl.objMaxim.CCDCamera.GuiderName != "");
-
-
-        }
-
-
-
-        /// <summary>
-        /// Update solver messages
-        /// </summary>
-        public void UpdateSolverFileds()
-        {
-            //AstroTortilla
-            txtATSolver_Status.Text = ObsControl.objAstroTortilla.LastAttemptMessage;
-            txtATSolutionRA.Text = ObsControl.objAstroTortilla.Solution_RA;
-            txtATSolutionDec.Text = ObsControl.objAstroTortilla.Solution_Dec;
-
-            txtATSolver_Status.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
-            txtATSolutionRA.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
-            txtATSolutionDec.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
-        }
-        #endregion update visual elements
-        // end of block
-
-// Region block with hadnling power management visual interface
-#region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
+        // Region block with hadnling power management visual interface
+        #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
@@ -1077,7 +318,7 @@ namespace ObservatoryCenter
         private void btnRoofPower_Click(object sender, EventArgs e)
         {
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-            
+
             //get current state
             bool SwitchState = (((Button)sender).BackColor == OnColor);
             SwitchState = !SwitchState;
@@ -1166,16 +407,16 @@ namespace ObservatoryCenter
         }
 
         #endregion Power button handling
-// End of block with power buttons handling
+        // End of block with power buttons handling
 
-// Block with Scenarios run
-#region /// Scenarios run procedures ////////////////////////////////////////////////////
+        // Block with Scenarios run
+        #region /// Scenarios run procedures ////////////////////////////////////////////////////
         private void btnStartAll_Click(object sender, EventArgs e)
         {
             ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartUpObservatory);
             Thread childThread = new Thread(RunThreadRef);
             childThread.Start();
-            Logging.AddLog("Command 'Prepare run' was initiated",LogLevel.Debug);
+            Logging.AddLog("Command 'Prepare run' was initiated", LogLevel.Debug);
         }
 
         private void btnBeforeImaging_Click(object sender, EventArgs e)
@@ -1199,11 +440,11 @@ namespace ObservatoryCenter
         }
 
 
-#endregion Scenarios run procedures
-//End of autorun procedures block
+        #endregion Scenarios run procedures
+        //End of autorun procedures block
 
-// Settings block
-#region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
+        // Settings block
+        #region /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnSettings_Click(object sender, EventArgs e)
         {
             SetForm.ShowDialog();
@@ -1220,7 +461,11 @@ namespace ObservatoryCenter
                 ObsControl.DOME_DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
                 ObsControl.TELESCOPE_DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
                 ObsControl.SWITCH_DRIVER_NAME = Properties.Settings.Default.SwitchDriverId;
-                
+
+                ObsControl.DomeEnabled = Properties.Settings.Default.DeviceEnabled_Dome;
+                ObsControl.TelescopeEnabled = Properties.Settings.Default.DeviceEnabled_Telescope;
+                ObsControl.SwitchEnabled = Properties.Settings.Default.DeviceEnabled_Switch;
+
                 //ObsControl.MaximDLPath = Properties.Settings.Default.MaximDLPath;
                 //ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
                 //ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
@@ -1256,16 +501,16 @@ namespace ObservatoryCenter
 
 
         #endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
-// End of settings block
+        // End of settings block
 
-// Telescope routines
-#region //// Telescope routines //////////////////////////////////////
+        // Telescope routines
+        #region //// Telescope routines //////////////////////////////////////
 
 
         #endregion Telescope routines
-// End of telescope routines
+        // End of telescope routines
 
-#region //// Status bar events handling //////////////////////////////////////
+        #region //// Status bar events handling //////////////////////////////////////
         private void toolStripStatus_Switch_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -1307,31 +552,31 @@ namespace ObservatoryCenter
         }
         #endregion Status bar event handling
 
-#region //// About information //////////////////////////////////////
-        private void LoadAboutData()   
+        #region //// About information //////////////////////////////////////
+        private void LoadAboutData()
         {
             lblVersion.Text += "Publish version: " + VersionData.PublishVersionSt;
             lblVersion.Text += Environment.NewLine + "Assembly version: " + VersionData.AssemblyVersionSt;
             lblVersion.Text += Environment.NewLine + "File version: " + VersionData.FileVersionSt;
             //lblVersion.Text += Environment.NewLine + "Product version " + ProductVersionSt;
-          
+
             //MessageBox.Show("Application " + assemName.Name + ", Version " + ver.ToString());
-            lblVersion.Text += Environment.NewLine+"Compile time: "+VersionData.CompileTime.ToString("yyyy-MM-dd HH:mm:ss");
+            lblVersion.Text += Environment.NewLine + "Compile time: " + VersionData.CompileTime.ToString("yyyy-MM-dd HH:mm:ss");
 
             // Add link
             LinkLabel.Link link = new LinkLabel.Link();
             link.LinkData = "http://www.astromania.info/";
             linkAstromania.Links.Add(link);
         }
-        
+
         private void linkAstromania_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }
 
-#endregion About information
+        #endregion About information
 
-#region //// AppLinks Events //////////////////////////////////////
+        #region //// AppLinks Events //////////////////////////////////////
         private void linkCdC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startPlanetarium();
@@ -1349,7 +594,7 @@ namespace ObservatoryCenter
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
-            
+
             Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
 
             ObsControl.CommandParser.ParseSingleCommand("PHD2_CONNECT");
@@ -1377,7 +622,7 @@ namespace ObservatoryCenter
         {
             ObsControl.startFocusMax();
         }
-#endregion //// AppLinks Events //////////////////////////////////////
+        #endregion //// AppLinks Events //////////////////////////////////////
 
         //Change log level control
         private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1422,10 +667,12 @@ namespace ObservatoryCenter
             txtRMS_Y.Text = "";
             txtRMS.Text = "";
 
-            }
+        }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Properties.Settings.Default.Save(); // Commit changes
+
             try
             {
                 SocketServer.Dispose();
@@ -1477,38 +724,123 @@ namespace ObservatoryCenter
             TestForm.Show();
         }
 
-        /// <summary>
-        /// Update times (Sideral, UTC, etc)
-        /// </summary>
-        private void UpdateTimePannel()
-        {
-            txtTime_local.Text = DateTime.Now.ToString("HH:mm:ss");
-            txtTime_UTC.Text = DateTime.UtcNow.ToString("HH:mm:ss");
-            txtTime_sideral.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NowLAST());
 
-            txtTime_CurDate.Text = DateTime.Now.ToString("dd.MM.yyyy");
-            txtTime_JD.Text = Math.Truncate(AstroUtilsClass.GetJD()).ToString("N0");
+        #region *** Settings tab ASCOM Devices ****************************************************************************************************
+        private void chkASCOM_Enable_Switch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.connectSwitch = false;
+                ObsControl.SwitchEnabled = false;
+                ObsControl.resetSwitch();
+            }
+            else
+            {
+                //connect
+                ObsControl.SwitchEnabled = true;
+                ObsControl.connectSwitch = true;
+                CheckPowerSwitchStatus_caller();
+            }
+            Update_SWITCH_related_elements();
+            Properties.Settings.Default.DeviceEnabled_Switch = ObsControl.SwitchEnabled;
         }
 
-        /// <summary>
-        /// Update astro events
-        /// </summary>
-        private void UpdateEvents()
+        private void btnASCOM_Choose_Switch_Click(object sender, EventArgs e)
         {
-            txtEvents_SunSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunSet());
-            txtEvents_NautTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightSet());
-            txtEvents_AstrTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.AstronTwilightSet());
+            ObsControl.SWITCH_DRIVER_NAME = ASCOM.DriverAccess.Switch.Choose(Properties.Settings.Default.SwitchDriverId);
+            txtSet_Switch.Text = ObsControl.SWITCH_DRIVER_NAME;
+            if (ObsControl.SWITCH_DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Switch.Checked = true;
+            }
 
-            txtEvents_AstrTwilEnd.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.AstronTwilightRise(1));
-            txtEvents_NautTwilEnd.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightRise(1));
-
-            txtEvents_SunRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunRise(1));
-
-
-            txtEvents_MoonRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonRise());
-            txtEvents_MoonSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonSet());
-            txtEvents_MoonPhase.Text = AstroUtilsClass.MoonIllumination().ToString("P2");
+            ObsControl.resetSwitch();
+            ObsControl.connectSwitch = true;
+            CheckPowerSwitchStatus_caller();
+            Update_SWITCH_related_elements();
         }
 
+
+        private void chkASCOM_Enable_Dome_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.connectDome = false;
+                ObsControl.DomeEnabled = false;
+                ObsControl.resetDome();
+            }
+            else
+            {
+                //connect
+                ObsControl.DomeEnabled = true;
+                ObsControl.connectDome = true;
+            }
+            Update_DOME_related_elements();
+            Properties.Settings.Default.DeviceEnabled_Dome = ObsControl.DomeEnabled;
+        }
+
+        private void btnASCOM_Choose_Dome_Click(object sender, EventArgs e)
+        {
+            ObsControl.DOME_DRIVER_NAME = ASCOM.DriverAccess.Dome.Choose(Properties.Settings.Default.DomeDriverId);
+            txtSet_Dome.Text = ObsControl.DOME_DRIVER_NAME;
+            if (ObsControl.DOME_DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Dome.Checked = true;
+            }
+            ObsControl.resetDome();
+            ObsControl.connectDome = true;
+            Update_DOME_related_elements();
+        }
+
+
+        private void chkASCOM_Enable_Telescope_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.connectMount = false;
+                ObsControl.TelescopeEnabled = false;
+                ObsControl.resetTelescope();
+            }
+            else
+            {
+                //connect
+                ObsControl.TelescopeEnabled = true;
+                ObsControl.connectMount = true;
+            }
+            Update_TELESCOPE_related_elements();
+            Properties.Settings.Default.DeviceEnabled_Telescope = ObsControl.TelescopeEnabled;
+        }
+
+
+        private void btnASCOM_Choose_Telescope_Click(object sender, EventArgs e)
+        {
+            ObsControl.TELESCOPE_DRIVER_NAME = ASCOM.DriverAccess.Telescope.Choose(Properties.Settings.Default.TelescopeDriverId);
+            txtSet_Telescope.Text = ObsControl.TELESCOPE_DRIVER_NAME;
+            if (ObsControl.TELESCOPE_DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Telescope.Checked = true;
+            }
+            ObsControl.resetTelescope();
+            ObsControl.connectMount = true;
+            Update_TELESCOPE_related_elements();
+        }
+
+        #endregion *** Settings tab ASCOM Devices ****************************************************************************************************
+
+
+
+        private void btnPark_Click(object sender, EventArgs e)
+        {
+            ObsControl.Telescope_Park();
+        }
+
+        private void btnTrack_Click(object sender, EventArgs e)
+        {
+            ObsControl.Telescope_TrackToggle();
+        }
     }
 }

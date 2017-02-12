@@ -174,6 +174,12 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chkASCOM_Enable_Telescope = new System.Windows.Forms.CheckBox();
+            this.chkASCOM_Enable_Dome = new System.Windows.Forms.CheckBox();
+            this.chkASCOM_Enable_Switch = new System.Windows.Forms.CheckBox();
+            this.btnASCOM_Choose_Telescope = new System.Windows.Forms.Button();
+            this.btnASCOM_Choose_Dome = new System.Windows.Forms.Button();
+            this.btnASCOM_Choose_Switch = new System.Windows.Forms.Button();
             this.txtSet_Telescope = new System.Windows.Forms.TextBox();
             this.txtSet_Dome = new System.Windows.Forms.TextBox();
             this.txtSet_Switch = new System.Windows.Forms.TextBox();
@@ -1698,9 +1704,9 @@
             // 
             // btnRunTest
             // 
-            this.btnRunTest.Location = new System.Drawing.Point(538, 198);
+            this.btnRunTest.Location = new System.Drawing.Point(608, 132);
             this.btnRunTest.Name = "btnRunTest";
-            this.btnRunTest.Size = new System.Drawing.Size(231, 89);
+            this.btnRunTest.Size = new System.Drawing.Size(231, 80);
             this.btnRunTest.TabIndex = 2;
             this.btnRunTest.Text = "Run test";
             this.btnRunTest.UseVisualStyleBackColor = true;
@@ -1708,10 +1714,10 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(538, 18);
+            this.btnSettings.Location = new System.Drawing.Point(608, 16);
             this.btnSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(231, 99);
+            this.btnSettings.Size = new System.Drawing.Size(231, 80);
             this.btnSettings.TabIndex = 1;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
@@ -1768,6 +1774,12 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.chkASCOM_Enable_Telescope);
+            this.groupBox4.Controls.Add(this.chkASCOM_Enable_Dome);
+            this.groupBox4.Controls.Add(this.chkASCOM_Enable_Switch);
+            this.groupBox4.Controls.Add(this.btnASCOM_Choose_Telescope);
+            this.groupBox4.Controls.Add(this.btnASCOM_Choose_Dome);
+            this.groupBox4.Controls.Add(this.btnASCOM_Choose_Switch);
             this.groupBox4.Controls.Add(this.txtSet_Telescope);
             this.groupBox4.Controls.Add(this.txtSet_Dome);
             this.groupBox4.Controls.Add(this.txtSet_Switch);
@@ -1781,29 +1793,101 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "ASCOM";
             // 
+            // chkASCOM_Enable_Telescope
+            // 
+            this.chkASCOM_Enable_Telescope.AutoSize = true;
+            this.chkASCOM_Enable_Telescope.Checked = global::ObservatoryCenter.Properties.Settings.Default.DeviceEnabled_Telescope;
+            this.chkASCOM_Enable_Telescope.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ObservatoryCenter.Properties.Settings.Default, "DeviceEnabled_Telescope", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkASCOM_Enable_Telescope.Location = new System.Drawing.Point(118, 110);
+            this.chkASCOM_Enable_Telescope.Name = "chkASCOM_Enable_Telescope";
+            this.chkASCOM_Enable_Telescope.Size = new System.Drawing.Size(22, 21);
+            this.chkASCOM_Enable_Telescope.TabIndex = 9;
+            this.chkASCOM_Enable_Telescope.UseVisualStyleBackColor = true;
+            this.chkASCOM_Enable_Telescope.CheckedChanged += new System.EventHandler(this.chkASCOM_Enable_Telescope_CheckedChanged);
+            // 
+            // chkASCOM_Enable_Dome
+            // 
+            this.chkASCOM_Enable_Dome.AutoSize = true;
+            this.chkASCOM_Enable_Dome.Checked = global::ObservatoryCenter.Properties.Settings.Default.DeviceEnabled_Dome;
+            this.chkASCOM_Enable_Dome.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ObservatoryCenter.Properties.Settings.Default, "DeviceEnabled_Dome", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkASCOM_Enable_Dome.Location = new System.Drawing.Point(118, 70);
+            this.chkASCOM_Enable_Dome.Name = "chkASCOM_Enable_Dome";
+            this.chkASCOM_Enable_Dome.Size = new System.Drawing.Size(22, 21);
+            this.chkASCOM_Enable_Dome.TabIndex = 9;
+            this.chkASCOM_Enable_Dome.UseVisualStyleBackColor = true;
+            this.chkASCOM_Enable_Dome.CheckedChanged += new System.EventHandler(this.chkASCOM_Enable_Dome_CheckedChanged);
+            // 
+            // chkASCOM_Enable_Switch
+            // 
+            this.chkASCOM_Enable_Switch.AutoSize = true;
+            this.chkASCOM_Enable_Switch.Checked = global::ObservatoryCenter.Properties.Settings.Default.DeviceEnabled_Switch;
+            this.chkASCOM_Enable_Switch.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ObservatoryCenter.Properties.Settings.Default, "DeviceEnabled_Switch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.chkASCOM_Enable_Switch.Location = new System.Drawing.Point(118, 33);
+            this.chkASCOM_Enable_Switch.Name = "chkASCOM_Enable_Switch";
+            this.chkASCOM_Enable_Switch.Size = new System.Drawing.Size(22, 21);
+            this.chkASCOM_Enable_Switch.TabIndex = 9;
+            this.chkASCOM_Enable_Switch.UseVisualStyleBackColor = true;
+            this.chkASCOM_Enable_Switch.CheckedChanged += new System.EventHandler(this.chkASCOM_Enable_Switch_CheckedChanged);
+            // 
+            // btnASCOM_Choose_Telescope
+            // 
+            this.btnASCOM_Choose_Telescope.Location = new System.Drawing.Point(405, 105);
+            this.btnASCOM_Choose_Telescope.Name = "btnASCOM_Choose_Telescope";
+            this.btnASCOM_Choose_Telescope.Size = new System.Drawing.Size(73, 31);
+            this.btnASCOM_Choose_Telescope.TabIndex = 8;
+            this.btnASCOM_Choose_Telescope.Text = "Choose";
+            this.btnASCOM_Choose_Telescope.UseVisualStyleBackColor = true;
+            this.btnASCOM_Choose_Telescope.Click += new System.EventHandler(this.btnASCOM_Choose_Telescope_Click);
+            // 
+            // btnASCOM_Choose_Dome
+            // 
+            this.btnASCOM_Choose_Dome.Location = new System.Drawing.Point(405, 65);
+            this.btnASCOM_Choose_Dome.Name = "btnASCOM_Choose_Dome";
+            this.btnASCOM_Choose_Dome.Size = new System.Drawing.Size(73, 31);
+            this.btnASCOM_Choose_Dome.TabIndex = 8;
+            this.btnASCOM_Choose_Dome.Text = "Choose";
+            this.btnASCOM_Choose_Dome.UseVisualStyleBackColor = true;
+            this.btnASCOM_Choose_Dome.Click += new System.EventHandler(this.btnASCOM_Choose_Dome_Click);
+            // 
+            // btnASCOM_Choose_Switch
+            // 
+            this.btnASCOM_Choose_Switch.Location = new System.Drawing.Point(405, 28);
+            this.btnASCOM_Choose_Switch.Name = "btnASCOM_Choose_Switch";
+            this.btnASCOM_Choose_Switch.Size = new System.Drawing.Size(73, 31);
+            this.btnASCOM_Choose_Switch.TabIndex = 8;
+            this.btnASCOM_Choose_Switch.Text = "Choose";
+            this.btnASCOM_Choose_Switch.UseVisualStyleBackColor = true;
+            this.btnASCOM_Choose_Switch.Click += new System.EventHandler(this.btnASCOM_Choose_Switch_Click);
+            // 
             // txtSet_Telescope
             // 
-            this.txtSet_Telescope.Location = new System.Drawing.Point(146, 106);
+            this.txtSet_Telescope.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "TelescopeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSet_Telescope.Location = new System.Drawing.Point(146, 107);
             this.txtSet_Telescope.Name = "txtSet_Telescope";
             this.txtSet_Telescope.ReadOnly = true;
-            this.txtSet_Telescope.Size = new System.Drawing.Size(332, 26);
+            this.txtSet_Telescope.Size = new System.Drawing.Size(248, 26);
             this.txtSet_Telescope.TabIndex = 7;
+            this.txtSet_Telescope.Text = global::ObservatoryCenter.Properties.Settings.Default.TelescopeDriverId;
             // 
             // txtSet_Dome
             // 
-            this.txtSet_Dome.Location = new System.Drawing.Point(146, 66);
+            this.txtSet_Dome.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "DomeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSet_Dome.Location = new System.Drawing.Point(146, 67);
             this.txtSet_Dome.Name = "txtSet_Dome";
             this.txtSet_Dome.ReadOnly = true;
-            this.txtSet_Dome.Size = new System.Drawing.Size(332, 26);
+            this.txtSet_Dome.Size = new System.Drawing.Size(248, 26);
             this.txtSet_Dome.TabIndex = 7;
+            this.txtSet_Dome.Text = global::ObservatoryCenter.Properties.Settings.Default.DomeDriverId;
             // 
             // txtSet_Switch
             // 
-            this.txtSet_Switch.Location = new System.Drawing.Point(146, 29);
+            this.txtSet_Switch.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSet_Switch.Location = new System.Drawing.Point(146, 30);
             this.txtSet_Switch.Name = "txtSet_Switch";
             this.txtSet_Switch.ReadOnly = true;
-            this.txtSet_Switch.Size = new System.Drawing.Size(332, 26);
+            this.txtSet_Switch.Size = new System.Drawing.Size(248, 26);
             this.txtSet_Switch.TabIndex = 7;
+            this.txtSet_Switch.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchDriverId;
             // 
             // label5
             // 
@@ -1939,11 +2023,13 @@
             // 
             this.btnHeating.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHeating.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnHeating.Enabled = false;
             this.btnHeating.Location = new System.Drawing.Point(152, 112);
             this.btnHeating.Name = "btnHeating";
             this.btnHeating.Size = new System.Drawing.Size(120, 37);
             this.btnHeating.TabIndex = 6;
             this.btnHeating.Text = "Heating";
+            this.toolTip1.SetToolTip(this.btnHeating, "Not implemented yet");
             this.btnHeating.UseVisualStyleBackColor = false;
             // 
             // btnCameraPower
@@ -2498,7 +2584,7 @@
             // 
             // backgroundWorker_SocketServer
             // 
-            this.backgroundWorker_SocketServer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker_SocketServer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_SocketServer_DoWork);
             // 
             // groupBox5
             // 
@@ -2756,6 +2842,7 @@
             this.btnTrack.TabIndex = 7;
             this.btnTrack.Text = "Track";
             this.btnTrack.UseVisualStyleBackColor = true;
+            this.btnTrack.Click += new System.EventHandler(this.btnTrack_Click);
             // 
             // btnPark
             // 
@@ -2765,6 +2852,7 @@
             this.btnPark.TabIndex = 7;
             this.btnPark.Text = "Park";
             this.btnPark.UseVisualStyleBackColor = true;
+            this.btnPark.Click += new System.EventHandler(this.btnPark_Click);
             // 
             // txtTelescopeDec
             // 
@@ -3272,7 +3360,6 @@
         private System.Windows.Forms.Timer mainTimer_Short;
         private System.Windows.Forms.Button btnCameraPower;
         private System.Windows.Forms.Button btnSettings;
-        private System.ComponentModel.BackgroundWorker backgroundWorker_SocketServer;
         public System.Windows.Forms.ToolStripStatusLabel toolStripStatus_Connection;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnBeforeImaging;
@@ -3487,6 +3574,13 @@
         private System.Windows.Forms.TextBox txtEvents_SunRise;
         private System.Windows.Forms.TextBox txtEvents_SunSet;
         private System.Windows.Forms.Label label63;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_SocketServer;
+        private System.Windows.Forms.CheckBox chkASCOM_Enable_Telescope;
+        private System.Windows.Forms.CheckBox chkASCOM_Enable_Dome;
+        private System.Windows.Forms.CheckBox chkASCOM_Enable_Switch;
+        private System.Windows.Forms.Button btnASCOM_Choose_Telescope;
+        private System.Windows.Forms.Button btnASCOM_Choose_Dome;
+        private System.Windows.Forms.Button btnASCOM_Choose_Switch;
     }
 }
 

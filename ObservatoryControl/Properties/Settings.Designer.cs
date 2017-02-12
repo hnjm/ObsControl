@@ -178,5 +178,41 @@ namespace ObservatoryCenter.Properties {
                 this["DomeDriverId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DeviceEnabled_Switch {
+            get {
+                return ((bool)(this["DeviceEnabled_Switch"]));
+            }
+            set {
+                this["DeviceEnabled_Switch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DeviceEnabled_Dome {
+            get {
+                return ((bool)(this["DeviceEnabled_Dome"]));
+            }
+            set {
+                this["DeviceEnabled_Dome"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DeviceEnabled_Telescope {
+            get {
+                return ((bool)(this["DeviceEnabled_Telescope"]));
+            }
+            set {
+                this["DeviceEnabled_Telescope"] = value;
+            }
+        }
     }
 }

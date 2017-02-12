@@ -31,7 +31,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>29</ApplicationRevision>
+    <ApplicationRevision>30</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -146,6 +146,10 @@
   <ItemGroup>
     <Compile Include="About.cs" />
     <Compile Include="AstroUtils.cs" />
+    <Compile Include="MainForm_updates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObservatoryControls_ASCOM_Telescope.cs" />
     <Compile Include="ProgControls_FocusMax.cs" />
     <Compile Include="ObservatoryControls_ASCOM.cs" />
     <Compile Include="ProgControls_CCDAP.cs" />

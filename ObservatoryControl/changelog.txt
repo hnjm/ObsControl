@@ -26,6 +26,10 @@ bugs:
 - unkown exception reason on Dome Connect!!!! to resolve
 
 
+0.7.0 [11.02.17]
+- working without power server and dome driver (rewrtite a lot of code)
+- no direct access to ASCOM form outter layers
+
 0.6.12 [06.02.17]
 - commandinterpreator now works with parameters
 - TTC tests

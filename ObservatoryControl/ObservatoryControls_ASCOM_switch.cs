@@ -23,10 +23,7 @@ namespace ObservatoryCenter
 
 #region ASCOM Device Drivers controlling (connect/disconnect/status)  ///////////////////////////////////////////////////////////////////
 
-        //Device connection flags
-        public bool Switch_connected_flag = false;
-        public bool Mount_connected_flag = false;
-        public bool Dome_connected_flag = false;
+
 
         //Power buttons state flags
         public bool? Mount_power_flag = null;
@@ -44,45 +41,64 @@ namespace ObservatoryCenter
                 //Log enter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), LogLevel.Trace);
 
-                
-                try
-                {
-                    //If obj doesnot exist - create
-                    if (objSwitch == null) objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
 
-                    //Connect
-                    objSwitch.Connected = value;
-                    Switch_connected_flag = value;
-                    Logging.AddLog("Switch has been " + (value ? "connected" : "disconnected"), LogLevel.Activity);
-                }
-                catch (Exception ex)
+                //if device present at all and its ID is set
+                if (SwitchEnabled && SWITCH_DRIVER_NAME != "")
                 {
-                    Switch_connected_flag = false;
-                    Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
-                }
+                    try
+                    {
+                        //If obj doesnot exist - create
+                        if (objSwitch == null) objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
 
-                //free object
-                if (!value)
+                        //Connect
+                        objSwitch.Connected = value;
+                        Switch_connected_flag = value;
+                        Logging.AddLog("Switch has been " + (value ? "connected" : "disconnected"), LogLevel.Activity);
+                    }
+                    catch (Exception ex)
+                    {
+                        Switch_connected_flag = false;
+                        Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                    }
+
+                    //free object
+                    if (!value)
+                    {
+                        //objSwitch.Dispose();
+                        //objSwitch = null;
+                    }
+                }
+                else
                 {
-                    //objSwitch.Dispose();
-                    //objSwitch = null;
+                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                    Logging.AddLog("Device is not set. Couldn't " + (value ? "connect to" : "disconnect ") + " switch", LogLevel.Debug, Highlight.Error);
                 }
             }
             get
             {
                 //Log enter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name +" enter", LogLevel.Trace);
+                //if device present at all and its ID is set
+                if (SwitchEnabled && SWITCH_DRIVER_NAME != "")
+                {
 
-                try
-                {
-                    Switch_connected_flag  = objSwitch.Connected;
+                    try
+                    {
+                        Switch_connected_flag  = objSwitch.Connected;
+                    }
+                    catch (Exception ex)
+                    {
+                        Switch_connected_flag = false;
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Switch_connected_flag = false;
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                    Logging.AddLog("Device is not set. Couldn't return status of switch", LogLevel.Debug, Highlight.Error);
                 }
+
                 Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Switch_connected_flag, LogLevel.Trace);
                 return Switch_connected_flag;
             }

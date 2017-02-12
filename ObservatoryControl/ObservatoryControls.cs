@@ -24,16 +24,31 @@ namespace ObservatoryCenter
         /// </summary>
         public MainForm ParentMainForm;
 
+        /// Define - if equpipment is present at all
+        public bool DomeEnabled = false;
+        public bool SwitchEnabled = false;
+        public bool TelescopeEnabled = false;
 
-        public ASCOM.DriverAccess.Telescope objTelescope = null;
-        public ASCOM.DriverAccess.Dome objDome = null;
-        public ASCOM.DriverAccess.Switch objSwitch = null;
-        public ASCOM.DriverAccess.Focuser objFocuser = null;
-        public ASCOM.DriverAccess.Camera objCamera = null;
-
+        /// ASCOM Drivers IDs
         public string SWITCH_DRIVER_NAME = "";
         public string DOME_DRIVER_NAME = "";
         public string TELESCOPE_DRIVER_NAME = "";
+
+        /// ASCOM Drivers objects
+        private ASCOM.DriverAccess.Telescope objTelescope = null;
+        private ASCOM.DriverAccess.Dome objDome = null;
+        private ASCOM.DriverAccess.Switch objSwitch = null;
+        //public ASCOM.DriverAccess.Focuser objFocuser = null;
+        //public ASCOM.DriverAccess.Camera objCamera = null;
+
+        //Device connection flags
+        //outter program layers should use them, not direct query to objDome.Connected!
+        public bool Switch_connected_flag = false;
+        public bool Mount_connected_flag = false;
+        public bool Dome_connected_flag = false;
+
+        private ShutterState curShutterStatus = ShutterState.shutterError;
+        private PierSide curPierSideStatus = PierSide.pierUnknown;
 
         internal DateTime RoofRoutine_StartTime;
         internal int curRoofRoutineDuration_Seconds;
@@ -79,7 +94,7 @@ namespace ObservatoryCenter
 
 #region Roof control //////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// Open roof
+        /// Initiate roof Open
         /// </summary>
         /// <returns></returns>
         public bool RoofOpen()
@@ -101,11 +116,25 @@ namespace ObservatoryCenter
             }
             RoofRoutine_StartTime=DateTime.Now;
 
-            //open dome
-            objDome.OpenShutter();
-            return true;
+            try
+            {
+                //open dome
+                objDome.OpenShutter();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                curShutterStatus = ShutterState.shutterError;
+                Logging.AddLog("Couldn't open shutter", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                return false; 
+            }
         }
 
+        /// <summary>
+        /// Initiate roof closing
+        /// </summary>
+        /// <returns></returns>
         public bool RoofClose()
         {
             Logging.AddLog("Trying to close roof", LogLevel.Activity);
@@ -126,11 +155,64 @@ namespace ObservatoryCenter
 
             RoofRoutine_StartTime = DateTime.Now;
 
-            objDome.CloseShutter();
-            return true;
+            try
+            {
+                //open dome
+                objDome.CloseShutter();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                curShutterStatus = ShutterState.shutterError;
+                Logging.AddLog("Couldn't close shutter", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                return false;
+            }
         }
 
-#endregion Roof control end
+
+        /// <summary>
+        /// Get shutter status
+        /// </summary>
+        public ShutterState DomeShutterStatus
+        {
+            get
+            {
+                //Log enter
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
+
+                //if device present at all and its ID is set
+                if (DomeEnabled && DOME_DRIVER_NAME != "")
+                {
+                    try
+                    {
+                        curShutterStatus = objDome.ShutterStatus;
+                    }
+                    catch (Exception ex)
+                    {
+                        curShutterStatus = ShutterState.shutterError;
+                        Logging.AddLog("Couldn't get shutter state", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    }
+                }
+                else
+                {
+                    curShutterStatus = ShutterState.shutterError;
+                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                    Logging.AddLog("Domoe is not set. Couldn't return status of shutter", LogLevel.Debug, Highlight.Error);
+                }
+
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + curShutterStatus, LogLevel.Trace);
+                return curShutterStatus;
+            }
+        }
+
+
+
+ 
+
+        #endregion Roof control end
 
 
         public double CalcRecommendedCoolerTemp()

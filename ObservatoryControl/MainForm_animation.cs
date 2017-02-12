@@ -140,8 +140,8 @@ namespace ObservatoryCenter
             if (tickCount > waitTicksBeforeCheck)
             {
                 //Roof was opened/closed?
-                if (((ROOF_incPos > 0) && ObsControl.objDome.ShutterStatus != ShutterState.shutterOpen) ||
-                    ((ROOF_incPos < 0) && ObsControl.objDome.ShutterStatus != ShutterState.shutterClosed))
+                if (((ROOF_incPos > 0) && ObsControl.DomeShutterStatus != ShutterState.shutterOpen) ||
+                    ((ROOF_incPos < 0) && ObsControl.DomeShutterStatus != ShutterState.shutterClosed))
 
                 {
                 //Not yet
@@ -223,7 +223,7 @@ namespace ObservatoryCenter
         }
         private void drawStoped()
         {
-            ShutterState curShutState = ObsControl.objDome.ShutterStatus;
+            ShutterState curShutState = ObsControl.DomeShutterStatus;
             if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing))
             {
                 rectRoof.Left = ROOF_startPos.X + Convert.ToInt16(Math.Round((double)ROOF_endPos / 2));
@@ -266,13 +266,13 @@ namespace ObservatoryCenter
         private void UpdateRoofPicture()
         {
             //Draw roof status
-            if (ObsControl.objDome.Connected)
-            {
-                if (ObsControl.objDome.ShutterStatus == ShutterState.shutterClosed)
+            if (ObsControl.DomeEnabled && ObsControl.DOME_DRIVER_NAME != "" && ObsControl.Dome_connected_flag)
+            { 
+                if (ObsControl.DomeShutterStatus == ShutterState.shutterClosed)
                 {
                     drawClosed();
                 }
-                else if (ObsControl.objDome.ShutterStatus == ShutterState.shutterOpen)
+                else if (ObsControl.DomeShutterStatus == ShutterState.shutterOpen)
                 {
                     drawOpened();
                 }
@@ -334,10 +334,10 @@ namespace ObservatoryCenter
             Y0 = (int)(panelTele3D.Height / 2 * 1.2);
 
             //update fields
-            DEC_grad = (float)ObsControl.objTelescope.Declination;
-            RA = (float)ObsControl.objTelescope.RightAscension;
+            DEC_grad = (float)ObsControl.Telescope_Declination;
+            RA = (float)ObsControl.Telescope_RightAscension;
 
-            HA = (float)(ObsControl.objTelescope.SiderealTime - RA);
+            HA = (float)(ObsControl.Telescope_SiderealTime - RA);
             if (HA < 0) HA = HA + 24.0F;
             if (HA > 24) HA = HA - 24.0F;
 
@@ -345,14 +345,14 @@ namespace ObservatoryCenter
             //Determine physical side of peir and calculate Mechanical HA
             if (HA>=0 && HA<6)
             {
-                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
@@ -362,14 +362,14 @@ namespace ObservatoryCenter
             }
             else if (HA >= 6 && HA < 12)
             {
-                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
@@ -379,14 +379,14 @@ namespace ObservatoryCenter
             }
             else if (HA >= 12 && HA < 18)
             {
-                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
@@ -396,14 +396,14 @@ namespace ObservatoryCenter
             }
             else  if (HA >= 18 && HA < 24)
             {
-                if (ObsControl.objTelescope.SideOfPier == PierSide.pierEast)
+                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.objTelescope.SideOfPier == PierSide.pierWest)
+                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
@@ -418,8 +418,8 @@ namespace ObservatoryCenter
 
             //DEC_mech_grad = DEC_grad;//for debug only
 
-            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Azimuth);
-            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.objTelescope.Altitude);
+            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.Telescope_Azimuth);
+            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.Telescope_Altitude);
 
             txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RA);
             txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DEC_grad);
