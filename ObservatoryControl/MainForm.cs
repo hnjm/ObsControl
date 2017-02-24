@@ -178,9 +178,20 @@ namespace ObservatoryCenter
             }
         }
 
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.Save(); // Commit changes
+
+            try
+            {
+                SocketServer.Dispose();
+            }
+            catch { };
+        }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region *** TIMERS *****************************************************************
+        // Timers block
+        #region /// TIMERS *****************************************************************
         /// <summary>
         /// Main timer tick
         /// </summary>
@@ -252,45 +263,10 @@ namespace ObservatoryCenter
             Logging.DumpToFile();
         }
 
-        #endregion *** TIMERS *****************************************************************
+        #endregion /// TIMERS *****************************************************************
+        // END OF TIMERS BLOCK
 
-
-        /// <summary>
-        /// Wrapper to call check power switch status on background (separate thread)
-        /// because in case of network timeout it can hang system
-        /// </summary>
-        public void CheckPowerSwitchStatus_caller()
-        {
-            if (ObsControl.Switch_connected_flag)
-            {
-                try
-                {
-                    if (CheckPowerStatusThread == null || !CheckPowerStatusThread.IsAlive)
-                    {
-                        CheckPowerStatusThread_startref = new ThreadStart(ObsControl.CheckPowerDeviceStatus);
-                        CheckPowerStatusThread = new Thread(CheckPowerStatusThread_startref);
-                        CheckPowerStatusThread.Start();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Exception in Main timer CheckPowerDeviceStatus! " + ex.ToString());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Separate thread for socket server
-        /// </summary>
-        private void backgroundWorker_SocketServer_DoWork(object sender, DoWorkEventArgs e)
-        {
-            SocketServer.ListenSocket();
-        }
-
-
-
-
-        // Region block with hadnling power management visual interface
+         // Region block with hadnling power management visual interface
         #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
@@ -313,7 +289,6 @@ namespace ObservatoryCenter
                 //if switching wasn't proceed
             }
         }
-
 
         private void btnRoofPower_Click(object sender, EventArgs e)
         {
@@ -510,6 +485,7 @@ namespace ObservatoryCenter
         #endregion Telescope routines
         // End of telescope routines
 
+        // Status bar event handling block
         #region //// Status bar events handling //////////////////////////////////////
         private void toolStripStatus_Switch_DoubleClick(object sender, EventArgs e)
         {
@@ -523,7 +499,6 @@ namespace ObservatoryCenter
                 MessageBox.Show("Exception in status bar switch connect/disconnect! " + ex.ToString());
             }
         }
-
         private void toolStripStatus_Dome_Click(object sender, EventArgs e)
         {
             try
@@ -536,8 +511,6 @@ namespace ObservatoryCenter
             }
 
         }
-
-
         private void toolStripStatus_Telescope_DoubleClick(object sender, EventArgs e)
         {
             try
@@ -550,7 +523,17 @@ namespace ObservatoryCenter
             }
 
         }
-        #endregion Status bar event handling
+        private void toolStripStatus_Camera_Click(object sender, EventArgs e)
+        {
+            ObsControl.objMaxim.ConnectCamera();
+        }
+        //Change log level control
+        private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            toolStripDropDownLogLevel.Text = e.ClickedItem.Text;
+        }
+        #endregion /// Status bar event handling //////////////////////////////////////////////
+        // End of Status bar event handling block
 
         #region //// About information //////////////////////////////////////
         private void LoadAboutData()
@@ -576,12 +559,12 @@ namespace ObservatoryCenter
 
         #endregion About information
 
+        // AppLinks Events 
         #region //// AppLinks Events //////////////////////////////////////
         private void linkCdC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startPlanetarium();
         }
-
         private void linkTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             //ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
@@ -590,7 +573,6 @@ namespace ObservatoryCenter
             ObsControl.objWSApp.CMD_GetBoltwoodString(); //get booltwood string
 
         }
-
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
@@ -599,7 +581,6 @@ namespace ObservatoryCenter
 
             ObsControl.CommandParser.ParseSingleCommand("PHD2_CONNECT");
         }
-
         private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.CommandParser.ParseSingleCommand("MAXIM_RUN");
@@ -607,33 +588,172 @@ namespace ObservatoryCenter
             ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
             ObsControl.CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
         }
-
         private void linkCCDAP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startCCDAP();
         }
-
         private void linkPHDBroker_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startPHDBroker();
         }
-
         private void linkFocusMax_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ObsControl.startFocusMax();
         }
+        private void linkWeatherStation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startWS();
+        }
+        private void linkTelescopeTempControl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.startTTC();
+        }
+
         #endregion //// AppLinks Events //////////////////////////////////////
+        // End of AppLinks Events block 
 
-        //Change log level control
-        private void toolStripDropDownLogLevel_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        // Settings tab ASCOM Devices
+        #region /// Settings tab ASCOM Devices ////////////////////////////////////////////////////////////////
+        private void chkASCOM_Enable_Switch_CheckedChanged(object sender, EventArgs e)
         {
-            toolStripDropDownLogLevel.Text = e.ClickedItem.Text;
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.connectSwitch = false;
+                ObsControl.SwitchEnabled = false;
+                ObsControl.resetSwitch();
+            }
+            else
+            {
+                //connect
+                ObsControl.SwitchEnabled = true;
+                ObsControl.connectSwitch = true;
+                CheckPowerSwitchStatus_caller();
+            }
+            Update_SWITCH_related_elements();
+            Properties.Settings.Default.DeviceEnabled_Switch = ObsControl.SwitchEnabled;
+        }
+        private void btnASCOM_Choose_Switch_Click(object sender, EventArgs e)
+        {
+            ObsControl.SWITCH_DRIVER_NAME = ASCOM.DriverAccess.Switch.Choose(Properties.Settings.Default.SwitchDriverId);
+            txtSet_Switch.Text = ObsControl.SWITCH_DRIVER_NAME;
+            if (ObsControl.SWITCH_DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Switch.Checked = true;
+            }
+
+            ObsControl.resetSwitch();
+            ObsControl.connectSwitch = true;
+            CheckPowerSwitchStatus_caller();
+            Update_SWITCH_related_elements();
+        }
+        private void chkASCOM_Enable_Dome_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.connectDome = false;
+                ObsControl.DomeEnabled = false;
+                ObsControl.resetDome();
+            }
+            else
+            {
+                //connect
+                ObsControl.DomeEnabled = true;
+                ObsControl.connectDome = true;
+            }
+            Update_DOME_related_elements();
+            Properties.Settings.Default.DeviceEnabled_Dome = ObsControl.DomeEnabled;
+        }
+        private void btnASCOM_Choose_Dome_Click(object sender, EventArgs e)
+        {
+            ObsControl.DOME_DRIVER_NAME = ASCOM.DriverAccess.Dome.Choose(Properties.Settings.Default.DomeDriverId);
+            txtSet_Dome.Text = ObsControl.DOME_DRIVER_NAME;
+            if (ObsControl.DOME_DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Dome.Checked = true;
+            }
+            ObsControl.resetDome();
+            ObsControl.connectDome = true;
+            Update_DOME_related_elements();
+        }
+        private void chkASCOM_Enable_Telescope_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.connectMount = false;
+                ObsControl.TelescopeEnabled = false;
+                ObsControl.resetTelescope();
+            }
+            else
+            {
+                //connect
+                ObsControl.TelescopeEnabled = true;
+                ObsControl.connectMount = true;
+            }
+            Update_TELESCOPE_related_elements();
+            Properties.Settings.Default.DeviceEnabled_Telescope = ObsControl.TelescopeEnabled;
+        }
+        private void btnASCOM_Choose_Telescope_Click(object sender, EventArgs e)
+        {
+            ObsControl.TELESCOPE_DRIVER_NAME = ASCOM.DriverAccess.Telescope.Choose(Properties.Settings.Default.TelescopeDriverId);
+            txtSet_Telescope.Text = ObsControl.TELESCOPE_DRIVER_NAME;
+            if (ObsControl.TELESCOPE_DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Telescope.Checked = true;
+            }
+            ObsControl.resetTelescope();
+            ObsControl.connectMount = true;
+            Update_TELESCOPE_related_elements();
         }
 
-        private void toolStripStatus_Camera_Click(object sender, EventArgs e)
+        #endregion /// Settings tab ASCOM Devices /////////////////////////////////////////////////////////////////
+        // End of Settings tab ASCOM Devices block
+
+        /// <summary>
+        /// Wrapper to call check power switch status on background (separate thread)
+        /// because in case of network timeout it can hang system
+        /// </summary>
+        public void CheckPowerSwitchStatus_caller()
         {
-            ObsControl.objMaxim.ConnectCamera();
+            if (ObsControl.Switch_connected_flag)
+            {
+                try
+                {
+                    if (CheckPowerStatusThread == null || !CheckPowerStatusThread.IsAlive)
+                    {
+                        CheckPowerStatusThread_startref = new ThreadStart(ObsControl.CheckPowerDeviceStatus);
+                        CheckPowerStatusThread = new Thread(CheckPowerStatusThread_startref);
+                        CheckPowerStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Exception in Main timer CheckPowerDeviceStatus! " + ex.ToString());
+                }
+            }
         }
+
+        /// <summary>
+        /// Separate thread for socket server
+        /// </summary>
+        private void backgroundWorker_SocketServer_DoWork(object sender, DoWorkEventArgs e)
+        {
+            SocketServer.ListenSocket();
+        }
+
+        /// <summary>
+        /// Run TestEquipment Form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRunTest_Click(object sender, EventArgs e)
+        {
+            TestForm.Show();
+        }
+
 
         private void btnCoolerOn_Click(object sender, EventArgs e)
         {
@@ -669,16 +789,6 @@ namespace ObservatoryCenter
 
         }
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Properties.Settings.Default.Save(); // Commit changes
-
-            try
-            {
-                SocketServer.Dispose();
-            }
-            catch { };
-        }
 
         private void btnGuiderConnect_Click(object sender, EventArgs e)
         {
@@ -714,122 +824,9 @@ namespace ObservatoryCenter
 
         }
 
-        /// <summary>
-        /// Run TestEquipment Form
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnRunTest_Click(object sender, EventArgs e)
-        {
-            TestForm.Show();
-        }
 
 
-        #region *** Settings tab ASCOM Devices ****************************************************************************************************
-        private void chkASCOM_Enable_Switch_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked == false)
-            {
-                //disconnect
-                ObsControl.connectSwitch = false;
-                ObsControl.SwitchEnabled = false;
-                ObsControl.resetSwitch();
-            }
-            else
-            {
-                //connect
-                ObsControl.SwitchEnabled = true;
-                ObsControl.connectSwitch = true;
-                CheckPowerSwitchStatus_caller();
-            }
-            Update_SWITCH_related_elements();
-            Properties.Settings.Default.DeviceEnabled_Switch = ObsControl.SwitchEnabled;
-        }
 
-        private void btnASCOM_Choose_Switch_Click(object sender, EventArgs e)
-        {
-            ObsControl.SWITCH_DRIVER_NAME = ASCOM.DriverAccess.Switch.Choose(Properties.Settings.Default.SwitchDriverId);
-            txtSet_Switch.Text = ObsControl.SWITCH_DRIVER_NAME;
-            if (ObsControl.SWITCH_DRIVER_NAME != "")
-            {
-                chkASCOM_Enable_Switch.Checked = true;
-            }
-
-            ObsControl.resetSwitch();
-            ObsControl.connectSwitch = true;
-            CheckPowerSwitchStatus_caller();
-            Update_SWITCH_related_elements();
-        }
-
-
-        private void chkASCOM_Enable_Dome_CheckedChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked == false)
-            {
-                //disconnect
-                ObsControl.connectDome = false;
-                ObsControl.DomeEnabled = false;
-                ObsControl.resetDome();
-            }
-            else
-            {
-                //connect
-                ObsControl.DomeEnabled = true;
-                ObsControl.connectDome = true;
-            }
-            Update_DOME_related_elements();
-            Properties.Settings.Default.DeviceEnabled_Dome = ObsControl.DomeEnabled;
-        }
-
-        private void btnASCOM_Choose_Dome_Click(object sender, EventArgs e)
-        {
-            ObsControl.DOME_DRIVER_NAME = ASCOM.DriverAccess.Dome.Choose(Properties.Settings.Default.DomeDriverId);
-            txtSet_Dome.Text = ObsControl.DOME_DRIVER_NAME;
-            if (ObsControl.DOME_DRIVER_NAME != "")
-            {
-                chkASCOM_Enable_Dome.Checked = true;
-            }
-            ObsControl.resetDome();
-            ObsControl.connectDome = true;
-            Update_DOME_related_elements();
-        }
-
-
-        private void chkASCOM_Enable_Telescope_CheckedChanged(object sender, EventArgs e)
-        {
-
-            if (((CheckBox)sender).Checked == false)
-            {
-                //disconnect
-                ObsControl.connectMount = false;
-                ObsControl.TelescopeEnabled = false;
-                ObsControl.resetTelescope();
-            }
-            else
-            {
-                //connect
-                ObsControl.TelescopeEnabled = true;
-                ObsControl.connectMount = true;
-            }
-            Update_TELESCOPE_related_elements();
-            Properties.Settings.Default.DeviceEnabled_Telescope = ObsControl.TelescopeEnabled;
-        }
-
-
-        private void btnASCOM_Choose_Telescope_Click(object sender, EventArgs e)
-        {
-            ObsControl.TELESCOPE_DRIVER_NAME = ASCOM.DriverAccess.Telescope.Choose(Properties.Settings.Default.TelescopeDriverId);
-            txtSet_Telescope.Text = ObsControl.TELESCOPE_DRIVER_NAME;
-            if (ObsControl.TELESCOPE_DRIVER_NAME != "")
-            {
-                chkASCOM_Enable_Telescope.Checked = true;
-            }
-            ObsControl.resetTelescope();
-            ObsControl.connectMount = true;
-            Update_TELESCOPE_related_elements();
-        }
-
-        #endregion *** Settings tab ASCOM Devices ****************************************************************************************************
 
 
 
@@ -842,5 +839,6 @@ namespace ObservatoryCenter
         {
             ObsControl.Telescope_TrackToggle();
         }
+
     }
 }

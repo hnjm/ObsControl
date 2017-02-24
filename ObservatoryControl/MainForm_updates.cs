@@ -173,7 +173,7 @@ namespace ObservatoryCenter
             toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
 
             //CAMERA
-            bool testCamera = ObsControl.objMaxim.CheckCameraAvailable();
+            bool testCamera = (ObsControl.objMaxim.MaximApplicationObj != null  && ObsControl.objMaxim.CheckCameraAvailable());
             if (testCamera)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
@@ -506,7 +506,7 @@ namespace ObservatoryCenter
             }
 
             //MAXIM DATA
-            if (ObsControl.objMaxim.CheckCameraAvailable())
+            if (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.CheckCameraAvailable())
             {
                 txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CCDCamera.CameraName;
                 txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);

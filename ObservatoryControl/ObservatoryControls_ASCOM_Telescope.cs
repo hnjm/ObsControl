@@ -35,7 +35,7 @@ namespace ObservatoryCenter
 
 
             //if device present at all and its ID is set
-            if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+            if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
             {
                 try
                 {
@@ -44,7 +44,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Logging.AddLog("Couldn't move to Park status", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                 }
             }
             else
@@ -64,7 +64,7 @@ namespace ObservatoryCenter
 
 
             //if device present at all and its ID is set
-            if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+            if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
             {
                 try
                 {
@@ -75,7 +75,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Logging.AddLog("Couldn't switch on Tracking", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                 }
             }
             else
@@ -96,7 +96,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -106,7 +106,7 @@ namespace ObservatoryCenter
                     {
                         curPierSideStatus = PierSide.pierUnknown;
                         Logging.AddLog("Couldn't get SidePier status", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -134,7 +134,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -144,7 +144,7 @@ namespace ObservatoryCenter
                     {
                         curAzimuth = -1;
                         Logging.AddLog("Couldn't get telescope Azimuth", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -172,7 +172,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -182,7 +182,7 @@ namespace ObservatoryCenter
                     {
                         curAltitude = -100;
                         Logging.AddLog("Couldn't get telescope Altitude", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -210,7 +210,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -220,7 +220,7 @@ namespace ObservatoryCenter
                     {
                         curDeclination = -100;
                         Logging.AddLog("Couldn't get telescope Declination", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -247,7 +247,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -257,7 +257,7 @@ namespace ObservatoryCenter
                     {
                         curRightAscension = -100;
                         Logging.AddLog("Couldn't get telescope RightAscension", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -286,7 +286,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -296,7 +296,7 @@ namespace ObservatoryCenter
                     {
                         curSiderealTime = -100;
                         Logging.AddLog("Couldn't get telescope SiderealTime", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -325,7 +325,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -335,7 +335,7 @@ namespace ObservatoryCenter
                     {
                         curAtPark = false;
                         Logging.AddLog("Couldn't get telescope AtPark status", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else
@@ -362,7 +362,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "")
+                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -372,7 +372,7 @@ namespace ObservatoryCenter
                     {
                         curTracking = false;
                         Logging.AddLog("Couldn't get telescope Tracking status", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
                 else

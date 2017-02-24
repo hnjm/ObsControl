@@ -49,10 +49,11 @@ namespace ObservatoryCenter
         private static List<LogRecord> LogList;
 
 
-        public static bool LogFileFlag = true;
-        public static string LogFilePath = "";
-        public static string LogFileName = "observatory_"; //Text log
-        public static string LogFileExt = "log"; //Text log
+        public static string LOG_FOLDER_NAME = "Logs";
+        public static string LOG_FILE_NAME = "observatory_"; //Text log
+        public static string LOG_FILE_EXT = "log"; //Text log
+
+        public static string LogFilePath = Path.Combine(ObsConfig.ProgDocumentsPath, LOG_FOLDER_NAME) + "\\";
 
         //DEBUG LEVEL
         public static LogLevel DEBUG_LEVEL = LogLevel.All;
@@ -71,7 +72,7 @@ namespace ObservatoryCenter
         {
             get{
                 if (LogFilePath == "") LogFilePath = Application.StartupPath;
-                return Path.Combine(LogFilePath, LogFileName + DateTime.Now.ToString("yyyy-MM-dd") + "." + LogFileExt);
+                return Path.Combine(LogFilePath, LOG_FILE_NAME + DateTime.Now.ToString("yyyy-MM-dd") + "." + LOG_FILE_EXT);
             }
         }
 
