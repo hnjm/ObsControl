@@ -10,6 +10,8 @@
     <ASTROTORTILLA value="c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe" />
     <ASTROTORTILLA_AUTOIT value="c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe" />
     <CCDAP_Logs value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs" />
+    <WS value="c:\Users\Emchenko\Desktop\WeatherStation Monitor autostart.lnk" />
+    <TTC value="c:\Users\Emchenko\Desktop\TempControl autostart.lnk" />
   </programsPath>
   <scenarioMainParams>
     <POWER_ON value="true" />

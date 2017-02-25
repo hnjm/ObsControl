@@ -29,10 +29,11 @@ namespace ObservatoryCenter
         // Поэтому нужно помнить, что их ТРИ и синхронизировать правки (просто копируя их)
         //
         // UPDATE. Начиная с версии 0.7.2 поменялось:
-        // - по умолчанию конфиг храниться в \Source\Repos\ObsControl\ObservatoryControl\bin\Debug\ под именем ObservatoryControl.defaultconfig.txt"
-        // - а рабочий в \Documents\ObservatoryControl\Config\ObservatoryControl.config 
-        // Обновлять лучше так: редактируем дефолтный (txt), а рабочий просто удаляем. Ну или рабочий копировать в текстовый.
-        //
+        // 1. Дефольный конфиг под именем ObservatoryControl.defaultconfig.txt" при разработке храниться в паке с исходным кодом (чтобы он синхронизировался через GITHUB он должен лежать там, где хранится весь SourceCode) ("c:\Users\Emchenko Boris\Source\Repos\ObsControl\ObservatoryControl\ObservatoryControl.defaultconfig.txt")
+        // 2. При компиляции он копируется в \Source\Repos\ObsControl\ObservatoryControl\bin\Debug\ 
+        // 3. A рабочий лежит в \Documents\ObservatoryControl\Config\ObservatoryControl.config 
+        // Обновлять лучше так: редактируем дефолтный (txt) в папке с SourceCode (ПОМНИ НЕ .../DEBUG!!!), при компиляции он скопируется сам, а рабочий просто удаляем (при запуске перепишется). Ну или рабочий копировать в текстовый, но опять же - в папку с SourceCode.
+
         public static string CONFIG_FILENAME = "ObservatoryControl.config";
         public static string CONFIG_PATH = Path.Combine(ProgDocumentsPath, "Config") + "\\";
         public static string DEFAULT_CONFIG_FILENAME = "ObservatoryControl.defaultconfig.txt"; //Default config file

@@ -31,7 +31,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>35</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -247,7 +247,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="changelog.txt" />
-    <Content Include="ObservatoryControl.defaultconfig.txt" />
+    <Content Include="ObservatoryControl.defaultconfig.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Twilight_chart.png" />
     <None Include="Resources\logo_observ2.ico" />
     <None Include="Resources\logo_observ2.png" />

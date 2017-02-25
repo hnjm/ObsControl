@@ -50,10 +50,14 @@ namespace ObservatoryCenter
 
 
         public static string LOG_FOLDER_NAME = "Logs";
-        public static string LOG_FILE_NAME = "observatory_"; //Text log
+        public static string LOG_FILE_NAME_ALL = "observatory_trace_"; //Text log
+        public static string LOG_FILE_NAME_MAIN = "observatory_"; //Text log
         public static string LOG_FILE_EXT = "log"; //Text log
 
         public static string LogFilePath = Path.Combine(ObsConfig.ProgDocumentsPath, LOG_FOLDER_NAME) + "\\";
+
+        public static string currentLogAllFileFullName=""; //путь и имя файла лога текущей сессии
+        public static string currentLogMainFileFullName=""; //путь и имя файла лога текущей сессии
 
         //DEBUG LEVEL
         public static LogLevel DEBUG_LEVEL = LogLevel.All;
@@ -65,14 +69,37 @@ namespace ObservatoryCenter
             LogList = new List<LogRecord>();
         }
 
-        /// <summary>
-        /// Error log procedures
-        /// </summary>
-        private static string LogFileFullName
+        private static string LogAllFileFullName
         {
             get{
+                if (currentLogAllFileFullName == "")
+                {
+                    if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                    currentLogAllFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_ALL + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
+                }
+                return currentLogAllFileFullName;
+            }
+            set
+            {
                 if (LogFilePath == "") LogFilePath = Application.StartupPath;
-                return Path.Combine(LogFilePath, LOG_FILE_NAME + DateTime.Now.ToString("yyyy-MM-dd") + "." + LOG_FILE_EXT);
+                currentLogAllFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_ALL + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
+            }
+        }
+        private static string LogMainFileFullName
+        {
+            get
+            {
+                if (currentLogMainFileFullName == "")
+                {
+                    if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                    currentLogMainFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_MAIN + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
+                }
+                return currentLogMainFileFullName;
+            }
+            set
+            {
+                if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                currentLogMainFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_MAIN + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
             }
         }
 
@@ -99,38 +126,62 @@ namespace ObservatoryCenter
         /// </summary>
         public static void DumpToFile(LogLevel LogLevel=LogLevel.All)
         {
-            List<LogRecord> LogListNew = new List<LogRecord>();
+            List<LogRecord> LogListNewAll = new List<LogRecord>();
+            List<LogRecord> LogListNewMainOnly = new List<LogRecord>();
 
             //sort new (not saved) records
-            for(var i=0; i < LogList.Count; i++)
+            for (var i=0; i < LogList.Count; i++)
             {
                 // if current line wasn't written to file
                 if (!LogList[i].dumpedToFile)
                 {
-                    LogListNew.Add(LogList[i]); //add to newrecords array
+                    LogListNewAll.Add(LogList[i]); //add to newrecords array
+                    if (LogList[i].LogLevel <= LogLevel.Debug)
+                        LogListNewMainOnly.Add(LogList[i]); //add Important, Activity, Debug level only to array
+
                     LogList[i].dumpedToFile = true; //mark as written
                 }
             }
 
             //Save new (not saved) records
-            if (LogListNew.Count > 0)
+            if (LogListNewAll.Count > 0)
             {
                 try
                 {
-                    using (StreamWriter LogFile = new StreamWriter(LogFileFullName, true))
+                    // Write all (trace) log file 
+                    using (StreamWriter LogFile = new StreamWriter(LogAllFileFullName, true))
                     {
-                        for (var i = 0; i < LogListNew.Count; i++)
+                        for (var i = 0; i < LogListNewAll.Count; i++)
                         {
                             // if current log level is less then DebugLevel
-                            if (LogListNew[i].LogLevel <= LogLevel)
+                            if (LogListNewAll[i].LogLevel <= LogLevel)
                             {
                                 //time
-                                LogFile.Write("{0,-12}{1,-14}", LogListNew[i].Time.ToString("yyyy-MM-dd"), LogListNew[i].Time.ToString("HH:mm:ss.fff"));
+                                LogFile.Write("{0,-12}{1,-14}", LogListNewAll[i].Time.ToString("yyyy-MM-dd"), LogListNewAll[i].Time.ToString("HH:mm:ss.fff"));
                                 //LogLevel
-                                LogFile.Write("{0,-10}", LogListNew[i].LogLevel.ToString());
+                                LogFile.Write("{0,-10}", LogListNewAll[i].LogLevel.ToString());
                                 //message
-                                LogFile.Write("{0}\t", LogListNew[i].Message);
+                                LogFile.Write("{0}\t", LogListNewAll[i].Message);
                                 LogFile.WriteLine();
+                            }
+                        }
+                    }
+
+                    // Write main (debug, activity, important) log file 
+                    using (StreamWriter LogFile2 = new StreamWriter(LogMainFileFullName, true))
+                    {
+                        for (var i = 0; i < LogListNewMainOnly.Count; i++)
+                        {
+                            // if current log level is less then DebugLevel
+                            if (LogListNewMainOnly[i].LogLevel <= LogLevel)
+                            {
+                                //time
+                                LogFile2.Write("{0,-12}{1,-14}", LogListNewMainOnly[i].Time.ToString("yyyy-MM-dd"), LogListNewMainOnly[i].Time.ToString("HH:mm:ss.fff"));
+                                //LogLevel
+                                LogFile2.Write("{0,-10}", LogListNewMainOnly[i].LogLevel.ToString());
+                                //message
+                                LogFile2.Write("{0}\t", LogListNewMainOnly[i].Message);
+                                LogFile2.WriteLine();
                             }
                         }
                     }

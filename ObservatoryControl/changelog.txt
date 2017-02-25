@@ -29,6 +29,9 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+0.7.3 [24.02.17]
+- two log files: trace and activity information
+
 0.7.2 [24.02.17]
 - config file/loging new keeping logic
 - procedure to create folders/configs if not found
