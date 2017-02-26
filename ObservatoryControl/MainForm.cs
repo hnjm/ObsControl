@@ -85,7 +85,7 @@ namespace ObservatoryCenter
         private void Form1_Load(object sender, EventArgs e)
         {
             //Load config
-            ObsConfig.Load();
+            ConfigManagement.Load();
 
             //Load parameters
             LoadParams();
@@ -165,8 +165,8 @@ namespace ObservatoryCenter
             logRefreshTimer.Enabled = true;
 
 
-            weatherChart.Series[0].XValueType = ChartValueType.DateTime;
-            weatherChart.ChartAreas["ChartArea1"].AxisX.LabelStyle.Format = "HH:mm";
+            weatherSmallChart.Series[0].XValueType = ChartValueType.DateTime;
+            weatherSmallChart.ChartAreas["ChartArea1"].AxisX.LabelStyle.Format = "HH:mm";
 
             foreach (Series Sr in chartWT.Series)
             {
@@ -577,7 +577,7 @@ namespace ObservatoryCenter
         {
             ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
 
-            Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
+            Thread.Sleep(ConfigManagement.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
 
             ObsControl.CommandParser.ParseSingleCommand("PHD2_CONNECT");
         }

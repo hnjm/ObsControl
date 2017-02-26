@@ -13,7 +13,7 @@ namespace ObservatoryCenter
     /// <summary>
     /// Config based on custom XML file
     /// </summary>
-    public static class ObsConfig
+    public static class ConfigManagement
     {
 
         public static string ProgDocumentsFolderName = "ObservatoryControl"; //set this property to change 
@@ -209,7 +209,7 @@ namespace ObservatoryCenter
         /// Создает папку, в которую будут писаться логи, храниться конфиги и т.д.
         /// </summary>
         /// <returns></returns>
-        private static bool CreateDocumentsDirStructure()
+        public static bool CreateDocumentsDirStructure()
         {
             bool wasCreated = false;
 

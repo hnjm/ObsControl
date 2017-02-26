@@ -329,7 +329,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: PHD2 connect test started");
 
             //run test
-            Thread.Sleep(ObsConfig.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 300); //wait a bit
+            Thread.Sleep(ConfigManagement.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 300); //wait a bit
             string stout = "";
 
             string res = ObsControl.objPHD2App.CMD_GetCurrentProfile();

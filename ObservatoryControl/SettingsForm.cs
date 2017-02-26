@@ -103,7 +103,7 @@ namespace ObservatoryCenter
 
             try
             {
-                XmlNode xmlSections = ObsConfig.configXML.SelectSingleNode("configuration");
+                XmlNode xmlSections = ConfigManagement.configXML.SelectSingleNode("configuration");
                 
                 //Loop throug all sections (all because it is possible to load all or only specific)
                 foreach (System.Xml.XmlNode xSection in xmlSections)
@@ -111,7 +111,7 @@ namespace ObservatoryCenter
                     if (SectionName == "All" || xSection.Name==SectionName)
                     {
                         //Current NODE to parse and load into grid
-                        XmlNode xnlNodes = ObsConfig.configXML.SelectSingleNode("//" + xSection.Name);
+                        XmlNode xnlNodes = ConfigManagement.configXML.SelectSingleNode("//" + xSection.Name);
 
                         //Get current grid
                         foreach (DataGridView DataGridEl in configGridsCollection)
@@ -174,7 +174,7 @@ namespace ObservatoryCenter
 
             try
             {
-                XmlNode xmlSections = ObsConfig.configXML.SelectSingleNode("configuration");
+                XmlNode xmlSections = ConfigManagement.configXML.SelectSingleNode("configuration");
 
 
                 //Loop through all grids
@@ -189,7 +189,7 @@ namespace ObservatoryCenter
                         curValue = curDataGridRow.Cells[curDataGrid.Name + "_value"].Value.ToString();
 
                         //Current NODE to parse and load into grid
-                        XmlNode xnlNodes = ObsConfig.configXML.SelectSingleNode("//" + sectionName);
+                        XmlNode xnlNodes = ConfigManagement.configXML.SelectSingleNode("//" + sectionName);
                         int curRowIndex = 0;
 
                         foreach (XmlNode xndNode in xnlNodes.ChildNodes)
@@ -281,7 +281,7 @@ namespace ObservatoryCenter
                 //Update XML
                 SaveDataFromGrid();
                 //Write config file to disk
-                ObsConfig.Save();
+                ConfigManagement.Save();
 
                 this.Close();
             }
@@ -323,7 +323,7 @@ namespace ObservatoryCenter
                 Properties.Settings.Default.Reset();
 
                 //Загрузить из файла
-                ObsConfig.Load();
+                ConfigManagement.Load();
                 //Перерисовать
                 LoadDataIntoGrids("All");
 

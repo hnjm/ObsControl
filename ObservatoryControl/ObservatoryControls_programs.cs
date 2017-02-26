@@ -48,52 +48,52 @@ namespace ObservatoryCenter
             //Cartes du Ciel
             objCdCApp = new CdC_ExternatApplication();
             objCdCApp.Name = "skychart";
-            objCdCApp.FullName = ObsConfig.getString("programsPath", "CdC") ?? @"c:\Program Files (x86)\Ciel\skychart.exe"; 
+            objCdCApp.FullName = ConfigManagement.getString("programsPath", "CdC") ?? @"c:\Program Files (x86)\Ciel\skychart.exe"; 
             objCdCApp.ParameterString = "--unique";
 
             //PHD2
             objPHD2App = new PHD_ExternatApplication();
             objPHD2App.Name = "phd2";
-            objPHD2App.FullName = ObsConfig.getString("programsPath", "PHD2") ?? @"c:\Program Files (x86)\PHDGuiding2\phd2.exe";
+            objPHD2App.FullName = ConfigManagement.getString("programsPath", "PHD2") ?? @"c:\Program Files (x86)\PHDGuiding2\phd2.exe";
 
             //PHDBroker
             objPHDBrokerApp = new PHDBroker_ExternatApplication();
             objPHDBrokerApp.Name = "PHDBroker_Server";
             //objPHDBrokerApp.FullName = PHDBrokerPath;
-            objPHDBrokerApp.FullName = ObsConfig.getString("programsPath", "PHDBROKER") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
+            objPHDBrokerApp.FullName = ConfigManagement.getString("programsPath", "PHDBROKER") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
 
             //CCDAP
             objCCDAPApp = new CCDAP_ExternatApplication();
             objCCDAPApp.Name = "CCDAutoPilot5";
-            objCCDAPApp.FullName = ObsConfig.getString("programsPath", "CCDAP") ?? @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
-            objCCDAPApp.LogPath = ObsConfig.getString("programsPath", "CCDAP_Logs") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs";
+            objCCDAPApp.FullName = ConfigManagement.getString("programsPath", "CCDAP") ?? @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
+            objCCDAPApp.LogPath = ConfigManagement.getString("programsPath", "CCDAP_Logs") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs";
 
              
             //FocusMax
             objFocusMaxApp = new FocusMax_ExternalApplication();
             objFocusMaxApp.Name = "FocusMax";
-            objFocusMaxApp.FullName = ObsConfig.getString("programsPath", "FOCUSMAX") ?? @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
+            objFocusMaxApp.FullName = ConfigManagement.getString("programsPath", "FOCUSMAX") ?? @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 
             //MaxIm_DL
             objMaxim = new Maxim_ExternalApplication();
             objMaxim.Name = "MaxIm_DL";
-            objMaxim.FullName = ObsConfig.getString("programsPath", "MAXIMDL") ?? @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
+            objMaxim.FullName = ConfigManagement.getString("programsPath", "MAXIMDL") ?? @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
 
             //WeatherStation
             objWSApp = new WeatherStation();
             objWSApp.Name = "WeatherStation";
-            objWSApp.FullName = ObsConfig.getString("programsPath", "WS") ?? @"C:\Users\Emchenko\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Astromania.info\WeatherStation Monitor.appref-ms";
+            objWSApp.FullName = ConfigManagement.getString("programsPath", "WS") ?? @"C:\Users\Emchenko\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Astromania.info\WeatherStation Monitor.appref-ms";
 
             //TelescopeTempControl
             objTTCApp = new TelescopeTempControl();
             objTTCApp.Name = "TelescopeTempControl";
-            objTTCApp.FullName = ObsConfig.getString("programsPath", "TTC") ?? @"C:\Users\Emchenko\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Astromania.info\TelescopeTempControl.appref-ms";
+            objTTCApp.FullName = ConfigManagement.getString("programsPath", "TTC") ?? @"C:\Users\Emchenko\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Astromania.info\TelescopeTempControl.appref-ms";
 
             //Astrotortilla
             objAstroTortilla = new AstroTortilla();
             objAstroTortilla.Name = "Astrotortilla";
-            objAstroTortilla.FullName = ObsConfig.getString("programsPath", "ASTROTORTILLA") ?? @"c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe";
-            objAstroTortilla.FullNameAutoIt= ObsConfig.getString("programsPath", "ASTROTORTILLA_AUTOIT") ?? @"c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe";
+            objAstroTortilla.FullName = ConfigManagement.getString("programsPath", "ASTROTORTILLA") ?? @"c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe";
+            objAstroTortilla.FullNameAutoIt= ConfigManagement.getString("programsPath", "ASTROTORTILLA_AUTOIT") ?? @"c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe";
 
         }
 

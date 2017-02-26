@@ -31,7 +31,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>35</ApplicationRevision>
+    <ApplicationRevision>36</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -168,7 +168,7 @@
     </Compile>
     <Compile Include="ProgControls_Maxim.cs" />
     <Compile Include="ObservatoryControls.cs" />
-    <Compile Include="ObservatoryControls_config.cs" />
+    <Compile Include="ConfigManaging.cs" />
     <Compile Include="ObservatoryControls_ASCOM_switch.cs" />
     <Compile Include="ProgControls_others.cs" />
     <Compile Include="ProgControls_PHD.cs" />
@@ -191,6 +191,7 @@
       <DependentUpon>TestEquipmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TestEquipmentClass.cs" />
+    <Compile Include="Utils.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -46,15 +46,14 @@ namespace ObservatoryCenter
         /// <summary>
         /// Log text
         /// </summary>
-        private static List<LogRecord> LogList;
-
+        public static List<LogRecord> LOGLIST;
 
         public static string LOG_FOLDER_NAME = "Logs";
         public static string LOG_FILE_NAME_ALL = "observatory_trace_"; //Text log
         public static string LOG_FILE_NAME_MAIN = "observatory_"; //Text log
         public static string LOG_FILE_EXT = "log"; //Text log
 
-        public static string LogFilePath = Path.Combine(ObsConfig.ProgDocumentsPath, LOG_FOLDER_NAME) + "\\";
+        public static string LogFilePath = Path.Combine(ConfigManagement.ProgDocumentsPath, LOG_FOLDER_NAME) + "\\";
 
         public static string currentLogAllFileFullName=""; //путь и имя файла лога текущей сессии
         public static string currentLogMainFileFullName=""; //путь и имя файла лога текущей сессии
@@ -63,45 +62,87 @@ namespace ObservatoryCenter
         public static LogLevel DEBUG_LEVEL = LogLevel.All;
 
         public static Int32 _MAX_DIPSLAYED_PROG_LOG_LINES = 100;
+        public static Int32 _MAX_LOGLIST_SIZE = 65000;
 
         static Logging()
         {
-            LogList = new List<LogRecord>();
+            LOGLIST = new List<LogRecord>();
         }
 
+        /// <summary>
+        /// Get current log files names with path (full log file)
+        /// </summary>
         private static string LogAllFileFullName
         {
-            get{
+            get
+            {
                 if (currentLogAllFileFullName == "")
                 {
-                    if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                    LogFilePath = GetLogDirectory();
                     currentLogAllFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_ALL + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
                 }
                 return currentLogAllFileFullName;
             }
             set
             {
-                if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                LogFilePath = GetLogDirectory();
                 currentLogAllFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_ALL + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
             }
         }
+        /// <summary>
+        /// Get current log files names with path (main log file)
+        /// </summary>
         private static string LogMainFileFullName
         {
             get
             {
                 if (currentLogMainFileFullName == "")
                 {
-                    if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                    LogFilePath = GetLogDirectory();
                     currentLogMainFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_MAIN + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
                 }
                 return currentLogMainFileFullName;
             }
             set
             {
-                if (LogFilePath == "") LogFilePath = Application.StartupPath;
+                LogFilePath = GetLogDirectory();
                 currentLogMainFileFullName = Path.Combine(LogFilePath, LOG_FILE_NAME_MAIN + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "." + LOG_FILE_EXT);
             }
         }
+
+        /// <summary>
+        /// Check if log folder exits, and if not - create it
+        /// </summary>
+        /// <returns>Current log file path</returns>
+        private static string GetLogDirectory()
+        {
+            if (LogFilePath == "")
+            {
+                string st = "";
+                //Check if root folder exists. If not - create it
+                if (!Directory.Exists(ConfigManagement.ProgDocumentsPath))
+                {
+                    ConfigManagement.CreateDocumentsDirStructure();
+                }
+                //Log folder exists (Creation succeeds)?
+                if (Directory.Exists(Path.Combine(ConfigManagement.ProgDocumentsPath, LOG_FOLDER_NAME) + "\\"))
+                {
+                    //use default folder
+                    st = Path.Combine(ConfigManagement.ProgDocumentsPath, LOG_FOLDER_NAME) + "\\";
+                }
+                else
+                {
+                    //if not - use app folder
+                    st = Application.StartupPath;
+                }
+                return st;
+            }
+            else
+            {
+                return LogFilePath;
+            }
+        }
+
 
         /// <summary>
         /// Add log record to DataBase (LogList LIST)
@@ -118,7 +159,7 @@ namespace ObservatoryCenter
             LogRec.Message = logMessage;
             LogRec.LogLevel = LogLevel;
             LogRec.Highlight = ColorHighlight;
-            LogList.Add(LogRec);
+            LOGLIST.Add(LogRec);
         }
 
         /// <summary>
@@ -130,16 +171,16 @@ namespace ObservatoryCenter
             List<LogRecord> LogListNewMainOnly = new List<LogRecord>();
 
             //sort new (not saved) records
-            for (var i=0; i < LogList.Count; i++)
+            for (var i=0; i < LOGLIST.Count; i++)
             {
                 // if current line wasn't written to file
-                if (!LogList[i].dumpedToFile)
+                if (!LOGLIST[i].dumpedToFile)
                 {
-                    LogListNewAll.Add(LogList[i]); //add to newrecords array
-                    if (LogList[i].LogLevel <= LogLevel.Debug)
-                        LogListNewMainOnly.Add(LogList[i]); //add Important, Activity, Debug level only to array
+                    LogListNewAll.Add(LOGLIST[i]); //add to newrecords array
+                    if (LOGLIST[i].LogLevel <= LogLevel.Debug)
+                        LogListNewMainOnly.Add(LOGLIST[i]); //add Important, Activity, Debug level only to array
 
-                    LogList[i].dumpedToFile = true; //mark as written
+                    LOGLIST[i].dumpedToFile = true; //mark as written
                 }
             }
 
@@ -192,6 +233,9 @@ namespace ObservatoryCenter
                 }
             }
 
+            //Cleanup old records
+            CleanupLogList();
+
         }
 
         /// <summary>
@@ -200,18 +244,18 @@ namespace ObservatoryCenter
         public static string DumpToString(LogLevel LogLevel=LogLevel.Activity)
         {
             string RetStr = "";
-            for (var i = 0; i < LogList.Count; i++)
+            for (var i = 0; i < LOGLIST.Count; i++)
             {
                 // if current line wasn't written to file
-                if (!LogList[i].displayed)
+                if (!LOGLIST[i].displayed)
                 {
                     // if current log level is less then DebugLevel
-                    if (LogList[i].LogLevel <= LogLevel)
+                    if (LOGLIST[i].LogLevel <= LogLevel)
                     {
-                        RetStr += String.Format("{0} {1}", LogList[i].Time.ToString("yyyy-MM-dd"), LogList[i].Time.ToString("HH:mm:ss"));
-                        RetStr += String.Format(": {0}", LogList[i].Message) + Environment.NewLine;
+                        RetStr += String.Format("{0} {1}", LOGLIST[i].Time.ToString("yyyy-MM-dd"), LOGLIST[i].Time.ToString("HH:mm:ss"));
+                        RetStr += String.Format(": {0}", LOGLIST[i].Message) + Environment.NewLine;
                     }
-                    LogList[i].displayed = true;
+                    LOGLIST[i].displayed = true;
                 }
             }
             return RetStr;
@@ -225,13 +269,13 @@ namespace ObservatoryCenter
             List<LogRecord> LogListNew = new List<LogRecord>();
 
             //sort new (not saved) records
-            for(var i=0; i < LogList.Count; i++)
+            for(var i=0; i < LOGLIST.Count; i++)
             {
                 // if current line wasn't displayed
-                if (!LogList[i].displayed)
+                if (!LOGLIST[i].displayed)
                 {
-                    LogListNew.Add(LogList[i]); //add to newrecords array
-                    LogList[i].displayed = true; //mark as written
+                    LogListNew.Add(LOGLIST[i]); //add to newrecords array
+                    LOGLIST[i].displayed = true; //mark as written
                 }
             }
 
@@ -297,6 +341,32 @@ namespace ObservatoryCenter
             Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
 
             return FullMessage;
+        }
+
+        /// <summary>
+        /// Maintain reasonable LOGLIST size
+        /// </summary>
+        private static void CleanupLogList()
+        {
+            if (LOGLIST.Count()> _MAX_LOGLIST_SIZE)
+            {
+                try
+                {
+                    //Clean LOGFILE from records already dumped
+                    for (var i = _MAX_LOGLIST_SIZE; i < LOGLIST.Count; i++)
+                    {
+                        if (LOGLIST[i- _MAX_LOGLIST_SIZE].dumpedToFile)
+                        {
+                            // if current line was written to file remove it
+                            LOGLIST.RemoveAt(i- _MAX_LOGLIST_SIZE);
+                        }
+                    }
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Log error during cleanup [" + Ex.Message + "]");
+                }
+            }
         }
 
     }

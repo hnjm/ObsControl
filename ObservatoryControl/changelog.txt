@@ -31,6 +31,9 @@ bugs:
 
 0.7.3 [24.02.17]
 - two log files: trace and activity information
+- log mechnaizm optimization
+- some bug fixes
+- interface optimization
 
 0.7.2 [24.02.17]
 - config file/loging new keeping logic

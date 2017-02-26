@@ -18,26 +18,28 @@ namespace ObservatoryCenter
         [STAThread]
         static void Main()
         {
-            using (Mutex mutex = new Mutex(false, appGuid))
+            using (Mutex mutex = new Mutex(true, appGuid))
             {
-                if (!mutex.WaitOne(1000, false))
+                if (mutex.WaitOne(TimeSpan.Zero, true))
                 {
-                    MessageBox.Show("Already runnig, return");
-                    return;
+                    try
+                    {
+                        if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
+                        Application.EnableVisualStyles();
+                        Application.SetCompatibleTextRenderingDefault(false);
+                        Application.Run(new MainForm());
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.AddLog("Unhandled exception: " + ex.Message, LogLevel.Important, Highlight.Error);
+                        Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                        MessageBox.Show("Unhandled exception: " + ex.ToString());
+                    }
                 }
-
-                try
+                else
                 {
-                    if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new MainForm());
-                }
-                catch (Exception ex)
-                {
-                    Logging.AddLog("Unhandled exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                    Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-                    MessageBox.Show("Unhandled exception: " + ex.ToString());
+                    //if already run - set window to foreground
+                    Utils.SetCurrentWindowToForeground();
                 }
             }
         }
