@@ -84,6 +84,9 @@ namespace ObservatoryCenter
             //CCDAP status
             if (ObsControl.objCCDAPApp.IsRunning()) { linkCCDAP.LinkColor = Color.Green; } else { linkCCDAP.LinkColor = Color.DeepPink; }
 
+            //CCDC status
+            if (ObsControl.objCCDCApp.IsRunning()) { linkCCDC.LinkColor = Color.Green; } else { linkCCDC.LinkColor = Color.DeepPink; }
+
             //MaximDl status
             if (ObsControl.objMaxim.IsRunning()) { linkMaximDL.LinkColor = Color.Green; } else { linkMaximDL.LinkColor = Color.DeepPink; }
 
@@ -624,21 +627,41 @@ namespace ObservatoryCenter
                 if (ObsControl.objCCDAPApp.checkLogFileIsValid())
                 {
                     ObsControl.objCCDAPApp.ParseLogFile();
-                    txtCCDAPStatus.AppendText(ObsControl.objCCDAPApp.MessageText);
+                    txtCCDAutomationStatus.Text = (ObsControl.objCCDAPApp.MessageText) + txtCCDAutomationStatus.Text;
                 }
             }
         }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion *** Update PHD and CCDAP data *****************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// end of block
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// Update state of CCDC prog
+        /// including log details
+        /// </summary>
+        private void UpdateCCDCstate()
+        {
+            if (ObsControl.objCCDCApp.IsRunning())
+            {
+                ObsControl.objCCDCApp.GetLastLogFile(); //needs to be constanly updated
+                if (ObsControl.objCCDCApp.checkLogFileIsValid())
+                {
+                    ObsControl.objCCDCApp.ReadLogFileContents();
+                    List<string> NewLogLines = new List<string>();
+                    if (ObsControl.objCCDCApp.ParseLogFile(out NewLogLines))
+                    { 
+                        foreach(string st in NewLogLines) txtCCDAutomationStatus.Text = st + txtCCDAutomationStatus.Text;
+                    }
+                }
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #endregion *** The end of Update PHD and CCDAP data *****************************************************************
+        // end of block
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#region *** Update Weather And TelescopeTempControl Data *****************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region *** Update Weather And TelescopeTempControl Data *****************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private bool HadWeatherData = false; //was at least once data received?
         /// <summary>
@@ -788,13 +811,30 @@ namespace ObservatoryCenter
                 HadTTCData = true; //flag, that at least one value was received
 
                 //Data in small widget
-                txtTTC_W_MainDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
-                txtTTC_W_SecondDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
+                txtTTC_W_MainDelta.Text = (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main >= 0 ? "+" : "") + Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main, 1));
+                if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_FanSpeed)
+                {
+                    txtTTC_W_MainDelta.BackColor = OnColor;
+                }
+                else
+                {
+                    txtTTC_W_MainDelta.BackColor=SystemColors.Control;
+                }
+                
+                txtTTC_W_SecondDelta.Text = (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary >= 0 ? "+" : "") + Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary, 1));
+                if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_Heater)
+                {
+                    txtTTC_W_SecondDelta.BackColor = OnColor;
+                }
+                else
+                {
+                    txtTTC_W_SecondDelta.BackColor = SystemColors.Control;
+                }
+
+
 
                 txtTTC_W_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
-                txtTTC_W_Heater.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
-
-                txtTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Temp.ToString();
+                txtTTC_W_Heater.Text = Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower, 0))+"%"; 
 
                 //Graphics
                 XVal = ObsControl.objTTCApp.TelescopeTempControl_State.LastTimeDataParsed;
@@ -831,6 +871,22 @@ namespace ObservatoryCenter
                 else
                 {
                     chartTTC.Series["Heater"].Points.Add(EmptyP);
+                }
+
+                //Display temp in Weather widget if no weather station detected
+                if (!ObsControl.objWSApp.IsRunning())
+                {
+                    double TempTTC = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
+                    txtTemp.Text = TempTTC.ToString();
+                    //draw value
+                    if (TempTTC > -100)
+                    {
+                        weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), TempTTC);
+                    }
+                    else
+                    {
+                        weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
+                    }
                 }
 
 

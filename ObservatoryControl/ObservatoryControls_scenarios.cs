@@ -3,38 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Xml;
 
 namespace ObservatoryCenter
 {
     public partial class ObservatoryControls
     {
 
+        /*
+         SCENARION XML FILE HELP
+         1. Нужно создать секцию с именем сценария <scenarioMain></scenarioMain>
+         2. Внутри могут размещаться команды или глобальные параметры
+            Примеры:
+            <CDC_CONNECT_PAUSE type="parameter" value="2000" />
+            <WAIT run="true" argument="2000" />
+            Формат
+                TYPE:
+                "command" or omitted    - this is command(will try to run)
+                type="parameter"        - this is parameter
+
+                RUN:
+                "true" or omitted = run command
+                "false" = not run
+
+                ARGUMENT:
+                parameter to be passed to command
+         4. Команды будут выполняться последовательно, если они не параметры и если у них RUN не false
+         */
+         
         /// <summary>
         /// Init command interpretator
         /// </summary>
         public void InitComandInterpretator()
         {
-            CommandParser.Commands.Add("HELP", (a) => this.CommandParser.ListCommands());
-            CommandParser.Commands.Add("VERSION", (a) => VersionData.getVersionString());
+            //Internal commands
+            CommandParser.Commands.Add("HELP", (a) => this.CommandParser.ListCommands()); //list of commands
+            CommandParser.Commands.Add("VERSION", (a) => VersionData.getVersionString()); //Pring version
+            CommandParser.Commands.Add("WAIT", (a) => this.pauseExecution(a)); //Pause execution for ... milliseconds
 
-            CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());
-            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", (a) => objMaxim.ConnectCamera());
-            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.SetCameraCooling());
-            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", (a) => objMaxim.ConnectTelescope());
-            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", (a) => objMaxim.ConnectFocuser());
-
-            CommandParser.Commands.Add("FOCUSMAX_RUN", (a) => this.startFocusMax());
-
-            CommandParser.Commands.Add("CdC_RUN", (a) => this.startPlanetarium());
-            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", (a) => this.objCdCApp.ConnectTelescope());
-
-            CommandParser.Commands.Add("CCDAP_RUN", (a) => this.startCCDAP());
-
-            CommandParser.Commands.Add("PHD2_RUN", (a) => this.startPHD2());
-            CommandParser.Commands.Add("PHD2_CONNECT", (a) => this.objPHD2App.CMD_ConnectEquipment());
-            CommandParser.Commands.Add("PHDBROKER_RUN", (a) => this.startPHDBroker());
-
+            //Self control commands
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", (a) => this.OBS_connectTelescope());
+
+            //Power commands
+            CommandParser.Commands.Add("POWER_ON", (a) => this.PowerMainRelaysOn()); //Power Mount, Camera, Focuser
             CommandParser.Commands.Add("POWER_MOUNT_ON", (a) => this.PowerMountOn());
             CommandParser.Commands.Add("POWER_MOUNT_OFF", (a) => this.PowerMountOff());
             CommandParser.Commands.Add("POWER_CAMERA_ON", (a) => this.PowerCameraOn());
@@ -44,8 +55,35 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("POWER_ROOF_ON", (a) => this.PowerRoofOn());
             CommandParser.Commands.Add("POWER_ROOF_OFF", (a) => this.PowerRoofOff());
 
+            //MaimDL
+            CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());
+            CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", (a) => objMaxim.ConnectCamera());
+            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.SetCameraCooling());
+            CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", (a) => objMaxim.ConnectTelescope());
+            CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", (a) => objMaxim.ConnectFocuser());
+
+            //FocusMax
+            CommandParser.Commands.Add("FOCUSMAX_RUN", (a) => this.startFocusMax());
+
+            //Cartes du Ciel
+            CommandParser.Commands.Add("CdC_RUN", (a) => this.startPlanetarium());
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", (a) => this.objCdCApp.ConnectTelescope());
+
+            //CCDAP
+            CommandParser.Commands.Add("CCDAP_RUN", (a) => this.startCCDAP());
+
+            //CCDC
+            CommandParser.Commands.Add("CCDC_RUN", (a) => this.startCCDC());
+
+            //PHS2 related commands
+            CommandParser.Commands.Add("PHD2_RUN", (a) => this.startPHD2());
+            CommandParser.Commands.Add("PHD2_CONNECT", (a) => this.objPHD2App.CMD_ConnectEquipment());
+            CommandParser.Commands.Add("PHDBROKER_RUN", (a) => this.startPHDBroker());
+
+            //WS commands
             CommandParser.Commands.Add("WS_RUN", (a) => this.startWS());
 
+            //TTC commands
             CommandParser.Commands.Add("TTC_RUN", (a) => this.startTTC());
             CommandParser.Commands.Add("TTC_GETDATA", (a) => this.objTTCApp.CMD_GetJSONData().ToString());
             CommandParser.Commands.Add("TTC_FANAUTO_ON", (a) => this.objTTCApp.CMD_SetFANControl_ON());
@@ -56,11 +94,43 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("TTC_SETHEATERPWR", (a) => this.objTTCApp.CMD_SetHeaterPWR(a));
         }
 
+        /// <summary>
+        /// Run scenario by parsing special CONFIG section
+        /// </summary>
+        /// <param name="ScenarioName">Scenario name</param>
+        public void ParseXMLScenario(string ScenarioName)
+        {
+            XmlNode scenarioSet = ConfigManagement.getXMLNode(ScenarioName);
+
+            foreach (XmlElement ScenarioElem in scenarioSet)
+            {
+                //Имя команды
+                string name = ScenarioElem.Name;
+                //Флаг RUN
+                string runflag_st = ScenarioElem.GetAttribute("run");
+                bool runflag;
+                if (!Boolean.TryParse(runflag_st, out runflag))
+                {
+                    runflag = true;
+                }
+                //Тип командры
+                string eltype = ScenarioElem.GetAttribute("type");
+                //Параметры команды
+                string argument = ScenarioElem.GetAttribute("argument");
+
+                if (runflag && eltype != "parameter")
+                {
+                    //RUN this command
+                    CommandParser.ParseSingleCommand(name + (argument != "" ? " " + argument : ""));
+                }
+            }
+        }
+
         #region Scenarios section ////////////////////////////////////////////////////////
         /// <summary>
         /// Init observatory activity 
         /// </summary>
-        public void StartUpObservatory()
+        public void StartUpObservatory_old()
         {
 
             //1. Switch on power
@@ -150,6 +220,11 @@ namespace ObservatoryCenter
             {
                 CommandParser.ParseSingleCommand("CCDAP_RUN");
             }
+            //8. Start CCDC
+            if (ConfigManagement.getBool("scenarioMainParams", "CCDC_RUN") ?? false)
+            {
+                CommandParser.ParseSingleCommand("CCDC_RUN");
+            }
 
             //7. Connect telescope in Program
             if (ConfigManagement.getBool("scenarioMainParams", "OBS_TELESCOPE_CONNECT") ?? false)
@@ -198,8 +273,36 @@ namespace ObservatoryCenter
         }
 
 
+        public void StartUpObservatory()
+        {
+            Logging.AddLog("StartUp routine initiatied", LogLevel.Activity);
+
+            ParseXMLScenario("scenarioMain");
+
+            Logging.AddLog("StartUp routine finished", LogLevel.Activity);
+        }
+
         #endregion Scenarios
 
+
+        // Special scenario commands block 
+        #region /// Special Commands //////////////////////
+
+        /// <summary>
+        /// Pause scenario execution for specified number of seconds
+        /// </summary>
+        /// <param name="CommandString_param_arr">1st param - number of milliseconds</param>
+        public string pauseExecution(string[] CommandString_param_arr)
+        {
+            int pauseLength = Convert.ToInt16(CommandString_param_arr[0]);
+
+            Thread.Sleep(pauseLength);
+
+            return pauseLength.ToString();
+        }
+
+        #endregion
+        // end of Special scenario commands block
 
 
     }

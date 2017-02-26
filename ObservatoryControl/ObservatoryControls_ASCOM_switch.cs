@@ -511,10 +511,19 @@ namespace ObservatoryCenter
             PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", false, out Roof_power_flag);
             return "PowerRoofOff";
         }
-#endregion Power controlling
+
+        public string PowerMainRelaysOn()
+        {
+            PowerMountOn();
+            PowerCameraOn();
+            PowerFocuserOn();
+            return "PowerMainRelays";
+        }
+
+        #endregion Power controlling
 
 
-#region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
+        #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
         public void CheckPowerDeviceStatus()
         {
             try

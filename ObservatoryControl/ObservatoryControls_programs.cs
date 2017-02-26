@@ -15,22 +15,26 @@ namespace ObservatoryCenter
     /// ProgControls_classes.cs - abstract class definitions
     /// ProgControls_[prog abrv].cs - special class definition for [prog]
     /// ProgControls_others.cs - class definitions for other programs (short text usually)
+    /// *
+    /// How it works:
+    /// 1. Создается класс путем наследования от двух: ExternalApplication или ExternalApplicationSocketServer. Добавляютются специфические свойства.
+    /// 2. В InitProgramsObj() здесь (ObservatoryControls_programs.cs) добавляется строка:
+    ///     - создаеться объект
+    ///     - заполняются важные свойства (Имя, путь, параметры запуска,...)
+    /// 3. Создается wrapper здесь же (ObservatoryControls_programs.cs) для запуска соответствующей программы
+    /// 4. Wrapper добавляется в интерпретатор комманд (ObservatoryControls_scenarios.cs)
+    /// *
     /// </summary>
 
     public partial class ObservatoryControls
     {
-        //public string PlanetariumPath = @"c:\Program Files (x86)\Ciel\skychart.exe";
-        //public string PHD2Path = @"c:\Program Files (x86)\PHDGuiding2\phd2.exe";
-        //public string PHDBrokerPath = @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe";
-        //public string CCDAPPath = @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
-
-        //public string MaximDLPath = @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
-        //public string FocusMaxPath = @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 
         public CdC_ExternatApplication objCdCApp;
         public PHD_ExternatApplication objPHD2App;
         public PHDBroker_ExternatApplication objPHDBrokerApp;
         public CCDAP_ExternatApplication objCCDAPApp;
+        public CCDC_ExternatApplication objCCDCApp;
+
         public FocusMax_ExternalApplication objFocusMaxApp;
 
         public Maxim_ExternalApplication objMaxim;
@@ -68,7 +72,15 @@ namespace ObservatoryCenter
             objCCDAPApp.FullName = ConfigManagement.getString("programsPath", "CCDAP") ?? @"c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe";
             objCCDAPApp.LogPath = ConfigManagement.getString("programsPath", "CCDAP_Logs") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs";
 
-             
+            //CCDC
+            objCCDCApp = new CCDC_ExternatApplication();
+            objCCDCApp.Name = "CCDCommander";
+            objCCDCApp.FullName = ConfigManagement.getString("programsPath", "CCDC") ?? @"c:\CCD Commander\CCDCommander.exe";
+            objCCDCApp.LogPath = ConfigManagement.getString("programsPath", "CCDC_Logs") ?? @"c:\CCD Commander\Logs";
+            objCCDCApp.ActionsPath = ConfigManagement.getString("programsPath", "CCDC_Actions") ?? @"c:\CCD Commander\Actions";
+            objCCDCApp.ParameterString = objCCDCApp.GetLastActionFile().FullName;
+
+
             //FocusMax
             objFocusMaxApp = new FocusMax_ExternalApplication();
             objFocusMaxApp.Name = "FocusMax";
@@ -122,6 +134,13 @@ namespace ObservatoryCenter
             objCCDAPApp.Run();
             objCCDAPApp.Init();
             return objCCDAPApp.ErrorSt;
+        }
+
+        public string startCCDC()
+        {
+            objCCDCApp.Run();
+            objCCDCApp.Init();
+            return objCCDCApp.ErrorSt;
         }
 
         public string startFocusMax()

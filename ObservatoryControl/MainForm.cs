@@ -210,6 +210,7 @@ namespace ObservatoryCenter
             //UpdateGuiderFieldsStatus(); //Maxim Guider
 
             UpdateCCDAPstate();
+            UpdateCCDCstate();
 
             UpdateTimePannel();
         }
@@ -609,6 +610,12 @@ namespace ObservatoryCenter
             ObsControl.startTTC();
         }
 
+        private void linkCCDC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ObsControl.CommandParser.ParseSingleCommand("CCDC_RUN");
+        }
+
+
         #endregion //// AppLinks Events //////////////////////////////////////
         // End of AppLinks Events block 
 
@@ -840,5 +847,10 @@ namespace ObservatoryCenter
             ObsControl.Telescope_TrackToggle();
         }
 
+
+        private void tempNotImplemented_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not implemented yet");
+        }
     }
 }

@@ -3,13 +3,11 @@ Copyright by Emchenko Boris 2014-2016
 http://astromania.info
 
 to do:
-- parsing CCDC activity (through log)
+- restore Maxim guiding info
+- abort button
 - CCDC session stage signaling (standalone session monitor program)
-- parsing CCDAP activity (through log)
-- CCDAP session stage signaling (standalone session monitor program)
 - send CCDAP/CCDC activity  to server
 - operational observatory tests
-- abort button
 - run PAM throug AutoIt
 - implement focusing throug FocusMax
 - calculate and set suitable cooling temp
@@ -23,11 +21,22 @@ to do:
 - ability to detect unhandle shutdown at startup and park observatory
 - much more network command reading and responding
 - web platform for remote control
+- parsing CCDAP activity (through log)
+- CCDAP session stage signaling (standalone session monitor program)
 
 bugs:
 - MaximDL running, but CCDCamera obj isn't connected
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
+
+0.8.2 [26.02.17]
+- parsing CCDC activity (through log)
+
+0.8.1 [26.02.17]
+- scenario parsing from file
+
+0.8.0 [26.02.17]
+- CCDC added
 
 0.7.3 [24.02.17]
 - two log files: trace and activity information

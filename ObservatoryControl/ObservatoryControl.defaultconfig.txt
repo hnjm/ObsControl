@@ -1,23 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
-  <programsPath>
+
+<programsPath>
     <PHDBROKER value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe" />
     <CdC value="c:\Program Files (x86)\Ciel\skychart.exe" />
     <PHD2 value="c:\Program Files (x86)\PHDGuiding2\phd2.exe" />
     <CCDAP value="c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe" />
+    <CCDAP_Logs value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs" />
     <MAXIMDL value="c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe" />
     <FOCUSMAX value="c:\Program Files (x86)\FocusMax\FocusMax.exe" />
     <ASTROTORTILLA value="c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe" />
     <ASTROTORTILLA_AUTOIT value="c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe" />
-    <CCDAP_Logs value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs" />
     <WS value="c:\Users\Emchenko\Desktop\WeatherStation Monitor autostart.lnk" />
     <TTC value="c:\Users\Emchenko\Desktop\TempControl autostart.lnk" />
-  </programsPath>
-  <scenarioMainParams>
+
+    <CCDC value="c:\CCD Commander\CCDCommander.exe" />
+    <CCDC_Logs value="c:\CCD Commander\Logs" />
+    <CCDC_Actions value="c:\CCD Commander\Actions" />
+
+</programsPath>
+
+<scenarioMainParams>
     <POWER_ON value="true" />
-    <PHD2_RUN value="true" />
-    <PHD2_CONNECT value="true" />
-    <PHDBROKER_RUN value="true" />
+    <PHD2_RUN value="false" />
+    <PHD2_CONNECT value="false" />
+    <PHDBROKER_RUN value="false" />
     <MAXIM_RUN value="true" />
     <MAXIM_CAMERA_CONNECT value="true" />
     <MAXIM_CAMERA_SETCOOLING value="true" />
@@ -25,10 +32,44 @@
     <MAXIM_TELESCOPE_CONNECT value="true" />
     <FOCUSMAX_RUN value="true" />
     <CdC_RUN value="true" />
-    <CCDAP_RUN value="true" />
+    <CCDC_RUN value="true" />
     <OBS_TELESCOPE_CONNECT value="true" />
     <CdC_TELESCOPE_CONNECT value="true" />
     <CDC_CONNECT_PAUSE value="2000" />
     <PHD_CONNECT_PAUSE value="2000" />
-  </scenarioMainParams>
+</scenarioMainParams>
+
+ <!-- 
+TYPE:
+"command" or omitted    - this is command (will try to run)
+type="parameter"        - this is parameter 
+
+RUN:
+"true" or omitted = run command
+"false" = not run
+ -->
+<scenarioMain>
+    <POWER_ON type="command" run="true" />
+    <PHD2_RUN type="command" run="false" />
+    <PHD2_CONNECT type="command" run="false" />
+    <PHDBROKER_RUN type="command" run="false" />
+    <MAXIM_RUN type="command" run="true" />
+    <WAIT argument="2000" />
+    <MAXIM_CAMERA_CONNECT type="command" run="true" />
+    <WAIT argument="2000" />
+    <MAXIM_CAMERA_SETCOOLING type="command" run="true" />
+    <MAXIM_FOCUSER_CONNECT type="command" run="false" />
+    <MAXIM_TELESCOPE_CONNECT type="command" run="true" />
+    <WAIT argument="2000" />
+    <FOCUSMAX_RUN type="command" run="true" />
+    <CdC_RUN type="command" run="true" />
+    <CCDC_RUN type="command" run="true" />
+    <OBS_TELESCOPE_CONNECT type="command" run="true" />
+    <WAIT argument="2000" />
+    <CdC_TELESCOPE_CONNECT type="command" run="true" />
+	<TTC_RUN type="command" run="true" />
+	<TTC_FANAUTO_ON type="command" run="true" />
+	<TTC_HEATERAUTO_ON type="command" run="true" />
+</scenarioMain>
+
 </configuration>

@@ -208,10 +208,6 @@ namespace ObservatoryCenter
             }
         }
 
-
-
- 
-
         #endregion Roof control end
 
 

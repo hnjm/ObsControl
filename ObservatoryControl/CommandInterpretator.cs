@@ -5,12 +5,13 @@ using System.Text;
 
 namespace ObservatoryCenter
 {
-/// <summary>
-/// How to add new command:
-/// 1. Create method which would react on call
-/// 2. Add to ObservatoryContols.InitComandInterpretator() link from SYMBOL NAME to the method
-/// 3. Call it as CommandParser.ParseSingleCommand("SYMBOL NAME");
-/// </summary>
+    /// <summary>
+    /// How to add new command:
+    /// 1. Create method which would react on call
+    /// 2. Add to ObservatoryContols.InitComandInterpretator() link from SYMBOL NAME to the method
+    /// 3. Call it as CommandParser.ParseSingleCommand("SYMBOL_NAME");
+    /// 4. if you want a parameter to be passed, call it as CommandParser.ParseSingleCommand("SYMBOL_NAME PARAMETER1 PARAMETER2");
+    /// </summary>
     public class CommandInterpretator
     {
         //public Dictionary<string, Func<string>> Commands = new Dictionary<string, Func<string>>();

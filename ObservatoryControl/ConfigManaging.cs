@@ -176,7 +176,28 @@ namespace ObservatoryCenter
             return res;
         }
 
+        public static XmlNode getXMLNode(string section)
+        {
+            XmlNode res = null;
+            try
+            {
+                XmlNode nodeAppSet = configXML.SelectSingleNode("//" + section);
+                res = nodeAppSet;
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("getXMLNode [" + section + "] error: " + ex.Message, LogLevel.Important, Highlight.Error);
+                Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                res = null;
+            }
+            return res;
+        }
 
+
+
+        /// <summary>
+        /// Copy default config to CONFIG dir
+        /// </summary>
         private static void CopyDefaultConfig()
         {
             if (!File.Exists(Path.Combine(CONFIG_PATH, CONFIG_FILENAME)))
