@@ -294,7 +294,7 @@ namespace ObservatoryCenter
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Широта
-        public float LatitudeGrad = 90.0F - 56.0F; //CHANGE TO OBS in FUTURE
+        public float LatitudeGrad = 90.0F - (float)AstroUtilsClass.Latitude; //CHANGE TO OBS in FUTURE
 
         //DEC ось
         int PARAM_DecAxix_Len = 50;

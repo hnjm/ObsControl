@@ -20,8 +20,7 @@ namespace ObservatoryCenter
     // How to add new settigs:
     // 1. Add form element
     // 2. Link element through Data/ApplicationSetting/text (or checked, or ...) to setting provider element
-    // 3. Add writing from element to var in btnOk_Click event
-    // 4. Add to LoadParams() in MainForm initial var setting from setting provider
+    // 3. Add to LoadParams() in MainForm initial var setting from setting provider
     // 
     // For combobox with selectindex
     // 2. DO NOT MAKE LINKING TO Application/Settings

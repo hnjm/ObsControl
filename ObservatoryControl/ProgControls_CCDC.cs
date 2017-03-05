@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -52,6 +53,37 @@ namespace ObservatoryCenter
         }
 
 
+        public void CheckEmergengyRunAbortFlag()
+        // set = 1 abort
+        // set = 0 clear
+        {
+            //HKEY_CURRENT_USER\Software\VB and VBA Program Settings\CCDCommander\Test\Aborted
+
+            RegistryKey abortKey = Registry.CurrentUser.OpenSubKey("Software\\VB and VBA Program Settings\\CCDCommander\\Test", true);
+            if (abortKey != null)
+            {
+                abortKey.SetValue("Aborted", "1", RegistryValueKind.String);
+                abortKey.Close();
+            }
+        }
+
+
+        public void AbortRun(string set)
+        // set = 1 abort
+        // set = 0 clear
+        {
+            //HKEY_CURRENT_USER\Software\VB and VBA Program Settings\CCDCommander\Test\Aborted
+
+            // Не готово пока, нужно писать еще и тестировать
+
+            RegistryKey abortKey = Registry.CurrentUser.OpenSubKey("Software\\VB and VBA Program Settings\\CCDCommander\\Test", true);
+            if (abortKey != null)
+            {
+                abortKey.SetValue("Aborted", "1", RegistryValueKind.String);
+                abortKey.Close();
+            }
+        }
+
         /// <summary>
         /// Return FileInfo on last CCDC ACTION 
         /// </summary>
@@ -77,6 +109,14 @@ namespace ObservatoryCenter
             return lastActionFile;
         }
 
+        // ************************************************************************************************************************************************************************
+        // Логика работы с CCDC логами:
+        // 1. Берем последний лог файл и заносим его в [FileInfo currentLogFile]                                    - GetLastLogFile()
+        // 2. Проверяем его актуальность                                                                            - checkLogFileIsValid()
+        // 3. Читаем его содержимое в [IEnumerable<string> contentsLogFile]                                         - ReadLogFileContents();
+        // 4. Парсим содержимое и возвращаем [List<string> NewLines], который должен быть выведен в текст лога      - ParseLogFile()
+        // ************************************************************************************************************************************************************************
+#region *** Working with log ****
         /// <summary>
         /// Return FileInfo on last LOG FILE from CCDC
         /// </summary>
@@ -91,17 +131,29 @@ namespace ObservatoryCenter
                 objLogDirectory = new DirectoryInfo(LogPath);
 
                 //Get last file
-                FileInfo tmpCurrentLogFile = (from f in objLogDirectory.GetFiles() orderby f.LastWriteTime descending select f).First();
-                
-                //Check - was it changed from previos? (new session was started)
-                if (currentLogFile == null || tmpCurrentLogFile.FullName != currentLogFile.FullName)
+                //FileInfo tmpCurrentLogFile = (from f in objLogDirectory.GetFiles() orderby f.LastWriteTime descending select f).First();
+
+                //Get list of all files sorting by LastWriteTime desc
+                FileInfo[] logFilesListArr = objLogDirectory.GetFiles().OrderByDescending(p => p.LastWriteTime).ToArray();
+
+                //Loop through list
+                foreach (FileInfo curFile in logFilesListArr)
                 {
-                    // if yes - reset counter
-                    prevLinesCount = 0;
-                    //set new current lig file
-                    currentLogFile = tmpCurrentLogFile;
+                    if (curFile.Extension == ".log")
+                    {
+                        //Check - was it changed from previos? (new session was started)
+                        if (currentLogFile == null || curFile.FullName != currentLogFile.FullName)
+                        {
+                            // if yes - reset counter
+                            prevLinesCount = 0;
+                            //set new current lig file
+                            currentLogFile = curFile;
+                        }
+
+                        //only one log file is needed, so break
+                        break;
+                    }
                 }
-                
             }
             catch (Exception ex)
             {
@@ -367,5 +419,6 @@ namespace ObservatoryCenter
             return res;
         }
 
+#endregion End of Working with log ****
     }
 }

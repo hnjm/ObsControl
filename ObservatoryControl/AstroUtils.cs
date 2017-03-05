@@ -7,6 +7,7 @@ using ASCOM.Astrometry;
 using ASCOM;
 using System.Collections;
 using ASCOM.Astrometry.AstroUtils;
+using System.Threading;
 
 namespace ObservatoryCenter
 {
@@ -16,9 +17,9 @@ namespace ObservatoryCenter
         static ASCOM.Astrometry.AstroUtils.AstroUtils ASCOMAUtils;
 
         // OBSERVATORY LOCATION
-        static double Latitude = 55.9452777777778;
-        static double Longitude = 38.7133333333333;
-        static double SiteTimeZone = 3;
+        static public double Latitude = 55.9452777777778;
+        static public double Longitude = 38.7133333333333;
+        static public double SiteTimeZone = 3;
 
         /// <summary>
         /// Atuo constructor
@@ -391,8 +392,14 @@ namespace ObservatoryCenter
         /// <returns></returns>
         static public double AstronTwilightRise(int DayShift = 0)
         {
+            double res = 0;
+
             ArrayList EventList = CalcAstronTwilight(DayShift);
-            return (double)EventList[0];
+            //Logging.AddLog("test " + EventList.ToString(), LogLevel.Debug, Highlight.Error);
+            //Thread.Sleep(3000);
+            if (EventList != null) res = (double)EventList[0];
+
+            return res;
         }
         /// <summary>
         /// Return Astron Twilight end  time in HourDouble
@@ -401,8 +408,12 @@ namespace ObservatoryCenter
         /// <returns></returns>
         static public double AstronTwilightSet(int DayShift = 0)
         {
+            double res = 0;
+
             ArrayList EventList = CalcAstronTwilight(DayShift);
-            return (double)EventList[1];
+            if (EventList != null) res = (double)EventList[1];
+
+            return res;
         }
         /// <summary>
         /// Caclulate Astron Twilight events
@@ -432,6 +443,7 @@ namespace ObservatoryCenter
             catch (ASCOM.InvalidValueException)
             {
                 // Indicates that an invalid day has been specified e.g. 31st of February so ignore it
+                Logging.AddLog("CalcAstronTwilight ASCOM.InvalidValueException! ", LogLevel.Debug, Highlight.Error);
             }
             catch (Exception ex)
             {

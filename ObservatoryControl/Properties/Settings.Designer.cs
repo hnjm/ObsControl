@@ -214,5 +214,77 @@ namespace ObservatoryCenter.Properties {
                 this["DeviceEnabled_Telescope"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("38")]
+        public string LongGrad {
+            get {
+                return ((string)(this["LongGrad"]));
+            }
+            set {
+                this["LongGrad"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string LongMin {
+            get {
+                return ((string)(this["LongMin"]));
+            }
+            set {
+                this["LongMin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string LongSec {
+            get {
+                return ((string)(this["LongSec"]));
+            }
+            set {
+                this["LongSec"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("56")]
+        public string LatGrad {
+            get {
+                return ((string)(this["LatGrad"]));
+            }
+            set {
+                this["LatGrad"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string LatMin {
+            get {
+                return ((string)(this["LatMin"]));
+            }
+            set {
+                this["LatMin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string LatSec {
+            get {
+                return ((string)(this["LatSec"]));
+            }
+            set {
+                this["LatSec"] = value;
+            }
+        }
     }
 }

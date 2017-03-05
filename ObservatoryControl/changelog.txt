@@ -25,9 +25,15 @@ to do:
 - CCDAP session stage signaling (standalone session monitor program)
 
 bugs:
+- ccdc not last log
 - MaximDL running, but CCDCamera obj isn't connected
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
+
+0.8.3 [05.03.17]
+- site location setting
+- ccdc log finding logic changing
+- maximdl constant rerun bugfix
 
 0.8.2 [26.02.17]
 - parsing CCDC activity (through log)

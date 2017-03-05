@@ -135,7 +135,7 @@ namespace ObservatoryCenter
             bool Tmaxim = false;
             try
             {
-                Tmaxim = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.TelescopeConnected);
+                Tmaxim = (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.TelescopeConnected);
             }
             catch { Tmaxim = false; }
             bool Tcdc = false; //later organize checking
@@ -162,7 +162,7 @@ namespace ObservatoryCenter
             string FocusSt = "";
             try
             {
-                testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
+                testFocus = (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
             }
             catch { testFocus = false; }
             if (testFocus)
@@ -178,7 +178,7 @@ namespace ObservatoryCenter
             toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
 
             //CAMERA
-            bool testCamera = (ObsControl.objMaxim.MaximApplicationObj != null  && ObsControl.objMaxim.CheckCameraAvailable());
+            bool testCamera = (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null  && ObsControl.objMaxim.CheckCameraAvailable());
             if (testCamera)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
@@ -511,7 +511,7 @@ namespace ObservatoryCenter
             }
 
             //MAXIM DATA
-            if (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.CheckCameraAvailable())
+            if (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.CheckCameraAvailable())
             {
                 txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CCDCamera.CameraName;
                 txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
@@ -640,14 +640,19 @@ namespace ObservatoryCenter
         {
             if (ObsControl.objCCDCApp.IsRunning())
             {
+                //1. Определяем, какой лог актуальный
                 ObsControl.objCCDCApp.GetLastLogFile(); //needs to be constanly updated
+                //2. Проверямем - он валидный?
                 if (ObsControl.objCCDCApp.checkLogFileIsValid())
                 {
+                    //3. Читаем содержимое в память
                     ObsControl.objCCDCApp.ReadLogFileContents();
+                    //4. Парсим содержимое и возвращаем строки для отображения в логн
                     List<string> NewLogLines = new List<string>();
                     if (ObsControl.objCCDCApp.ParseLogFile(out NewLogLines))
-                    { 
-                        foreach(string st in NewLogLines) txtCCDAutomationStatus.Text = st + txtCCDAutomationStatus.Text;
+                    {
+                        //5. Выводим строким в логи
+                        foreach (string st in NewLogLines) txtCCDAutomationStatus.Text = st + txtCCDAutomationStatus.Text;
                     }
                 }
             }
