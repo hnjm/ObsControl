@@ -135,7 +135,11 @@ namespace ObservatoryCenter
         static public double MoonSet(int DayShift = 0)
         {
             ArrayList EventList = CalcMoonRiseSet(DayShift);
-            return (double)EventList[1];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 1) res = (double)EventList[1];
+
+            return res;
         }
 
         /// <summary>
@@ -146,7 +150,12 @@ namespace ObservatoryCenter
         static public double MoonRise(int DayShift = 0)
         {
             ArrayList EventList = CalcMoonRiseSet(DayShift);
-            return (double)EventList[0];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 0) res = (double)EventList[0];
+
+            return res;
+
         }
 
         /// <summary>
@@ -201,7 +210,12 @@ namespace ObservatoryCenter
         static public double SunSet(int DayShift = 0)
         {
             ArrayList EventList = CalcSunRiseSet(DayShift);
-            return (double)EventList[1];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 1) res = (double)EventList[1];
+
+            return res;
+
         }
 
         /// <summary>
@@ -212,7 +226,12 @@ namespace ObservatoryCenter
         static public double SunRise(int DayShift = 0)
         {
             ArrayList EventList = CalcSunRiseSet(DayShift);
-            return (double)EventList[0];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 0) res = (double)EventList[0];
+
+            return res;
+
         }
         /// <summary>
         /// Caclulate Sun rise and set events
@@ -268,7 +287,11 @@ namespace ObservatoryCenter
         static public double CivilTwilightRise(int DayShift = 0)
         {
             ArrayList EventList = CalcCivilTwilight(DayShift);
-            return (double)EventList[0];
+        
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 0) res = (double)EventList[0];
+
+            return res;
         }
         /// <summary>
         /// Return Civil Twilight end  time in HourDouble
@@ -278,8 +301,13 @@ namespace ObservatoryCenter
         static public double CivilTwilightSet(int DayShift = 0)
         {
             ArrayList EventList = CalcCivilTwilight(DayShift);
-            return (double)EventList[1];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 1) res = (double)EventList[1];
+
+            return res;
         }
+
         /// <summary>
         /// Caclulate Civil Twilight events
         /// </summary>
@@ -297,8 +325,12 @@ namespace ObservatoryCenter
                 int RiseCount = (int)EventList[1];
                 int SetCount = (int)EventList[2];
 
-                double RiseHr = (double)EventList[2 + RiseCount]; //last rise
-                double SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+                double RiseHr = 0.0;
+                if (RiseCount > 0) RiseHr = (double)EventList[2 + RiseCount]; //last rise
+
+                double SetHr = 0.0;
+                if (SetCount > 0) SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+
 
                 ReturnEventList.Add(RiseHr);
                 ReturnEventList.Add(SetHr);
@@ -330,7 +362,12 @@ namespace ObservatoryCenter
         static public double NautTwilightRise(int DayShift = 0)
         {
             ArrayList EventList = CalcNautTwilight(DayShift);
-            return (double)EventList[0];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 0) res = (double)EventList[0];
+
+            return res;
+
         }
         /// <summary>
         /// Return Naut Twilight end  time in HourDouble
@@ -340,7 +377,11 @@ namespace ObservatoryCenter
         static public double NautTwilightSet(int DayShift = 0)
         {
             ArrayList EventList = CalcNautTwilight(DayShift);
-            return (double)EventList[1];
+
+            double res = 0.0;
+            if (EventList != null && EventList.Count > 1) res = (double)EventList[1];
+
+            return res;
         }
         /// <summary>
         /// Caclulate Naut Twilight events
@@ -359,8 +400,11 @@ namespace ObservatoryCenter
                 int RiseCount = (int)EventList[1];
                 int SetCount = (int)EventList[2];
 
-                double RiseHr = (double)EventList[2 + RiseCount]; //last rise
-                double SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+                double RiseHr = 0.0;
+                if (RiseCount>0) RiseHr = (double)EventList[2 + RiseCount]; //last rise
+
+                double SetHr = 0.0;
+                if (SetCount > 0) SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
 
                 ReturnEventList.Add(RiseHr);
                 ReturnEventList.Add(SetHr);
@@ -397,7 +441,7 @@ namespace ObservatoryCenter
             ArrayList EventList = CalcAstronTwilight(DayShift);
             //Logging.AddLog("test " + EventList.ToString(), LogLevel.Debug, Highlight.Error);
             //Thread.Sleep(3000);
-            if (EventList != null) res = (double)EventList[0];
+            if (EventList != null && EventList.Count > 0) res = (double)EventList[0];
 
             return res;
         }
@@ -408,10 +452,10 @@ namespace ObservatoryCenter
         /// <returns></returns>
         static public double AstronTwilightSet(int DayShift = 0)
         {
-            double res = 0;
+            double res = 0.0;
 
             ArrayList EventList = CalcAstronTwilight(DayShift);
-            if (EventList != null) res = (double)EventList[1];
+            if (EventList != null && EventList.Count > 1) res = (double)EventList[1];
 
             return res;
         }
@@ -432,8 +476,11 @@ namespace ObservatoryCenter
                 int RiseCount = (int)EventList[1];
                 int SetCount = (int)EventList[2];
 
-                double RiseHr = (double)EventList[2 + RiseCount]; //last rise
-                double SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
+                double RiseHr = 0.0;
+                if (RiseCount > 0) RiseHr = (double)EventList[2 + RiseCount]; //last rise
+
+                double SetHr = 0.0;
+                if (SetCount > 0) SetHr = (double)EventList[2 + RiseCount + SetCount]; //last set
 
                 ReturnEventList.Add(RiseHr);
                 ReturnEventList.Add(SetHr);
@@ -461,7 +508,7 @@ namespace ObservatoryCenter
 
         static public double MoonIllumination()
         {
-            double phase = ASCOMAUtils.MoonIllumination(ASCOMAUtils.JulianDateUtc);
+            double phase = Math.Round(ASCOMAUtils.MoonIllumination(ASCOMAUtils.JulianDateUtc),2);
 
             return phase;
         }

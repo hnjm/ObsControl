@@ -975,7 +975,7 @@ namespace ObservatoryCenter
 
             txtEvents_MoonRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonRise());
             txtEvents_MoonSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonSet());
-            txtEvents_MoonPhase.Text = AstroUtilsClass.MoonIllumination().ToString("P2");
+            txtEvents_MoonPhase.Text = AstroUtilsClass.MoonIllumination().ToString("P0");
         }
 
 #endregion *** Update AstroEvents *****************************************************************
