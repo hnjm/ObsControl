@@ -48,6 +48,7 @@ namespace ObservatoryCenter
             try
             {
                 configXML.Load(Path.Combine(CONFIG_PATH,CONFIG_FILENAME));
+                Logging.AddLog("Configuration file ["+ CONFIG_PATH + CONFIG_FILENAME + "] loaded", LogLevel.Activity);
                 return true;
             }
             catch (Exception ex)

@@ -10,13 +10,20 @@ using System.Reflection;
 
 namespace ObservatoryCenter
 {
-    public partial class ObservatoryControls
+    public class ObservatoryControls_ASCOMTelescope
     {
+
+        public bool Connected_flag = false;
+        public bool Enabled = false;
+        public string TELESCOPE_DRIVER_NAME = "";
+
+        private ASCOM.DriverAccess.Telescope objTelescope = null;
 
         /// <summary>
         /// ASCOM TELESCOPE DRIVER WRAPPERS
         /// </summary>
 
+        private PierSide curPierSideStatus = PierSide.pierUnknown;
 
         private double curAzimuth = -1;
         private double curAltitude = -100;
@@ -27,15 +34,95 @@ namespace ObservatoryCenter
         private bool curAtPark = false;
         private bool curTracking = false;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ObservatoryControls_ASCOMTelescope()
+        {
+        }
 
-        public void Telescope_Park()
+        /// <summary>
+        /// SET: Connect/disconnect to telescope Wrapper
+        /// GET: Connection status Wrapper
+        /// </summary>
+        public bool Connect
+        {
+            set
+            {
+                //Log enter
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), LogLevel.Trace);
+
+                //if device present at all and its ID is set
+                if (Enabled && TELESCOPE_DRIVER_NAME != "")
+                {
+                    try
+                    {
+                        //If obj doesnot exist - create
+                        if (objTelescope == null) objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
+
+                        //Connect/Disconnect
+                        objTelescope.Connected = value;
+                        Connected_flag = value;
+                        Logging.AddLog("Telescope has been " + (value ? "connected" : "disconnected"), LogLevel.Activity);
+                    }
+                    catch (Exception ex)
+                    {
+                        Connected_flag = false;
+                        Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect ") + " telescope", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                    }
+
+                    //free object if disconnect
+                    if (!value)
+                    {
+                        //objTelescope.Dispose();
+                        //objTelescope = null;
+                    }
+                }
+                else
+                {
+                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                    Logging.AddLog("Device is not set. Couldn't " + (value ? "connect to" : "disconnect ") + " telescope", LogLevel.Debug, Highlight.Error);
+                }
+            }
+            get
+            {
+                //Log enter
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
+                //if device present at all and its ID is set
+                if (Enabled && TELESCOPE_DRIVER_NAME != "")
+                {
+                    try
+                    {
+                        Connected_flag = objTelescope.Connected;
+                    }
+                    catch (Exception ex)
+                    {
+                        Connected_flag = false;
+                        Logging.AddLog("Telescope get connection error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    }
+                }
+                else
+                {
+                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                    Logging.AddLog("Device is not set. Couldn't return status of telescope", LogLevel.Debug, Highlight.Error);
+                }
+
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Connected_flag, LogLevel.Trace);
+                return Connected_flag;
+            }
+        }
+
+
+        public void Park()
         {
             //Log enter
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
 
 
             //if device present at all and its ID is set
-            if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+            if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
             {
                 try
                 {
@@ -57,14 +144,14 @@ namespace ObservatoryCenter
         }
 
 
-        public void Telescope_TrackToggle()
+        public void TrackToggle()
         {
             //Log enter
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
 
 
             //if device present at all and its ID is set
-            if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+            if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
             {
                 try
                 {
@@ -87,7 +174,7 @@ namespace ObservatoryCenter
             Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + "void", LogLevel.Trace);
         }
 
-        public PierSide TelescopePierSideStatus
+        public PierSide PierSideStatus
         {
             get
             {
@@ -96,7 +183,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -125,7 +212,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope Azimuth
         /// </summary>
-        public double Telescope_Azimuth
+        public double Azimuth
         {
             get
             {
@@ -134,7 +221,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -163,7 +250,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope Altitude
         /// </summary>
-        public double Telescope_Altitude
+        public double Altitude
         {
             get
             {
@@ -172,7 +259,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -201,7 +288,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope Declination
         /// </summary>
-        public double Telescope_Declination
+        public double Declination
         {
             get
             {
@@ -210,7 +297,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -238,7 +325,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope RightAscension
         /// </summary>
-        public double Telescope_RightAscension
+        public double RightAscension
         {
             get
             {
@@ -247,7 +334,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -277,7 +364,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope SiderealTime
         /// </summary>
-        public double Telescope_SiderealTime
+        public double SiderealTime
         {
             get
             {
@@ -286,7 +373,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -316,7 +403,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope AtPark status
         /// </summary>
-        public bool Telescope_AtPark
+        public bool AtPark
         {
             get
             {
@@ -325,7 +412,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -353,7 +440,7 @@ namespace ObservatoryCenter
 
         /// Get Telescope Tracking status
         /// </summary>
-        public bool Telescope_Tracking
+        public bool Tracking
         {
             get
             {
@@ -362,7 +449,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (TelescopeEnabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -387,6 +474,24 @@ namespace ObservatoryCenter
             }
         }
 
+        /// <summary>
+        /// Wrapper to reset telescope driver 
+        /// Later system would reinitiate it itself
+        /// </summary>
+        public void Reset()
+        {
+            Connected_flag = false;
 
+            curAzimuth = -1;
+            curAltitude = -100;
+            curRightAscension = -100;
+            curDeclination = -100;
+            curSiderealTime = -100;
+
+            curAtPark = false;
+            curTracking = false;
+
+            objTelescope = null;
+        }
     }
 }

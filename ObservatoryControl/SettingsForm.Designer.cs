@@ -34,15 +34,28 @@
             this.dataGridConfig_programsPath_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridConfig_programsPath_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPagescenarioMainParams = new System.Windows.Forms.TabPage();
-            this.dataGridConfig_scenarioMainParams = new System.Windows.Forms.DataGridView();
-            this.dataGridConfig_scenarioMainParams_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridConfig_scenarioMainParams_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridConfig_scenarioMain = new System.Windows.Forms.DataGridView();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtLatitudeSec = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtLatitudeMin = new System.Windows.Forms.TextBox();
+            this.txtLongtitudeSec = new System.Windows.Forms.TextBox();
+            this.txtLatitudeGrad = new System.Windows.Forms.TextBox();
+            this.txtLongtitudeMin = new System.Windows.Forms.TextBox();
+            this.txtLongtitudeGrad = new System.Windows.Forms.TextBox();
             this.tabPageSwitch = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtSwitchDriverId = new System.Windows.Forms.TextBox();
             this.btnConnectSwitchSettings = new System.Windows.Forms.Button();
             this.btnChooseSwitch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtSwitchRoofSwitchPort = new System.Windows.Forms.TextBox();
+            this.txtSwitchRoofPowerPort = new System.Windows.Forms.TextBox();
+            this.txtSwitchFocuserPort = new System.Windows.Forms.TextBox();
+            this.txtSwitchCameraPort = new System.Windows.Forms.TextBox();
+            this.txtSwitchMountPort = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,42 +63,32 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tabPageDome = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtDomeDriverId = new System.Windows.Forms.TextBox();
             this.btnConnectDomeSettings = new System.Windows.Forms.Button();
             this.btnChooseDome = new System.Windows.Forms.Button();
             this.tabPageTelescope = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtTelescopeDriverId = new System.Windows.Forms.TextBox();
             this.btnConnectTelescopeSettings = new System.Windows.Forms.Button();
             this.btnChooseTelescope = new System.Windows.Forms.Button();
             this.tabPageMisc = new System.Windows.Forms.TabPage();
+            this.numUDRoofDuration = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.btnRestoreDefaults = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtLatitudeSec = new System.Windows.Forms.TextBox();
-            this.txtLatitudeMin = new System.Windows.Forms.TextBox();
-            this.txtLongtitudeSec = new System.Windows.Forms.TextBox();
-            this.txtLatitudeGrad = new System.Windows.Forms.TextBox();
-            this.txtLongtitudeMin = new System.Windows.Forms.TextBox();
-            this.txtLongtitudeGrad = new System.Windows.Forms.TextBox();
-            this.txtSwitchDriverId = new System.Windows.Forms.TextBox();
-            this.txtSwitchRoofSwitchPort = new System.Windows.Forms.TextBox();
-            this.txtSwitchRoofPowerPort = new System.Windows.Forms.TextBox();
-            this.txtSwitchFocuserPort = new System.Windows.Forms.TextBox();
-            this.txtSwitchCameraPort = new System.Windows.Forms.TextBox();
-            this.txtSwitchMountPort = new System.Windows.Forms.TextBox();
-            this.txtDomeDriverId = new System.Windows.Forms.TextBox();
-            this.txtTelescopeDriverId = new System.Windows.Forms.TextBox();
-            this.numUDRoofDuration = new System.Windows.Forms.NumericUpDown();
+            this.dataGridConfig_scenarioMain_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridConfig_scenarioMain_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridConfig_scenarioMain_run = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridConfig_scenarioMain_argument = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings.SuspendLayout();
             this.tabPageProgramPath.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_programsPath)).BeginInit();
             this.tabPagescenarioMainParams.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_scenarioMainParams)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_scenarioMain)).BeginInit();
             this.tabPageGeneral.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.tabPageSwitch.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -94,7 +97,6 @@
             this.tabPageTelescope.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPageMisc.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUDRoofDuration)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,10 +122,10 @@
             // tabPageProgramPath
             // 
             this.tabPageProgramPath.Controls.Add(this.dataGridConfig_programsPath);
-            this.tabPageProgramPath.Location = new System.Drawing.Point(4, 29);
+            this.tabPageProgramPath.Location = new System.Drawing.Point(8, 39);
             this.tabPageProgramPath.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageProgramPath.Name = "tabPageProgramPath";
-            this.tabPageProgramPath.Size = new System.Drawing.Size(866, 407);
+            this.tabPageProgramPath.Size = new System.Drawing.Size(858, 393);
             this.tabPageProgramPath.TabIndex = 5;
             this.tabPageProgramPath.Text = "Programs Path";
             this.tabPageProgramPath.UseVisualStyleBackColor = true;
@@ -145,7 +147,7 @@
             this.dataGridConfig_programsPath.Name = "dataGridConfig_programsPath";
             this.dataGridConfig_programsPath.RowHeadersVisible = false;
             this.dataGridConfig_programsPath.RowHeadersWidth = 10;
-            this.dataGridConfig_programsPath.Size = new System.Drawing.Size(854, 393);
+            this.dataGridConfig_programsPath.Size = new System.Drawing.Size(846, 379);
             this.dataGridConfig_programsPath.TabIndex = 3;
             // 
             // dataGridConfig_programsPath_name
@@ -156,6 +158,7 @@
             this.dataGridConfig_programsPath_name.MinimumWidth = 100;
             this.dataGridConfig_programsPath_name.Name = "dataGridConfig_programsPath_name";
             this.dataGridConfig_programsPath_name.ReadOnly = true;
+            this.dataGridConfig_programsPath_name.Width = 113;
             // 
             // dataGridConfig_programsPath_value
             // 
@@ -166,72 +169,147 @@
             // 
             // tabPagescenarioMainParams
             // 
-            this.tabPagescenarioMainParams.Controls.Add(this.dataGridConfig_scenarioMainParams);
-            this.tabPagescenarioMainParams.Location = new System.Drawing.Point(4, 29);
+            this.tabPagescenarioMainParams.Controls.Add(this.dataGridConfig_scenarioMain);
+            this.tabPagescenarioMainParams.Location = new System.Drawing.Point(8, 39);
             this.tabPagescenarioMainParams.Margin = new System.Windows.Forms.Padding(2);
             this.tabPagescenarioMainParams.Name = "tabPagescenarioMainParams";
-            this.tabPagescenarioMainParams.Size = new System.Drawing.Size(866, 407);
+            this.tabPagescenarioMainParams.Size = new System.Drawing.Size(858, 393);
             this.tabPagescenarioMainParams.TabIndex = 6;
-            this.tabPagescenarioMainParams.Text = "Scenario Main Params";
+            this.tabPagescenarioMainParams.Text = "Scenario Main";
             this.tabPagescenarioMainParams.UseVisualStyleBackColor = true;
             // 
-            // dataGridConfig_scenarioMainParams
+            // dataGridConfig_scenarioMain
             // 
-            this.dataGridConfig_scenarioMainParams.AllowUserToAddRows = false;
-            this.dataGridConfig_scenarioMainParams.AllowUserToDeleteRows = false;
-            this.dataGridConfig_scenarioMainParams.AllowUserToResizeRows = false;
-            this.dataGridConfig_scenarioMainParams.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dataGridConfig_scenarioMain.AllowUserToAddRows = false;
+            this.dataGridConfig_scenarioMain.AllowUserToDeleteRows = false;
+            this.dataGridConfig_scenarioMain.AllowUserToResizeRows = false;
+            this.dataGridConfig_scenarioMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridConfig_scenarioMainParams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridConfig_scenarioMainParams.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridConfig_scenarioMainParams_name,
-            this.dataGridConfig_scenarioMainParams_value});
-            this.dataGridConfig_scenarioMainParams.Location = new System.Drawing.Point(4, 5);
-            this.dataGridConfig_scenarioMainParams.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dataGridConfig_scenarioMainParams.Name = "dataGridConfig_scenarioMainParams";
-            this.dataGridConfig_scenarioMainParams.RowHeadersVisible = false;
-            this.dataGridConfig_scenarioMainParams.RowHeadersWidth = 10;
-            this.dataGridConfig_scenarioMainParams.Size = new System.Drawing.Size(854, 393);
-            this.dataGridConfig_scenarioMainParams.TabIndex = 4;
-            // 
-            // dataGridConfig_scenarioMainParams_name
-            // 
-            this.dataGridConfig_scenarioMainParams_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dataGridConfig_scenarioMainParams_name.FillWeight = 200F;
-            this.dataGridConfig_scenarioMainParams_name.HeaderText = "Name";
-            this.dataGridConfig_scenarioMainParams_name.MinimumWidth = 100;
-            this.dataGridConfig_scenarioMainParams_name.Name = "dataGridConfig_scenarioMainParams_name";
-            this.dataGridConfig_scenarioMainParams_name.ReadOnly = true;
-            // 
-            // dataGridConfig_scenarioMainParams_value
-            // 
-            this.dataGridConfig_scenarioMainParams_value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridConfig_scenarioMainParams_value.HeaderText = "Value";
-            this.dataGridConfig_scenarioMainParams_value.MinimumWidth = 300;
-            this.dataGridConfig_scenarioMainParams_value.Name = "dataGridConfig_scenarioMainParams_value";
+            this.dataGridConfig_scenarioMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridConfig_scenarioMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridConfig_scenarioMain_name,
+            this.dataGridConfig_scenarioMain_type,
+            this.dataGridConfig_scenarioMain_run,
+            this.dataGridConfig_scenarioMain_argument});
+            this.dataGridConfig_scenarioMain.Location = new System.Drawing.Point(4, 5);
+            this.dataGridConfig_scenarioMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dataGridConfig_scenarioMain.Name = "dataGridConfig_scenarioMain";
+            this.dataGridConfig_scenarioMain.RowHeadersVisible = false;
+            this.dataGridConfig_scenarioMain.RowHeadersWidth = 10;
+            this.dataGridConfig_scenarioMain.Size = new System.Drawing.Size(846, 379);
+            this.dataGridConfig_scenarioMain.TabIndex = 4;
             // 
             // tabPageGeneral
             // 
             this.tabPageGeneral.Controls.Add(this.groupBox5);
-            this.tabPageGeneral.Location = new System.Drawing.Point(4, 29);
+            this.tabPageGeneral.Location = new System.Drawing.Point(8, 39);
             this.tabPageGeneral.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageGeneral.Name = "tabPageGeneral";
             this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageGeneral.Size = new System.Drawing.Size(866, 407);
+            this.tabPageGeneral.Size = new System.Drawing.Size(858, 393);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "General";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label2);
+            this.groupBox5.Controls.Add(this.txtLatitudeSec);
+            this.groupBox5.Controls.Add(this.label1);
+            this.groupBox5.Controls.Add(this.txtLatitudeMin);
+            this.groupBox5.Controls.Add(this.txtLongtitudeSec);
+            this.groupBox5.Controls.Add(this.txtLatitudeGrad);
+            this.groupBox5.Controls.Add(this.txtLongtitudeMin);
+            this.groupBox5.Controls.Add(this.txtLongtitudeGrad);
+            this.groupBox5.Location = new System.Drawing.Point(7, 8);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(488, 233);
+            this.groupBox5.TabIndex = 0;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Location";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 67);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(89, 25);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Latitude";
+            // 
+            // txtLatitudeSec
+            // 
+            this.txtLatitudeSec.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LatSec", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtLatitudeSec.Location = new System.Drawing.Point(244, 64);
+            this.txtLatitudeSec.Name = "txtLatitudeSec";
+            this.txtLatitudeSec.Size = new System.Drawing.Size(57, 31);
+            this.txtLatitudeSec.TabIndex = 0;
+            this.txtLatitudeSec.Text = global::ObservatoryCenter.Properties.Settings.Default.LatSec;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 25);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Longtitude";
+            // 
+            // txtLatitudeMin
+            // 
+            this.txtLatitudeMin.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LatMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtLatitudeMin.Location = new System.Drawing.Point(170, 64);
+            this.txtLatitudeMin.Name = "txtLatitudeMin";
+            this.txtLatitudeMin.Size = new System.Drawing.Size(57, 31);
+            this.txtLatitudeMin.TabIndex = 0;
+            this.txtLatitudeMin.Text = global::ObservatoryCenter.Properties.Settings.Default.LatMin;
+            // 
+            // txtLongtitudeSec
+            // 
+            this.txtLongtitudeSec.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LongSec", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtLongtitudeSec.Location = new System.Drawing.Point(244, 28);
+            this.txtLongtitudeSec.Name = "txtLongtitudeSec";
+            this.txtLongtitudeSec.Size = new System.Drawing.Size(57, 31);
+            this.txtLongtitudeSec.TabIndex = 0;
+            this.txtLongtitudeSec.Text = global::ObservatoryCenter.Properties.Settings.Default.LongSec;
+            // 
+            // txtLatitudeGrad
+            // 
+            this.txtLatitudeGrad.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LatGrad", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtLatitudeGrad.Location = new System.Drawing.Point(97, 64);
+            this.txtLatitudeGrad.Name = "txtLatitudeGrad";
+            this.txtLatitudeGrad.Size = new System.Drawing.Size(57, 31);
+            this.txtLatitudeGrad.TabIndex = 0;
+            this.txtLatitudeGrad.Text = global::ObservatoryCenter.Properties.Settings.Default.LatGrad;
+            // 
+            // txtLongtitudeMin
+            // 
+            this.txtLongtitudeMin.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LongMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtLongtitudeMin.Location = new System.Drawing.Point(170, 28);
+            this.txtLongtitudeMin.Name = "txtLongtitudeMin";
+            this.txtLongtitudeMin.Size = new System.Drawing.Size(57, 31);
+            this.txtLongtitudeMin.TabIndex = 0;
+            this.txtLongtitudeMin.Text = global::ObservatoryCenter.Properties.Settings.Default.LongMin;
+            // 
+            // txtLongtitudeGrad
+            // 
+            this.txtLongtitudeGrad.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LongGrad", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtLongtitudeGrad.Location = new System.Drawing.Point(97, 28);
+            this.txtLongtitudeGrad.Name = "txtLongtitudeGrad";
+            this.txtLongtitudeGrad.Size = new System.Drawing.Size(57, 31);
+            this.txtLongtitudeGrad.TabIndex = 0;
+            this.txtLongtitudeGrad.Text = global::ObservatoryCenter.Properties.Settings.Default.LongGrad;
             // 
             // tabPageSwitch
             // 
             this.tabPageSwitch.Controls.Add(this.groupBox2);
             this.tabPageSwitch.Controls.Add(this.groupBox1);
-            this.tabPageSwitch.Location = new System.Drawing.Point(4, 29);
+            this.tabPageSwitch.Location = new System.Drawing.Point(8, 39);
             this.tabPageSwitch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageSwitch.Name = "tabPageSwitch";
             this.tabPageSwitch.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPageSwitch.Size = new System.Drawing.Size(866, 407);
+            this.tabPageSwitch.Size = new System.Drawing.Size(858, 393);
             this.tabPageSwitch.TabIndex = 1;
             this.tabPageSwitch.Text = "Switch";
             this.tabPageSwitch.UseVisualStyleBackColor = true;
@@ -249,6 +327,17 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Choose driver";
+            // 
+            // txtSwitchDriverId
+            // 
+            this.txtSwitchDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSwitchDriverId.Location = new System.Drawing.Point(9, 30);
+            this.txtSwitchDriverId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSwitchDriverId.Name = "txtSwitchDriverId";
+            this.txtSwitchDriverId.ReadOnly = true;
+            this.txtSwitchDriverId.Size = new System.Drawing.Size(374, 31);
+            this.txtSwitchDriverId.TabIndex = 9;
+            this.txtSwitchDriverId.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchDriverId;
             // 
             // btnConnectSwitchSettings
             // 
@@ -295,13 +384,63 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Switch";
             // 
+            // txtSwitchRoofSwitchPort
+            // 
+            this.txtSwitchRoofSwitchPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofSwitchPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSwitchRoofSwitchPort.Location = new System.Drawing.Point(144, 168);
+            this.txtSwitchRoofSwitchPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSwitchRoofSwitchPort.Name = "txtSwitchRoofSwitchPort";
+            this.txtSwitchRoofSwitchPort.Size = new System.Drawing.Size(64, 31);
+            this.txtSwitchRoofSwitchPort.TabIndex = 2;
+            this.txtSwitchRoofSwitchPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchRoofSwitchPort;
+            // 
+            // txtSwitchRoofPowerPort
+            // 
+            this.txtSwitchRoofPowerPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofPowerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSwitchRoofPowerPort.Location = new System.Drawing.Point(142, 132);
+            this.txtSwitchRoofPowerPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSwitchRoofPowerPort.Name = "txtSwitchRoofPowerPort";
+            this.txtSwitchRoofPowerPort.Size = new System.Drawing.Size(64, 31);
+            this.txtSwitchRoofPowerPort.TabIndex = 2;
+            this.txtSwitchRoofPowerPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchRoofPowerPort;
+            // 
+            // txtSwitchFocuserPort
+            // 
+            this.txtSwitchFocuserPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchFocuserPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSwitchFocuserPort.Location = new System.Drawing.Point(144, 92);
+            this.txtSwitchFocuserPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSwitchFocuserPort.Name = "txtSwitchFocuserPort";
+            this.txtSwitchFocuserPort.Size = new System.Drawing.Size(64, 31);
+            this.txtSwitchFocuserPort.TabIndex = 2;
+            this.txtSwitchFocuserPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchFocuserPort;
+            // 
+            // txtSwitchCameraPort
+            // 
+            this.txtSwitchCameraPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchCameraPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSwitchCameraPort.Location = new System.Drawing.Point(144, 58);
+            this.txtSwitchCameraPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSwitchCameraPort.Name = "txtSwitchCameraPort";
+            this.txtSwitchCameraPort.Size = new System.Drawing.Size(64, 31);
+            this.txtSwitchCameraPort.TabIndex = 2;
+            this.txtSwitchCameraPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchCameraPort;
+            // 
+            // txtSwitchMountPort
+            // 
+            this.txtSwitchMountPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchMountPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtSwitchMountPort.Location = new System.Drawing.Point(144, 25);
+            this.txtSwitchMountPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtSwitchMountPort.Name = "txtSwitchMountPort";
+            this.txtSwitchMountPort.Size = new System.Drawing.Size(64, 31);
+            this.txtSwitchMountPort.TabIndex = 2;
+            this.txtSwitchMountPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchMountPort;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(9, 25);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 20);
+            this.label4.Size = new System.Drawing.Size(115, 25);
             this.label4.TabIndex = 0;
             this.label4.Text = "Mount port";
             // 
@@ -311,7 +450,7 @@
             this.label7.Location = new System.Drawing.Point(9, 172);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(124, 20);
+            this.label7.Size = new System.Drawing.Size(166, 25);
             this.label7.TabIndex = 1;
             this.label7.Text = "Roof switch port";
             // 
@@ -321,7 +460,7 @@
             this.label6.Location = new System.Drawing.Point(9, 132);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(123, 20);
+            this.label6.Size = new System.Drawing.Size(164, 25);
             this.label6.TabIndex = 1;
             this.label6.Text = "Roof power port";
             // 
@@ -331,7 +470,7 @@
             this.label8.Location = new System.Drawing.Point(9, 97);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 20);
+            this.label8.Size = new System.Drawing.Size(133, 25);
             this.label8.TabIndex = 1;
             this.label8.Text = "Focuser port";
             // 
@@ -341,17 +480,17 @@
             this.label5.Location = new System.Drawing.Point(9, 63);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(97, 20);
+            this.label5.Size = new System.Drawing.Size(130, 25);
             this.label5.TabIndex = 1;
             this.label5.Text = "Camera port";
             // 
             // tabPageDome
             // 
             this.tabPageDome.Controls.Add(this.groupBox3);
-            this.tabPageDome.Location = new System.Drawing.Point(4, 29);
+            this.tabPageDome.Location = new System.Drawing.Point(8, 39);
             this.tabPageDome.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageDome.Name = "tabPageDome";
-            this.tabPageDome.Size = new System.Drawing.Size(866, 407);
+            this.tabPageDome.Size = new System.Drawing.Size(858, 393);
             this.tabPageDome.TabIndex = 4;
             this.tabPageDome.Text = "Dome";
             this.tabPageDome.UseVisualStyleBackColor = true;
@@ -369,6 +508,17 @@
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Choose driver";
+            // 
+            // txtDomeDriverId
+            // 
+            this.txtDomeDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "DomeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtDomeDriverId.Location = new System.Drawing.Point(9, 30);
+            this.txtDomeDriverId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtDomeDriverId.Name = "txtDomeDriverId";
+            this.txtDomeDriverId.ReadOnly = true;
+            this.txtDomeDriverId.Size = new System.Drawing.Size(373, 31);
+            this.txtDomeDriverId.TabIndex = 9;
+            this.txtDomeDriverId.Text = global::ObservatoryCenter.Properties.Settings.Default.DomeDriverId;
             // 
             // btnConnectDomeSettings
             // 
@@ -397,10 +547,10 @@
             // tabPageTelescope
             // 
             this.tabPageTelescope.Controls.Add(this.groupBox4);
-            this.tabPageTelescope.Location = new System.Drawing.Point(4, 29);
+            this.tabPageTelescope.Location = new System.Drawing.Point(8, 39);
             this.tabPageTelescope.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPageTelescope.Name = "tabPageTelescope";
-            this.tabPageTelescope.Size = new System.Drawing.Size(866, 407);
+            this.tabPageTelescope.Size = new System.Drawing.Size(858, 393);
             this.tabPageTelescope.TabIndex = 3;
             this.tabPageTelescope.Text = "Telescope";
             this.tabPageTelescope.UseVisualStyleBackColor = true;
@@ -418,6 +568,17 @@
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Choose driver";
+            // 
+            // txtTelescopeDriverId
+            // 
+            this.txtTelescopeDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "TelescopeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.txtTelescopeDriverId.Location = new System.Drawing.Point(9, 30);
+            this.txtTelescopeDriverId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtTelescopeDriverId.Name = "txtTelescopeDriverId";
+            this.txtTelescopeDriverId.ReadOnly = true;
+            this.txtTelescopeDriverId.Size = new System.Drawing.Size(373, 31);
+            this.txtTelescopeDriverId.TabIndex = 9;
+            this.txtTelescopeDriverId.Text = global::ObservatoryCenter.Properties.Settings.Default.TelescopeDriverId;
             // 
             // btnConnectTelescopeSettings
             // 
@@ -448,20 +609,29 @@
             this.tabPageMisc.Controls.Add(this.numUDRoofDuration);
             this.tabPageMisc.Controls.Add(this.label10);
             this.tabPageMisc.Controls.Add(this.label9);
-            this.tabPageMisc.Location = new System.Drawing.Point(4, 29);
+            this.tabPageMisc.Location = new System.Drawing.Point(8, 39);
             this.tabPageMisc.Name = "tabPageMisc";
             this.tabPageMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMisc.Size = new System.Drawing.Size(866, 407);
+            this.tabPageMisc.Size = new System.Drawing.Size(858, 393);
             this.tabPageMisc.TabIndex = 2;
             this.tabPageMisc.Text = "Misc";
             this.tabPageMisc.UseVisualStyleBackColor = true;
+            // 
+            // numUDRoofDuration
+            // 
+            this.numUDRoofDuration.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ObservatoryCenter.Properties.Settings.Default, "RoofDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.numUDRoofDuration.Location = new System.Drawing.Point(171, 14);
+            this.numUDRoofDuration.Name = "numUDRoofDuration";
+            this.numUDRoofDuration.Size = new System.Drawing.Size(87, 31);
+            this.numUDRoofDuration.TabIndex = 1;
+            this.numUDRoofDuration.Value = global::ObservatoryCenter.Properties.Settings.Default.RoofDuration;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(266, 17);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(34, 20);
+            this.label10.Size = new System.Drawing.Size(46, 25);
             this.label10.TabIndex = 0;
             this.label10.Text = "sec";
             // 
@@ -470,7 +640,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(8, 17);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(154, 20);
+            this.label9.Size = new System.Drawing.Size(209, 25);
             this.label9.TabIndex = 0;
             this.label9.Text = "Open/Close duration";
             // 
@@ -511,186 +681,31 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // groupBox5
+            // dataGridConfig_scenarioMain_name
             // 
-            this.groupBox5.Controls.Add(this.label2);
-            this.groupBox5.Controls.Add(this.txtLatitudeSec);
-            this.groupBox5.Controls.Add(this.label1);
-            this.groupBox5.Controls.Add(this.txtLatitudeMin);
-            this.groupBox5.Controls.Add(this.txtLongtitudeSec);
-            this.groupBox5.Controls.Add(this.txtLatitudeGrad);
-            this.groupBox5.Controls.Add(this.txtLongtitudeMin);
-            this.groupBox5.Controls.Add(this.txtLongtitudeGrad);
-            this.groupBox5.Location = new System.Drawing.Point(7, 8);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(488, 233);
-            this.groupBox5.TabIndex = 0;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Location";
+            this.dataGridConfig_scenarioMain_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridConfig_scenarioMain_name.FillWeight = 200F;
+            this.dataGridConfig_scenarioMain_name.HeaderText = "Name";
+            this.dataGridConfig_scenarioMain_name.MinimumWidth = 100;
+            this.dataGridConfig_scenarioMain_name.Name = "dataGridConfig_scenarioMain_name";
+            this.dataGridConfig_scenarioMain_name.ReadOnly = true;
             // 
-            // label1
+            // dataGridConfig_scenarioMain_type
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Longtitude";
+            this.dataGridConfig_scenarioMain_type.HeaderText = "Type";
+            this.dataGridConfig_scenarioMain_type.Name = "dataGridConfig_scenarioMain_type";
             // 
-            // label2
+            // dataGridConfig_scenarioMain_run
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 67);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Latitude";
+            this.dataGridConfig_scenarioMain_run.HeaderText = "Run";
+            this.dataGridConfig_scenarioMain_run.Name = "dataGridConfig_scenarioMain_run";
             // 
-            // txtLatitudeSec
+            // dataGridConfig_scenarioMain_argument
             // 
-            this.txtLatitudeSec.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LatSec", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtLatitudeSec.Location = new System.Drawing.Point(244, 64);
-            this.txtLatitudeSec.Name = "txtLatitudeSec";
-            this.txtLatitudeSec.Size = new System.Drawing.Size(57, 26);
-            this.txtLatitudeSec.TabIndex = 0;
-            this.txtLatitudeSec.Text = global::ObservatoryCenter.Properties.Settings.Default.LatSec;
-            // 
-            // txtLatitudeMin
-            // 
-            this.txtLatitudeMin.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LatMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtLatitudeMin.Location = new System.Drawing.Point(170, 64);
-            this.txtLatitudeMin.Name = "txtLatitudeMin";
-            this.txtLatitudeMin.Size = new System.Drawing.Size(57, 26);
-            this.txtLatitudeMin.TabIndex = 0;
-            this.txtLatitudeMin.Text = global::ObservatoryCenter.Properties.Settings.Default.LatMin;
-            // 
-            // txtLongtitudeSec
-            // 
-            this.txtLongtitudeSec.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LongSec", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtLongtitudeSec.Location = new System.Drawing.Point(244, 28);
-            this.txtLongtitudeSec.Name = "txtLongtitudeSec";
-            this.txtLongtitudeSec.Size = new System.Drawing.Size(57, 26);
-            this.txtLongtitudeSec.TabIndex = 0;
-            this.txtLongtitudeSec.Text = global::ObservatoryCenter.Properties.Settings.Default.LongSec;
-            // 
-            // txtLatitudeGrad
-            // 
-            this.txtLatitudeGrad.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LatGrad", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtLatitudeGrad.Location = new System.Drawing.Point(97, 64);
-            this.txtLatitudeGrad.Name = "txtLatitudeGrad";
-            this.txtLatitudeGrad.Size = new System.Drawing.Size(57, 26);
-            this.txtLatitudeGrad.TabIndex = 0;
-            this.txtLatitudeGrad.Text = global::ObservatoryCenter.Properties.Settings.Default.LatGrad;
-            // 
-            // txtLongtitudeMin
-            // 
-            this.txtLongtitudeMin.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LongMin", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtLongtitudeMin.Location = new System.Drawing.Point(170, 28);
-            this.txtLongtitudeMin.Name = "txtLongtitudeMin";
-            this.txtLongtitudeMin.Size = new System.Drawing.Size(57, 26);
-            this.txtLongtitudeMin.TabIndex = 0;
-            this.txtLongtitudeMin.Text = global::ObservatoryCenter.Properties.Settings.Default.LongMin;
-            // 
-            // txtLongtitudeGrad
-            // 
-            this.txtLongtitudeGrad.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "LongGrad", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtLongtitudeGrad.Location = new System.Drawing.Point(97, 28);
-            this.txtLongtitudeGrad.Name = "txtLongtitudeGrad";
-            this.txtLongtitudeGrad.Size = new System.Drawing.Size(57, 26);
-            this.txtLongtitudeGrad.TabIndex = 0;
-            this.txtLongtitudeGrad.Text = global::ObservatoryCenter.Properties.Settings.Default.LongGrad;
-            // 
-            // txtSwitchDriverId
-            // 
-            this.txtSwitchDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchDriverId.Location = new System.Drawing.Point(9, 30);
-            this.txtSwitchDriverId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchDriverId.Name = "txtSwitchDriverId";
-            this.txtSwitchDriverId.ReadOnly = true;
-            this.txtSwitchDriverId.Size = new System.Drawing.Size(374, 26);
-            this.txtSwitchDriverId.TabIndex = 9;
-            this.txtSwitchDriverId.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchDriverId;
-            // 
-            // txtSwitchRoofSwitchPort
-            // 
-            this.txtSwitchRoofSwitchPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofSwitchPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchRoofSwitchPort.Location = new System.Drawing.Point(144, 168);
-            this.txtSwitchRoofSwitchPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchRoofSwitchPort.Name = "txtSwitchRoofSwitchPort";
-            this.txtSwitchRoofSwitchPort.Size = new System.Drawing.Size(64, 26);
-            this.txtSwitchRoofSwitchPort.TabIndex = 2;
-            this.txtSwitchRoofSwitchPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchRoofSwitchPort;
-            // 
-            // txtSwitchRoofPowerPort
-            // 
-            this.txtSwitchRoofPowerPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofPowerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchRoofPowerPort.Location = new System.Drawing.Point(142, 132);
-            this.txtSwitchRoofPowerPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchRoofPowerPort.Name = "txtSwitchRoofPowerPort";
-            this.txtSwitchRoofPowerPort.Size = new System.Drawing.Size(64, 26);
-            this.txtSwitchRoofPowerPort.TabIndex = 2;
-            this.txtSwitchRoofPowerPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchRoofPowerPort;
-            // 
-            // txtSwitchFocuserPort
-            // 
-            this.txtSwitchFocuserPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchFocuserPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchFocuserPort.Location = new System.Drawing.Point(144, 92);
-            this.txtSwitchFocuserPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchFocuserPort.Name = "txtSwitchFocuserPort";
-            this.txtSwitchFocuserPort.Size = new System.Drawing.Size(64, 26);
-            this.txtSwitchFocuserPort.TabIndex = 2;
-            this.txtSwitchFocuserPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchFocuserPort;
-            // 
-            // txtSwitchCameraPort
-            // 
-            this.txtSwitchCameraPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchCameraPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchCameraPort.Location = new System.Drawing.Point(144, 58);
-            this.txtSwitchCameraPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchCameraPort.Name = "txtSwitchCameraPort";
-            this.txtSwitchCameraPort.Size = new System.Drawing.Size(64, 26);
-            this.txtSwitchCameraPort.TabIndex = 2;
-            this.txtSwitchCameraPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchCameraPort;
-            // 
-            // txtSwitchMountPort
-            // 
-            this.txtSwitchMountPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchMountPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchMountPort.Location = new System.Drawing.Point(144, 25);
-            this.txtSwitchMountPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchMountPort.Name = "txtSwitchMountPort";
-            this.txtSwitchMountPort.Size = new System.Drawing.Size(64, 26);
-            this.txtSwitchMountPort.TabIndex = 2;
-            this.txtSwitchMountPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchMountPort;
-            // 
-            // txtDomeDriverId
-            // 
-            this.txtDomeDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "DomeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtDomeDriverId.Location = new System.Drawing.Point(9, 30);
-            this.txtDomeDriverId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtDomeDriverId.Name = "txtDomeDriverId";
-            this.txtDomeDriverId.ReadOnly = true;
-            this.txtDomeDriverId.Size = new System.Drawing.Size(373, 26);
-            this.txtDomeDriverId.TabIndex = 9;
-            this.txtDomeDriverId.Text = global::ObservatoryCenter.Properties.Settings.Default.DomeDriverId;
-            // 
-            // txtTelescopeDriverId
-            // 
-            this.txtTelescopeDriverId.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "TelescopeDriverId", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtTelescopeDriverId.Location = new System.Drawing.Point(9, 30);
-            this.txtTelescopeDriverId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtTelescopeDriverId.Name = "txtTelescopeDriverId";
-            this.txtTelescopeDriverId.ReadOnly = true;
-            this.txtTelescopeDriverId.Size = new System.Drawing.Size(373, 26);
-            this.txtTelescopeDriverId.TabIndex = 9;
-            this.txtTelescopeDriverId.Text = global::ObservatoryCenter.Properties.Settings.Default.TelescopeDriverId;
-            // 
-            // numUDRoofDuration
-            // 
-            this.numUDRoofDuration.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::ObservatoryCenter.Properties.Settings.Default, "RoofDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.numUDRoofDuration.Location = new System.Drawing.Point(171, 14);
-            this.numUDRoofDuration.Name = "numUDRoofDuration";
-            this.numUDRoofDuration.Size = new System.Drawing.Size(87, 26);
-            this.numUDRoofDuration.TabIndex = 1;
-            this.numUDRoofDuration.Value = global::ObservatoryCenter.Properties.Settings.Default.RoofDuration;
+            this.dataGridConfig_scenarioMain_argument.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridConfig_scenarioMain_argument.HeaderText = "Argument";
+            this.dataGridConfig_scenarioMain_argument.MinimumWidth = 100;
+            this.dataGridConfig_scenarioMain_argument.Name = "dataGridConfig_scenarioMain_argument";
             // 
             // SettingsForm
             // 
@@ -716,8 +731,10 @@
             this.tabPageProgramPath.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_programsPath)).EndInit();
             this.tabPagescenarioMainParams.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_scenarioMainParams)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_scenarioMain)).EndInit();
             this.tabPageGeneral.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.tabPageSwitch.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -731,8 +748,6 @@
             this.groupBox4.PerformLayout();
             this.tabPageMisc.ResumeLayout(false);
             this.tabPageMisc.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUDRoofDuration)).EndInit();
             this.ResumeLayout(false);
 
@@ -778,11 +793,9 @@
         private System.Windows.Forms.TabPage tabPageProgramPath;
         private System.Windows.Forms.DataGridView dataGridConfig_programsPath;
         private System.Windows.Forms.TabPage tabPagescenarioMainParams;
-        private System.Windows.Forms.DataGridView dataGridConfig_scenarioMainParams;
+        private System.Windows.Forms.DataGridView dataGridConfig_scenarioMain;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_programsPath_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_programsPath_value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_scenarioMainParams_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_scenarioMainParams_value;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtLatitudeSec;
@@ -792,5 +805,9 @@
         private System.Windows.Forms.TextBox txtLatitudeGrad;
         private System.Windows.Forms.TextBox txtLongtitudeMin;
         private System.Windows.Forms.TextBox txtLongtitudeGrad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_scenarioMain_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_scenarioMain_type;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridConfig_scenarioMain_run;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridConfig_scenarioMain_argument;
     }
 }

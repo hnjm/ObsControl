@@ -104,6 +104,7 @@ namespace ObservatoryCenter
             {
                 Logging.AddLog("CCDC ActionsPath is invalid", LogLevel.Debug, Highlight.Error);
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                lastActionFile = new FileInfo(ActionsPath+"");
             }
 
             return lastActionFile;

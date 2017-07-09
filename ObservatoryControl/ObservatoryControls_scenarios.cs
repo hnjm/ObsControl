@@ -45,15 +45,15 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", (a) => this.OBS_connectTelescope());
 
             //Power commands
-            CommandParser.Commands.Add("POWER_ON", (a) => this.PowerMainRelaysOn()); //Power Mount, Camera, Focuser
-            CommandParser.Commands.Add("POWER_MOUNT_ON", (a) => this.PowerMountOn());
-            CommandParser.Commands.Add("POWER_MOUNT_OFF", (a) => this.PowerMountOff());
-            CommandParser.Commands.Add("POWER_CAMERA_ON", (a) => this.PowerCameraOn());
-            CommandParser.Commands.Add("POWER_CAMERA_OFF", (a) => this.PowerCameraOff());
-            CommandParser.Commands.Add("POWER_FOCUSER_ON", (a) => this.PowerFocuserOn());
-            CommandParser.Commands.Add("POWER_FOCUSER_OFF", (a) => this.PowerFocuserOff());
-            CommandParser.Commands.Add("POWER_ROOF_ON", (a) => this.PowerRoofOn());
-            CommandParser.Commands.Add("POWER_ROOF_OFF", (a) => this.PowerRoofOff());
+            CommandParser.Commands.Add("POWER_ON", (a) => this.ASCOMSwitch.PowerMainRelaysOn()); //Power Mount, Camera, Focuser
+            CommandParser.Commands.Add("POWER_MOUNT_ON", (a) => this.ASCOMSwitch.PowerMountOn());
+            CommandParser.Commands.Add("POWER_MOUNT_OFF", (a) => this.ASCOMSwitch.PowerMountOff());
+            CommandParser.Commands.Add("POWER_CAMERA_ON", (a) => this.ASCOMSwitch.PowerCameraOn());
+            CommandParser.Commands.Add("POWER_CAMERA_OFF", (a) => this.ASCOMSwitch.PowerCameraOff());
+            CommandParser.Commands.Add("POWER_FOCUSER_ON", (a) => this.ASCOMSwitch.PowerFocuserOn());
+            CommandParser.Commands.Add("POWER_FOCUSER_OFF", (a) => this.ASCOMSwitch.PowerFocuserOff());
+            CommandParser.Commands.Add("POWER_ROOF_ON", (a) => this.ASCOMSwitch.PowerRoofOn());
+            CommandParser.Commands.Add("POWER_ROOF_OFF", (a) => this.ASCOMSwitch.PowerRoofOff());
 
             //MaimDL
             CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());
@@ -128,7 +128,7 @@ namespace ObservatoryCenter
 
         #region Scenarios section ////////////////////////////////////////////////////////
         /// <summary>
-        /// Init observatory activity 
+        /// Init observatory activity. OBSOLETE
         /// </summary>
         public void StartUpObservatory_old()
         {

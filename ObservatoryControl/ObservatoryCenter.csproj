@@ -149,10 +149,10 @@
     <Compile Include="MainForm_updates.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ObservatoryControls_ASCOM_Telescope.cs" />
+    <Compile Include="ObservatoryControls_ASCOMTelescope.cs" />
     <Compile Include="ProgControls_CCDC.cs" />
     <Compile Include="ProgControls_FocusMax.cs" />
-    <Compile Include="ObservatoryControls_ASCOM.cs" />
+    <Compile Include="ObservatoryControls_ASCOMDome.cs" />
     <Compile Include="ProgControls_CCDAP.cs" />
     <Compile Include="ProgControls_classes.cs" />
     <Compile Include="ObservatoryControls_scenarios.cs" />
@@ -170,7 +170,7 @@
     <Compile Include="ProgControls_Maxim.cs" />
     <Compile Include="ObservatoryControls.cs" />
     <Compile Include="ConfigManaging.cs" />
-    <Compile Include="ObservatoryControls_ASCOM_switch.cs" />
+    <Compile Include="ObservatoryControls_ASCOMSwitch.cs" />
     <Compile Include="ProgControls_others.cs" />
     <Compile Include="ProgControls_PHD.cs" />
     <Compile Include="ProgControls_TTC.cs" />
@@ -215,6 +215,7 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="_Class Diagram.cd" />
     <None Include="ObservatoryCenter_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

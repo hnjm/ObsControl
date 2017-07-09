@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Инициализируется командами из ObsControl / InitComandInterpretator()&#xD;&#xA;">
+    <Position X="11.347" Y="0.5" Height="0.75" Width="2.256" />
+  </Comment>
+  <Class Name="ObservatoryCenter.MainForm" Collapsed="true">
+    <Position X="0.5" Y="1.25" Width="5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>/ze/ndL3uXU/qn/ffjv+3yj+v9/L6d/L/G/693d17f0=</HashCode>
+      <FileName>MainForm_animation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.Logging" Collapsed="true">
+    <Position X="50.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAQCAQAACAAAEAgAAABAgAAEIQCAAAQAMCAQAAAI=</HashCode>
+      <FileName>Logging.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMSwitch" Collapsed="true">
+    <Position X="11.5" Y="4.25" Width="5" />
+    <Members>
+      <Field Name="Camera_power_flag" Hidden="true" />
+      <Field Name="DRIVER_NAME" Hidden="true" />
+      <Field Name="Enabled" Hidden="true" />
+      <Field Name="Focuser_power_flag" Hidden="true" />
+      <Field Name="Mount_power_flag" Hidden="true" />
+      <Field Name="objSwitch" Hidden="true" />
+      <Field Name="POWER_CAMERA_PORT" Hidden="true" />
+      <Field Name="POWER_FOCUSER_PORT" Hidden="true" />
+      <Field Name="POWER_MOUNT_PORT" Hidden="true" />
+      <Field Name="POWER_ROOFPOWER_PORT" Hidden="true" />
+      <Field Name="POWER_ROOFSWITCH_PORT" Hidden="true" />
+      <Field Name="Roof_power_flag" Hidden="true" />
+      <Field Name="SWITCH_MAX_RECCONNECT_ATTEMPTS" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AoAAACAwICAFBIAAAAAIgJMAAAikkAAAQCoAAAAAABA=</HashCode>
+      <FileName>ObservatoryControls_ASCOMSwitch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ConfigManagement" Collapsed="true">
+    <Position X="34.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QKAAgIAAiAgAAAAAACAAAAAAFAQAAABAAAAAogAAAAA=</HashCode>
+      <FileName>ConfigManaging.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.AstroUtilsClass" Collapsed="true">
+    <Position X="48.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAQEAAA0BAhgCAQACIEAAAAgCgAgYAQEIAQQAUAEA=</HashCode>
+      <FileName>AstroUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CommandInterpretator">
+    <Position X="11.5" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>CommandInterpretator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.WeatherStation" Collapsed="true">
+    <Position X="31" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CCDC_ExternatApplication" Collapsed="true">
+    <Position X="24" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAABAQAAAABABAAAgIwAgAAgAAgAQABADgCAAAECBA=</HashCode>
+      <FileName>ProgControls_CCDC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ExternalApplication" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAYABAAAEQAQAAAAAAAAEAAAQAAAAAAI=</HashCode>
+      <FileName>ProgControls_classes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ExternalApplicationSocketServer" Collapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAASAAABAAAAAABAAAAAAAIAAAAAGAAAAAAAAAA=</HashCode>
+      <FileName>ProgControls_classes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.FocusMax_ExternalApplication" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAABAAAAAAAAAAAAAAAAAAAAQAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>ProgControls_FocusMax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.Maxim_ExternalApplication" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQCgIQAABAAADCAAAAAgAkAAABEAAAAAAAgSAAAAAMA=</HashCode>
+      <FileName>ProgControls_Maxim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CdC_ExternatApplication" Collapsed="true">
+    <Position X="27.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAgAAAAAAAA=</HashCode>
+      <FileName>ProgControls_others.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.PHDBroker_ExternatApplication" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProgControls_others.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.AstroTortilla" Collapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAAAAAQAiAAAAEAACIAAAAAAAAIQAAIAgBAAA=</HashCode>
+      <FileName>ProgControls_others.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.VersionData" Collapsed="true">
+    <Position X="48.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAgAAQRAAEAAAAEAABAAIAAgAAAAABAAAA=</HashCode>
+      <FileName>About.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ObsSettings_old" Collapsed="true">
+    <Position X="35.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKACAIAAiBAAAAAAgAAAAAgAhAQAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>ConfigManaging.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.LogRecord" Collapsed="true">
+    <Position X="50.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAgAAAAAAAAAAQAAEIAAAAAIAAAAYA=</HashCode>
+      <FileName>Logging.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CCDAP_Command_class" Collapsed="true">
+    <Position X="52" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIASAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProgControls_CCDAP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CCDAP_ExternatApplication" Collapsed="true">
+    <Position X="25.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAAAAAAAAAAAIAAEAIgAgAAgAAAAQABAKoCAAAACAA=</HashCode>
+      <FileName>ProgControls_CCDAP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.CCDAPParser_____" Collapsed="true">
+    <Position X="52" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAEEAABAAAEAAAAAAAAAAAAAAAAAAAAASAABAAAA=</HashCode>
+      <FileName>ProgControls_CCDAP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.PHDEvent" Collapsed="true">
+    <Position X="18.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAgAACAAAAAACAAAAAAA=</HashCode>
+      <FileName>ProgControls_PHD.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.PHDEvent_GuideStep" Collapsed="true">
+    <Position X="18.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAABAAIAAAAABAAJCAAEABAAAAABQE=</HashCode>
+      <FileName>ProgControls_PHD.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.GuidingStats" Collapsed="true">
+    <Position X="59" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAEBAAgAAQAgAQAAAAAAAAADAAACAAAAAE=</HashCode>
+      <FileName>ProgControls_PHD.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.PHD_ExternatApplication" Collapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAIAAACAAAEAAAAIAJAAAAQAAYBAAAAGABACAAKAAA=</HashCode>
+      <FileName>ProgControls_PHD.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TelescopeTempControlData" Collapsed="true">
+    <Position X="55.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAACAgCABEACAAABAIEAAAAhAIAAQA=</HashCode>
+      <FileName>ProgControls_TTC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TelescopeTempControl" Collapsed="true">
+    <Position X="29.25" Y="1.5" Width="1.5" />
+    <InheritanceLine Type="ObservatoryCenter.ExternalApplicationSocketServer" FixedToPoint="true">
+      <Path>
+        <Point X="30.75" Y="1.191" />
+        <Point X="30.75" Y="1.398" />
+        <Point X="30.852" Y="1.398" />
+        <Point X="30.852" Y="2.345" />
+        <Point X="29.938" Y="2.345" />
+        <Point X="29.938" Y="2.191" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAwAAAAAAADAAAAAAMAAAIAAA=</HashCode>
+      <FileName>ProgControls_TTC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.BoltwoodFields" Collapsed="true">
+    <Position X="57.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAAREASIAAAAABAAEAVEAAAAkAAAgIoVACBAUYQgQI=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.SettingsForm" Collapsed="true">
+    <Position X="34.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>VoNSQ4IAAiAKABFABBDAAfASCGAkhEEEEzgAAQKAFAQ=</HashCode>
+      <FileName>SettingsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.SocketServerClass" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AwAQAAAAACAAAUAAAEAAAAQAAAAgQwAAAAAAQAAABAA=</HashCode>
+      <FileName>SocketServer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ObservatoryCenter.ClientManager" Collapsed="true">
+    <Position X="38" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QgAQAAAAAAAAACAIEAAAAAAAADAAAAAAAAAgABAAAAA=</HashCode>
+      <FileName>SocketServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TestSequenceElement" Collapsed="true">
+    <Position X="41.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>TestEquipmentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TestResultUserStateClass" Collapsed="true">
+    <Position X="42" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAA=</HashCode>
+      <FileName>TestEquipmentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TestResultClass" Collapsed="true">
+    <Position X="41" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TestEquipmentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TestEquipmentClass" Collapsed="true">
+    <Position X="40" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQAAAAAlAAABAAAAEEAEAIAAACAEAAQAAgQQ=</HashCode>
+      <FileName>TestEquipmentClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.TestEquipmentForm" Collapsed="true">
+    <Position X="40.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4AMDMAEQBGJAUABAAAiAAEQGAIAMABIDACAASAGgBwA=</HashCode>
+      <FileName>TestEquipmentForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.AuxilaryProc" Collapsed="true">
+    <Position X="48.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Utils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.Utils" Collapsed="true">
+    <Position X="48.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAQBAAAAAABAggAAA=</HashCode>
+      <FileName>Utils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ShellLink" Collapsed="true">
+    <Position X="48.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.Properties.Settings" Collapsed="true">
+    <Position X="35" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAQYAAAAQQgQAIAgEAAADEBAhAIABAABAQCg=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMTelescope" Collapsed="true">
+    <Position X="11.75" Y="5.25" Width="5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAACkFKQAAAAAgIAEAACEBAwAAAAAIAgACAA=</HashCode>
+      <FileName>ObservatoryControls_ASCOMTelescope.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMDome">
+    <Position X="5.75" Y="1.25" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AQBACAABAAEAIAgAQAAgAAgAAAAAAAAAQABAAAAAgAA=</HashCode>
+      <FileName>ObservatoryControls_ASCOMDome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ObservatoryCenter.IShellLink" Collapsed="true">
+    <Position X="48.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAMIIEQAACAAIAAIAgCAIAAAgACIAAAAAAAAAAACAA=</HashCode>
+      <FileName>Utils.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="ObservatoryCenter.Highlight" Collapsed="true">
+    <Position X="50.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAYAAAAAAAAEAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logging.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.LogLevel" Collapsed="true">
+    <Position X="50.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAQAABgAAIAAAEAAAAA=</HashCode>
+      <FileName>Logging.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.CCDAPCommandType" Collapsed="true">
+    <Position X="52" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAABAAEACAAACAAABAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>ProgControls_CCDAP.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.PHDState" Collapsed="true">
+    <Position X="59" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAgAEAAAAIAAgBAEAAAgAAAAAAAIAAAAAAAAAAACBA=</HashCode>
+      <FileName>ProgControls_PHD.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.decimalSeparatorType" Collapsed="true">
+    <Position X="57.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.CloudCond" Collapsed="true">
+    <Position X="57.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.WindCond" Collapsed="true">
+    <Position X="57.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAASACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.RainCond" Collapsed="true">
+    <Position X="57.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAEAAAQAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.DayCond" Collapsed="true">
+    <Position X="57.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAQAAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.RainFlag" Collapsed="true">
+    <Position X="57.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.WetFlag" Collapsed="true">
+    <Position X="57.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAAQAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ObservatoryCenter.WetSensorsMode" Collapsed="true">
+    <Position X="57.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>ProgControls_WS.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

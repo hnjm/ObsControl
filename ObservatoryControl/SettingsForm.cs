@@ -49,7 +49,7 @@ namespace ObservatoryCenter
 
             //Load XML into grid
             LoadDataIntoGrids("programsPath"); //dataGridConfig_programsPath_name
-            LoadDataIntoGrids("scenarioMainParams"); //dataGridConfig_scenarioMainParams_name
+            LoadDataIntoGrids("scenarioMain"); //dataGridConfig_scenarioMainParams_name
 
 
 
@@ -88,6 +88,26 @@ namespace ObservatoryCenter
         /// Load settings from XML into GRID
         /// </summary>
         /// <param name="SectionName">Name of the XML SECTION to load. If not specified - try current tab. If specify "All" = reloads all nodes</param>
+        /// 
+        /*
+            TYPE:
+                "command" or omitted    - this is command (will try to run)
+                type="parameter"        - this is parameter
+
+            RUN:
+                "true" or omitted = run command
+                "false" = not run
+
+            example:
+            <scenarioMain>
+                <POWER_ON type="command" run="true" />
+                <PHD2_RUN type="command" run="false" />
+                <WAIT argument="2000" />
+               	<TTC_RUN type="command" run="true" />
+	            <TTC_FANAUTO_ON type="command" run="true" />
+	            <TTC_HEATERAUTO_ON type="command" run="true" />
+            </scenarioMain>
+         */
         private void LoadDataIntoGrids(string SectionName = "All")
         {
             //If paramter was empty, then try current
@@ -112,28 +132,80 @@ namespace ObservatoryCenter
                         //Current NODE to parse and load into grid
                         XmlNode xnlNodes = ConfigManagement.configXML.SelectSingleNode("//" + xSection.Name);
 
-                        //Get current grid
+                        //Get grid name, corresponding to current section name
                         foreach (DataGridView DataGridEl in configGridsCollection)
                         {
                             if (DataGridEl.Name == "dataGridConfig_" + xnlNodes.Name) 
                                 curDataGrid = DataGridEl;
                         }
 
-                        //EmpryGrid (for case, where we want to reload data
+                        //clear grid data (for case, where we want to reload data)
                         curDataGrid.Rows.Clear();
 
-                        //Loop throgh all data nodes
+                        //Loop throgh all data nodes and load it into grid
                         int curRowIndex = 0;
                         foreach (XmlNode xndNode in xnlNodes.ChildNodes)
                         {
                             //Read data
+                            //1. Tag Name (mandatory field!)
                             string name = xndNode.Name;
-                            string val = xndNode.Attributes["value"].Value; ;
+
+                            //2. Tag attributes
+                            //2.1. type
+                            string type_val = "";
+                            if (xndNode.Attributes != null && xndNode.Attributes["type"] != null)
+                            {
+                                type_val = xndNode.Attributes["type"].Value;
+                            }
+                            else
+                            {
+                                type_val = "command";
+                            }
+
+                            //2.2. run
+                            string run_val = (type_val == "command" ? "true" : "false");
+                            if (xndNode.Attributes != null && xndNode.Attributes["run"] != null)
+                            {
+                                run_val = xndNode.Attributes["run"].Value;
+                            }
+
+                            //2.3. argument
+                            string argument_val = "";
+                            if (xndNode.Attributes != null && xndNode.Attributes["argument"] != null)
+                            {
+                                argument_val = xndNode.Attributes["argument"].Value;
+                            }
+
+                            //2.4. value
+                            string val = "";
+                            if (xndNode.Attributes != null && xndNode.Attributes["value"] != null)
+                            {
+                                val = xndNode.Attributes["value"].Value; 
+                            }
 
                             //Add data row to to grid
                             curRowIndex = curDataGrid.Rows.Add();
                             curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_name"].Value = name;
-                            curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_value"].Value = val;
+
+                            if (curDataGrid.Columns.Contains("dataGridConfig_" + xnlNodes.Name + "_value"))
+                            {
+                                if (val!="") curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_value"].Value = val;
+                                //argument will write to value
+                                if (argument_val != "") curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_value"].Value = argument_val;
+                            }
+                            if (curDataGrid.Columns.Contains("dataGridConfig_" + xnlNodes.Name + "_argument"))
+                            {
+                                curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_argument"].Value = argument_val;
+                            }
+                            if (curDataGrid.Columns.Contains("dataGridConfig_" + xnlNodes.Name + "_run"))
+                            {
+                                curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_run"].Value = run_val;
+                            }
+                            if (curDataGrid.Columns.Contains("dataGridConfig_" + xnlNodes.Name + "_type"))
+                            {
+                                curDataGrid.Rows[curRowIndex].Cells["dataGridConfig_" + xnlNodes.Name + "_type"].Value = type_val;
+                            }
+                            
                         }
                     }
                 }
@@ -164,39 +236,91 @@ namespace ObservatoryCenter
         /// Load settings from XML into GRID
         /// </summary>
         /// <param name="SectionName">Name of the XML SECTION to load. If not specified - try current tab. If specify "All" = reloads all nodes</param>
+        /// ВАЖНО! При записи новые узлы не создаются, а только правятся их аттрибуты!
         private void SaveDataFromGrid()
         {
             //Get all grids
             var configGridsCollection = GetAllDataGrdiControls(this);
-            string sectionName = "";
-            string curName = "",curValue = "";
+
+            string sectionName = "", curDataGridName = "";
+            string curName = "",curValue = "", curRunFlag= "falses", curType="", curArgument="";
 
             try
             {
-                XmlNode xmlSections = ConfigManagement.configXML.SelectSingleNode("configuration");
+                //XmlNode xmlSections = ConfigManagement.configXML.SelectSingleNode("configuration");
 
-
-                //Loop through all grids
+                //Перебираем все Gridы. И будем искать соответствующие им секции
                 foreach (DataGridView curDataGrid in configGridsCollection)
                 {
+                    //XML section name to write to
                     sectionName = curDataGrid.Name.Substring(15);
+                    curDataGridName = curDataGrid.Name;
 
-                    //Loop through grid
+                    //Перебираем записи текущего Grid'а
                     foreach (DataGridViewRow curDataGridRow in curDataGrid.Rows)
                     {
+                        curName = ""; curValue = ""; curRunFlag = "false"; curType = "command"; curArgument = "";
+
+                        // Имя узла                        
                         curName = curDataGridRow.Cells[curDataGrid.Name + "_name"].Value.ToString();
-                        curValue = curDataGridRow.Cells[curDataGrid.Name + "_value"].Value.ToString();
 
-                        //Current NODE to parse and load into grid
+                        // Аттрибут Value (если есть)
+                        if (curDataGrid.Columns.Contains(curDataGrid.Name + "_value"))
+                        {
+                            curValue = curDataGridRow.Cells[curDataGrid.Name + "_value"].Value.ToString();
+                        }
+                        // Аттрибут Argument (если есть)
+                        if (curDataGrid.Columns.Contains(curDataGrid.Name + "_argument"))
+                        {
+                            //dataGridConfig_scenarioMain_argument
+                            curArgument = curDataGridRow.Cells[curDataGrid.Name + "_argument"].Value.ToString();
+                        }
+                        // Аттрибут Run (если есть)
+                        if (curDataGrid.Columns.Contains(curDataGrid.Name + "_run"))
+                        {
+                            curRunFlag=curDataGridRow.Cells[curDataGrid.Name + "_run"].Value.ToString();
+                        }
+                        // Аттрибут Type (если есть)
+                        if (curDataGrid.Columns.Contains(curDataGrid.Name + "_type"))
+                        {
+                            curType =curDataGridRow.Cells[curDataGrid.Name + "_type"].Value.ToString();
+                        }
+
+                        // Получить перечень Узлов из текущей секции
                         XmlNode xnlNodes = ConfigManagement.configXML.SelectSingleNode("//" + sectionName);
-                        int curRowIndex = 0;
-
+                        // Перебрать их всех и поправить аттрибуты для текущего
                         foreach (XmlNode xndNode in xnlNodes.ChildNodes)
                         {
                             //Update data
                             if (xndNode.Name == curName)
                             {
-                                xndNode.Attributes["value"].Value = curValue;
+                                if (curValue != "")
+                                {
+                                    XmlAttribute att = ConfigManagement.configXML.CreateAttribute("value");
+                                    att.Value = curValue;
+                                    xndNode.Attributes.SetNamedItem(att);
+                                }
+                                if (curArgument != "")
+                                {
+                                    //xndNode.Attributes["argument"].Value = curArgument;
+                                    XmlAttribute att = ConfigManagement.configXML.CreateAttribute("argument");
+                                    att.Value = curArgument;
+                                    xndNode.Attributes.SetNamedItem(att);
+                                }
+                                if (curRunFlag != "")
+                                {
+                                    //xndNode.Attributes["run"].Value = curRunFlag;
+                                    XmlAttribute att = ConfigManagement.configXML.CreateAttribute("run");
+                                    att.Value = curRunFlag;
+                                    xndNode.Attributes.SetNamedItem(att);
+                                }
+                                if (curType != "")
+                                {
+                                    //xndNode.Attributes["type"].Value = curType;
+                                    XmlAttribute att = ConfigManagement.configXML.CreateAttribute("type");
+                                    att.Value = curType;
+                                    xndNode.Attributes.SetNamedItem(att);
+                                }
                             }
 
                         }
@@ -218,6 +342,9 @@ namespace ObservatoryCenter
                 string FullMessage = "Exception when loading CONFIG XML sections" + Environment.NewLine;
                 FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
                         + Environment.NewLine + Environment.NewLine + messstr;
+                FullMessage += Environment.NewLine + "Section name: " + sectionName + ", xmlNode: " + curName + ", grid: " + curDataGridName;
+
+
                 MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
                 Logging.AddLog(FullMessage, LogLevel.Important, Highlight.Error);
@@ -249,22 +376,22 @@ namespace ObservatoryCenter
                 ParentMainForm.RoofDuration = Convert.ToInt16(Properties.Settings.Default.RoofDuration);
  */
 
-                if (txtSwitchDriverId.Text != ParentMainForm.ObsControl.SWITCH_DRIVER_NAME)
+                if (txtSwitchDriverId.Text != ParentMainForm.ObsControl.ASCOMSwitch.DRIVER_NAME)
                 {
-                    ParentMainForm.ObsControl.SWITCH_DRIVER_NAME = txtSwitchDriverId.Text;
-                    ParentMainForm.ObsControl.resetSwitch();
+                    ParentMainForm.ObsControl.ASCOMSwitch.DRIVER_NAME = txtSwitchDriverId.Text;
+                    ParentMainForm.ObsControl.ASCOMSwitch.Reset();
                 }
 
-                if (txtDomeDriverId.Text != ParentMainForm.ObsControl.DOME_DRIVER_NAME)
+                if (txtDomeDriverId.Text != ParentMainForm.ObsControl.ASCOMDome.DOME_DRIVER_NAME)
                 {
-                    ParentMainForm.ObsControl.DOME_DRIVER_NAME = txtDomeDriverId.Text;
-                    ParentMainForm.ObsControl.resetDome();
+                    ParentMainForm.ObsControl.ASCOMDome.DOME_DRIVER_NAME = txtDomeDriverId.Text;
+                    ParentMainForm.ObsControl.ASCOMDome.resetDome();
                 }
 
-                if (txtTelescopeDriverId.Text != ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME)
+                if (txtTelescopeDriverId.Text != ParentMainForm.ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME)
                 {
-                    ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
-                    ParentMainForm.ObsControl.resetTelescope();
+                    ParentMainForm.ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
+                    ParentMainForm.ObsControl.ASCOMTelescope.Reset();
                 }
 
                 //reset automatic duration count if duration was manually changed
@@ -337,9 +464,9 @@ namespace ObservatoryCenter
 
         private void btnConnectSwitchSettings_Click(object sender, EventArgs e)
         {
-            ParentMainForm.ObsControl.SWITCH_DRIVER_NAME = txtSwitchDriverId.Text;
-            ParentMainForm.ObsControl.resetSwitch();
-            ParentMainForm.ObsControl.connectSwitch = true;
+            ParentMainForm.ObsControl.ASCOMSwitch.DRIVER_NAME = txtSwitchDriverId.Text;
+            ParentMainForm.ObsControl.ASCOMSwitch.Reset();
+            ParentMainForm.ObsControl.ASCOMSwitch.Connect = true;
             ParentMainForm.CheckPowerSwitchStatus_caller();
         }
 
@@ -356,16 +483,16 @@ namespace ObservatoryCenter
 
         private void btnConnectTelescopeSettings_Click(object sender, EventArgs e)
         {
-            ParentMainForm.ObsControl.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
-            ParentMainForm.ObsControl.resetTelescope();
-            ParentMainForm.ObsControl.connectMount = true;
+            ParentMainForm.ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
+            ParentMainForm.ObsControl.ASCOMTelescope.Reset();
+            ParentMainForm.ObsControl.ASCOMTelescope.Connect = true;
         }
 
         private void btnConnectDomeSettings_Click(object sender, EventArgs e)
         {
-            ParentMainForm.ObsControl.DOME_DRIVER_NAME = txtDomeDriverId.Text;
-            ParentMainForm.ObsControl.resetDome();
-            ParentMainForm.ObsControl.connectDome = true;
+            ParentMainForm.ObsControl.ASCOMDome.DOME_DRIVER_NAME = txtDomeDriverId.Text;
+            ParentMainForm.ObsControl.ASCOMDome.resetDome();
+            ParentMainForm.ObsControl.ASCOMDome.connectDome = true;
         }
 
     }

@@ -17,24 +17,46 @@ using MaxIm;
 
 namespace ObservatoryCenter
 {
-    public partial class ObservatoryControls
+    public class ObservatoryControls_ASCOMSwitch
     {
+        public string DRIVER_NAME = "";
+        internal ASCOM.DriverAccess.Switch objSwitch = null;
+
+        public bool Connected_flag = false;
+        public bool Enabled = false;
+
         int SWITCH_MAX_RECCONNECT_ATTEMPTS = 3; //reconnect attempts
 
-#region ASCOM Device Drivers controlling (connect/disconnect/status)  ///////////////////////////////////////////////////////////////////
 
+        #region switch ports
+        public byte POWER_MOUNT_PORT = 6;
+        public byte POWER_CAMERA_PORT = 5;
+        public byte POWER_FOCUSER_PORT = 3;
+        public byte POWER_ROOFPOWER_PORT = 2;
+        public byte POWER_ROOFSWITCH_PORT = 4;
+        #endregion
 
+        #region ASCOM Device Drivers controlling (connect/disconnect/status)  ///////////////////////////////////////////////////////////////////
 
         //Power buttons state flags
         public bool? Mount_power_flag = null;
         public bool? Camera_power_flag = null;
         public bool? Focuser_power_flag = null;
         public bool? Roof_power_flag = null;
-        
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ObservatoryControls_ASCOMSwitch()
+        {
+        }
+
+
+
         /// <summary>
         /// Connect to switch / Get connection status
         /// </summary>
-        public bool connectSwitch
+        public bool Connect
         {
             set
             {
@@ -43,21 +65,21 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (SwitchEnabled && SWITCH_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
                     try
                     {
                         //If obj doesnot exist - create
-                        if (objSwitch == null) objSwitch = new ASCOM.DriverAccess.Switch(SWITCH_DRIVER_NAME);
+                        if (objSwitch == null) objSwitch = new ASCOM.DriverAccess.Switch(DRIVER_NAME);
 
                         //Connect
-                        objSwitch.Connected = value;
-                        Switch_connected_flag = value;
+                        objSwitch .Connected = value;
+                        Connected_flag = value;
                         Logging.AddLog("Switch has been " + (value ? "connected" : "disconnected"), LogLevel.Activity);
                     }
                     catch (Exception ex)
                     {
-                        Switch_connected_flag = false;
+                        Connected_flag = false;
                         Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " switch", LogLevel.Important, Highlight.Error);
                         Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
@@ -80,16 +102,16 @@ namespace ObservatoryCenter
                 //Log enter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name +" enter", LogLevel.Trace);
                 //if device present at all and its ID is set
-                if (SwitchEnabled && SWITCH_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
 
                     try
                     {
-                        Switch_connected_flag  = objSwitch.Connected;
+                        Connected_flag  = objSwitch .Connected;
                     }
                     catch (Exception ex)
                     {
-                        Switch_connected_flag = false;
+                        Connected_flag = false;
                         Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
@@ -99,8 +121,8 @@ namespace ObservatoryCenter
                     Logging.AddLog("Device is not set. Couldn't return status of switch", LogLevel.Debug, Highlight.Error);
                 }
 
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Switch_connected_flag, LogLevel.Trace);
-                return Switch_connected_flag;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Connected_flag, LogLevel.Trace);
+                return Connected_flag;
             }
         }
 
@@ -121,11 +143,11 @@ namespace ObservatoryCenter
             bool? val = null;
 
             //if previously switch was connected, try to get value
-            if (Switch_connected_flag)
+            if (Connected_flag)
             {
                 try
                 {
-                    val = objSwitch.GetSwitch(PORT_NUM);
+                    val = objSwitch .GetSwitch(PORT_NUM);
                 }
                 catch (NotConnectedException ex)
                 {
@@ -135,17 +157,17 @@ namespace ObservatoryCenter
                     bool reconnF = true; int i = 1;
                     while (reconnF)
                     {
-                        connectSwitch = true; //try to connect
-                        reconnF = (i++ <= SWITCH_MAX_RECCONNECT_ATTEMPTS) && !Switch_connected_flag;
+                        Connect = true; //try to connect
+                        reconnF = (i++ <= SWITCH_MAX_RECCONNECT_ATTEMPTS) && !Connected_flag;
                     }
                     //reconnect result ok?
-                    if (Switch_connected_flag)
+                    if (Connected_flag)
                     {
                         //try to get switch again
                         Logging.AddLog("Switch driver reconnected", LogLevel.Activity);
                         try
                         {
-                            val = objSwitch.GetSwitch(PORT_NUM);
+                            val = objSwitch .GetSwitch(PORT_NUM);
                         }
                         catch (Exception ex2)
                         {
@@ -194,11 +216,11 @@ namespace ObservatoryCenter
             bool retval = false;
 
             //if previously switch was connected, try to set value
-            if (Switch_connected_flag)
+            if (Connected_flag)
             {
                 try
                 {
-                    objSwitch.SetSwitch(PORT_NUM, (bool)set_value);
+                    objSwitch .SetSwitch(PORT_NUM, (bool)set_value);
                     retval = true;
                 }
                 catch (NotConnectedException ex)
@@ -209,15 +231,15 @@ namespace ObservatoryCenter
                     while (reconnF)
                     {
                         Logging.AddLog("Switch driver reconnect attempt " + i, LogLevel.Activity);
-                        connectSwitch = true; //connect
-                        reconnF = (i++ <= SWITCH_MAX_RECCONNECT_ATTEMPTS) && !Switch_connected_flag;
+                        Connect = true; //connect
+                        reconnF = (i++ <= SWITCH_MAX_RECCONNECT_ATTEMPTS) && !Connected_flag;
                     }
-                    if (Switch_connected_flag)
+                    if (Connected_flag)
                     {
                         Logging.AddLog("Switch driver reconnected", LogLevel.Activity);
                         try
                         {
-                            objSwitch.SetSwitch(PORT_NUM, (bool)set_value);
+                            objSwitch .SetSwitch(PORT_NUM, (bool)set_value);
                             retval = true;
                         }
                         catch (Exception ex2)
@@ -264,190 +286,6 @@ namespace ObservatoryCenter
             return retval;
         }
 
-
-        /// <summary>
-        /// Get or set mount power
-        /// </summary>
-        public bool? MountPower__
-        {
-            get
-            {
-                //log enter
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-
-                bool? val = null;
-
-                //if previously switch was connected, try to get value
-                if (Switch_connected_flag)
-                {
-                    try
-                    {
-                        val = objSwitch.GetSwitch(POWER_MOUNT_PORT);
-                    }
-                    catch (NotConnectedException ex)
-                    {
-                        //Not connected? try to recconect for N times
-                        Logging.AddLog("Switch driver not connected exception [" + ex.Message + "]. Try to reconnect", LogLevel.Activity, Highlight.Error);
-                        //MessageBox.Show(ex.ToString());
-                        bool reconnF = true; int i = 1;
-                        while (reconnF)
-                        {
-                            connectSwitch = true; //try to connect
-                            reconnF = (i++ <= SWITCH_MAX_RECCONNECT_ATTEMPTS) && !Switch_connected_flag;
-                        }
-                        //reconnect result ok?
-                        if (Switch_connected_flag)
-                        {
-                            //try to get switch again
-                            Logging.AddLog("Switch driver reconnected", LogLevel.Activity);
-                            try 
-                            {
-                                val = objSwitch.GetSwitch(POWER_MOUNT_PORT);
-                            }
-                            catch (Exception ex2)
-                            {
-                                //if again exception - give up
-                                val = null;
-                                Logging.AddLog("Couldn't get switch value ["+ex2.Message+"]", LogLevel.Important);
-                                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " exception [" + ex2.ToString() + "]", LogLevel.Debug, Highlight.Error);
-                            }
-                        }
-                        else
-                        {
-                            val = null;
-                            Logging.AddLog("Switch driver couldn't be reconnected after " + SWITCH_MAX_RECCONNECT_ATTEMPTS + " attempts", LogLevel.Activity);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        val = null;
-                        Logging.AddLog("Get mount power unknown exception [" + ex.Message+"]!", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog("Get mount power exception: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-                    }
-                }
-                else
-                {
-                    val = null;
-                    Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": Switch has not been connected", LogLevel.Trace);
-                }
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + val, LogLevel.Trace);
-                return val;
-            }
-            set
-            {
-                Logging.AddLog("Mount power switching " + ((bool)value ? "ON" : "OFF"), LogLevel.Activity);
-
-                try
-                {
-                    objSwitch.SetSwitch(POWER_MOUNT_PORT, (bool)value);
-                }
-                catch (NotConnectedException ex)
-                {
-                    //MessageBox.Show(ex.ToString());
-                    Logging.AddLog("Switch driver notconnected exception [" + ex.Message + "]. Try to reconnect", LogLevel.Activity, Highlight.Error);
-                    bool reconnF = true; int i = 1;
-                    while (reconnF)
-                    {
-                        Logging.AddLog("Switch driver reconnection attempt "+i, LogLevel.Activity);
-                        connectSwitch = true;
-                        reconnF = (i++ <= SWITCH_MAX_RECCONNECT_ATTEMPTS) && !Switch_connected_flag;
-                    }
-                    if (Switch_connected_flag)
-                    {
-                        Logging.AddLog("Switch driver reconnected", LogLevel.Activity);
-                    }
-                    else
-                    {
-                        Logging.AddLog("Switch driver couldn't be reconnected after " + SWITCH_MAX_RECCONNECT_ATTEMPTS + " attempts", LogLevel.Activity);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Logging.AddLog("Set mount power exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                    Logging.AddLog("Set mount power exception: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
-                }
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " exit", LogLevel.Trace);
-            }
-        }
-
-        /// <summary>
-        /// Get or set camera power
-        /// </summary>
-        public bool CameraPower___
-        {
-            get{
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-                bool val = false;
-                try
-                {
-                    val = objSwitch.GetSwitch(POWER_CAMERA_PORT);
-                }
-                catch (ASCOM.NotConnectedException ex)
-                {
-                    Logging.AddLog("Get camera power exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                    MessageBox.Show(ex.ToString());
-                }
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + val, LogLevel.Trace);
-                return val;
-            }
-            set{
-                Logging.AddLog("Camera power switching " + (value ? "ON" : "OFF"), LogLevel.Activity);
-                objSwitch.SetSwitch(POWER_CAMERA_PORT, value);
-            }
-        }
-
-        /// <summary>
-        /// Get or set focuser power
-        /// </summary>
-        public bool FocusPower____
-        {
-            get{
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-                bool val = false;
-                try
-                {
-                    val = objSwitch.GetSwitch(POWER_FOCUSER_PORT);
-                }
-                catch (Exception ex)
-                {
-                    Logging.AddLog("Get focus power exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                    MessageBox.Show(ex.ToString());
-                }
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + val, LogLevel.Trace);
-                return val;
-            }
-            set{
-                Logging.AddLog("Focus power switching " + (value ? "ON" : "OFF"), LogLevel.Activity);
-                objSwitch.SetSwitch(POWER_FOCUSER_PORT, value);
-            }
-        }
-
-        /// <summary>
-        /// Get or set roof power
-        /// </summary>
-        public bool RoofPower___
-        {
-            get{
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-                bool val = false;
-                try
-                {
-                    val = objSwitch.GetSwitch(POWER_ROOFPOWER_PORT);
-                }
-                catch (Exception ex)
-                {
-                    Logging.AddLog("Get roof power exception: " + ex.Message, 0, Highlight.Error);
-                    MessageBox.Show(ex.ToString());
-                }
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + val, LogLevel.Trace);
-                return val;
-            }
-            set{
-                Logging.AddLog("Roof power switching " + (value ? "ON" : "OFF"), LogLevel.Activity);
-                objSwitch.SetSwitch(POWER_ROOFPOWER_PORT, value);
-            }
-        }
 
         /// <summary>
         /// Wrapper for mount power on|off. Used in command processor
@@ -554,8 +392,23 @@ namespace ObservatoryCenter
             }
         }
 
-        
-#endregion Multithreading
 
+#endregion Multithreading
+        
+        /// <summary>
+        /// Wrapper to reset telescope driver 
+        /// Later system would reinitiate it itself
+        /// </summary>
+        public void Reset()
+        {
+            Connected_flag = false;
+
+            Mount_power_flag = null;
+            Camera_power_flag = null;
+            Focuser_power_flag = null;
+            Roof_power_flag = null;
+
+            objSwitch = null;
+        }
     }
 }

@@ -65,8 +65,8 @@ namespace ObservatoryCenter
 
             prev_direction = "open";
 
-            bool RFflag=ObsControl.RoofOpen();  //start OPENING. true if was started
-            if (RFflag) startAnimation();       //start animation
+            bool RFflag=ObsControl.ASCOMDome.RoofOpen();  //start OPENING. true if was started
+            if (RFflag) RoofAnimation_start();       //start animation
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace ObservatoryCenter
 
             prev_direction = "close";
 
-            bool RFflag=ObsControl.RoofClose();
-            if (RFflag) startAnimation();
+            bool RFflag=ObsControl.ASCOMDome.RoofClose();
+            if (RFflag) RoofAnimation_start();
         }
 
         /// <summary>
@@ -95,14 +95,14 @@ namespace ObservatoryCenter
         private void btnStopRoof_Click(object sender, EventArgs e)
         {
             //
-            drawStoped();
-            stopAnimation();
+            RoofAnimation_drawStoped();
+            RoofAnimation_stop();
         }
 
         /// <summary>
         /// Procedure to start animation
         /// </summary>
-        private void startAnimation()
+        private void RoofAnimation_start()
         {
             btnCloseRoof.Enabled = false;
             btnOpenRoof.Enabled = false;
@@ -117,7 +117,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Procedure to stop animation
         /// </summary>
-        private void stopAnimation()
+        private void RoofAnimation_stop()
         {
             animateRoofTimer.Enabled = false;
 
@@ -130,7 +130,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Roof opening/closing main tick
         /// </summary>
-        private void animateRoof_Tick(object sender, EventArgs e)
+        private void RoofAnimation_Tick(object sender, EventArgs e)
         {
             tickCount++;
             curXCoord += ROOF_incPos;
@@ -140,8 +140,8 @@ namespace ObservatoryCenter
             if (tickCount > waitTicksBeforeCheck)
             {
                 //Roof was opened/closed?
-                if (((ROOF_incPos > 0) && ObsControl.DomeShutterStatus != ShutterState.shutterOpen) ||
-                    ((ROOF_incPos < 0) && ObsControl.DomeShutterStatus != ShutterState.shutterClosed))
+                if (((ROOF_incPos > 0) && ObsControl.ASCOMDome.DomeShutterStatus != ShutterState.shutterOpen) ||
+                    ((ROOF_incPos < 0) && ObsControl.ASCOMDome.DomeShutterStatus != ShutterState.shutterClosed))
 
                 {
                 //Not yet
@@ -163,7 +163,7 @@ namespace ObservatoryCenter
                     else
                     {
                         //signal error
-                        drawStoped();
+                        RoofAnimation_drawStoped();
                         if (ROOF_incPos > 0){
                             AlarmRoofMoving("open");
                         }else{
@@ -175,24 +175,24 @@ namespace ObservatoryCenter
                 {
                 //finished - closed/opened
                     //calc and save statistic
-                    TimeSpan SinceStartPassed = DateTime.Now.Subtract(ObsControl.RoofRoutine_StartTime);
-                    ObsControl.curRoofRoutineDuration_Seconds = (int)Math.Round(SinceStartPassed.TotalSeconds, 0);
-                    RoofDuration = (RoofDuration * RoofDurationCount + ObsControl.curRoofRoutineDuration_Seconds) / (RoofDurationCount+1); //calc new roof duration
+                    TimeSpan SinceStartPassed = DateTime.Now.Subtract(ObsControl.ASCOMDome.RoofRoutine_StartTime);
+                    ObsControl.ASCOMDome.curRoofRoutineDuration_Seconds = (int)Math.Round(SinceStartPassed.TotalSeconds, 0);
+                    RoofDuration = (RoofDuration * RoofDurationCount + ObsControl.ASCOMDome.curRoofRoutineDuration_Seconds) / (RoofDurationCount+1); //calc new roof duration
                     Properties.Settings.Default.RoofDuration = Convert.ToDecimal(RoofDuration);
                     Properties.Settings.Default.RoofDurationMeasurementsCount = RoofDurationCount+1;
                     Properties.Settings.Default.Save();
 
                     if (ROOF_incPos > 0)
                     {
-                        drawOpened();
-                        Logging.AddLog("Roof was opened in " + ObsControl.curRoofRoutineDuration_Seconds + " sec");
+                        RoofAnimation_drawOpened();
+                        Logging.AddLog("Roof was opened in " + ObsControl.ASCOMDome.curRoofRoutineDuration_Seconds + " sec");
                     }
                     else
                     {
-                        drawClosed();
-                        Logging.AddLog("Roof was closed in " + ObsControl.curRoofRoutineDuration_Seconds + " sec");
+                        RoofAnimation_drawClosed();
+                        Logging.AddLog("Roof was closed in " + ObsControl.ASCOMDome.curRoofRoutineDuration_Seconds + " sec");
                     }
-                    stopAnimation();
+                    RoofAnimation_stop();
                 }
                 
             }
@@ -207,23 +207,23 @@ namespace ObservatoryCenter
             } */
         }
 
-        private void drawOpened()
+        private void RoofAnimation_drawOpened()
         {
             rectRoof.Left = ROOF_startPos.X + ROOF_endPos;
             btnCloseRoof.Enabled = true;
             btnOpenRoof.Enabled = false;
             btnStopRoof.Enabled = false;
         }
-        private void drawClosed()
+        private void RoofAnimation_drawClosed()
         {
             rectRoof.Left = ROOF_startPos.X;
             btnCloseRoof.Enabled = false;
             btnOpenRoof.Enabled = true;
             btnStopRoof.Enabled = false;
         }
-        private void drawStoped()
+        private void RoofAnimation_drawStoped()
         {
-            ShutterState curShutState = ObsControl.DomeShutterStatus;
+            ShutterState curShutState = ObsControl.ASCOMDome.DomeShutterStatus;
             if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing))
             {
                 rectRoof.Left = ROOF_startPos.X + Convert.ToInt16(Math.Round((double)ROOF_endPos / 2));
@@ -242,11 +242,11 @@ namespace ObservatoryCenter
             }
             else if (curShutState == ShutterState.shutterOpen)
             {
-                drawOpened();
+                RoofAnimation_drawOpened();
             }
             else if (curShutState == ShutterState.shutterClosed)
             {
-                drawClosed();
+                RoofAnimation_drawClosed();
             }
         }
 
@@ -266,22 +266,22 @@ namespace ObservatoryCenter
         private void UpdateRoofPicture()
         {
             //Draw roof status
-            if (ObsControl.DomeEnabled && ObsControl.DOME_DRIVER_NAME != "" && ObsControl.Dome_connected_flag)
+            if (ObsControl.ASCOMDome.DomeEnabled && ObsControl.ASCOMDome.DOME_DRIVER_NAME != "" && ObsControl.ASCOMDome.Dome_connected_flag)
             { 
-                if (ObsControl.DomeShutterStatus == ShutterState.shutterClosed)
+                if (ObsControl.ASCOMDome.DomeShutterStatus == ShutterState.shutterClosed)
                 {
-                    drawClosed();
+                    RoofAnimation_drawClosed();
                 }
-                else if (ObsControl.DomeShutterStatus == ShutterState.shutterOpen)
+                else if (ObsControl.ASCOMDome.DomeShutterStatus == ShutterState.shutterOpen)
                 {
-                    drawOpened();
+                    RoofAnimation_drawOpened();
                 }
                 rectRoof.BackColor = Color.LightSeaGreen;
                 rectBase.BackColor = Color.Turquoise;
             }
             else
             {
-                drawClosed();
+                RoofAnimation_drawClosed();
                 rectRoof.BackColor = Color.WhiteSmoke;
                 rectBase.BackColor = Color.WhiteSmoke;
                 btnOpenRoof.Enabled = false;
@@ -327,17 +327,17 @@ namespace ObservatoryCenter
         private bool TelescopeObjectiveVisible;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void calculateTelescopePositionsVars()
+        private void DrawTelescope_calculateTelescopePositionsVars()
         {
             //Init position
             X0 = (int)(panelTele3D.Width / 2 );
             Y0 = (int)(panelTele3D.Height / 2 * 1.2);
 
             //update fields
-            DEC_grad = (float)ObsControl.Telescope_Declination;
-            RA = (float)ObsControl.Telescope_RightAscension;
+            DEC_grad = (float)ObsControl.ASCOMTelescope.Declination;
+            RA = (float)ObsControl.ASCOMTelescope.RightAscension;
 
-            HA = (float)(ObsControl.Telescope_SiderealTime - RA);
+            HA = (float)(ObsControl.ASCOMTelescope.SiderealTime - RA);
             if (HA < 0) HA = HA + 24.0F;
             if (HA > 24) HA = HA - 24.0F;
 
@@ -345,14 +345,14 @@ namespace ObservatoryCenter
             //Determine physical side of peir and calculate Mechanical HA
             if (HA>=0 && HA<6)
             {
-                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
@@ -362,14 +362,14 @@ namespace ObservatoryCenter
             }
             else if (HA >= 6 && HA < 12)
             {
-                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
@@ -379,14 +379,14 @@ namespace ObservatoryCenter
             }
             else if (HA >= 12 && HA < 18)
             {
-                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
@@ -396,14 +396,14 @@ namespace ObservatoryCenter
             }
             else  if (HA >= 18 && HA < 24)
             {
-                if (ObsControl.TelescopePierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.TelescopePierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
@@ -418,8 +418,8 @@ namespace ObservatoryCenter
 
             //DEC_mech_grad = DEC_grad;//for debug only
 
-            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.Telescope_Azimuth);
-            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.Telescope_Altitude);
+            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.ASCOMTelescope.Azimuth);
+            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.ASCOMTelescope.Altitude);
 
             txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RA);
             txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DEC_grad);
@@ -455,7 +455,7 @@ namespace ObservatoryCenter
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void Draw3DTelescope(PaintEventArgs e)
+        public void DrawTelescope3D(PaintEventArgs e)
         {
 
             using (Graphics graphicsObj = e.Graphics)
