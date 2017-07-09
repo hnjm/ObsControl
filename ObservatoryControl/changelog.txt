@@ -33,6 +33,7 @@ bugs:
 0.8.5 [09.07.17]
 - ObsControl restructuring to subclasses, which can be reused
 - class diagram, optimization
+- scenario xml editing working
 
 0.8.4 [02.07.17]
 - astroevents bugs

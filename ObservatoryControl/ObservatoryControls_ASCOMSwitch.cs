@@ -19,17 +19,16 @@ namespace ObservatoryCenter
 {
     public class ObservatoryControls_ASCOMSwitch
     {
-        public string DRIVER_NAME = "";
-        internal ASCOM.DriverAccess.Switch objSwitch = null;
-
-        public bool Connected_flag = false;
         public bool Enabled = false;
+        public bool Connected_flag = false;
+
+        public string DRIVER_NAME = "";
+        private ASCOM.DriverAccess.Switch objSwitch = null;
 
         int SWITCH_MAX_RECCONNECT_ATTEMPTS = 3; //reconnect attempts
 
-
         #region switch ports
-        public byte POWER_MOUNT_PORT = 6;
+        public byte POWER_TELESCOPE_PORT = 6;
         public byte POWER_CAMERA_PORT = 5;
         public byte POWER_FOCUSER_PORT = 3;
         public byte POWER_ROOFPOWER_PORT = 2;
@@ -39,7 +38,7 @@ namespace ObservatoryCenter
         #region ASCOM Device Drivers controlling (connect/disconnect/status)  ///////////////////////////////////////////////////////////////////
 
         //Power buttons state flags
-        public bool? Mount_power_flag = null;
+        public bool? Telescope_power_flag = null;
         public bool? Camera_power_flag = null;
         public bool? Focuser_power_flag = null;
         public bool? Roof_power_flag = null;
@@ -293,13 +292,13 @@ namespace ObservatoryCenter
         public string PowerMountOn()
         {
             Logging.AddLog("Switch mount power on", LogLevel.Trace);
-            PowerSet(POWER_MOUNT_PORT, "POWER_MOUNT_PORT", true, out Mount_power_flag);
+            PowerSet(POWER_TELESCOPE_PORT, "POWER_MOUNT_PORT", true, out Telescope_power_flag);
             return "PowerMountOn";
         }
         public string PowerMountOff()
         {
             Logging.AddLog("Switch mount power off", LogLevel.Trace);
-            PowerSet(POWER_MOUNT_PORT, "POWER_MOUNT_PORT", false, out Mount_power_flag);
+            PowerSet(POWER_TELESCOPE_PORT, "POWER_MOUNT_PORT", false, out Telescope_power_flag);
             return "PowerMountOff";
         }
         /// <summary>
@@ -361,12 +360,12 @@ namespace ObservatoryCenter
         #endregion Power controlling
 
 
-        #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
+#region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
         public void CheckPowerDeviceStatus()
         {
             try
             {
-                Mount_power_flag = PowerGet(POWER_MOUNT_PORT,"POWER_MOUNT_PORT");
+                Telescope_power_flag = PowerGet(POWER_TELESCOPE_PORT,"POWER_MOUNT_PORT");
                 Camera_power_flag = PowerGet(POWER_CAMERA_PORT, "POWER_CAMERA_PORT");
                 Roof_power_flag = PowerGet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT");
                 Focuser_power_flag = PowerGet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT");
@@ -403,7 +402,7 @@ namespace ObservatoryCenter
         {
             Connected_flag = false;
 
-            Mount_power_flag = null;
+            Telescope_power_flag = null;
             Camera_power_flag = null;
             Focuser_power_flag = null;
             Roof_power_flag = null;

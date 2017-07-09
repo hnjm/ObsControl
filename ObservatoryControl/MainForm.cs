@@ -112,7 +112,7 @@ namespace ObservatoryCenter
 
             try
             {
-                ObsControl.ASCOMDome.connectDome = true;
+                ObsControl.ASCOMDome.Connect = true;
             }
             catch (Exception ex)
             {
@@ -278,7 +278,7 @@ namespace ObservatoryCenter
             SwitchState = !SwitchState;
 
             //toggle
-            if (ObsControl.ASCOMSwitch.PowerSet(ObsControl.ASCOMSwitch.POWER_MOUNT_PORT, "POWER_MOUNT_PORT", SwitchState, out ObsControl.ASCOMSwitch.Mount_power_flag))
+            if (ObsControl.ASCOMSwitch.PowerSet(ObsControl.ASCOMSwitch.POWER_TELESCOPE_PORT, "POWER_MOUNT_PORT", SwitchState, out ObsControl.ASCOMSwitch.Telescope_power_flag))
             {
                 //if switching was successful
                 //display new status
@@ -419,11 +419,11 @@ namespace ObservatoryCenter
             Logging.AddLog("Loading saved parameters", LogLevel.Trace);
             try
             {
-                ObsControl.ASCOMDome.DOME_DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
-                ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
+                ObsControl.ASCOMDome.DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
+                ObsControl.ASCOMTelescope.DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
                 ObsControl.ASCOMSwitch.DRIVER_NAME = Properties.Settings.Default.SwitchDriverId;
 
-                ObsControl.ASCOMDome.DomeEnabled = Properties.Settings.Default.DeviceEnabled_Dome;
+                ObsControl.ASCOMDome.Enabled = Properties.Settings.Default.DeviceEnabled_Dome;
                 ObsControl.ASCOMTelescope.Enabled = Properties.Settings.Default.DeviceEnabled_Telescope;
                 ObsControl.ASCOMSwitch.Enabled = Properties.Settings.Default.DeviceEnabled_Switch;
 
@@ -431,7 +431,7 @@ namespace ObservatoryCenter
                 //ObsControl.CCDAPPath = Properties.Settings.Default.CCDAPPath;
                 //ObsControl.PlanetariumPath = Properties.Settings.Default.CartesPath;
 
-                ObsControl.ASCOMSwitch.POWER_MOUNT_PORT = Convert.ToByte(Properties.Settings.Default.SwitchMountPort);
+                ObsControl.ASCOMSwitch.POWER_TELESCOPE_PORT = Convert.ToByte(Properties.Settings.Default.SwitchMountPort);
                 ObsControl.ASCOMSwitch.POWER_CAMERA_PORT = Convert.ToByte(Properties.Settings.Default.SwitchCameraPort);
                 ObsControl.ASCOMSwitch.POWER_FOCUSER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchFocuserPort);
                 ObsControl.ASCOMSwitch.POWER_ROOFPOWER_PORT = Convert.ToByte(Properties.Settings.Default.SwitchRoofPowerPort);
@@ -493,7 +493,7 @@ namespace ObservatoryCenter
         {
             try
             {
-                ObsControl.ASCOMDome.connectDome = !ObsControl.ASCOMDome.Dome_connected_flag;
+                ObsControl.ASCOMDome.Connect = !ObsControl.ASCOMDome.Connected_flag;
             }
             catch (Exception ex)
             {
@@ -648,29 +648,29 @@ namespace ObservatoryCenter
             if (((CheckBox)sender).Checked == false)
             {
                 //disconnect
-                ObsControl.ASCOMDome.connectDome = false;
-                ObsControl.ASCOMDome.DomeEnabled = false;
-                ObsControl.ASCOMDome.resetDome();
+                ObsControl.ASCOMDome.Connect = false;
+                ObsControl.ASCOMDome.Enabled = false;
+                ObsControl.ASCOMDome.Reset();
             }
             else
             {
                 //connect
-                ObsControl.ASCOMDome.DomeEnabled = true;
-                ObsControl.ASCOMDome.connectDome = true;
+                ObsControl.ASCOMDome.Enabled = true;
+                ObsControl.ASCOMDome.Connect = true;
             }
             Update_DOME_related_elements();
-            Properties.Settings.Default.DeviceEnabled_Dome = ObsControl.ASCOMDome.DomeEnabled;
+            Properties.Settings.Default.DeviceEnabled_Dome = ObsControl.ASCOMDome.Enabled;
         }
         private void btnASCOM_Choose_Dome_Click(object sender, EventArgs e)
         {
-            ObsControl.ASCOMDome.DOME_DRIVER_NAME = ASCOM.DriverAccess.Dome.Choose(Properties.Settings.Default.DomeDriverId);
-            txtSet_Dome.Text = ObsControl.ASCOMDome.DOME_DRIVER_NAME;
-            if (ObsControl.ASCOMDome.DOME_DRIVER_NAME != "")
+            ObsControl.ASCOMDome.DRIVER_NAME = ASCOM.DriverAccess.Dome.Choose(Properties.Settings.Default.DomeDriverId);
+            txtSet_Dome.Text = ObsControl.ASCOMDome.DRIVER_NAME;
+            if (ObsControl.ASCOMDome.DRIVER_NAME != "")
             {
                 chkASCOM_Enable_Dome.Checked = true;
             }
-            ObsControl.ASCOMDome.resetDome();
-            ObsControl.ASCOMDome.connectDome = true;
+            ObsControl.ASCOMDome.Reset();
+            ObsControl.ASCOMDome.Connect = true;
             Update_DOME_related_elements();
         }
         private void chkASCOM_Enable_Telescope_CheckedChanged(object sender, EventArgs e)
@@ -694,9 +694,9 @@ namespace ObservatoryCenter
         }
         private void btnASCOM_Choose_Telescope_Click(object sender, EventArgs e)
         {
-            ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME = ASCOM.DriverAccess.Telescope.Choose(Properties.Settings.Default.TelescopeDriverId);
-            txtSet_Telescope.Text = ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME;
-            if (ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME != "")
+            ObsControl.ASCOMTelescope.DRIVER_NAME = ASCOM.DriverAccess.Telescope.Choose(Properties.Settings.Default.TelescopeDriverId);
+            txtSet_Telescope.Text = ObsControl.ASCOMTelescope.DRIVER_NAME;
+            if (ObsControl.ASCOMTelescope.DRIVER_NAME != "")
             {
                 chkASCOM_Enable_Telescope.Checked = true;
             }

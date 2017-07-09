@@ -382,15 +382,15 @@ namespace ObservatoryCenter
                     ParentMainForm.ObsControl.ASCOMSwitch.Reset();
                 }
 
-                if (txtDomeDriverId.Text != ParentMainForm.ObsControl.ASCOMDome.DOME_DRIVER_NAME)
+                if (txtDomeDriverId.Text != ParentMainForm.ObsControl.ASCOMDome.DRIVER_NAME)
                 {
-                    ParentMainForm.ObsControl.ASCOMDome.DOME_DRIVER_NAME = txtDomeDriverId.Text;
-                    ParentMainForm.ObsControl.ASCOMDome.resetDome();
+                    ParentMainForm.ObsControl.ASCOMDome.DRIVER_NAME = txtDomeDriverId.Text;
+                    ParentMainForm.ObsControl.ASCOMDome.Reset();
                 }
 
-                if (txtTelescopeDriverId.Text != ParentMainForm.ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME)
+                if (txtTelescopeDriverId.Text != ParentMainForm.ObsControl.ASCOMTelescope.DRIVER_NAME)
                 {
-                    ParentMainForm.ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
+                    ParentMainForm.ObsControl.ASCOMTelescope.DRIVER_NAME = txtTelescopeDriverId.Text;
                     ParentMainForm.ObsControl.ASCOMTelescope.Reset();
                 }
 
@@ -483,16 +483,16 @@ namespace ObservatoryCenter
 
         private void btnConnectTelescopeSettings_Click(object sender, EventArgs e)
         {
-            ParentMainForm.ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME = txtTelescopeDriverId.Text;
+            ParentMainForm.ObsControl.ASCOMTelescope.DRIVER_NAME = txtTelescopeDriverId.Text;
             ParentMainForm.ObsControl.ASCOMTelescope.Reset();
             ParentMainForm.ObsControl.ASCOMTelescope.Connect = true;
         }
 
         private void btnConnectDomeSettings_Click(object sender, EventArgs e)
         {
-            ParentMainForm.ObsControl.ASCOMDome.DOME_DRIVER_NAME = txtDomeDriverId.Text;
-            ParentMainForm.ObsControl.ASCOMDome.resetDome();
-            ParentMainForm.ObsControl.ASCOMDome.connectDome = true;
+            ParentMainForm.ObsControl.ASCOMDome.DRIVER_NAME = txtDomeDriverId.Text;
+            ParentMainForm.ObsControl.ASCOMDome.Reset();
+            ParentMainForm.ObsControl.ASCOMDome.Connect = true;
         }
 
     }

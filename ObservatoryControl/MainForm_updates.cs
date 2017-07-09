@@ -120,7 +120,7 @@ namespace ObservatoryCenter
             toolStripStatus_Switch.ToolTipText = "DRIVER: " + ObsControl.ASCOMSwitch.DRIVER_NAME + Environment.NewLine;
 
             //DOME
-            if (ObsControl.ASCOMDome.Dome_connected_flag)
+            if (ObsControl.ASCOMDome.Connected_flag)
             {
                 toolStripStatus_Dome.ForeColor = Color.Blue;
             }
@@ -128,7 +128,7 @@ namespace ObservatoryCenter
             {
                 toolStripStatus_Dome.ForeColor = Color.Gray;
             }
-            toolStripStatus_Dome.ToolTipText = "DRIVER: " + ObsControl.ASCOMDome.DOME_DRIVER_NAME + Environment.NewLine;
+            toolStripStatus_Dome.ToolTipText = "DRIVER: " + ObsControl.ASCOMDome.DRIVER_NAME + Environment.NewLine;
 
             //TELESCOPE
             bool Tprog = (ObsControl.ASCOMTelescope.Connected_flag);
@@ -139,7 +139,7 @@ namespace ObservatoryCenter
             }
             catch { Tmaxim = false; }
             bool Tcdc = false; //later organize checking
-            toolStripStatus_Telescope.ToolTipText = "DRIVER: " + ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME + Environment.NewLine;
+            toolStripStatus_Telescope.ToolTipText = "DRIVER: " + ObsControl.ASCOMTelescope.DRIVER_NAME + Environment.NewLine;
             toolStripStatus_Telescope.ToolTipText += "Control center direct connection: " + (Tprog ? "ON" : "off") + Environment.NewLine;
             toolStripStatus_Telescope.ToolTipText += "Maxim telescope connection: " + (Tmaxim ? "ON" : "off") + Environment.NewLine;
             toolStripStatus_Telescope.ToolTipText += "CdC telescope connection: " + (Tcdc ? "ON" : "off") + Environment.NewLine;
@@ -196,7 +196,7 @@ namespace ObservatoryCenter
         private void UpdatePowerButtonsStatus()
         {
             //Mount
-            if (ObsControl.ASCOMSwitch.Mount_power_flag == null) //if (ObsControl.objSwitch == null || ObsControl.Mount_power_flag == null)
+            if (ObsControl.ASCOMSwitch.Telescope_power_flag == null) //if (ObsControl.objSwitch == null || ObsControl.Mount_power_flag == null)
             {
                 btnTelescopePower.Enabled = false;
                 btnTelescopePower.BackColor = DisabledColor;
@@ -204,7 +204,7 @@ namespace ObservatoryCenter
             else
             {
                 btnTelescopePower.Enabled = true;
-                btnTelescopePower.BackColor = ((bool)ObsControl.ASCOMSwitch.Mount_power_flag ? OnColor : OffColor);
+                btnTelescopePower.BackColor = ((bool)ObsControl.ASCOMSwitch.Telescope_power_flag ? OnColor : OffColor);
             }
 
             //Camera
@@ -244,14 +244,14 @@ namespace ObservatoryCenter
             }
 
             //All button
-            if (ObsControl.ASCOMSwitch.Roof_power_flag == true && ObsControl.ASCOMSwitch.Mount_power_flag == true && ObsControl.ASCOMSwitch.Focuser_power_flag == true && ObsControl.ASCOMSwitch.Camera_power_flag == true)
+            if (ObsControl.ASCOMSwitch.Roof_power_flag == true && ObsControl.ASCOMSwitch.Telescope_power_flag == true && ObsControl.ASCOMSwitch.Focuser_power_flag == true && ObsControl.ASCOMSwitch.Camera_power_flag == true)
             {
                 btnPowerAll.Text = "Depower all";
             }
             else
             {
                 btnPowerAll.Text = "Power all";
-                if (ObsControl.ASCOMSwitch.Roof_power_flag == null || ObsControl.ASCOMSwitch.Mount_power_flag == null || ObsControl.ASCOMSwitch.Focuser_power_flag == null || ObsControl.ASCOMSwitch.Camera_power_flag == null)
+                if (ObsControl.ASCOMSwitch.Roof_power_flag == null || ObsControl.ASCOMSwitch.Telescope_power_flag == null || ObsControl.ASCOMSwitch.Focuser_power_flag == null || ObsControl.ASCOMSwitch.Camera_power_flag == null)
                 {
                     btnPowerAll.Enabled = false;
                     btnPowerAll.BackColor = DisabledColor;
@@ -479,11 +479,11 @@ namespace ObservatoryCenter
             }
 
             //DOME
-            txtSet_Dome.Text = ObsControl.ASCOMDome.DOME_DRIVER_NAME;
-            if (ObsControl.ASCOMDome.DomeEnabled)
+            txtSet_Dome.Text = ObsControl.ASCOMDome.DRIVER_NAME;
+            if (ObsControl.ASCOMDome.Enabled)
             {
                 txtSet_Dome.Enabled = true;
-                if (ObsControl.ASCOMDome.Dome_connected_flag == true)
+                if (ObsControl.ASCOMDome.Connected_flag == true)
                 {
                     txtSet_Dome.BackColor = OnColor;
                 }
@@ -500,7 +500,7 @@ namespace ObservatoryCenter
                 chkASCOM_Enable_Dome.Checked = false;
             }
 
-            txtSet_Telescope.Text = ObsControl.ASCOMTelescope.TELESCOPE_DRIVER_NAME;
+            txtSet_Telescope.Text = ObsControl.ASCOMTelescope.DRIVER_NAME;
             if (ObsControl.ASCOMTelescope.Connected_flag == true)
             {
                 txtSet_Telescope.BackColor = OnColor;

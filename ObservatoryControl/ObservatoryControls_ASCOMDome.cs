@@ -20,19 +20,20 @@ namespace ObservatoryCenter
     public class ObservatoryControls_ASCOMDome
     {
 
-        public string DOME_DRIVER_NAME = "";
-        public bool DomeEnabled = false;
-        public bool Dome_connected_flag = false;
+        public bool Enabled = false;
+        public bool Connected_flag = false;
 
-        
-        /// ASCOM Drivers objects
-        public ASCOM.DriverAccess.Dome objDome = null;
+        public string DRIVER_NAME = "";
+        private ASCOM.DriverAccess.Dome objDome = null;
+
+        //Optional external reference to switch object to check if roof power switched on
+        internal ObservatoryControls_ASCOMSwitch ExtASCOMSiwitchObj = null;
 
         internal ShutterState curShutterStatus = ShutterState.shutterError;
 
         internal DateTime RoofRoutine_StartTime;
         internal int curRoofRoutineDuration_Seconds;
-        internal ObservatoryControls_ASCOMSwitch ExtASCOMSiwitchObj;
+
 
         /// <summary>
         /// Constructor 1 variant. Without any reference to external SWITCH OBJECT
@@ -52,7 +53,7 @@ namespace ObservatoryCenter
         /// SET: Dome connect/disconnect wrapper
         /// GET: Dome connection status
         /// </summary>
-        public bool connectDome
+        public bool Connect
         {
             set
             {
@@ -60,21 +61,21 @@ namespace ObservatoryCenter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), LogLevel.Trace);
 
                 //if device present at all and its ID is set
-                if (DomeEnabled && DOME_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
                     try
                     {
                         //If obj doesnot exist - create
-                        if (objDome == null) objDome = new ASCOM.DriverAccess.Dome(DOME_DRIVER_NAME);
+                        if (objDome == null) objDome = new ASCOM.DriverAccess.Dome(DRIVER_NAME);
 
                         //Connect
                         objDome.Connected = value;
-                        Dome_connected_flag = value;
+                        Connected_flag = value;
                         Logging.AddLog("Dome has been " + (value ? "connected" : "disconnected"), LogLevel.Activity);
                     }
                     catch (Exception ex)
                     {
-                        Dome_connected_flag = false;
+                        Connected_flag = false;
                         Logging.AddLog("Couldn't " + (value ? "connect to" : "disconnect from") + " dome", LogLevel.Important, Highlight.Error);
                         Logging.AddLog(MethodBase.GetCurrentMethod().Name + " " + (value ? "ON" : "OFF") + " Error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
@@ -97,15 +98,15 @@ namespace ObservatoryCenter
                 //Log enter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
                 //if device present at all and its ID is set
-                if (DomeEnabled && DOME_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
                     try
                     {
-                        Dome_connected_flag = objDome.Connected;
+                        Connected_flag = objDome.Connected;
                     }
                     catch (Exception ex)
                     {
-                        Dome_connected_flag = false;
+                        Connected_flag = false;
                         Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                     }
                 }
@@ -115,8 +116,8 @@ namespace ObservatoryCenter
                     Logging.AddLog("Device is not set. Couldn't return status of dome", LogLevel.Debug, Highlight.Error);
                 }
 
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Dome_connected_flag, LogLevel.Trace);
-                return Dome_connected_flag;
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + Connected_flag, LogLevel.Trace);
+                return Connected_flag;
             }
         }
 
@@ -130,7 +131,7 @@ namespace ObservatoryCenter
             Logging.AddLog("Trying to open roof", LogLevel.Activity);
 
             //Check if driver is connected
-            if (Dome_connected_flag != true)
+            if (Connected_flag != true)
             {
                 Logging.AddLog("Dome driver isn't connected", LogLevel.Important, Highlight.Error);
                 return false;
@@ -171,7 +172,7 @@ namespace ObservatoryCenter
             Logging.AddLog("Trying to close roof", LogLevel.Activity);
 
             //Check if driver is connected
-            if (Dome_connected_flag != true)
+            if (Connected_flag != true)
             {
                 Logging.AddLog("Dome driver isn't connected", LogLevel.Important, Highlight.Error);
                 return false;
@@ -216,7 +217,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (DomeEnabled && DOME_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
                     try
                     {
@@ -250,9 +251,9 @@ namespace ObservatoryCenter
         /// Wrapper to reset dome driver 
         /// Later system would reinitiate it itself
         /// </summary>
-        public void resetDome()
+        public void Reset()
         {
-            Dome_connected_flag = false;
+            Connected_flag = false;
             curShutterStatus = ShutterState.shutterError;
             objDome = null;
         }

@@ -20,28 +20,25 @@
       <FileName>Logging.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMSwitch" Collapsed="true">
+  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMSwitch">
     <Position X="11.5" Y="4.25" Width="5" />
     <Members>
       <Field Name="Camera_power_flag" Hidden="true" />
       <Field Name="DRIVER_NAME" Hidden="true" />
       <Field Name="Enabled" Hidden="true" />
       <Field Name="Focuser_power_flag" Hidden="true" />
-      <Field Name="Mount_power_flag" Hidden="true" />
       <Field Name="objSwitch" Hidden="true" />
       <Field Name="POWER_CAMERA_PORT" Hidden="true" />
       <Field Name="POWER_FOCUSER_PORT" Hidden="true" />
-      <Field Name="POWER_MOUNT_PORT" Hidden="true" />
       <Field Name="POWER_ROOFPOWER_PORT" Hidden="true" />
       <Field Name="POWER_ROOFSWITCH_PORT" Hidden="true" />
+      <Field Name="POWER_TELESCOPE_PORT" Hidden="true" />
       <Field Name="Roof_power_flag" Hidden="true" />
       <Field Name="SWITCH_MAX_RECCONNECT_ATTEMPTS" Hidden="true" />
+      <Field Name="Telescope_power_flag" Hidden="true" />
     </Members>
-    <Compartments>
-      <Compartment Name="Properties" Collapsed="true" />
-    </Compartments>
     <TypeIdentifier>
-      <HashCode>AoAAACAwICAFBIAAAAAIgJMAAAikkAAAQCoAAAAAABA=</HashCode>
+      <HashCode>AoAAACAQIAgFBIAAAAAIgJMAAAikkAAAQSoAAAAAABA=</HashCode>
       <FileName>ObservatoryControls_ASCOMSwitch.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -315,20 +312,27 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMTelescope" Collapsed="true">
-    <Position X="11.75" Y="5.25" Width="5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
+    <Position X="13.5" Y="5.5" Width="5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAACkFKQAAAAAgIAEAACEBAwAAAAAIAgACAA=</HashCode>
       <FileName>ObservatoryControls_ASCOMTelescope.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMDome">
-    <Position X="5.75" Y="1.25" Width="5.25" />
+  <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMDome" Collapsed="true">
+    <Position X="16" Y="6.25" Width="5.25" />
     <TypeIdentifier>
-      <HashCode>AQBACAABAAEAIAgAQAAgAAgAAAAAAAAAQABAAAAAgAA=</HashCode>
+      <HashCode>AQBACAABAAEEBIgAAAAgAIAAAACAAAAAAABAAAAAAAA=</HashCode>
       <FileName>ObservatoryControls_ASCOMDome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObservatoryCenter.ObservatoryControls">
+    <Position X="5.75" Y="1.25" Width="4.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>JgQAAgBAhBAEIAAA0lACAIAGAEEAEgEUoIEE4AAAwAQ=</HashCode>
+      <FileName>ObservatoryControls.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="ObservatoryCenter.IShellLink" Collapsed="true">

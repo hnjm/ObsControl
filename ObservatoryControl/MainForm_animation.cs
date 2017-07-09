@@ -266,7 +266,7 @@ namespace ObservatoryCenter
         private void UpdateRoofPicture()
         {
             //Draw roof status
-            if (ObsControl.ASCOMDome.DomeEnabled && ObsControl.ASCOMDome.DOME_DRIVER_NAME != "" && ObsControl.ASCOMDome.Dome_connected_flag)
+            if (ObsControl.ASCOMDome.Enabled && ObsControl.ASCOMDome.DRIVER_NAME != "" && ObsControl.ASCOMDome.Connected_flag)
             { 
                 if (ObsControl.ASCOMDome.DomeShutterStatus == ShutterState.shutterClosed)
                 {

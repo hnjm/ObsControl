@@ -13,15 +13,11 @@ namespace ObservatoryCenter
     public class ObservatoryControls_ASCOMTelescope
     {
 
-        public bool Connected_flag = false;
         public bool Enabled = false;
-        public string TELESCOPE_DRIVER_NAME = "";
+        public bool Connected_flag = false;
+        public string DRIVER_NAME = "";
 
         private ASCOM.DriverAccess.Telescope objTelescope = null;
-
-        /// <summary>
-        /// ASCOM TELESCOPE DRIVER WRAPPERS
-        /// </summary>
 
         private PierSide curPierSideStatus = PierSide.pierUnknown;
 
@@ -53,12 +49,12 @@ namespace ObservatoryCenter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + (value ? "ON" : "OFF"), LogLevel.Trace);
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
                     try
                     {
                         //If obj doesnot exist - create
-                        if (objTelescope == null) objTelescope = new ASCOM.DriverAccess.Telescope(TELESCOPE_DRIVER_NAME);
+                        if (objTelescope == null) objTelescope = new ASCOM.DriverAccess.Telescope(DRIVER_NAME);
 
                         //Connect/Disconnect
                         objTelescope.Connected = value;
@@ -91,7 +87,7 @@ namespace ObservatoryCenter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "")
+                if (Enabled && DRIVER_NAME != "")
                 {
                     try
                     {
@@ -122,7 +118,7 @@ namespace ObservatoryCenter
 
 
             //if device present at all and its ID is set
-            if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+            if (Enabled && DRIVER_NAME != "" && objTelescope != null)
             {
                 try
                 {
@@ -151,7 +147,7 @@ namespace ObservatoryCenter
 
 
             //if device present at all and its ID is set
-            if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+            if (Enabled && DRIVER_NAME != "" && objTelescope != null)
             {
                 try
                 {
@@ -183,7 +179,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -221,7 +217,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -259,7 +255,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -297,7 +293,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -334,7 +330,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -373,7 +369,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -412,7 +408,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
@@ -449,7 +445,7 @@ namespace ObservatoryCenter
 
 
                 //if device present at all and its ID is set
-                if (Enabled && TELESCOPE_DRIVER_NAME != "" && objTelescope != null)
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
                 {
                     try
                     {
