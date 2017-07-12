@@ -101,6 +101,25 @@ namespace ObservatoryCenter
             Logging.AddLog("Process " + Name + " not found in running processes", LogLevel.Trace);
             return false;
         }
+
+
+        public bool Stop()
+        {
+            try
+            {
+                objProcess.CloseMainWindow();
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                ErrorSt = "Process [" + Name + "] stoping error! " + Ex.Message;
+                Error = -1;
+                Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
+
+                return false;
+            }
+        }
+
     }
 
 

@@ -848,7 +848,13 @@ namespace ObservatoryCenter
             if (confirmResult == DialogResult.Yes)
             {
                 //Close all
-                //ObsControl.
+                ObsControl.objCCDCApp.Stop();
+                ObsControl.objFocusMaxApp.Stop();
+                ObsControl.objMaxim.Stop();
+                ObsControl.objPHDBrokerApp.Stop();
+                ObsControl.objPHD2App.Stop();
+                ObsControl.objCdCApp.Stop();
+
             }
         }
     }
