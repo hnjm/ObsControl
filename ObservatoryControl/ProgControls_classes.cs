@@ -107,8 +107,16 @@ namespace ObservatoryCenter
         {
             try
             {
-                objProcess.CloseMainWindow();
-                return true;
+                foreach (Process clsProcess in Process.GetProcesses())
+                {
+                    if (clsProcess.ProcessName.Contains(Name))
+                    {
+                        Logging.AddLog("Process " + Name + " is found. Sending CloseMainWindow message", LogLevel.Trace);
+                        clsProcess.CloseMainWindow();
+                        return true;
+                    }
+                }
+                return false;
             }
             catch (Exception Ex)
             {
@@ -120,15 +128,40 @@ namespace ObservatoryCenter
             }
         }
 
+    public bool Kill()
+    {
+        try
+        {
+            foreach (Process clsProcess in Process.GetProcesses())
+            {
+                if (clsProcess.ProcessName.Contains(Name))
+                {
+                    Logging.AddLog("Process " + Name + " is found. Sending Kill message", LogLevel.Trace);
+                    clsProcess.Kill();
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch (Exception Ex)
+        {
+            ErrorSt = "Process [" + Name + "] killing error! " + Ex.Message;
+            Error = -1;
+            Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
+
+            return false;
+        }
     }
+}
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Abstract class for all external application with SocketServer Control
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public abstract class ExternalApplicationSocketServer : ExternalApplication
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Abstract class for all external application with SocketServer Control
+//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+public abstract class ExternalApplicationSocketServer : ExternalApplication
     {
         public Int32 ServerPort = 1000; //port to connect socket server
         internal Socket ProgramSocket = null;

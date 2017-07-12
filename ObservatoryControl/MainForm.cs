@@ -267,7 +267,7 @@ namespace ObservatoryCenter
         #endregion /// TIMERS *****************************************************************
         // END OF TIMERS BLOCK
 
-         // Region block with hadnling power management visual interface
+        // Region block with hadnling power management visual interface
         #region /// POWER BUTTONS HANDLING ///////////////////////////////////////////////////////////////////////////////////////////////////
         private void btnTelescopePower_Click(object sender, EventArgs e)
         {
@@ -440,7 +440,7 @@ namespace ObservatoryCenter
                 RoofDuration = Convert.ToInt16(Properties.Settings.Default.RoofDuration);
                 RoofDurationCount = Convert.ToInt16(Properties.Settings.Default.RoofDurationMeasurementsCount);
 
-                AstroUtilsClass.Latitude = Convert.ToDouble(Properties.Settings.Default.LatGrad) + Convert.ToDouble(Properties.Settings.Default.LatMin) / 60.0 + Convert.ToDouble(Properties.Settings.Default.LatSec) / 3600.0 ;
+                AstroUtilsClass.Latitude = Convert.ToDouble(Properties.Settings.Default.LatGrad) + Convert.ToDouble(Properties.Settings.Default.LatMin) / 60.0 + Convert.ToDouble(Properties.Settings.Default.LatSec) / 3600.0;
                 AstroUtilsClass.Longitude = Convert.ToDouble(Properties.Settings.Default.LongGrad) + Convert.ToDouble(Properties.Settings.Default.LongMin) / 60.0 + Convert.ToDouble(Properties.Settings.Default.LongSec) / 3600.0;
 
             }
@@ -615,7 +615,7 @@ namespace ObservatoryCenter
             if (((CheckBox)sender).Checked == false)
             {
                 //disconnect
-                ObsControl.ASCOMSwitch.Connect= false;
+                ObsControl.ASCOMSwitch.Connect = false;
                 ObsControl.ASCOMSwitch.Enabled = false;
                 ObsControl.ASCOMSwitch.Reset();
             }
@@ -844,7 +844,7 @@ namespace ObservatoryCenter
 
         private void btnKILL_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show("Все приложения будут закрыты без ожидания завершения активностей! Это может привести к непредсказуемым результатам! Вы уверены?","Confirm kill",MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2, MessageBoxOptions.RightAlign);
+            var confirmResult = MessageBox.Show("Будем ждать завершения активностей программ? Если нет - это может привести к непредсказуемым результатам!", "Confirm kill", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button3);
             if (confirmResult == DialogResult.Yes)
             {
                 //Close all
@@ -854,7 +854,16 @@ namespace ObservatoryCenter
                 ObsControl.objPHDBrokerApp.Stop();
                 ObsControl.objPHD2App.Stop();
                 ObsControl.objCdCApp.Stop();
-
+            }
+            else if (confirmResult == DialogResult.No)
+            {
+                //Kill all
+                ObsControl.objCCDCApp.Kill();
+                ObsControl.objFocusMaxApp.Kill();
+                ObsControl.objMaxim.Kill();
+                ObsControl.objPHDBrokerApp.Kill();
+                ObsControl.objPHD2App.Kill();
+                ObsControl.objCdCApp.Kill();
             }
         }
     }

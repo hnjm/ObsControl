@@ -30,6 +30,10 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+0.8.6 [12.07.17]
+- Slight redesign (in 96dpi)
+- Process kill/stop
+
 0.8.5 [09.07.17]
 - ObsControl restructuring to subclasses, which can be reused
 - class diagram, optimization
