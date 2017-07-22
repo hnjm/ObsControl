@@ -17,10 +17,36 @@ namespace WeatherControl
         internal DateTime LastWriteTime = new DateTime(2017,02,17);
         internal TimeSpan SinceLastWrite;
 
+        Color WaitingColor = Color.CadetBlue;
+        Color OnColor = Color.DarkSeaGreen;
+        Color OffColor = Color.Tomato;
+        Color DisabledColor = Color.LightGray;
+
+
         public FormWeatherFileControl()
         {
             InitializeComponent();
         }
+
+        private void FormWeatherFileControl_Load(object sender, EventArgs e)
+        {
+            txtLastWritten.Text = LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            comboBoxRainFlag.DataSource = Enum.GetNames(typeof(RainFlag));
+            comboBoxWetFlag.DataSource = Enum.GetNames(typeof(WetFlag));
+
+            comboBoxCloudCond.DataSource = Enum.GetNames(typeof(CloudCond));
+            comboBoxWindCond.DataSource = Enum.GetNames(typeof(WindCond));
+            comboBoxRainCond.DataSource = Enum.GetNames(typeof(RainCond));
+            comboBoxDaylightCond.DataSource = Enum.GetNames(typeof(DayCond));
+
+            comboBoxRoofCloseFlag.DataSource = Enum.GetNames(typeof(RoofFlag));
+            comboBoxAlertFlag.DataSource = Enum.GetNames(typeof(AlertFlag));
+
+            //temp
+            txtFilePath.Text = @"d:\weathercontrol.dat";
+        }
+
 
         private void timerTime_Tick(object sender, EventArgs e)
         {
@@ -46,32 +72,6 @@ namespace WeatherControl
 
             txtVBANow.Text = Math.Round(Convert.ToDouble(CurrentTime.ToOADate()),5).ToString();
         }
-
-        private void FormWeatherFileControl_Load(object sender, EventArgs e)
-        {
-            txtLastWritten.Text = LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
-
-            comboBoxRainFlag.DataSource = Enum.GetNames(typeof(RainFlag));
-            comboBoxWetFlag.DataSource = Enum.GetNames(typeof(WetFlag));
-
-            comboBoxCloudCond.DataSource = Enum.GetNames(typeof(CloudCond));
-            comboBoxWindCond.DataSource = Enum.GetNames(typeof(WindCond));
-            comboBoxRainCond.DataSource = Enum.GetNames(typeof(RainCond));
-            comboBoxDaylightCond.DataSource = Enum.GetNames(typeof(DayCond));
-
-            comboBoxRoofCloseFlag.DataSource = Enum.GetNames(typeof(RoofFlag));
-            comboBoxAlertFlag.DataSource = Enum.GetNames(typeof(AlertFlag));
-        }
-
-        private void btnSaveStatus_MouseClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        Color WaitingColor=Color.CadetBlue;
-        Color OnColor = Color.DarkSeaGreen;
-        Color OffColor = Color.Tomato;
-        Color DisabledColor = Color.LightGray;
 
         private void chkSaveConditions_CheckedChanged(object sender, EventArgs e)
         {
@@ -182,6 +182,35 @@ namespace WeatherControl
                 //Сбросить другую кнопку
                 ((CheckBox)sender).BackColor = SystemColors.ButtonFace;
             }
+        }
+
+        private void btnWriteNow_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnFileDialog_Click(object sender, EventArgs e)
+        {
+            //saveFileDialog1.Filter = "Файлы Excel (*.xls; *.xlsx; *.xlsm; *.xlsb) | *.xls; *.xlsx; *.xlsm; *.xlsb";
+            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocume‌​nts);
+            saveFileDialog1.FileName = SettingsClass.CREATEREPORT_FILENAME;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = saveFileDialog1.FileName;
+
+                //Сохраняем файл
+                //SettingsClass.CREATEREPORT_PATH
+
+            }
+
         }
     }
 }

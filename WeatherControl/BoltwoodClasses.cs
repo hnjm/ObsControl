@@ -112,7 +112,6 @@ namespace WeatherControl
         /// Method to generate contents of Boltwood format file
         /// - Changed: rain condition from main method
         /// </summary>   
-        /*
         public string getBoltwoodString(out BoltwoodFields BoltwObj)
         {
             //Calculations for boltwood
