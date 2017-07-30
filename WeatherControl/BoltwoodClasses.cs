@@ -181,7 +181,7 @@ namespace WeatherControl
         /// </summary>
         #region CONFIGURATION PARAMETERS
 
-        public bool USE_LOGIC = true;
+        public bool DONT_USE_DIRECT_ACCESS = true;
 
         #region CONFIGURATION: Boltwood internal settings
         /// <summary>
@@ -353,7 +353,7 @@ namespace WeatherControl
         {
             get
             {
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     TimeSpan MeasureIntervalRF = DateTime.Now.Subtract(Bolt_RainFlag_LastDetected);
                     double Bolt_RainFlag_sinceLastDetected_dbl = Math.Round(MeasureIntervalRF.TotalSeconds, 0);
@@ -383,7 +383,7 @@ namespace WeatherControl
         {
             get
             {
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     TimeSpan MeasureIntervalWF = DateTime.Now.Subtract(Bolt_WetFlag_LastDetected);
                     double Bolt_WetFlag_sinceLastDetected_dbl = Math.Round(MeasureIntervalWF.TotalSeconds, 0);
@@ -417,7 +417,7 @@ namespace WeatherControl
             {
                 Bolt_RainFlag = value;
 
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     if (value == Enum_RainFlag.rainFlagRightnow)
                     {
@@ -449,7 +449,7 @@ namespace WeatherControl
             {
                 Bolt_WetFlag = value;
 
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
 
                     if (value == Enum_WetFlag.wetFlagRightnow)
@@ -482,7 +482,7 @@ namespace WeatherControl
         {
             get
             {
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     RecheckTimeLimits();
                     EvaluateRainWetConditions();
@@ -497,7 +497,7 @@ namespace WeatherControl
             set
             {
                 Bolt_RainCond = value;
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     if (value == Enum_RainCond.rainRain)
                     {
@@ -531,7 +531,7 @@ namespace WeatherControl
         {
             get
             {
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     EvaluateCloudConditions();
                 }
@@ -543,7 +543,7 @@ namespace WeatherControl
         {
             get
             {
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     EvaluateWindConditions();
                 }
@@ -569,7 +569,7 @@ namespace WeatherControl
             set
             {
                 Bolt_CloudCond = value;
-                if (USE_LOGIC)
+                if (DONT_USE_DIRECT_ACCESS)
                 {
                     if (value == Enum_CloudCond.cloudClear)
                     {

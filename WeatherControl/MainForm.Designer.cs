@@ -637,7 +637,7 @@
             this.txtSkyTemp.Size = new System.Drawing.Size(59, 31);
             this.txtSkyTemp.TabIndex = 17;
             this.txtSkyTemp.Text = "-10";
-            this.txtSkyTemp.TextChanged += new System.EventHandler(this.OnFieldUpdate);
+            this.txtSkyTemp.TextChanged += new System.EventHandler(this.On);
             // 
             // txtTime
             // 
@@ -681,8 +681,6 @@
             // chkUseSmartLogic
             // 
             this.chkUseSmartLogic.AutoSize = true;
-            this.chkUseSmartLogic.Checked = true;
-            this.chkUseSmartLogic.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseSmartLogic.Location = new System.Drawing.Point(20, 156);
             this.chkUseSmartLogic.Name = "chkUseSmartLogic";
             this.chkUseSmartLogic.Size = new System.Drawing.Size(550, 29);

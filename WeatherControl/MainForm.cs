@@ -124,11 +124,11 @@ namespace WeatherControl
         private void OnFieldUpdate(object sender, EventArgs e)
         {
             //From Form to BoltwoodObj
-            UpdateVarsFromForm();
+            UpdateSimpleVars_From_Form();
             //From BoltwoodObj to From
             UpdateFormFields();
         }
-        public void UpdateVarsFromForm()
+        public void UpdateSimpleVars_From_Form()
         {
             try { BoltwoodObj.SkyTemp = Convert.ToDouble(txtSkyTemp.Text); } catch { };
             try { BoltwoodObj.AmbientTemp = Convert.ToDouble(txtAmbTemp.Text); } catch { };
@@ -155,8 +155,6 @@ namespace WeatherControl
             txtDewPoint.Text = BoltwoodObj.DewPoint.ToString("0.#");
             txtSkyTemp.Text = BoltwoodObj.SkyTemp.ToString();
             txtWindSpeed.Text = BoltwoodObj.WindSpeed.ToString();
-            //comboBoxRainFlag.SelectedItem = BoltwoodObj.RainFlag;
-            //comboBoxWetFlag.SelectedItem = BoltwoodObj.WetFlag;
 
             comboBoxCloudCond.SelectedItem = BoltwoodObj.CloudCond;
             comboBoxWindCond.SelectedItem = BoltwoodObj.WindCond;
@@ -165,6 +163,13 @@ namespace WeatherControl
 
             comboBoxRoofCloseFlag.SelectedItem = BoltwoodObj.RoofCloseFlag;
             comboBoxAlertFlag.SelectedItem = BoltwoodObj.AlertFlag;
+
+            if (!BoltwoodObj.DONT_USE_DIRECT_ACCESS)
+            {
+                comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond;
+                comboBoxRainFlag.SelectedItem = BoltwoodObj.RainFlag;
+                comboBoxWetFlag.SelectedItem = BoltwoodObj.WetFlag;
+            }
         }
 
         private void comboBoxRainFlag_SelectedIndexChanged(object sender, EventArgs e)
@@ -378,9 +383,17 @@ namespace WeatherControl
 
         private void chkUseSmartLogic_CheckedChanged(object sender, EventArgs e)
         {
-            BoltwoodObj.USE_LOGIC = ((CheckBox)sender).Checked;
+            BoltwoodObj.DONT_USE_DIRECT_ACCESS = ((CheckBox)sender).Checked;
         }
 
+        private void txtSkyTemp_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
 
+        private void On(object sender, EventArgs e)
+        {
+
+        }
     }
 }
