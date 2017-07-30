@@ -16,18 +16,18 @@ namespace WeatherControl
     /// <summary>
     /// Boltwood Data Types
     /// </summary>
-    public enum CloudCond { cloudUnknown = 0, cloudClear = 1, cloudCloudy = 2, cloudVeryCloudy = 3 }
-    public enum WindCond { windUnknown = 0, windCalm = 1, windWindy = 2, windVeryWindy = 3 }
-    public enum RainCond { rainUnknown = 0, rainDry = 1, rainWet = 2, rainRain = 3 }
-    public enum DayCond { dayUnknown = 0, dayDark = 1, dayLight = 2, dayVeryLight = 3 }
-    public enum RainFlag { rainFlagDry = 0, rainFlagLastminute = 1, rainFlagRightnow = 2 }
-    public enum WetFlag { wetFlagDry = 0, wetFlagLastminute = 1, wetFlagRightnow = 2 }
+    public enum Enum_CloudCond { cloudUnknown = 0, cloudClear = 1, cloudCloudy = 2, cloudVeryCloudy = 3 }
+    public enum Enum_WindCond { windUnknown = 0, windCalm = 1, windWindy = 2, windVeryWindy = 3 }
+    public enum Enum_RainCond { rainUnknown = 0, rainDry = 1, rainWet = 2, rainRain = 3 }
+    public enum Enum_DayCond { dayUnknown = 0, dayDark = 1, dayLight = 2, dayVeryLight = 3 }
+    public enum Enum_RainFlag { rainFlagDry = 0, rainFlagLastminute = 1, rainFlagRightnow = 2 }
+    public enum Enum_WetFlag { wetFlagDry = 0, wetFlagLastminute = 1, wetFlagRightnow = 2 }
 
 
     //Non canonical
-    public enum RoofFlag { roofNotRequested = 0, roofWasRequested = 1 }
-    public enum AlertFlag { alertNo = 0, alertYes = 1 }
-    public enum CloudSensorModel { Classic = 1, AAG = 2 }
+    public enum Enum_RoofFlag { roofNotRequested = 0, roofWasRequested = 1 }
+    public enum Enum_AlertFlag { alertNo = 0, alertYes = 1 }
+    public enum Enum_CloudSensorModel { Classic = 1, AAG = 2 }
 
 
     /// <summary>
@@ -50,19 +50,112 @@ namespace WeatherControl
         public double Bolt_DewPoint = -100.0;
         public Int16 Bolt_Heater = -1; //0-100
 
-        public RainFlag Bolt_RainFlag = RainFlag.rainFlagDry;
-        public WetFlag Bolt_WetFlag = WetFlag.wetFlagDry;
+        public Enum_RainFlag Bolt_RainFlag = Enum_RainFlag.rainFlagDry;
+        public Enum_WetFlag Bolt_WetFlag = Enum_WetFlag.wetFlagDry;
 
         public UInt16 Bolt_SinceLastMeasure = 0; //sec since last data
         public double Bolt_now = 0; // date/time given as the VB6 Now() function result (in days) when Clarity II last wrote this file
 
-        public CloudCond Bolt_CloudCond = CloudCond.cloudUnknown;
-        public WindCond Bolt_WindCond = WindCond.windUnknown;
-        public RainCond Bolt_RainCond = RainCond.rainUnknown;
-        public DayCond Bolt_DaylighCond = DayCond.dayUnknown;
+        public Enum_CloudCond Bolt_CloudCond = Enum_CloudCond.cloudUnknown;
+        public Enum_WindCond Bolt_WindCond = Enum_WindCond.windUnknown;
+        public Enum_RainCond Bolt_RainCond = Enum_RainCond.rainUnknown;
+        public Enum_DayCond Bolt_DaylighCond = Enum_DayCond.dayUnknown;
 
-        public RoofFlag Bolt_RoofCloseFlag = RoofFlag.roofNotRequested; //roof close, =0 not requested, =1 if roof close was requested on this cycle
-        public AlertFlag Bolt_AlertFlag = AlertFlag.alertNo; //alert, =0 when not alerting, =1 when alerting
+        public Enum_RoofFlag Bolt_RoofCloseFlag = Enum_RoofFlag.roofNotRequested; //roof close, =0 not requested, =1 if roof close was requested on this cycle
+        public Enum_AlertFlag Bolt_AlertFlag = Enum_AlertFlag.alertNo; //alert, =0 when not alerting, =1 when alerting
+
+        public BoltwoodFields()
+        {
+        }
+            
+        /// <summary>
+        /// Copy constructor
+        /// Coping from other BoltwoodFields obj
+        /// </summary>
+        /// <param name="objCopied"></param>
+        public BoltwoodFields(BoltwoodFields objCopied)
+        {
+            Bolt_date = objCopied.Bolt_date;
+            Bolt_time = objCopied.Bolt_time;
+
+            TempUnits = objCopied.TempUnits;
+            WindSpeedUnits = objCopied.WindSpeedUnits;
+
+            Bolt_SkyTemp = objCopied.Bolt_SkyTemp;
+            Bolt_Temp = objCopied.Bolt_Temp;
+            Bolt_SensorTemp = objCopied.Bolt_SensorTemp;
+            Bolt_WindSpeed = objCopied.Bolt_WindSpeed;
+            Bolt_Hum = objCopied.Bolt_Hum;
+            Bolt_Heater = objCopied.Bolt_Heater;
+
+            Bolt_RainFlag = objCopied.Bolt_RainFlag;
+            Bolt_WetFlag = objCopied.Bolt_WetFlag;
+
+            Bolt_SinceLastMeasure = objCopied.Bolt_SinceLastMeasure;
+            Bolt_now = objCopied.Bolt_now;
+
+            Bolt_CloudCond = objCopied.Bolt_CloudCond;
+            Bolt_WindCond = objCopied.Bolt_WindCond;
+            Bolt_RainCond = objCopied.Bolt_RainCond;
+            Bolt_DaylighCond = objCopied.Bolt_DaylighCond;
+
+            Bolt_RoofCloseFlag = objCopied.Bolt_RoofCloseFlag;
+            Bolt_AlertFlag = objCopied.Bolt_AlertFlag;
+        }
+
+        public BoltwoodFields(BoltwoodClass objCopied)
+        {
+            Bolt_date = objCopied.Bolt_date;
+            Bolt_time = objCopied.Bolt_time;
+
+            TempUnits = objCopied.TempUnits;
+            WindSpeedUnits = objCopied.WindSpeedUnits;
+
+            Bolt_SkyTemp = objCopied.Bolt_SkyTemp;
+            Bolt_Temp = objCopied.Bolt_Temp;
+            Bolt_SensorTemp = objCopied.Bolt_SensorTemp;
+            Bolt_WindSpeed = objCopied.Bolt_WindSpeed;
+            Bolt_Hum = objCopied.Bolt_Hum;
+            Bolt_Heater = objCopied.Bolt_Heater;
+
+            Bolt_RainFlag = objCopied.Bolt_RainFlag;
+            Bolt_WetFlag = objCopied.Bolt_WetFlag;
+
+            Bolt_SinceLastMeasure = objCopied.Bolt_SinceLastMeasure;
+            Bolt_now = objCopied.Bolt_now;
+
+            Bolt_CloudCond = objCopied.Bolt_CloudCond;
+            Bolt_WindCond = objCopied.Bolt_WindCond;
+            Bolt_RainCond = objCopied.Bolt_RainCond;
+            Bolt_DaylighCond = objCopied.Bolt_DaylighCond;
+
+            Bolt_RoofCloseFlag = objCopied.Bolt_RoofCloseFlag;
+            Bolt_AlertFlag = objCopied.Bolt_AlertFlag;
+        }
+
+        public void CopyEssentialParameters(BoltwoodFields objCopied)
+        {
+            TempUnits = objCopied.TempUnits;
+            WindSpeedUnits = objCopied.WindSpeedUnits;
+
+            Bolt_SkyTemp = objCopied.Bolt_SkyTemp;
+            Bolt_Temp = objCopied.Bolt_Temp;
+            Bolt_SensorTemp = objCopied.Bolt_SensorTemp;
+            Bolt_WindSpeed = objCopied.Bolt_WindSpeed;
+            Bolt_Hum = objCopied.Bolt_Hum;
+            Bolt_Heater = objCopied.Bolt_Heater;
+
+            Bolt_RainFlag = objCopied.Bolt_RainFlag;
+            Bolt_WetFlag = objCopied.Bolt_WetFlag;
+
+            Bolt_CloudCond = objCopied.Bolt_CloudCond;
+            Bolt_WindCond = objCopied.Bolt_WindCond;
+            Bolt_RainCond = objCopied.Bolt_RainCond;
+            Bolt_DaylighCond = objCopied.Bolt_DaylighCond;
+
+            Bolt_RoofCloseFlag = objCopied.Bolt_RoofCloseFlag;
+            Bolt_AlertFlag = objCopied.Bolt_AlertFlag;
+        }
     }
 
     #endregion
@@ -71,8 +164,8 @@ namespace WeatherControl
     {
 
         internal DateTime LastMeasure;      //DateTime when last was measured
-        internal bool RainNowFlag = false;  //internal field set that it is raining right now
-        internal bool WetNowFlag = false;   //internal field set that it is wet right now
+        internal bool RainNowEvent_Flag = false;  //internal field set that it is raining right now
+        internal bool WetNowEvent_Flag = false;   //internal field set that it is wet right now
 
 
         public DateTime Bolt_RainFlag_LastDetected; //last time Rain was detected
@@ -88,6 +181,8 @@ namespace WeatherControl
         /// </summary>
         #region CONFIGURATION PARAMETERS
 
+        public bool USE_LOGIC = true;
+
         #region CONFIGURATION: Boltwood internal settings
         /// <summary>
         /// This limit is used to caluclate: what is rain/wet NOW (1 sec ago? 20 sec ago?)
@@ -100,7 +195,7 @@ namespace WeatherControl
         #endregion
 
         #region CONFIGURATION: Cloud model parameters
-        public CloudSensorModel CLOUDMODEL = CloudSensorModel.Classic; //Cloud Calculation model
+        public Enum_CloudSensorModel CLOUDMODEL = Enum_CloudSensorModel.Classic; //Cloud Calculation model
 
         public double CLOUDINDEX_CLEAR = 20;        // >=
         public double CLOUDINDEX_CLOUDY = 10;       // >=
@@ -188,6 +283,7 @@ namespace WeatherControl
                 SetMeasurement();
             }
         }
+
         public double Humidity
         {
             get { return Bolt_Hum; }
@@ -226,7 +322,7 @@ namespace WeatherControl
         {
             set
             {
-                RainNowFlag = value;
+                RainNowEvent_Flag = value;
                 if (value)
                 {
                     Bolt_RainFlag_LastDetected = DateTime.Now;
@@ -243,7 +339,7 @@ namespace WeatherControl
         {
             set
             {
-                WetNowFlag = value;
+                WetNowEvent_Flag = value;
                 if (value)
                 {
                     Bolt_WetFlag_LastDetected = DateTime.Now;
@@ -253,50 +349,60 @@ namespace WeatherControl
         }
 
 
-        public RainFlag RainFlag
+        public Enum_RainFlag RainFlag
         {
             get
             {
-                TimeSpan MeasureIntervalRF = DateTime.Now.Subtract(Bolt_RainFlag_LastDetected);
-                Bolt_RainFlag_sinceLastDetected = (ushort)Math.Round(MeasureIntervalRF.TotalSeconds, 0);
+                if (USE_LOGIC)
+                {
+                    TimeSpan MeasureIntervalRF = DateTime.Now.Subtract(Bolt_RainFlag_LastDetected);
+                    double Bolt_RainFlag_sinceLastDetected_dbl = Math.Round(MeasureIntervalRF.TotalSeconds, 0);
+                    if (Bolt_RainFlag_sinceLastDetected_dbl > ushort.MaxValue) { Bolt_RainFlag_sinceLastDetected = ushort.MaxValue; }
+                    else { Bolt_RainFlag_sinceLastDetected = (ushort)Bolt_RainFlag_sinceLastDetected_dbl; }
 
-                if (Bolt_RainFlag_sinceLastDetected <= TimeLimit_Now)
-                {
-                    Bolt_RainFlag = RainFlag.rainFlagRightnow;
-                }
-                else if (Bolt_RainFlag_sinceLastDetected <= TimeLimit_LastMinute)
-                {
-                    Bolt_RainFlag = RainFlag.rainFlagLastminute;
-                }
-                else
-                {
-                    Bolt_RainFlag = RainFlag.rainFlagDry;
+
+                    if (Bolt_RainFlag_sinceLastDetected <= TimeLimit_Now)
+                    {
+                        Bolt_RainFlag = Enum_RainFlag.rainFlagRightnow;
+                    }
+                    else if (Bolt_RainFlag_sinceLastDetected <= TimeLimit_LastMinute)
+                    {
+                        Bolt_RainFlag = Enum_RainFlag.rainFlagLastminute;
+                    }
+                    else
+                    {
+                        Bolt_RainFlag = Enum_RainFlag.rainFlagDry;
+                    }
                 }
 
                 return Bolt_RainFlag;
             }
         }
 
-        public WetFlag WetFlag
+        public Enum_WetFlag WetFlag
         {
             get
             {
-                TimeSpan MeasureIntervalWF = DateTime.Now.Subtract(Bolt_WetFlag_LastDetected);
-                Bolt_WetFlag_sinceLastDetected = (ushort)Math.Round(MeasureIntervalWF.TotalSeconds, 0);
+                if (USE_LOGIC)
+                {
+                    TimeSpan MeasureIntervalWF = DateTime.Now.Subtract(Bolt_WetFlag_LastDetected);
+                    double Bolt_WetFlag_sinceLastDetected_dbl = Math.Round(MeasureIntervalWF.TotalSeconds, 0);
+                    if (Bolt_WetFlag_sinceLastDetected_dbl > ushort.MaxValue) { Bolt_WetFlag_sinceLastDetected = ushort.MaxValue; }
+                    else { Bolt_WetFlag_sinceLastDetected = (ushort)Bolt_WetFlag_sinceLastDetected_dbl; }
 
-                if (Bolt_WetFlag_sinceLastDetected <= TimeLimit_Now)
-                {
-                    Bolt_WetFlag = WetFlag.wetFlagRightnow;
+                    if (Bolt_WetFlag_sinceLastDetected <= TimeLimit_Now)
+                    {
+                        Bolt_WetFlag = Enum_WetFlag.wetFlagRightnow;
+                    }
+                    else if (Bolt_WetFlag_sinceLastDetected <= TimeLimit_LastMinute)
+                    {
+                        Bolt_WetFlag = Enum_WetFlag.wetFlagLastminute;
+                    }
+                    else
+                    {
+                        Bolt_WetFlag = Enum_WetFlag.wetFlagDry;
+                    }
                 }
-                else if (Bolt_WetFlag_sinceLastDetected <= TimeLimit_LastMinute)
-                {
-                    Bolt_WetFlag = WetFlag.wetFlagLastminute;
-                }
-                else
-                {
-                    Bolt_WetFlag = WetFlag.wetFlagDry;
-                }
-
                 return Bolt_WetFlag;
             }
         }
@@ -305,13 +411,31 @@ namespace WeatherControl
         /// <summary>
         /// Set RainFlag firectly, try not to use it!
         /// </summary>
-        internal RainFlag RainFlag_DirectSet
+        internal Enum_RainFlag RainFlag_DirectSet
         {
             set
             {
                 Bolt_RainFlag = value;
 
-
+                if (USE_LOGIC)
+                {
+                    if (value == Enum_RainFlag.rainFlagRightnow)
+                    {
+                        //set raining now!
+                        this.IsItRaining = true;
+                        this.IsItWet = true;
+                    }
+                    else if (value == Enum_RainFlag.rainFlagLastminute)
+                    {
+                        this.IsItRaining = false;
+                        Bolt_RainFlag_LastDetected = DateTime.Now.AddSeconds(-TimeLimit_Now - 1); //override date to the nearest valid past
+                    }
+                    else if (value == Enum_RainFlag.rainFlagDry)
+                    {
+                        this.IsItRaining = false;
+                        Bolt_RainFlag_LastDetected = DateTime.Now.AddSeconds(-TimeLimit_LastMinute - 1); //override date to the nearest valid past
+                    }
+                }
                 SetMeasurement();
             }
         }
@@ -319,11 +443,31 @@ namespace WeatherControl
         /// <summary>
         /// Set WetFlag firectly, try not to use it!
         /// </summary>
-        internal WetFlag WetFlag_DirectSet
+        internal Enum_WetFlag WetFlag_DirectSet
         {
             set
             {
                 Bolt_WetFlag = value;
+
+                if (USE_LOGIC)
+                {
+
+                    if (value == Enum_WetFlag.wetFlagRightnow)
+                    {
+                        //set raining now!
+                        this.IsItWet = true;
+                    }
+                    else if (value == Enum_WetFlag.wetFlagLastminute)
+                    {
+                        this.IsItRaining = false;
+                        Bolt_WetFlag_LastDetected = DateTime.Now.AddSeconds(-TimeLimit_Now - 1); //override date to the nearest valid past
+                    }
+                    else if (value == Enum_WetFlag.wetFlagDry)
+                    {
+                        this.IsItRaining = false;
+                        Bolt_WetFlag_LastDetected = DateTime.Now.AddSeconds(-TimeLimit_LastMinute - 1); //override date to the nearest valid past
+                    }
+                }
                 SetMeasurement();
             }
         }
@@ -334,48 +478,80 @@ namespace WeatherControl
         /// during read set also Bolt_RainCond,Bolt_RainFlag, Bolt_WetFlag
         /// But it seems that is is ambigious
         /// </summary>
-        public RainCond RainCond
+        public Enum_RainCond RainCond
         {
             get
             {
-                RecheckTimeLimits();
-                EvaluateRainWetConditions();
+                if (USE_LOGIC)
+                {
+                    RecheckTimeLimits();
+                    EvaluateRainWetConditions();
+                }
 
                 return Bolt_RainCond;
             }
         }
 
-        public RainCond RainCond_DirectSet
+        public Enum_RainCond RainCond_DirectSet
         {
             set
             {
                 Bolt_RainCond = value;
+                if (USE_LOGIC)
+                {
+                    if (value == Enum_RainCond.rainRain)
+                    {
+                        this.IsItRaining = true;
+                        this.IsItWet = true;
+                    }
+                    else if (value == Enum_RainCond.rainWet)
+                    {
+                        this.IsItRaining = false;
+                        this.IsItWet = true;
+                    }
+                    else if (value == Enum_RainCond.rainDry)
+                    {
+                        this.IsItRaining = false;
+                        this.IsItWet = false;
+                    }
+                    else if (value == Enum_RainCond.rainUnknown)
+                    {
+                        this.IsItRaining = false;
+                        this.IsItWet = false;
+                    }
+                        
+                }
                 SetMeasurement();
             }
         }
         #endregion
 
         #region Conditions
-        public CloudCond CloudCond
+        public Enum_CloudCond CloudCond
         {
             get
             {
-                EvaluateCloudConditions();
+                if (USE_LOGIC)
+                {
+                    EvaluateCloudConditions();
+                }
                 return Bolt_CloudCond;
             }
         }
 
-        public WindCond WindCond
+        public Enum_WindCond WindCond
         {
             get
             {
-                EvaluateWindConditions();
+                if (USE_LOGIC)
+                {
+                    EvaluateWindConditions();
+                }
                 return Bolt_WindCond;
             }
-
         }
 
-        public DayCond DaylightCond
+        public Enum_DayCond DaylightCond
         {
             get
             {
@@ -387,10 +563,47 @@ namespace WeatherControl
                 SetMeasurement();
             }
         }
+
+        public Enum_CloudCond CloudCond_DirectSet
+        {
+            set
+            {
+                Bolt_CloudCond = value;
+                if (USE_LOGIC)
+                {
+                    if (value == Enum_CloudCond.cloudClear)
+                    {
+                        Bolt_SkyTemp = Bolt_Temp - (CLOUDINDEX_CLEAR);
+                    }
+                    else if (value == Enum_CloudCond.cloudCloudy)
+                    {
+                        Bolt_SkyTemp = Bolt_Temp - (CLOUDINDEX_CLOUDY);
+                    }
+                    else if (value == Enum_CloudCond.cloudVeryCloudy)
+                    {
+                        Bolt_SkyTemp = Bolt_Temp;
+                    }
+                    else if (value == Enum_CloudCond.cloudUnknown)
+                    {
+                        Bolt_SkyTemp = Bolt_Temp - (CLOUDINDEX_CLOUDY_BAD-10);
+                    }
+                }
+                SetMeasurement();
+            }
+        }
+
+        public Enum_WindCond WindCond_DirectSet
+        {
+            set
+            {
+                Bolt_WindCond = value;
+                SetMeasurement();
+            }
+        }
         #endregion
 
         #region Alarms
-        public RoofFlag RoofCloseFlag
+        public Enum_RoofFlag RoofCloseFlag
         {
             get
             {
@@ -403,7 +616,7 @@ namespace WeatherControl
             }
         }
 
-        public AlertFlag AlertFlag
+        public Enum_AlertFlag AlertFlag
         {
             get
             {
@@ -423,7 +636,15 @@ namespace WeatherControl
             get
             {
                 TimeSpan MeasureInterval = DateTime.Now.Subtract(LastMeasure);
-                Bolt_SinceLastMeasure = (ushort)Math.Round(MeasureInterval.TotalSeconds, 0);
+                double SinceLastMeasure_dbl= Math.Round(MeasureInterval.TotalSeconds, 0);
+                if (SinceLastMeasure_dbl > ushort.MaxValue)
+                {
+                    Bolt_SinceLastMeasure = ushort.MaxValue;
+                }
+                else
+                {
+                    Bolt_SinceLastMeasure = Convert.ToUInt16(SinceLastMeasure_dbl);
+                }
                 return Bolt_SinceLastMeasure;
             }
         }
@@ -474,15 +695,15 @@ namespace WeatherControl
             if (Bolt_RainFlag_sinceLastDetected <= TimeLimit_Now)
             {
                 //STILL RAIN!
-                RainNowFlag = true;
-                WetNowFlag = true;
+                RainNowEvent_Flag = true;
+                WetNowEvent_Flag = true;
             }
 
             //Recheck wet
             if (Bolt_WetFlag_sinceLastDetected <= TimeLimit_Now)
             {
                 //STILL WET!
-                WetNowFlag = true;
+                WetNowEvent_Flag = true;
             }
         }
 
@@ -492,52 +713,52 @@ namespace WeatherControl
         /// </summary>
         private void EvaluateRainWetConditions()
         {
-            if (RainNowFlag)
+            if (RainNowEvent_Flag)
             {
                 //RAIN
-                Bolt_RainCond = RainCond.rainRain;
-                Bolt_RainFlag = RainFlag.rainFlagRightnow;
-                Bolt_WetFlag = WetFlag.wetFlagRightnow;
+                Bolt_RainCond = Enum_RainCond.rainRain;
+                Bolt_RainFlag = Enum_RainFlag.rainFlagRightnow;
+                Bolt_WetFlag = Enum_WetFlag.wetFlagRightnow;
             }
-            else if (!RainNowFlag && WetNowFlag)
+            else if (!RainNowEvent_Flag && WetNowEvent_Flag)
             {
                 //WET
-                Bolt_RainCond = RainCond.rainWet;
-                Bolt_WetFlag = WetFlag.wetFlagRightnow;
+                Bolt_RainCond = Enum_RainCond.rainWet;
+                Bolt_WetFlag = Enum_WetFlag.wetFlagRightnow;
 
                 //Check Bolt_RainFlag
                 if (Bolt_RainFlag_sinceLastDetected > TimeLimit_Now && Bolt_RainFlag_sinceLastDetected <= TimeLimit_LastMinute)
                 {
-                    Bolt_RainFlag = RainFlag.rainFlagLastminute;
+                    Bolt_RainFlag = Enum_RainFlag.rainFlagLastminute;
                 }
                 else
                 {
-                    Bolt_RainFlag = RainFlag.rainFlagDry;
+                    Bolt_RainFlag = Enum_RainFlag.rainFlagDry;
                 }
             }
             else
             {
                 //DRY
-                Bolt_RainCond = RainCond.rainDry;
+                Bolt_RainCond = Enum_RainCond.rainDry;
 
                 //Check Bolt_RainFlag also
                 if (Bolt_RainFlag_sinceLastDetected > TimeLimit_Now && Bolt_RainFlag_sinceLastDetected <= TimeLimit_LastMinute)
                 {
-                    Bolt_RainFlag = RainFlag.rainFlagLastminute;
+                    Bolt_RainFlag = Enum_RainFlag.rainFlagLastminute;
                 }
                 else
                 {
-                    Bolt_RainFlag = RainFlag.rainFlagDry;
+                    Bolt_RainFlag = Enum_RainFlag.rainFlagDry;
                 }
 
                 //Check Wet_RainFlag also
                 if (Bolt_WetFlag_sinceLastDetected > TimeLimit_Now && Bolt_WetFlag_sinceLastDetected <= TimeLimit_LastMinute)
                 {
-                    Bolt_WetFlag = WetFlag.wetFlagLastminute;
+                    Bolt_WetFlag = Enum_WetFlag.wetFlagLastminute;
                 }
                 else
                 {
-                    Bolt_WetFlag = WetFlag.wetFlagDry;
+                    Bolt_WetFlag = Enum_WetFlag.wetFlagDry;
                 }
             }
         }
@@ -548,29 +769,29 @@ namespace WeatherControl
             Bolt_CloudIdx = this.calcCloudIndex(Bolt_SkyTemp, Bolt_Temp);
             Bolt_CloudIdxAAG = this.calcCloudIndexCorr(Bolt_SkyTemp, Bolt_Temp);
 
-            if (CLOUDMODEL == CloudSensorModel.Classic)
+            if (CLOUDMODEL == Enum_CloudSensorModel.Classic)
             {
-                if (Bolt_CloudIdx >= CLOUDINDEX_CLEAR) { Bolt_CloudCond = CloudCond.cloudClear; }
-                else if (Bolt_CloudIdx >= CLOUDINDEX_CLOUDY) { Bolt_CloudCond = CloudCond.cloudCloudy; }
-                else if (Bolt_CloudIdx > CLOUDINDEX_CLOUDY_BAD) { Bolt_CloudCond = CloudCond.cloudVeryCloudy; }
-                else { Bolt_CloudCond = CloudCond.cloudUnknown; }
+                if (Bolt_CloudIdx >= CLOUDINDEX_CLEAR) { Bolt_CloudCond = Enum_CloudCond.cloudClear; }
+                else if (Bolt_CloudIdx >= CLOUDINDEX_CLOUDY) { Bolt_CloudCond = Enum_CloudCond.cloudCloudy; }
+                else if (Bolt_CloudIdx > CLOUDINDEX_CLOUDY_BAD) { Bolt_CloudCond = Enum_CloudCond.cloudVeryCloudy; }
+                else { Bolt_CloudCond = Enum_CloudCond.cloudUnknown; }
             }
             else
             {
-                if (Bolt_CloudIdxAAG >= CLOUDINDEXAAG_CLEAR) { Bolt_CloudCond = CloudCond.cloudClear; }
-                else if (Bolt_CloudIdxAAG >= CLOUDINDEXAAG_CLOUDY) { Bolt_CloudCond = CloudCond.cloudCloudy; }
-                else if (Bolt_CloudIdxAAG >= CLOUDINDEXAAG_CLOUDY_BAD) { Bolt_CloudCond = CloudCond.cloudVeryCloudy; }
-                else { Bolt_CloudCond = CloudCond.cloudUnknown; }
+                if (Bolt_CloudIdxAAG >= CLOUDINDEXAAG_CLEAR) { Bolt_CloudCond = Enum_CloudCond.cloudClear; }
+                else if (Bolt_CloudIdxAAG >= CLOUDINDEXAAG_CLOUDY) { Bolt_CloudCond = Enum_CloudCond.cloudCloudy; }
+                else if (Bolt_CloudIdxAAG >= CLOUDINDEXAAG_CLOUDY_BAD) { Bolt_CloudCond = Enum_CloudCond.cloudVeryCloudy; }
+                else { Bolt_CloudCond = Enum_CloudCond.cloudUnknown; }
             }
         }
 
         private void EvaluateWindConditions()
         {
-            Bolt_WindCond = WindCond.windUnknown;
-            if (Bolt_WindSpeed >= WINDSPEED_VERYWINDY) { Bolt_WindCond = WindCond.windVeryWindy; }
-            else if (Bolt_WindSpeed >= WINDSPEED_WINDY) { Bolt_WindCond = WindCond.windWindy; }
-            else if (Bolt_WindSpeed < 0) { Bolt_WindCond = WindCond.windUnknown; }
-            else { Bolt_WindCond = WindCond.windCalm; }
+            Bolt_WindCond = Enum_WindCond.windUnknown;
+            if (Bolt_WindSpeed >= WINDSPEED_VERYWINDY) { Bolt_WindCond = Enum_WindCond.windVeryWindy; }
+            else if (Bolt_WindSpeed >= WINDSPEED_WINDY) { Bolt_WindCond = Enum_WindCond.windWindy; }
+            else if (Bolt_WindSpeed < 0) { Bolt_WindCond = Enum_WindCond.windUnknown; }
+            else { Bolt_WindCond = Enum_WindCond.windCalm; }
         }
 
         #endregion

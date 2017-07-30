@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWeatherFileControl));
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnTimerControl = new System.Windows.Forms.Button();
@@ -81,15 +82,21 @@
             this.txtTime = new System.Windows.Forms.TextBox();
             this.txtDate = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkUseSmartLogic = new System.Windows.Forms.CheckBox();
+            this.btnFileDialog = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
+            this.txtFilePath = new System.Windows.Forms.TextBox();
             this.txtLastWritten = new System.Windows.Forms.TextBox();
             this.chkSaveConditions = new System.Windows.Forms.CheckBox();
             this.chkGoodConditions = new System.Windows.Forms.CheckBox();
             this.chkBadConditions = new System.Windows.Forms.CheckBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.txtFilePath = new System.Windows.Forms.TextBox();
-            this.btnFileDialog = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.txtDebug = new System.Windows.Forms.TextBox();
+            this.chkRainNow = new System.Windows.Forms.CheckBox();
+            this.chkWetNow = new System.Windows.Forms.CheckBox();
+            this.txtSinceLastRain = new System.Windows.Forms.TextBox();
+            this.txtSinceLastWet = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -98,7 +105,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(1109, 588);
+            this.btnOK.Location = new System.Drawing.Point(1109, 621);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(200, 60);
@@ -110,7 +117,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(1343, 588);
+            this.btnCancel.Location = new System.Drawing.Point(1335, 619);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(200, 60);
@@ -122,13 +129,14 @@
             // btnTimerControl
             // 
             this.btnTimerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnTimerControl.Location = new System.Drawing.Point(284, 588);
+            this.btnTimerControl.Location = new System.Drawing.Point(284, 621);
             this.btnTimerControl.Margin = new System.Windows.Forms.Padding(4);
             this.btnTimerControl.Name = "btnTimerControl";
             this.btnTimerControl.Size = new System.Drawing.Size(237, 60);
             this.btnTimerControl.TabIndex = 4;
             this.btnTimerControl.Text = "Старт автозапись";
             this.btnTimerControl.UseVisualStyleBackColor = true;
+            this.btnTimerControl.Click += new System.EventHandler(this.btnTimerControl_Click);
             // 
             // timerTime
             // 
@@ -139,7 +147,7 @@
             // btnWriteNow
             // 
             this.btnWriteNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnWriteNow.Location = new System.Drawing.Point(548, 588);
+            this.btnWriteNow.Location = new System.Drawing.Point(548, 621);
             this.btnWriteNow.Margin = new System.Windows.Forms.Padding(4);
             this.btnWriteNow.Name = "btnWriteNow";
             this.btnWriteNow.Size = new System.Drawing.Size(237, 60);
@@ -151,11 +159,12 @@
             // timerBolwoodWrite
             // 
             this.timerBolwoodWrite.Interval = 5000;
+            this.timerBolwoodWrite.Tick += new System.EventHandler(this.timerBolwoodWrite_Tick);
             // 
             // numericUpDown1
             // 
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown1.Location = new System.Drawing.Point(149, 602);
+            this.numericUpDown1.Location = new System.Drawing.Point(149, 635);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             100000,
@@ -175,12 +184,13 @@
             0,
             0,
             0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label22
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(16, 605);
+            this.label22.Location = new System.Drawing.Point(16, 638);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(108, 25);
@@ -568,6 +578,7 @@
             this.txtHeating.Size = new System.Drawing.Size(37, 31);
             this.txtHeating.TabIndex = 11;
             this.txtHeating.Text = "30";
+            this.txtHeating.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
             // txtDewPoint
             // 
@@ -586,6 +597,7 @@
             this.txtHumidity.Size = new System.Drawing.Size(52, 31);
             this.txtHumidity.TabIndex = 18;
             this.txtHumidity.Text = "70";
+            this.txtHumidity.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
             // txtWindSpeed
             // 
@@ -595,6 +607,7 @@
             this.txtWindSpeed.Size = new System.Drawing.Size(81, 31);
             this.txtWindSpeed.TabIndex = 14;
             this.txtWindSpeed.Text = "2";
+            this.txtWindSpeed.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
             // txtSensorTemp
             // 
@@ -604,6 +617,7 @@
             this.txtSensorTemp.Size = new System.Drawing.Size(59, 31);
             this.txtSensorTemp.TabIndex = 15;
             this.txtSensorTemp.Text = "10";
+            this.txtSensorTemp.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
             // txtAmbTemp
             // 
@@ -613,6 +627,7 @@
             this.txtAmbTemp.Size = new System.Drawing.Size(59, 31);
             this.txtAmbTemp.TabIndex = 16;
             this.txtAmbTemp.Text = "10";
+            this.txtAmbTemp.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
             // txtSkyTemp
             // 
@@ -622,6 +637,7 @@
             this.txtSkyTemp.Size = new System.Drawing.Size(59, 31);
             this.txtSkyTemp.TabIndex = 17;
             this.txtSkyTemp.Text = "-10";
+            this.txtSkyTemp.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
             // txtTime
             // 
@@ -643,19 +659,57 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtSinceLastRain);
+            this.groupBox2.Controls.Add(this.txtSinceLastWet);
+            this.groupBox2.Controls.Add(this.chkUseSmartLogic);
             this.groupBox2.Controls.Add(this.btnFileDialog);
+            this.groupBox2.Controls.Add(this.chkWetNow);
             this.groupBox2.Controls.Add(this.label25);
+            this.groupBox2.Controls.Add(this.chkRainNow);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.txtFilePath);
             this.groupBox2.Controls.Add(this.txtLastWritten);
-            this.groupBox2.Location = new System.Drawing.Point(16, 244);
+            this.groupBox2.Location = new System.Drawing.Point(16, 255);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(858, 192);
+            this.groupBox2.Size = new System.Drawing.Size(858, 299);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Вспомогательные поля";
+            // 
+            // chkUseSmartLogic
+            // 
+            this.chkUseSmartLogic.AutoSize = true;
+            this.chkUseSmartLogic.Checked = true;
+            this.chkUseSmartLogic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseSmartLogic.Location = new System.Drawing.Point(20, 156);
+            this.chkUseSmartLogic.Name = "chkUseSmartLogic";
+            this.chkUseSmartLogic.Size = new System.Drawing.Size(550, 29);
+            this.chkUseSmartLogic.TabIndex = 8;
+            this.chkUseSmartLogic.Text = "Использовать логику в комбинацию разных полей";
+            this.chkUseSmartLogic.UseVisualStyleBackColor = true;
+            this.chkUseSmartLogic.CheckedChanged += new System.EventHandler(this.chkUseSmartLogic_CheckedChanged);
+            // 
+            // btnFileDialog
+            // 
+            this.btnFileDialog.Location = new System.Drawing.Point(760, 102);
+            this.btnFileDialog.Name = "btnFileDialog";
+            this.btnFileDialog.Size = new System.Drawing.Size(75, 38);
+            this.btnFileDialog.TabIndex = 7;
+            this.btnFileDialog.Text = "...";
+            this.btnFileDialog.UseVisualStyleBackColor = true;
+            this.btnFileDialog.Click += new System.EventHandler(this.btnFileDialog_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(15, 109);
+            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(157, 25);
+            this.label25.TabIndex = 6;
+            this.label25.Text = "Пусть к файлу";
             // 
             // label27
             // 
@@ -666,6 +720,15 @@
             this.label27.Size = new System.Drawing.Size(195, 25);
             this.label27.TabIndex = 6;
             this.label27.Text = "Последняя запись";
+            // 
+            // txtFilePath
+            // 
+            this.txtFilePath.Location = new System.Drawing.Point(251, 106);
+            this.txtFilePath.Margin = new System.Windows.Forms.Padding(4);
+            this.txtFilePath.Name = "txtFilePath";
+            this.txtFilePath.ReadOnly = true;
+            this.txtFilePath.Size = new System.Drawing.Size(490, 31);
+            this.txtFilePath.TabIndex = 4;
             // 
             // txtLastWritten
             // 
@@ -717,34 +780,53 @@
             this.chkBadConditions.UseVisualStyleBackColor = true;
             this.chkBadConditions.CheckedChanged += new System.EventHandler(this.chkBadConditions_CheckedChanged);
             // 
-            // label25
+            // txtDebug
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(15, 109);
-            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(157, 25);
-            this.label25.TabIndex = 6;
-            this.label25.Text = "Пусть к файлу";
+            this.txtDebug.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDebug.Location = new System.Drawing.Point(21, 561);
+            this.txtDebug.Multiline = true;
+            this.txtDebug.Name = "txtDebug";
+            this.txtDebug.ReadOnly = true;
+            this.txtDebug.Size = new System.Drawing.Size(1519, 41);
+            this.txtDebug.TabIndex = 12;
             // 
-            // txtFilePath
+            // chkRainNow
             // 
-            this.txtFilePath.Location = new System.Drawing.Point(251, 106);
-            this.txtFilePath.Margin = new System.Windows.Forms.Padding(4);
-            this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.ReadOnly = true;
-            this.txtFilePath.Size = new System.Drawing.Size(490, 31);
-            this.txtFilePath.TabIndex = 4;
+            this.chkRainNow.AutoSize = true;
+            this.chkRainNow.Enabled = false;
+            this.chkRainNow.Location = new System.Drawing.Point(20, 207);
+            this.chkRainNow.Name = "chkRainNow";
+            this.chkRainNow.Size = new System.Drawing.Size(130, 29);
+            this.chkRainNow.TabIndex = 15;
+            this.chkRainNow.Text = "RainNow";
+            this.chkRainNow.UseVisualStyleBackColor = true;
             // 
-            // btnFileDialog
+            // chkWetNow
             // 
-            this.btnFileDialog.Location = new System.Drawing.Point(760, 102);
-            this.btnFileDialog.Name = "btnFileDialog";
-            this.btnFileDialog.Size = new System.Drawing.Size(75, 38);
-            this.btnFileDialog.TabIndex = 7;
-            this.btnFileDialog.Text = "...";
-            this.btnFileDialog.UseVisualStyleBackColor = true;
-            this.btnFileDialog.Click += new System.EventHandler(this.btnFileDialog_Click);
+            this.chkWetNow.AutoSize = true;
+            this.chkWetNow.Enabled = false;
+            this.chkWetNow.Location = new System.Drawing.Point(20, 242);
+            this.chkWetNow.Name = "chkWetNow";
+            this.chkWetNow.Size = new System.Drawing.Size(124, 29);
+            this.chkWetNow.TabIndex = 15;
+            this.chkWetNow.Text = "WetNow";
+            this.chkWetNow.UseVisualStyleBackColor = true;
+            // 
+            // txtSinceLastRain
+            // 
+            this.txtSinceLastRain.Location = new System.Drawing.Point(161, 205);
+            this.txtSinceLastRain.Name = "txtSinceLastRain";
+            this.txtSinceLastRain.ReadOnly = true;
+            this.txtSinceLastRain.Size = new System.Drawing.Size(173, 31);
+            this.txtSinceLastRain.TabIndex = 16;
+            // 
+            // txtSinceLastWet
+            // 
+            this.txtSinceLastWet.Location = new System.Drawing.Point(161, 240);
+            this.txtSinceLastWet.Name = "txtSinceLastWet";
+            this.txtSinceLastWet.ReadOnly = true;
+            this.txtSinceLastWet.Size = new System.Drawing.Size(173, 31);
+            this.txtSinceLastWet.TabIndex = 16;
             // 
             // FormWeatherFileControl
             // 
@@ -752,7 +834,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(1559, 662);
+            this.ClientSize = new System.Drawing.Size(1559, 695);
+            this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.chkBadConditions);
             this.Controls.Add(this.chkGoodConditions);
             this.Controls.Add(this.chkSaveConditions);
@@ -764,6 +847,7 @@
             this.Controls.Add(this.btnWriteNow);
             this.Controls.Add(this.btnTimerControl);
             this.Controls.Add(this.btnOK);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "FormWeatherFileControl";
@@ -841,6 +925,12 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox txtFilePath;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.TextBox txtDebug;
+        private System.Windows.Forms.CheckBox chkUseSmartLogic;
+        private System.Windows.Forms.CheckBox chkRainNow;
+        private System.Windows.Forms.CheckBox chkWetNow;
+        private System.Windows.Forms.TextBox txtSinceLastRain;
+        private System.Windows.Forms.TextBox txtSinceLastWet;
     }
 }
 
