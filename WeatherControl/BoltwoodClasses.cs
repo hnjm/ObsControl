@@ -176,6 +176,8 @@ namespace WeatherControl
         internal double Bolt_CloudIdx = -100; //Caclulated cloud idx
         internal double Bolt_CloudIdxAAG = -100; //Caclulated cloud idx by AAG
 
+        public decimalSeparatorType ForcedDecimalSeparator = decimalSeparatorType.useLocale; //decimal separator
+
         /// <summary>
         /// Configuration block with constants and parameters
         /// </summary>
@@ -849,7 +851,6 @@ namespace WeatherControl
 
         //public string LastMeasure_s;    //string form
 
-        //public decimalSeparatorType ForcedDecimalSeparator = decimalSeparatorType.useLocale; //decimal separator
         #endregion
 
         /// <summary>
@@ -863,6 +864,16 @@ namespace WeatherControl
                 Date, Time, SkyTemp, AmbientTemp, SensorTemp, WindSpeed, Humidity, DewPoint, Heater,
                 (int)RainFlag, (int)WetFlag, SecondsSince.ToString("00000"), Now.ToString("000000.#####"),
                 (int)CloudCond, (int)WindCond, (int)RainCond, (int)DaylightCond, (int)RoofCloseFlag, (int)AlertFlag);
+
+            //Decimal separator conversion
+            if (ForcedDecimalSeparator == decimalSeparatorType.useDot)
+            {
+                bold_st=bold_st.Replace(',', '.');
+            }
+            else if (ForcedDecimalSeparator == decimalSeparatorType.useComma)
+            {
+                bold_st = bold_st.Replace('.', ',');
+            }
 
             return bold_st;
         }

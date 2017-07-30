@@ -20,7 +20,6 @@ namespace WeatherControl
 
         internal DateTime CurrentTime = new DateTime();
         internal DateTime LastWriteTime = new DateTime(2017,02,17);
-        internal TimeSpan SinceLastWrite;
 
         Color WaitingColor = Color.CadetBlue;
         Color OnColor = Color.DarkSeaGreen;
@@ -44,6 +43,8 @@ namespace WeatherControl
             //Init form fields
             txtLastWritten.Text = LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss");
 
+            ignoreEvents = true;
+
             comboBoxRainFlag.DataSource = Enum.GetNames(typeof(Enum_RainFlag));
             comboBoxWetFlag.DataSource = Enum.GetNames(typeof(Enum_WetFlag));
 
@@ -55,24 +56,14 @@ namespace WeatherControl
             comboBoxRoofCloseFlag.DataSource = Enum.GetNames(typeof(Enum_RoofFlag));
             comboBoxAlertFlag.DataSource = Enum.GetNames(typeof(Enum_AlertFlag));
 
-            //this.comboBoxRainFlag.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            //this.comboBoxWetFlag.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            this.comboBoxAlertFlag.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            this.comboBoxRoofCloseFlag.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            this.comboBoxDaylightCond.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            //this.comboBoxRainCond.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            this.comboBoxWindCond.TextChanged += new System.EventHandler(this.OnFieldUpdate);
-            this.comboBoxCloudCond.TextChanged += new System.EventHandler(this.OnFieldUpdate);
+            comboBoxDecimalSeparator.DataSource = Enum.GetNames(typeof(decimalSeparatorType));
 
-
-            //Special events
-            this.comboBoxWetFlag.SelectedIndexChanged += new System.EventHandler(this.comboBoxWetFlag_SelectedIndexChanged);
-            this.comboBoxRainCond.SelectedIndexChanged += new System.EventHandler(this.comboBoxRainCond_SelectedIndexChanged);
-            this.comboBoxRainFlag.SelectedIndexChanged += new System.EventHandler(this.comboBoxRainFlag_SelectedIndexChanged);
 
             //Update BotlwoodObj from FormFields
             EventArgs evnt = new EventArgs();
             OnFieldUpdate(this, evnt);
+
+            ignoreEvents = false;
 
             //Saved 
             txtFilePath.Text = (BoltwoodFileClass.BoltwoodFilePath == "" ? BoltwoodFileClass.DefaultFilePath : BoltwoodFileClass.BoltwoodFilePath) + BoltwoodFileClass.BoltwoodFileName;
@@ -92,24 +83,6 @@ namespace WeatherControl
             txtSecondsSinceWrite.Text = BoltwoodObj.SecondsSince.ToString();
             txtVBANow.Text = BoltwoodObj.Now.ToString("000000.#####");
 
-            //Пересчитать точку росы
-            /*
-            try
-            {
-                txtDewPoint.Text=Math.Round(BolwoodCalculations.calcDewPoint(Convert.ToDouble(txtAmbTemp.Text), Convert.ToDouble(txtHumidity.Text)),1).ToString();
-            }
-            catch
-            {
-                txtDewPoint.Text = "error";
-            }
-
-            //Since last write
-            SinceLastWrite = CurrentTime.Subtract(LastWriteTime);
-            txtSecondsSinceWrite.Text = Math.Round(Convert.ToDouble(SinceLastWrite.TotalSeconds),0).ToString();
-
-            txtVBANow.Text = Math.Round(Convert.ToDouble(CurrentTime.ToOADate()),5).ToString();
-            */
-
             txtDebug.Text = BoltwoodObj.getBoltwoodString();
 
             chkRainNow.Checked = BoltwoodObj.RainNowEvent_Flag;
@@ -121,13 +94,25 @@ namespace WeatherControl
         }
 
         #region Boltwoods data change events
+
+        /// <summary>
+        /// Ignore events flag
+        /// </summary>
+        private bool ignoreEvents = false;
+
         private void OnFieldUpdate(object sender, EventArgs e)
         {
+            //if ignore Events is set, do nothing
+            if (ignoreEvents) return;
+
             //From Form to BoltwoodObj
             UpdateSimpleVars_From_Form();
+
             //From BoltwoodObj to From
             UpdateFormFields();
         }
+
+
         public void UpdateSimpleVars_From_Form()
         {
             try { BoltwoodObj.SkyTemp = Convert.ToDouble(txtSkyTemp.Text); } catch { };
@@ -148,32 +133,38 @@ namespace WeatherControl
 
             try { BoltwoodObj.RoofCloseFlag = (Enum_RoofFlag)Enum.Parse(typeof(Enum_RoofFlag), comboBoxRoofCloseFlag.SelectedItem.ToString()); } catch { };
             try { BoltwoodObj.AlertFlag = (Enum_AlertFlag)Enum.Parse(typeof(Enum_AlertFlag), comboBoxAlertFlag.SelectedItem.ToString()); } catch { };
+
         }
 
         public void UpdateFormFields()
         {
+            ignoreEvents = true;
+
             txtDewPoint.Text = BoltwoodObj.DewPoint.ToString("0.#");
             txtSkyTemp.Text = BoltwoodObj.SkyTemp.ToString();
             txtWindSpeed.Text = BoltwoodObj.WindSpeed.ToString();
 
-            comboBoxCloudCond.SelectedItem = BoltwoodObj.CloudCond;
-            comboBoxWindCond.SelectedItem = BoltwoodObj.WindCond;
-            //comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond;
-            comboBoxDaylightCond.SelectedItem = BoltwoodObj.DaylightCond;
+            comboBoxCloudCond.SelectedItem = BoltwoodObj.CloudCond.ToString();
+            comboBoxWindCond.SelectedItem = BoltwoodObj.WindCond.ToString();
+            //comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond.ToString();
+            comboBoxDaylightCond.SelectedItem = BoltwoodObj.DaylightCond.ToString();
 
-            comboBoxRoofCloseFlag.SelectedItem = BoltwoodObj.RoofCloseFlag;
-            comboBoxAlertFlag.SelectedItem = BoltwoodObj.AlertFlag;
+            comboBoxRoofCloseFlag.SelectedItem = BoltwoodObj.RoofCloseFlag.ToString();
+            comboBoxAlertFlag.SelectedItem = BoltwoodObj.AlertFlag.ToString();
 
             if (!BoltwoodObj.DONT_USE_DIRECT_ACCESS)
             {
-                comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond;
-                comboBoxRainFlag.SelectedItem = BoltwoodObj.RainFlag;
-                comboBoxWetFlag.SelectedItem = BoltwoodObj.WetFlag;
+                comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond.ToString();
+                comboBoxRainFlag.SelectedItem = BoltwoodObj.RainFlag.ToString();
+                comboBoxWetFlag.SelectedItem = BoltwoodObj.WetFlag.ToString();
             }
+
+            ignoreEvents = false;
         }
 
         private void comboBoxRainFlag_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ignoreEvents = true;
             //Меняем RainFlag
             try { BoltwoodObj.RainFlag_DirectSet = (Enum_RainFlag)Enum.Parse(typeof(Enum_RainFlag), comboBoxRainFlag.SelectedItem.ToString()); } catch { };
             //Перевычисляем и выводим WetFlag
@@ -182,20 +173,27 @@ namespace WeatherControl
             comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond.ToString();
 
             //try { BoltwoodObj.WetFlag_DirectSet = (Enum_WetFlag)Enum.Parse(typeof(Enum_WetFlag), comboBoxWetFlag.SelectedItem.ToString()); } catch { };
+            ignoreEvents = false;
         }
 
         private void comboBoxWetFlag_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ignoreEvents = true;
+
             //Меняем WetFlag
             try { BoltwoodObj.WetFlag_DirectSet = (Enum_WetFlag)Enum.Parse(typeof(Enum_WetFlag), comboBoxWetFlag.SelectedItem.ToString()); } catch { };
             //Перевычисляем и выводим RainFlag
             comboBoxRainFlag.SelectedItem = BoltwoodObj.RainFlag.ToString();
             //Перевычисляем и выводим RainCond
             comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond.ToString();
+
+            ignoreEvents = false;
         }
 
         private void comboBoxRainCond_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ignoreEvents = true;
+
             //Меняем Rain Cond
             try { BoltwoodObj.RainCond_DirectSet = (Enum_RainCond)Enum.Parse(typeof(Enum_RainCond), comboBoxRainCond.SelectedItem.ToString()); } catch { };
 
@@ -203,6 +201,8 @@ namespace WeatherControl
             comboBoxRainFlag.SelectedItem = BoltwoodObj.RainFlag.ToString();
             //Перевычисляем и выводим WetFlag
             comboBoxWetFlag.SelectedItem = BoltwoodObj.WetFlag.ToString();
+
+            ignoreEvents = false;
         }
         #endregion
 
@@ -288,7 +288,7 @@ namespace WeatherControl
                 //Если нее был включен флаг запись, то переключить
                 else
                 {
-                    // Переключить режим на ХОРОШИЕ условия
+                    // Переключить режим а ХОРОШИЕ условия
                     BoltwoodObj.CopyEssentialParameters(BoltwoodObj_GoodState);
                     // Обновить поля
                     UpdateFormFields();
@@ -320,7 +320,7 @@ namespace WeatherControl
                 if (chkSaveConditions.Checked)
                 {
                     // Записать ПЛОХИЕ УСЛОВИЯ
-                    BoltwoodObj_BadState = BoltwoodObj;
+                    BoltwoodObj_BadState.CopyEssentialParameters(BoltwoodObj);
 
                     //Отключить флаг "запись"
                     chkSaveConditions.Checked = false;
@@ -335,8 +335,10 @@ namespace WeatherControl
                 //Если нее был включен флаг запись, то переключить
                 else
                 {
-                    // Переключить режим
-                    BoltwoodObj = (BoltwoodClass)BoltwoodObj_BadState;
+                    // Переключить режим на ПЛОХИЕ условия
+                    BoltwoodObj.CopyEssentialParameters(BoltwoodObj_BadState);
+                    // Обновить поля
+                    UpdateFormFields();
 
                     //Подкрасить кнопку
                     chkBadConditions.BackColor = OffColor;
@@ -391,9 +393,9 @@ namespace WeatherControl
             
         }
 
-        private void On(object sender, EventArgs e)
+        private void comboBoxDecimalSeparator_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            try { BoltwoodObj.ForcedDecimalSeparator = (decimalSeparatorType)Enum.Parse(typeof(decimalSeparatorType), comboBoxDecimalSeparator.SelectedItem.ToString()); } catch { };
         }
     }
 }
