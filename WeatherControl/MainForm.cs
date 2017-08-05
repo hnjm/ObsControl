@@ -209,12 +209,14 @@ namespace WeatherControl
         #region Write File commands
         private void btnWriteNow_Click(object sender, EventArgs e)
         {
+            BoltwoodObj.SetMeasurement(); //update measured time
             BoltwoodFileClass.WirteBoltwoodData(BoltwoodObj.getBoltwoodString());
             txtLastWritten.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         private void timerBolwoodWrite_Tick(object sender, EventArgs e)
         {
+            BoltwoodObj.SetMeasurement(); //update measured time
             BoltwoodFileClass.WirteBoltwoodData(BoltwoodObj.getBoltwoodString());
             txtLastWritten.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
@@ -273,6 +275,8 @@ namespace WeatherControl
                 {
                     // Записать ХОРОШИЕ УСЛОВИЯ
                     BoltwoodObj_GoodState.CopyEssentialParameters(BoltwoodObj);
+                    // Сохранить их на будущее
+
 
                     //Отключить флаг "запись"
                     chkSaveConditions.Checked = false;

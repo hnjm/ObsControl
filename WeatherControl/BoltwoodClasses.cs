@@ -682,7 +682,7 @@ namespace WeatherControl
         /// <summary>
         /// Write down the moment of measurement
         /// </summary>
-        private void SetMeasurement()
+        public void SetMeasurement()
         {
             LastMeasure = DateTime.Now;
         }
