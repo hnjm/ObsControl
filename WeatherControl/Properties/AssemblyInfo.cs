@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WeatherControl")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("WeatherControl emulation")]
+[assembly: AssemblyDescription("Observatory Control Center for ASTROMANIA observatory")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WeatherControl")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("ASTROMANIA.info")]
+[assembly: AssemblyProduct("WeatherControl emulation")]
+[assembly: AssemblyCopyright("Copyright © 2017 by Boris Emchenko")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

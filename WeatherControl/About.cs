@@ -10,7 +10,7 @@ using System.Deployment.Application; //for publish version. Add System.Deploymen
 using System.Diagnostics; //for file verision
 
 
-namespace ObservatoryCenter
+namespace WeatherControl
 {
 
     /// <summary>
@@ -59,9 +59,9 @@ namespace ObservatoryCenter
         public static string getVersionString()
         {
             string VersionSt = "";
-            VersionSt += "Publish version " + VersionData.PublishVersionSt;
-            VersionSt += Environment.NewLine + "Assembly version " + VersionData.AssemblyVersionSt;
-            VersionSt += Environment.NewLine + "File version " + VersionData.FileVersionSt;
+            VersionSt += "Publish version: " + VersionData.PublishVersionSt;
+            VersionSt += Environment.NewLine + "Assembly version: " + VersionData.AssemblyVersionSt;
+            VersionSt += Environment.NewLine + "File version: " + VersionData.FileVersionSt;
             //VersionSt += Environment.NewLine + "Product version " + ProductVersionSt;
 
             //MessageBox.Show("Application " + assemName.Name + ", Version " + ver.ToString());

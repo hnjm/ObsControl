@@ -74,5 +74,11 @@ namespace WeatherControl
         }
 
     */
+
+
+        static internal void LoadSettings()
+        {
+
+        }
     }
 }

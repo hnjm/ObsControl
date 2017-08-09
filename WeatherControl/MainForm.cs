@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,17 +20,66 @@ namespace WeatherControl
         public BoltwoodFields BoltwoodObj_BadState;
 
         internal DateTime CurrentTime = new DateTime();
-        internal DateTime LastWriteTime = new DateTime(2017,02,17);
+        internal DateTime LastWriteTime = new DateTime(2017, 02, 17);
 
         Color WaitingColor = Color.CadetBlue;
         Color OnColor = Color.DarkSeaGreen;
         Color OffColor = Color.Tomato;
         Color DisabledColor = Color.LightGray;
 
+        #region Add About menu
+        // P/Invoke constants
+        private const int WM_SYSCOMMAND = 0x112;
+        private const int MF_STRING = 0x0;
+        private const int MF_SEPARATOR = 0x800;
+
+        // P/Invoke declarations
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool AppendMenu(IntPtr hMenu, int uFlags, int uIDNewItem, string lpNewItem);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool InsertMenu(IntPtr hMenu, int uPosition, int uFlags, int uIDNewItem, string lpNewItem);
+
+
+        // ID for the About item on the system menu
+        private int SYSMENU_ABOUT_ID = 0x1;
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            // Get a handle to a copy of this form's system (window) menu
+            IntPtr hSysMenu = GetSystemMenu(this.Handle, false);
+
+            // Add a separator
+            AppendMenu(hSysMenu, MF_SEPARATOR, 0, string.Empty);
+
+            // Add the About menu item
+            AppendMenu(hSysMenu, MF_STRING, SYSMENU_ABOUT_ID, "&About…");
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            // Test if the About item was selected from the system menu
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SYSMENU_ABOUT_ID))
+            {
+
+                MessageBox.Show(VersionData.getVersionString(),"About", MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+
+        }
+        #endregion
+
 
         public FormWeatherFileControl()
         {
             InitializeComponent();
+            VersionData.initVersionData();
         }
 
         private void FormWeatherFileControl_Load(object sender, EventArgs e)
@@ -58,10 +108,13 @@ namespace WeatherControl
 
             comboBoxDecimalSeparator.DataSource = Enum.GetNames(typeof(decimalSeparatorType));
 
+            //Загрузит настройки
+            LoadSettings();
 
             //Update BotlwoodObj from FormFields
             EventArgs evnt = new EventArgs();
             OnFieldUpdate(this, evnt);
+            chkUseSmartLogic_CheckedChanged(this, evnt);
 
             ignoreEvents = false;
 
@@ -242,7 +295,7 @@ namespace WeatherControl
             }
         }
         #endregion
-        
+
         #region PRESETS
         private void chkSaveConditions_CheckedChanged(object sender, EventArgs e)
         {
@@ -269,13 +322,16 @@ namespace WeatherControl
         {
             if (((CheckBox)sender).Checked)
             {
-            //Если включили
+                //Если включили
                 //Если до этого был включен флаг запись, то записать
                 if (chkSaveConditions.Checked)
                 {
                     // Записать ХОРОШИЕ УСЛОВИЯ
                     BoltwoodObj_GoodState.CopyEssentialParameters(BoltwoodObj);
+
                     // Сохранить их на будущее
+                    string st2 = BoltwoodObj_GoodState.SerializeToJSON();
+                    Properties.Settings.Default.GoodSettings = st2;
 
 
                     //Отключить флаг "запись"
@@ -305,7 +361,7 @@ namespace WeatherControl
                     chkBadConditions.BackColor = SystemColors.ButtonFace;
 
                 }
-            } 
+            }
             //Если выключили
             else
             {
@@ -325,6 +381,10 @@ namespace WeatherControl
                 {
                     // Записать ПЛОХИЕ УСЛОВИЯ
                     BoltwoodObj_BadState.CopyEssentialParameters(BoltwoodObj);
+
+                    // Сохранить их на будущее
+                    string st2 = BoltwoodObj_BadState.SerializeToJSON();
+                    Properties.Settings.Default.BadSettings = st2;
 
                     //Отключить флаг "запись"
                     chkSaveConditions.Checked = false;
@@ -367,11 +427,15 @@ namespace WeatherControl
         {
             this.Close();
         }
-
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
+            this.Close();
+        }
         private void btnFileDialog_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Filter = "Файлы данных (*.txt; *.dat) | *.txt; *.dat";
-            saveFileDialog1.InitialDirectory = ( BoltwoodFileClass.BoltwoodFilePath =="" ? BoltwoodFileClass.DefaultFilePath : BoltwoodFileClass.BoltwoodFilePath);
+            saveFileDialog1.InitialDirectory = (BoltwoodFileClass.BoltwoodFilePath == "" ? BoltwoodFileClass.DefaultFilePath : BoltwoodFileClass.BoltwoodFilePath);
             saveFileDialog1.FileName = BoltwoodFileClass.BoltwoodFileName;
             saveFileDialog1.DefaultExt = ".dat";
 
@@ -389,17 +453,29 @@ namespace WeatherControl
 
         private void chkUseSmartLogic_CheckedChanged(object sender, EventArgs e)
         {
-            BoltwoodObj.DONT_USE_DIRECT_ACCESS = ((CheckBox)sender).Checked;
-        }
-
-        private void txtSkyTemp_TextChanged(object sender, EventArgs e)
-        {
-            
+            BoltwoodObj.DONT_USE_DIRECT_ACCESS = chkUseSmartLogic.Checked;
         }
 
         private void comboBoxDecimalSeparator_SelectedIndexChanged(object sender, EventArgs e)
         {
             try { BoltwoodObj.ForcedDecimalSeparator = (decimalSeparatorType)Enum.Parse(typeof(decimalSeparatorType), comboBoxDecimalSeparator.SelectedItem.ToString()); } catch { };
         }
+
+
+        void LoadSettings()
+        {
+            chkUseSmartLogic.Checked = Properties.Settings.Default.UseBoltwoodLogic;
+            comboBoxDecimalSeparator.Text = Properties.Settings.Default.decimalPoint;
+
+            // Восстановить JSON obj состояний
+            string st1 = Properties.Settings.Default.GoodSettings;
+            BoltwoodObj_GoodState.DeserializeFromJSON(st1);
+
+            string st2 = Properties.Settings.Default.BadSettings;
+            BoltwoodObj_BadState.DeserializeFromJSON(st2);
+
+
+        }
+
     }
 }

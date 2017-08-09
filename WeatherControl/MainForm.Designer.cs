@@ -39,6 +39,11 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtSinceLastRain = new System.Windows.Forms.TextBox();
+            this.txtSinceLastWet = new System.Windows.Forms.TextBox();
+            this.chkWetNow = new System.Windows.Forms.CheckBox();
+            this.chkRainNow = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.comboBoxWetFlag = new System.Windows.Forms.ComboBox();
@@ -83,13 +88,9 @@
             this.txtDate = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label26 = new System.Windows.Forms.Label();
-            this.txtSinceLastRain = new System.Windows.Forms.TextBox();
-            this.txtSinceLastWet = new System.Windows.Forms.TextBox();
             this.chkUseSmartLogic = new System.Windows.Forms.CheckBox();
             this.btnFileDialog = new System.Windows.Forms.Button();
-            this.chkWetNow = new System.Windows.Forms.CheckBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.chkRainNow = new System.Windows.Forms.CheckBox();
             this.comboBoxDecimalSeparator = new System.Windows.Forms.ComboBox();
             this.label27 = new System.Windows.Forms.Label();
             this.txtFilePath = new System.Windows.Forms.TextBox();
@@ -101,35 +102,37 @@
             this.txtDebug = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(832, 497);
+            this.btnOK.Location = new System.Drawing.Point(828, 426);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(150, 48);
             this.btnOK.TabIndex = 4;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(1001, 495);
+            this.btnCancel.Location = new System.Drawing.Point(1006, 427);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(150, 48);
             this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "Отмена";
+            this.btnCancel.Text = "Закрыть";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnTimerControl
             // 
             this.btnTimerControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnTimerControl.Location = new System.Drawing.Point(213, 497);
+            this.btnTimerControl.Location = new System.Drawing.Point(213, 427);
             this.btnTimerControl.Name = "btnTimerControl";
             this.btnTimerControl.Size = new System.Drawing.Size(178, 48);
             this.btnTimerControl.TabIndex = 4;
@@ -146,7 +149,7 @@
             // btnWriteNow
             // 
             this.btnWriteNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnWriteNow.Location = new System.Drawing.Point(411, 497);
+            this.btnWriteNow.Location = new System.Drawing.Point(411, 427);
             this.btnWriteNow.Name = "btnWriteNow";
             this.btnWriteNow.Size = new System.Drawing.Size(178, 48);
             this.btnWriteNow.TabIndex = 4;
@@ -162,7 +165,7 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown1.Location = new System.Drawing.Point(112, 508);
+            this.numericUpDown1.Location = new System.Drawing.Point(112, 438);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -187,7 +190,7 @@
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(12, 510);
+            this.label22.Location = new System.Drawing.Point(12, 440);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(84, 20);
             this.label22.TabIndex = 6;
@@ -195,6 +198,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.label24);
             this.groupBox1.Controls.Add(this.label23);
             this.groupBox1.Controls.Add(this.comboBoxWetFlag);
@@ -243,6 +247,62 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Boltwood Cloud Sensor II Format";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtSinceLastRain);
+            this.groupBox3.Controls.Add(this.txtSinceLastWet);
+            this.groupBox3.Controls.Add(this.chkWetNow);
+            this.groupBox3.Controls.Add(this.chkRainNow);
+            this.groupBox3.Location = new System.Drawing.Point(879, 23);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(305, 113);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "groupBox3";
+            this.groupBox3.Visible = false;
+            // 
+            // txtSinceLastRain
+            // 
+            this.txtSinceLastRain.Location = new System.Drawing.Point(102, 29);
+            this.txtSinceLastRain.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSinceLastRain.Name = "txtSinceLastRain";
+            this.txtSinceLastRain.ReadOnly = true;
+            this.txtSinceLastRain.Size = new System.Drawing.Size(131, 26);
+            this.txtSinceLastRain.TabIndex = 19;
+            // 
+            // txtSinceLastWet
+            // 
+            this.txtSinceLastWet.Location = new System.Drawing.Point(102, 57);
+            this.txtSinceLastWet.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSinceLastWet.Name = "txtSinceLastWet";
+            this.txtSinceLastWet.ReadOnly = true;
+            this.txtSinceLastWet.Size = new System.Drawing.Size(131, 26);
+            this.txtSinceLastWet.TabIndex = 20;
+            // 
+            // chkWetNow
+            // 
+            this.chkWetNow.AutoSize = true;
+            this.chkWetNow.Enabled = false;
+            this.chkWetNow.Location = new System.Drawing.Point(-4, 59);
+            this.chkWetNow.Margin = new System.Windows.Forms.Padding(2);
+            this.chkWetNow.Name = "chkWetNow";
+            this.chkWetNow.Size = new System.Drawing.Size(95, 24);
+            this.chkWetNow.TabIndex = 17;
+            this.chkWetNow.Text = "WetNow";
+            this.chkWetNow.UseVisualStyleBackColor = true;
+            // 
+            // chkRainNow
+            // 
+            this.chkRainNow.AutoSize = true;
+            this.chkRainNow.Enabled = false;
+            this.chkRainNow.Location = new System.Drawing.Point(-4, 31);
+            this.chkRainNow.Margin = new System.Windows.Forms.Padding(2);
+            this.chkRainNow.Name = "chkRainNow";
+            this.chkRainNow.Size = new System.Drawing.Size(99, 24);
+            this.chkRainNow.TabIndex = 18;
+            this.chkRainNow.Text = "RainNow";
+            this.chkRainNow.UseVisualStyleBackColor = true;
             // 
             // label24
             // 
@@ -620,20 +680,16 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label26);
-            this.groupBox2.Controls.Add(this.txtSinceLastRain);
-            this.groupBox2.Controls.Add(this.txtSinceLastWet);
             this.groupBox2.Controls.Add(this.chkUseSmartLogic);
             this.groupBox2.Controls.Add(this.btnFileDialog);
-            this.groupBox2.Controls.Add(this.chkWetNow);
             this.groupBox2.Controls.Add(this.label25);
-            this.groupBox2.Controls.Add(this.chkRainNow);
             this.groupBox2.Controls.Add(this.comboBoxDecimalSeparator);
             this.groupBox2.Controls.Add(this.label27);
             this.groupBox2.Controls.Add(this.txtFilePath);
             this.groupBox2.Controls.Add(this.txtLastWritten);
             this.groupBox2.Location = new System.Drawing.Point(12, 204);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(644, 239);
+            this.groupBox2.Size = new System.Drawing.Size(644, 163);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Вспомогательные поля";
@@ -647,33 +703,17 @@
             this.label26.TabIndex = 17;
             this.label26.Text = "Десятичная точка";
             // 
-            // txtSinceLastRain
-            // 
-            this.txtSinceLastRain.Location = new System.Drawing.Point(121, 164);
-            this.txtSinceLastRain.Margin = new System.Windows.Forms.Padding(2);
-            this.txtSinceLastRain.Name = "txtSinceLastRain";
-            this.txtSinceLastRain.ReadOnly = true;
-            this.txtSinceLastRain.Size = new System.Drawing.Size(131, 26);
-            this.txtSinceLastRain.TabIndex = 16;
-            // 
-            // txtSinceLastWet
-            // 
-            this.txtSinceLastWet.Location = new System.Drawing.Point(121, 192);
-            this.txtSinceLastWet.Margin = new System.Windows.Forms.Padding(2);
-            this.txtSinceLastWet.Name = "txtSinceLastWet";
-            this.txtSinceLastWet.ReadOnly = true;
-            this.txtSinceLastWet.Size = new System.Drawing.Size(131, 26);
-            this.txtSinceLastWet.TabIndex = 16;
-            // 
             // chkUseSmartLogic
             // 
             this.chkUseSmartLogic.AutoSize = true;
+            this.chkUseSmartLogic.Checked = global::WeatherControl.Properties.Settings.Default.UseBoltwoodLogic;
+            this.chkUseSmartLogic.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::WeatherControl.Properties.Settings.Default, "UseBoltwoodLogic", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.chkUseSmartLogic.Location = new System.Drawing.Point(15, 125);
             this.chkUseSmartLogic.Margin = new System.Windows.Forms.Padding(2);
             this.chkUseSmartLogic.Name = "chkUseSmartLogic";
-            this.chkUseSmartLogic.Size = new System.Drawing.Size(416, 24);
+            this.chkUseSmartLogic.Size = new System.Drawing.Size(413, 24);
             this.chkUseSmartLogic.TabIndex = 8;
-            this.chkUseSmartLogic.Text = "Использовать логику в комбинацию разных полей";
+            this.chkUseSmartLogic.Text = "Использовать логику в комбинации разных полей";
             this.chkUseSmartLogic.UseVisualStyleBackColor = true;
             this.chkUseSmartLogic.CheckedChanged += new System.EventHandler(this.chkUseSmartLogic_CheckedChanged);
             // 
@@ -688,18 +728,6 @@
             this.btnFileDialog.UseVisualStyleBackColor = true;
             this.btnFileDialog.Click += new System.EventHandler(this.btnFileDialog_Click);
             // 
-            // chkWetNow
-            // 
-            this.chkWetNow.AutoSize = true;
-            this.chkWetNow.Enabled = false;
-            this.chkWetNow.Location = new System.Drawing.Point(15, 194);
-            this.chkWetNow.Margin = new System.Windows.Forms.Padding(2);
-            this.chkWetNow.Name = "chkWetNow";
-            this.chkWetNow.Size = new System.Drawing.Size(95, 24);
-            this.chkWetNow.TabIndex = 15;
-            this.chkWetNow.Text = "WetNow";
-            this.chkWetNow.UseVisualStyleBackColor = true;
-            // 
             // label25
             // 
             this.label25.AutoSize = true;
@@ -709,25 +737,15 @@
             this.label25.TabIndex = 6;
             this.label25.Text = "Пусть к файлу";
             // 
-            // chkRainNow
-            // 
-            this.chkRainNow.AutoSize = true;
-            this.chkRainNow.Enabled = false;
-            this.chkRainNow.Location = new System.Drawing.Point(15, 166);
-            this.chkRainNow.Margin = new System.Windows.Forms.Padding(2);
-            this.chkRainNow.Name = "chkRainNow";
-            this.chkRainNow.Size = new System.Drawing.Size(99, 24);
-            this.chkRainNow.TabIndex = 15;
-            this.chkRainNow.Text = "RainNow";
-            this.chkRainNow.UseVisualStyleBackColor = true;
-            // 
             // comboBoxDecimalSeparator
             // 
+            this.comboBoxDecimalSeparator.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::WeatherControl.Properties.Settings.Default, "decimalPoint", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.comboBoxDecimalSeparator.FormattingEnabled = true;
             this.comboBoxDecimalSeparator.Location = new System.Drawing.Point(188, 24);
             this.comboBoxDecimalSeparator.Name = "comboBoxDecimalSeparator";
             this.comboBoxDecimalSeparator.Size = new System.Drawing.Size(163, 28);
             this.comboBoxDecimalSeparator.TabIndex = 46;
+            this.comboBoxDecimalSeparator.Text = global::WeatherControl.Properties.Settings.Default.decimalPoint;
             this.comboBoxDecimalSeparator.SelectedIndexChanged += new System.EventHandler(this.comboBoxDecimalSeparator_SelectedIndexChanged);
             this.comboBoxDecimalSeparator.TextChanged += new System.EventHandler(this.OnFieldUpdate);
             // 
@@ -796,8 +814,10 @@
             // 
             // txtDebug
             // 
+            this.txtDebug.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDebug.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtDebug.Location = new System.Drawing.Point(16, 449);
+            this.txtDebug.Location = new System.Drawing.Point(16, 384);
             this.txtDebug.Margin = new System.Windows.Forms.Padding(2);
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
@@ -811,7 +831,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(1169, 556);
+            this.ClientSize = new System.Drawing.Size(1169, 486);
             this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.chkBadConditions);
             this.Controls.Add(this.chkGoodConditions);
@@ -827,11 +847,13 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormWeatherFileControl";
-            this.Text = "Запись файла Boltwood Clound Sensor II";
+            this.Text = "Эмуляция файла Boltwood Clound Sensor II";
             this.Load += new System.EventHandler(this.FormWeatherFileControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -903,12 +925,13 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TextBox txtDebug;
         private System.Windows.Forms.CheckBox chkUseSmartLogic;
-        private System.Windows.Forms.CheckBox chkRainNow;
-        private System.Windows.Forms.CheckBox chkWetNow;
-        private System.Windows.Forms.TextBox txtSinceLastRain;
-        private System.Windows.Forms.TextBox txtSinceLastWet;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.ComboBox comboBoxDecimalSeparator;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox txtSinceLastRain;
+        private System.Windows.Forms.TextBox txtSinceLastWet;
+        private System.Windows.Forms.CheckBox chkWetNow;
+        private System.Windows.Forms.CheckBox chkRainNow;
     }
 }
 

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace WeatherControl
 {
-    #region Custom data types for Sensors, Boltwood and so on
+    #region Custom data types
 
     /// <summary>
     /// Decimal separator override
@@ -29,6 +30,7 @@ namespace WeatherControl
     public enum Enum_AlertFlag { alertNo = 0, alertYes = 1 }
     public enum Enum_CloudSensorModel { Classic = 1, AAG = 2 }
 
+    #endregion
 
     /// <summary>
     /// Boltwood data fields base class (from specification)
@@ -39,8 +41,8 @@ namespace WeatherControl
         public string Bolt_date = ""; //y y y y - m m - d d
         public string Bolt_time = ""; //h	h	:	m	m	:	s	s	.	s	s
 
-        public string TempUnits = ""; // C / F
-        public string WindSpeedUnits = ""; // K (=km per h) | M (=mph) | m (=m/s)
+        public string TempUnits = "C"; // C / F
+        public string WindSpeedUnits = "K"; // K (=km per h) | M (=mph) | m (=m/s)
 
         public double Bolt_SkyTemp = -100; 
         public double Bolt_Temp = -100; 
@@ -103,6 +105,10 @@ namespace WeatherControl
             Bolt_AlertFlag = objCopied.Bolt_AlertFlag;
         }
 
+        /// <summary>
+        /// Contructor with simultaneous copy from another BoltwoodClass object 
+        /// </summary>
+        /// <param name="objCopied"></param>
         public BoltwoodFields(BoltwoodClass objCopied)
         {
             Bolt_date = objCopied.Bolt_date;
@@ -132,9 +138,15 @@ namespace WeatherControl
             Bolt_RoofCloseFlag = objCopied.Bolt_RoofCloseFlag;
             Bolt_AlertFlag = objCopied.Bolt_AlertFlag;
         }
-
+        
+        /// <summary>
+        /// Copy from another BoltwoodClass object 
+        /// </summary>
+        /// <param name="objCopied"></param>
         public void CopyEssentialParameters(BoltwoodFields objCopied)
         {
+            if (objCopied == null) return;
+
             TempUnits = objCopied.TempUnits;
             WindSpeedUnits = objCopied.WindSpeedUnits;
 
@@ -156,9 +168,70 @@ namespace WeatherControl
             Bolt_RoofCloseFlag = objCopied.Bolt_RoofCloseFlag;
             Bolt_AlertFlag = objCopied.Bolt_AlertFlag;
         }
+
+        public string SerializeToJSON_old()
+        {
+            string st = "";
+
+            st += (st != String.Empty ? ", " : "") + "\"Bolt_date\": " + "\"" + Convert.ToString(Bolt_date) + "\"";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_time"": " + @"""" + Convert.ToString(Bolt_time) + @"""";
+
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_SkyTemp"": " + Convert.ToString(Bolt_SkyTemp);
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_Temp"": " + Convert.ToString(Bolt_Temp);
+
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_SensorTemp"": " + Convert.ToString(Bolt_SensorTemp);
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_WindSpeed"": " + Convert.ToString(Bolt_WindSpeed);
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_Hum"": " + Convert.ToString(Bolt_Hum);
+
+
+            //st += (st != String.Empty ? ", " : "") + @"""Bolt_DewPoint"": " + @"""" + Convert.ToString(Bolt_DewPoint) + @"""" ;
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_DewPoint"": " + "3.1111";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_Heater"": " + Convert.ToString(Bolt_Heater);
+
+
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_RainFlag"": " + @"""" + Convert.ToString((int)Bolt_RainFlag) + @"""";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_WetFlag"": " + @"""" + Convert.ToString(Bolt_WetFlag) + @"""";
+
+
+            //st += (st != String.Empty ? ", " : "") + @"""Bolt_SinceLastMeasure"": " + Convert.ToString(Bolt_SinceLastMeasure);
+            //st += (st != String.Empty ? ", " : "") + @"""Bolt_now"": " + Convert.ToString(Bolt_now);
+
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_CloudCond"": " + @"""" + Convert.ToString(Bolt_CloudCond) + @"""";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_WindCond"": " + @"""" + Convert.ToString(Bolt_WindCond) + @"""";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_RainCond"": " + @"""" + Convert.ToString(Bolt_RainCond) + @"""";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_DaylighCond"": " + @"""" + Convert.ToString(Bolt_DaylighCond) + @"""";
+
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_RoofCloseFlag"": " + @"""" + Convert.ToString(Bolt_RoofCloseFlag) + @"""";
+            st += (st != String.Empty ? ", " : "") + @"""Bolt_AlertFlag"": " + @"""" + Convert.ToString(Bolt_AlertFlag) + @"""";
+
+            if (st != String.Empty) st = "{" + st + "}";
+
+            return st;
+        }
+
+        public string SerializeToJSON()
+        {
+            //make copy of current obj in BoltwoodFields format (to not include misc fileds)
+            BoltwoodFields obj = new BoltwoodFields(this);
+            //serialize
+            string st = new JavaScriptSerializer().Serialize(obj);
+
+            return st;
+        }
+
+        public void DeserializeFromJSON(string st)
+        {
+            //Just for try
+            var json = new JavaScriptSerializer().DeserializeObject(st);
+            var json2 = new JavaScriptSerializer().Deserialize<Dictionary<string, dynamic>>(st);
+
+            //Convert to BoltwoodField object
+            BoltwoodFields tempBoltwoodState = (BoltwoodFields)new JavaScriptSerializer().Deserialize(st, typeof(BoltwoodFields));
+            CopyEssentialParameters(tempBoltwoodState);
+        }
+
     }
 
-    #endregion
 
     public class BoltwoodClass : BoltwoodFields
     {
@@ -300,7 +373,8 @@ namespace WeatherControl
         {
             get
             {
-                return BolwoodCalculations.calcDewPoint(Bolt_Temp, Bolt_Hum);
+                Bolt_DewPoint = BolwoodCalculations.calcDewPoint(Bolt_Temp, Bolt_Hum);
+                return Bolt_DewPoint;
             }
         }
 
