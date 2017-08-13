@@ -12,70 +12,21 @@ namespace ObservatoryCenter
 {
 
     /// <summary>
-    /// Decimal separator override
-    /// </summary>
-    public enum decimalSeparatorType { useLocale = 0, useDot = 1, useComma = 2 }
-
-
-    /// <summary>
     /// Boltwood data fields
     /// </summary>        
-    public class BoltwoodFields
+    public class BoltwoodClass_WS : BoltwoodClass
     {
-        public string Bolt_date = "";
-        public string Bolt_time = "";
-
-        public double Bolt_SkyTemp = -100; //no direct var
-        public double Bolt_Temp = -100; //no direct var
-        public double Bolt_CloudIdx = -100;
-        public double Bolt_CloudIdxAAG = -100; //no direct var
-
-        public double Bolt_SensorTemp = -100; //no direct var
-        public double Bolt_WindSpeed = -100; //no direct var
-        public double Bolt_Hum = -100; //no direct var
-        public double Bolt_DewPoint = -100.0;
-        public Int16 Bolt_Heater = -1;
-
-        public RainFlag Bolt_RainFlag = RainFlag.rainFlagDry;
-        public DateTime Bolt_RainFlag_LastDetected;
         public string Bolt_RainFlag_LastDetected_s;
-        public UInt16 Bolt_RainFlag_sinceLastDetected = 65535;
-
-        public WetFlag Bolt_WetFlag = WetFlag.wetFlagDry;
-        public DateTime Bolt_WetFlag_LastDetected;
         public string Bolt_WetFlag_LastDetected_s;
-        public UInt16 Bolt_WetFlag_sinceLastDetected = 65535;
-
-        public UInt16 Bolt_SinceLastMeasure = 0;
-        public double Bolt_now = 0;
-
-        public CloudCond Bolt_CloudCond = CloudCond.cloudUnknown;
-        public WindCond Bolt_WindCond = WindCond.windUnknown;
-        public RainCond Bolt_RainCond = RainCond.rainUnknown;
-        public DayCond Bolt_DaylighCond = DayCond.dayUnknown;
-
-        public UInt16 Bolt_RoofCloseFlag = 0;
-        public UInt16 Bolt_AlertFlag = 0;
 
         public double WetSensorVal = 0;
         public int RGCVal = -1;
         public double Preassure = 0;
 
-        public DateTime LastMeasure;
         public string LastMeasure_s;
         public string Web_date = "";
-        public decimalSeparatorType ForcedDecimalSeparator = decimalSeparatorType.useLocale;
     }
 
-    /// <summary>
-    /// Boltwood Data Types
-    /// </summary>
-    public enum CloudCond { cloudUnknown = 0, cloudClear = 1, cloudCloudy = 2, cloudVeryCloudy = 3 }
-    public enum WindCond { windUnknown = 0, windCalm = 1, windWindy = 2, windVeryWindy = 3 }
-    public enum RainCond { rainUnknown = 0, rainDry = 1, rainWet = 2, rainRain = 3 }
-    public enum DayCond { dayUnknown = 0, dayDark = 1, dayLight = 2, dayVeryLight = 3 }
-    public enum RainFlag { rainFlagDry = 0, rainFlagLastminute = 1, rainFlagRightnow = 2 }
-    public enum WetFlag { wetFlagDry = 0, wetFlagLastminute = 1, wetFlagRightnow = 2 }
     public enum WetSensorsMode { wetSensBoth = 0, wetSensWetOnly = 1, wetSensRGCOnly = 2 }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,11 +39,11 @@ namespace ObservatoryCenter
     /// </summary>
     public class WeatherStation : ExternalApplicationSocketServer
     {
-        public BoltwoodFields BoltwoodState;
+        public BoltwoodClass_WS  BoltwoodState;
 
         public WeatherStation() : base()
         {
-            BoltwoodState = new BoltwoodFields();
+            BoltwoodState = new BoltwoodClass_WS ();
             ServerPort = 1604;
             LogPrefix = "WS";
             ParameterString = "-start";
@@ -156,7 +107,7 @@ namespace ObservatoryCenter
                     var json = new JavaScriptSerializer().Deserialize<Dictionary<string, dynamic>>(curline);
 
                     //Convert to BoltwoodField object
-                    BoltwoodState = (BoltwoodFields)new JavaScriptSerializer().Deserialize(curline, typeof(BoltwoodFields));
+                    BoltwoodState = (BoltwoodClass_WS )new JavaScriptSerializer().Deserialize(curline, typeof(BoltwoodClass_WS ));
                     //Convert DateTime fields
                     if (!DateTime.TryParse(BoltwoodState.Bolt_RainFlag_LastDetected_s, out BoltwoodState.Bolt_RainFlag_LastDetected))
                     {

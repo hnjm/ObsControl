@@ -146,6 +146,7 @@
   <ItemGroup>
     <Compile Include="About.cs" />
     <Compile Include="AstroUtils.cs" />
+    <Compile Include="BoltwoodClasses.cs" />
     <Compile Include="MainForm_updates.cs">
       <SubType>Form</SubType>
     </Compile>
