@@ -1,0 +1,509 @@
+﻿2017-09-14  00:42:15.570  Important Read filters exception: Index was outside the bounds of the array.	
+2017-09-14  00:42:15.571  Debug     Exception details: System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at CallSite.Target(Closure , CallSite , Object , Int16 )
+   at ObservatoryCenter.MainForm.UpdateCCDCameraFieldsStatus()	
+2017-09-14  00:42:16.132  Debug     CalcMoonRiseSet exception! System.InvalidCastException: Specified cast is not valid.
+   at ObservatoryCenter.AstroUtilsClass.CalcMoonRiseSet(Int32 DayShift)	
+2017-09-14  00:42:16.142  Debug     CalcMoonRiseSet exception! System.InvalidCastException: Specified cast is not valid.
+   at ObservatoryCenter.AstroUtilsClass.CalcMoonRiseSet(Int32 DayShift)	
+2017-09-14  00:42:33.352  Important Test camera exception: Object does not match target type.	
+2017-09-14  00:42:33.353  Debug     Exception details: System.Reflection.TargetException: Object does not match target type.
+   at System.RuntimeType.InvokeDispMethod(String name, BindingFlags invokeAttr, Object target, Object[] args, Boolean[] byrefModifiers, Int32 culture, String[] namedParameters)
+   at System.RuntimeType.InvokeMember(String name, BindingFlags bindingFlags, Binder binder, Object target, Object[] providedArgs, ParameterModifier[] modifiers, CultureInfo culture, String[] namedParams)
+   at System.RuntimeType.ForwardCallToInvokeMember(String memberName, BindingFlags flags, Object target, Int32[] aWrapperTypes, MessageData& msgData)
+   at MaxIm.ICCDCamera.get_LinkEnabled()
+   at ObservatoryCenter.Maxim_ExternalApplication.CheckCameraAvailable()	
+2017-09-14  00:42:38.308  Debug     CalcMoonRiseSet exception! System.InvalidCastException: Specified cast is not valid.
+   at ObservatoryCenter.AstroUtilsClass.CalcMoonRiseSet(Int32 DayShift)	
+2017-09-14  00:42:38.318  Debug     CalcMoonRiseSet exception! System.InvalidCastException: Specified cast is not valid.
+   at ObservatoryCenter.AstroUtilsClass.CalcMoonRiseSet(Int32 DayShift)	
+2017-09-14  00:43:04.390  Important Couldn't get telescope AtPark status	
+2017-09-14  00:43:04.394  Important get_AtPark error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope AtPark Get System.Net.Sockets.SocketException (0x80004005): An existing connection was forcibly closed by the remote host
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Send(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at System.Runtime.Remoting.Channels.SocketStream.Write(Byte[] buffer, Int32 offset, Int32 count)
+   at System.Runtime.Remoting.Channels.ChunkedMemoryStream.WriteTo(Stream stream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientSocketHandler.GetRequestStream(IMessage msg, Int32 contentLength, ITransportHeaders headers)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientSocketHandler.SendRequest(IMessage msg, ITransportHeaders headers, Stream contentStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_AtPark()
+   at ASCOM.SiTechDll.Telescope.get_AtPark() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Send(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at System.Runtime.Remoting.Channels.SocketStream.Write(Byte[] buffer, Int32 offset, Int32 count)
+   at System.Runtime.Remoting.Channels.ChunkedMemoryStream.WriteTo(Stream stream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientSocketHandler.GetRequestStream(IMessage msg, Int32 contentLength, ITransportHeaders headers)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientSocketHandler.SendRequest(IMessage msg, ITransportHeaders headers, Stream contentStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_AtPark()
+   at ASCOM.SiTechDll.Telescope.get_AtPark()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_AtPark() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 155
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_AtPark()]	
+2017-09-14  00:43:08.420  Important Couldn't get telescope Tracking status	
+2017-09-14  00:43:08.421  Important get_Tracking error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope Tracking Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Tracking()
+   at ASCOM.SiTechDll.Telescope.get_Tracking() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Tracking()
+   at ASCOM.SiTechDll.Telescope.get_Tracking()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_Tracking() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 1189
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_Tracking()]	
+2017-09-14  00:43:12.429  Important Couldn't get telescope Declination	
+2017-09-14  00:43:12.429  Important get_Declination error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope Declination Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Declination()
+   at ASCOM.SiTechDll.Telescope.get_Declination() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Declination()
+   at ASCOM.SiTechDll.Telescope.get_Declination()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_Declination() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 485
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_Declination()]	
+2017-09-14  00:43:16.454  Important Couldn't get telescope RightAscension	
+2017-09-14  00:43:16.455  Important get_RightAscension error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope RightAscension Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_RightAscension()
+   at ASCOM.SiTechDll.Telescope.get_RightAscension() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_RightAscension()
+   at ASCOM.SiTechDll.Telescope.get_RightAscension()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_RightAscension() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 769
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_RightAscension()]	
+2017-09-14  00:43:20.471  Important Couldn't get telescope SiderealTime	
+2017-09-14  00:43:20.472  Important get_SiderealTime error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope SiderealTime Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_SiderealTime()
+   at ASCOM.SiTechDll.Telescope.get_SiderealTime() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_SiderealTime()
+   at ASCOM.SiTechDll.Telescope.get_SiderealTime()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_SiderealTime() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 910
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_SiderealTime()]	
+2017-09-14  00:43:24.485  Important Couldn't get SidePier status	
+2017-09-14  00:43:24.486  Important get_PierSideStatus error! [ASCOM.DriverException: No connection could be made because the target machine actively refused it 127.0.0.1:8000 ---> ASCOM.DriverException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+   at ASCOM.SiTechDll.MyException.ThrowCorrect(String msg)
+   at ASCOM.SiTechDll.MyException..ctor(String msg, UInt32 hResult, Boolean log)
+   at ASCOM.SiTechDll.Telescope.get_SideOfPier()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 614
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_SideOfPier() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 895
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_PierSideStatus()]	
+2017-09-14  00:43:28.494  Important Couldn't get SidePier status	
+2017-09-14  00:43:28.495  Important get_PierSideStatus error! [ASCOM.DriverException: No connection could be made because the target machine actively refused it 127.0.0.1:8000 ---> ASCOM.DriverException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+   at ASCOM.SiTechDll.MyException.ThrowCorrect(String msg)
+   at ASCOM.SiTechDll.MyException..ctor(String msg, UInt32 hResult, Boolean log)
+   at ASCOM.SiTechDll.Telescope.get_SideOfPier()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 614
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_SideOfPier() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 895
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_PierSideStatus()]	
+2017-09-14  00:43:32.508  Important Couldn't get telescope Azimuth	
+2017-09-14  00:43:32.509  Important get_Azimuth error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope Azimuth Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Azimuth()
+   at ASCOM.SiTechDll.Telescope.get_Azimuth() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Azimuth()
+   at ASCOM.SiTechDll.Telescope.get_Azimuth()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_Azimuth() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 267
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_Azimuth()]	
+2017-09-14  00:43:36.521  Important Couldn't get telescope Altitude	
+2017-09-14  00:43:36.523  Important get_Altitude error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope Altitude Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Altitude()
+   at ASCOM.SiTechDll.Telescope.get_Altitude() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Altitude()
+   at ASCOM.SiTechDll.Telescope.get_Altitude()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_Altitude() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 109
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_Altitude()]	
+2017-09-14  00:43:41.191  Important Couldn't get telescope AtPark status	
+2017-09-14  00:43:41.191  Important get_AtPark error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope AtPark Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_AtPark()
+   at ASCOM.SiTechDll.Telescope.get_AtPark() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_AtPark()
+   at ASCOM.SiTechDll.Telescope.get_AtPark()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_AtPark() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 155
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_AtPark()]	
+2017-09-14  00:43:45.205  Important Couldn't get telescope Tracking status	
+2017-09-14  00:43:45.206  Important get_Tracking error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope Tracking Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Tracking()
+   at ASCOM.SiTechDll.Telescope.get_Tracking() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Tracking()
+   at ASCOM.SiTechDll.Telescope.get_Tracking()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_Tracking() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 1189
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_Tracking()]	
+2017-09-14  00:43:49.218  Important Couldn't get telescope Declination	
+2017-09-14  00:43:49.218  Important get_Declination error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope Declination Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Declination()
+   at ASCOM.SiTechDll.Telescope.get_Declination() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_Declination()
+   at ASCOM.SiTechDll.Telescope.get_Declination()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_Declination() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 485
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_Declination()]	
+2017-09-14  00:43:53.227  Important Couldn't get telescope RightAscension	
+2017-09-14  00:43:53.228  Important get_RightAscension error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope RightAscension Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_RightAscension()
+   at ASCOM.SiTechDll.Telescope.get_RightAscension() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_RightAscension()
+   at ASCOM.SiTechDll.Telescope.get_RightAscension()
+   --- End of inner exception stack trace ---
+   at ASCOM.DriverAccess.MemberFactory.CheckDotNetExceptions(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 630
+   at ASCOM.DriverAccess.MemberFactory.GetTargetInvocationExceptionHandler(String memberName, Exception e) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 664
+   at ASCOM.DriverAccess.MemberFactory.CallMember(Int32 memberCode, String memberName, Type[] parameterTypes, Object[] parms) in c:\ASCOM Build\Export\ASCOM.DriverAccess\MemberFactory.cs:line 231
+   at ASCOM.DriverAccess.Telescope.get_RightAscension() in c:\ASCOM Build\Export\ASCOM.DriverAccess\Telescope.cs:line 769
+   at ObservatoryCenter.ObservatoryControls_ASCOMTelescope.get_RightAscension()]	
+2017-09-14  00:43:57.237  Important Couldn't get telescope SiderealTime	
+2017-09-14  00:43:57.237  Important get_SiderealTime error! [ASCOM.DriverException: CheckDotNetExceptions ASCOM.SiTechDll.Telescope SiderealTime Get System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at STelescopeDef.ISTelescope.get_SiderealTime()
+   at ASCOM.SiTechDll.Telescope.get_SiderealTime() (See Inner Exception for details) ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:8000
+
+Server stack trace: 
+   at System.Net.Sockets.Socket.Connect(IPAddress[] addresses, Int32 port)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket(AddressFamily family)
+   at System.Runtime.Remoting.Channels.RemoteConnection.CreateNewSocket()
+   at System.Runtime.Remoting.Channels.RemoteConnection.GetSocket()
+   at System.Runtime.Remoting.Channels.SocketCache.GetSocket(String machinePortAndSid, Boolean openNew)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.SendRequestWithRetry(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream)
+   at System.Runtime.Remoting.Channels.Tcp.TcpClientTransportSink.ProcessMessage(IMessage msg, ITransportHeaders requestHeaders, Stream requestStream, ITransportHeaders& responseHeaders, Stream& responseStream)
+   at System.Runtime.Remoting.Channels.BinaryClientFormatterSink.SyncProcessMessage(IMessage msg)

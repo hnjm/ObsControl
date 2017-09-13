@@ -254,6 +254,7 @@
     <Content Include="ObservatoryControl.defaultconfig.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="bugreport_1.txt" />
     <None Include="Resources\Twilight_chart.png" />
     <None Include="Resources\logo_observ2.ico" />
     <None Include="Resources\logo_observ2.png" />
