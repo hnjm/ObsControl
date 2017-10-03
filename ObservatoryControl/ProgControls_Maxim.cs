@@ -75,6 +75,46 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
+        /// Connect cameras in MaximDL
+        /// </summary>
+        /// <returns></returns>
+        public bool ConnectCameraStatus()
+        {
+            bool res = false;
+
+            if (CCDCamera != null)
+            {
+                try
+                {
+                    res = CCDCamera.LinkEnabled;
+                }
+                catch (Exception ex)
+                {
+                    StackTrace st = new StackTrace(ex, true);
+                    StackFrame[] frames = st.GetFrames();
+                    string messstr = "";
+
+                    // Iterate over the frames extracting the information you need
+                    foreach (StackFrame frame in frames)
+                    {
+                        messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                    }
+
+                    string FullMessage = "MaximDL camera check connection failed!" + Environment.NewLine;
+                    FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                            + Environment.NewLine + Environment.NewLine + messstr;
+                    //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                    Logging.AddLog("Camera check connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
         /// Connect telescope in MaximDL
         /// </summary>
         /// <returns></returns>
@@ -109,6 +149,44 @@ namespace ObservatoryCenter
                 return "MaximDL telescope connection failed ";
             }
         }
+
+        /// <summary>
+        /// Connect telescope in MaximDL
+        /// </summary>
+        /// <returns></returns>
+        public bool ConnectTelescopeStatus()
+        {
+            bool res = false;
+            if (MaximApplicationObj != null)
+            {
+                try
+                {
+                    res = MaximApplicationObj.TelescopeConnected;
+                }
+                catch (Exception ex)
+                {
+                    StackTrace st = new StackTrace(ex, true);
+                    StackFrame[] frames = st.GetFrames();
+                    string messstr = "";
+
+                    // Iterate over the frames extracting the information you need
+                    foreach (StackFrame frame in frames)
+                    {
+                        messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                    }
+
+                    string FullMessage = "MaximDL telescope check connection failed!" + Environment.NewLine;
+                    FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                            + Environment.NewLine + Environment.NewLine + messstr;
+                    //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                    Logging.AddLog("MaximDL telescope check connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                }
+            }
+            return res;
+        }
+
 
         /// <summary>
         /// Connect focuser in MaximDL

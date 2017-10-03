@@ -46,6 +46,7 @@ namespace ObservatoryCenter
         Color OnColor = Color.DarkSeaGreen;
         Color OffColor = Color.Tomato;
         Color DisabledColor = Color.LightGray;
+        Color InterColor = Color.Yellow;
 
 
         // For logging window
@@ -53,10 +54,14 @@ namespace ObservatoryCenter
         private Int32 caretPos = 0;
         public Int32 MAX_LOG_LINES = 500;
 
+
+        public Int16 maxNumberOfPointsInChart = 100;
+
         // Threads
         public Thread CheckPowerStatusThread;
         public ThreadStart CheckPowerStatusThread_startref;
         //public Thread SetPowerStatusThread;
+
 
         /// <summary>
         /// Constructor
@@ -176,6 +181,8 @@ namespace ObservatoryCenter
             {
                 CA.AxisX.LabelStyle.Format = "HH:mm";
             }
+
+
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -204,6 +211,8 @@ namespace ObservatoryCenter
             UpdateSettingsTabStatusFileds();
             UpdateApplicationsRunningStatus();
 
+            UpdateShortPannelButtonsStatus();
+
             UpdateCCDCameraFieldsStatus();
 
             UpdatePHDstate();
@@ -213,6 +222,7 @@ namespace ObservatoryCenter
             UpdateCCDCstate();
 
             UpdateTimePannel();
+
         }
 
 

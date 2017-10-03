@@ -35,6 +35,10 @@
             this.dataGridConfig_programsPath_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPagescenarioMainParams = new System.Windows.Forms.TabPage();
             this.dataGridConfig_scenarioMain = new System.Windows.Forms.DataGridView();
+            this.dataGridConfig_scenarioMain_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridConfig_scenarioMain_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridConfig_scenarioMain_run = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridConfig_scenarioMain_argument = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,15 +55,9 @@
             this.btnConnectSwitchSettings = new System.Windows.Forms.Button();
             this.btnChooseSwitch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtSwitchRoofSwitchPort = new System.Windows.Forms.TextBox();
-            this.txtSwitchRoofPowerPort = new System.Windows.Forms.TextBox();
-            this.txtSwitchFocuserPort = new System.Windows.Forms.TextBox();
             this.txtSwitchCameraPort = new System.Windows.Forms.TextBox();
             this.txtSwitchMountPort = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPageDome = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -78,10 +76,6 @@
             this.btnRestoreDefaults = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.dataGridConfig_scenarioMain_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridConfig_scenarioMain_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridConfig_scenarioMain_run = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dataGridConfig_scenarioMain_argument = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings.SuspendLayout();
             this.tabPageProgramPath.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridConfig_programsPath)).BeginInit();
@@ -199,6 +193,32 @@
             this.dataGridConfig_scenarioMain.RowHeadersWidth = 10;
             this.dataGridConfig_scenarioMain.Size = new System.Drawing.Size(846, 379);
             this.dataGridConfig_scenarioMain.TabIndex = 4;
+            // 
+            // dataGridConfig_scenarioMain_name
+            // 
+            this.dataGridConfig_scenarioMain_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridConfig_scenarioMain_name.FillWeight = 200F;
+            this.dataGridConfig_scenarioMain_name.HeaderText = "Name";
+            this.dataGridConfig_scenarioMain_name.MinimumWidth = 100;
+            this.dataGridConfig_scenarioMain_name.Name = "dataGridConfig_scenarioMain_name";
+            this.dataGridConfig_scenarioMain_name.ReadOnly = true;
+            // 
+            // dataGridConfig_scenarioMain_type
+            // 
+            this.dataGridConfig_scenarioMain_type.HeaderText = "Type";
+            this.dataGridConfig_scenarioMain_type.Name = "dataGridConfig_scenarioMain_type";
+            // 
+            // dataGridConfig_scenarioMain_run
+            // 
+            this.dataGridConfig_scenarioMain_run.HeaderText = "Run";
+            this.dataGridConfig_scenarioMain_run.Name = "dataGridConfig_scenarioMain_run";
+            // 
+            // dataGridConfig_scenarioMain_argument
+            // 
+            this.dataGridConfig_scenarioMain_argument.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridConfig_scenarioMain_argument.HeaderText = "Argument";
+            this.dataGridConfig_scenarioMain_argument.MinimumWidth = 100;
+            this.dataGridConfig_scenarioMain_argument.Name = "dataGridConfig_scenarioMain_argument";
             // 
             // tabPageGeneral
             // 
@@ -365,15 +385,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.txtSwitchRoofSwitchPort);
-            this.groupBox1.Controls.Add(this.txtSwitchRoofPowerPort);
-            this.groupBox1.Controls.Add(this.txtSwitchFocuserPort);
             this.groupBox1.Controls.Add(this.txtSwitchCameraPort);
             this.groupBox1.Controls.Add(this.txtSwitchMountPort);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(10, 98);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -383,36 +397,6 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Switch";
-            // 
-            // txtSwitchRoofSwitchPort
-            // 
-            this.txtSwitchRoofSwitchPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofSwitchPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchRoofSwitchPort.Location = new System.Drawing.Point(144, 168);
-            this.txtSwitchRoofSwitchPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchRoofSwitchPort.Name = "txtSwitchRoofSwitchPort";
-            this.txtSwitchRoofSwitchPort.Size = new System.Drawing.Size(64, 31);
-            this.txtSwitchRoofSwitchPort.TabIndex = 2;
-            this.txtSwitchRoofSwitchPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchRoofSwitchPort;
-            // 
-            // txtSwitchRoofPowerPort
-            // 
-            this.txtSwitchRoofPowerPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchRoofPowerPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchRoofPowerPort.Location = new System.Drawing.Point(142, 132);
-            this.txtSwitchRoofPowerPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchRoofPowerPort.Name = "txtSwitchRoofPowerPort";
-            this.txtSwitchRoofPowerPort.Size = new System.Drawing.Size(64, 31);
-            this.txtSwitchRoofPowerPort.TabIndex = 2;
-            this.txtSwitchRoofPowerPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchRoofPowerPort;
-            // 
-            // txtSwitchFocuserPort
-            // 
-            this.txtSwitchFocuserPort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::ObservatoryCenter.Properties.Settings.Default, "SwitchFocuserPort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.txtSwitchFocuserPort.Location = new System.Drawing.Point(144, 92);
-            this.txtSwitchFocuserPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtSwitchFocuserPort.Name = "txtSwitchFocuserPort";
-            this.txtSwitchFocuserPort.Size = new System.Drawing.Size(64, 31);
-            this.txtSwitchFocuserPort.TabIndex = 2;
-            this.txtSwitchFocuserPort.Text = global::ObservatoryCenter.Properties.Settings.Default.SwitchFocuserPort;
             // 
             // txtSwitchCameraPort
             // 
@@ -443,36 +427,6 @@
             this.label4.Size = new System.Drawing.Size(115, 25);
             this.label4.TabIndex = 0;
             this.label4.Text = "Mount port";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 172);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(166, 25);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Roof switch port";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 132);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(164, 25);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Roof power port";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 97);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(133, 25);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Focuser port";
             // 
             // label5
             // 
@@ -681,32 +635,6 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // dataGridConfig_scenarioMain_name
-            // 
-            this.dataGridConfig_scenarioMain_name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridConfig_scenarioMain_name.FillWeight = 200F;
-            this.dataGridConfig_scenarioMain_name.HeaderText = "Name";
-            this.dataGridConfig_scenarioMain_name.MinimumWidth = 100;
-            this.dataGridConfig_scenarioMain_name.Name = "dataGridConfig_scenarioMain_name";
-            this.dataGridConfig_scenarioMain_name.ReadOnly = true;
-            // 
-            // dataGridConfig_scenarioMain_type
-            // 
-            this.dataGridConfig_scenarioMain_type.HeaderText = "Type";
-            this.dataGridConfig_scenarioMain_type.Name = "dataGridConfig_scenarioMain_type";
-            // 
-            // dataGridConfig_scenarioMain_run
-            // 
-            this.dataGridConfig_scenarioMain_run.HeaderText = "Run";
-            this.dataGridConfig_scenarioMain_run.Name = "dataGridConfig_scenarioMain_run";
-            // 
-            // dataGridConfig_scenarioMain_argument
-            // 
-            this.dataGridConfig_scenarioMain_argument.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridConfig_scenarioMain_argument.HeaderText = "Argument";
-            this.dataGridConfig_scenarioMain_argument.MinimumWidth = 100;
-            this.dataGridConfig_scenarioMain_argument.Name = "dataGridConfig_scenarioMain_argument";
-            // 
             // SettingsForm
             // 
             this.AcceptButton = this.btnOK;
@@ -765,13 +693,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtSwitchMountPort;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtSwitchCameraPort;
-        private System.Windows.Forms.TextBox txtSwitchRoofPowerPort;
-        private System.Windows.Forms.TextBox txtSwitchRoofSwitchPort;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtSwitchFocuserPort;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TabPage tabPageMisc;
         private System.Windows.Forms.NumericUpDown numUDRoofDuration;
         private System.Windows.Forms.Label label10;

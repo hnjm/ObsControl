@@ -15,7 +15,6 @@ namespace ObservatoryCenter
     public partial class MainForm
     {
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Block with update elements
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,8 +98,33 @@ namespace ObservatoryCenter
 
         }
 
+        /// <summary>
+        /// Update short pannel application status
+        /// </summary>
+        private void UpdateShortPannelButtonsStatus()
+        {
+            //Maxim DL status
+            if (ObsControl.objMaxim.IsRunning())
+            {
+                chkMaxim.Checked = true;
+                chkMaxim.BackColor = InterColor;
+                if (ObsControl.objMaxim.ConnectCameraStatus())
+                {
+                    if (ObsControl.objMaxim.ConnectTelescopeStatus())
+                    { 
+                        chkMaxim.BackColor = OnColor;
+                    }
+                }
+            }
+            else
+            {
+                chkMaxim.Checked = false;
+                chkMaxim.BackColor = OffColor;
+            }
 
-
+        }
+        
+        
         /// <summary>
         /// Updates markers in status bar
         /// </summary>
@@ -219,6 +243,7 @@ namespace ObservatoryCenter
                 btnCameraPower.BackColor = ((bool)ObsControl.ASCOMSwitch.Camera_power_flag ? OnColor : OffColor);
             }
 
+            /*
             //Focuser
             if (ObsControl.ASCOMSwitch.Focuser_power_flag == null)
             {
@@ -262,6 +287,8 @@ namespace ObservatoryCenter
                     btnPowerAll.BackColor = OffColor;
                 }
             }
+
+            */
 
         }
 
@@ -602,6 +629,20 @@ namespace ObservatoryCenter
                         //draw value
                         chart1.Series[sername].Points.AddXY(XVal, YVal);
 
+                        // Keep a constant number of points by removing them from the left
+                        if (chart1.Series[sername].Points.Count > maxNumberOfPointsInChart)
+                        {
+                            chart1.Series[sername].Points.RemoveAt(0);
+
+                            // Adjust X axis scale
+                            //CurChart.ChartAreas[0].AxisX.Minimum = curX - maxNumberOfPointsInChart;
+                            //CurChart.ChartAreas[0].AxisX.Maximum = CurChart.ChartAreas[0].AxisX.Minimum + maxNumberOfPointsInChart;
+                        }
+
+                        // Adjust Y & X axis scale
+                        chart1.ResetAutoValues();
+
+
                         //display RMS
                         txtRMS_X.Text = Math.Round(GuidingStats.RMS_X, 2).ToString();
                         txtRMS_Y.Text = Math.Round(GuidingStats.RMS_Y, 2).ToString();
@@ -795,6 +836,8 @@ namespace ObservatoryCenter
         }
 
         private bool HadTTCData = false; //was at least once data received?
+
+
         /// <summary>
         /// Update TelecopeTempControl state
         /// </summary>
