@@ -211,7 +211,6 @@ namespace ObservatoryCenter
             UpdateSettingsTabStatusFileds();
             UpdateApplicationsRunningStatus();
 
-            UpdateShortPannelButtonsStatus();
 
             UpdateCCDCameraFieldsStatus();
 
@@ -222,6 +221,10 @@ namespace ObservatoryCenter
             UpdateCCDCstate();
 
             UpdateTimePannel();
+
+            //Short form
+            UpdateShortPannelButtonsStatus();
+
 
         }
 
@@ -875,6 +878,17 @@ namespace ObservatoryCenter
                 ObsControl.objPHD2App.Kill();
                 ObsControl.objCdCApp.Kill();
             }
+        }
+
+        private void linkMaximDL_LinkClicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkMaxim_CheckedChanged(object sender, EventArgs e)
+        {
+            LinkLabelLinkClickedEventArgs dummy = new LinkLabelLinkClickedEventArgs(linkMaximDL.Links[0]);
+            linkMaximDL_LinkClicked(sender, dummy);
         }
     }
 }

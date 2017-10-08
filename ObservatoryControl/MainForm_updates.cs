@@ -104,27 +104,30 @@ namespace ObservatoryCenter
         private void UpdateShortPannelButtonsStatus()
         {
             //Maxim DL status
+            Color MaximColor = new Color();
             if (ObsControl.objMaxim.IsRunning())
             {
                 chkMaxim.Checked = true;
-                chkMaxim.BackColor = InterColor;
+                MaximColor = InterColor;
                 if (ObsControl.objMaxim.ConnectCameraStatus())
                 {
                     if (ObsControl.objMaxim.ConnectTelescopeStatus())
-                    { 
-                        chkMaxim.BackColor = OnColor;
+                    {
+                        MaximColor = OnColor;
                     }
                 }
             }
             else
             {
                 chkMaxim.Checked = false;
-                chkMaxim.BackColor = OffColor;
+                MaximColor = OffColor;
             }
+            chkMaxim.BackColor = MaximColor;
+
 
         }
-        
-        
+
+
         /// <summary>
         /// Updates markers in status bar
         /// </summary>
