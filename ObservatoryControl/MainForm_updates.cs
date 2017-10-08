@@ -109,9 +109,9 @@ namespace ObservatoryCenter
             {
                 chkMaxim.Checked = true;
                 MaximColor = InterColor;
-                if (ObsControl.objMaxim.ConnectCameraStatus())
+                if (ObsControl.objMaxim.CameraConnected)
                 {
-                    if (ObsControl.objMaxim.ConnectTelescopeStatus())
+                    if (ObsControl.objMaxim.TelescopeConnected)
                     {
                         MaximColor = OnColor;
                     }
@@ -123,6 +123,26 @@ namespace ObservatoryCenter
                 MaximColor = OffColor;
             }
             chkMaxim.BackColor = MaximColor;
+
+
+            //Power buttons
+            if (ObsControl.ASCOMSwitch.Connected_flag)
+            {
+                chkPower.Checked = true;
+                if (ObsControl.ASCOMSwitch.Telescope_power_flag == true)
+                {
+                    chkPower.BackColor = OnColor;
+                }
+                else
+                { 
+                    chkPower.BackColor = OffColor;
+                }
+            }
+            else
+            {
+                chkPower.Checked = false;
+                chkPower.BackColor = DefaultBackColor;
+            }
 
 
         }
@@ -159,12 +179,7 @@ namespace ObservatoryCenter
 
             //TELESCOPE
             bool Tprog = (ObsControl.ASCOMTelescope.Connected_flag);
-            bool Tmaxim = false;
-            try
-            {
-                Tmaxim = (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.TelescopeConnected);
-            }
-            catch { Tmaxim = false; }
+            bool Tmaxim = (ObsControl.objMaxim.TelescopeConnected);
             bool Tcdc = false; //later organize checking
             toolStripStatus_Telescope.ToolTipText = "DRIVER: " + ObsControl.ASCOMTelescope.DRIVER_NAME + Environment.NewLine;
             toolStripStatus_Telescope.ToolTipText += "Control center direct connection: " + (Tprog ? "ON" : "off") + Environment.NewLine;
@@ -189,7 +204,7 @@ namespace ObservatoryCenter
             string FocusSt = "";
             try
             {
-                testFocus = (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
+                testFocus = (ObsControl.objMaxim.FocuserConnected);
             }
             catch { testFocus = false; }
             if (testFocus)
@@ -205,7 +220,7 @@ namespace ObservatoryCenter
             toolStripStatus_Focuser.ToolTipText = "DRIVER: " + FocusSt + Environment.NewLine;
 
             //CAMERA
-            bool testCamera = (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null  && ObsControl.objMaxim.CheckCameraAvailable());
+            bool testCamera = (ObsControl.objMaxim.CameraConnected);
             if (testCamera)
             {
                 toolStripStatus_Camera.ForeColor = Color.Blue;
@@ -302,7 +317,7 @@ namespace ObservatoryCenter
         {
             if (ObsControl.objMaxim.IsRunning())
             {
-                if (ObsControl.objMaxim.CheckCameraAvailable())
+                if (ObsControl.objMaxim.CameraConnected)
                 {
                     //Binning
                     int bin = ObsControl.objMaxim.CCDCamera.BinX;
@@ -541,7 +556,7 @@ namespace ObservatoryCenter
             }
 
             //MAXIM DATA
-            if (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.CheckCameraAvailable())
+            if (ObsControl.objMaxim.CameraConnected)
             {
                 txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CCDCamera.CameraName;
                 txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);

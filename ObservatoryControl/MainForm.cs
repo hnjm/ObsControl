@@ -57,10 +57,6 @@ namespace ObservatoryCenter
 
         public Int16 maxNumberOfPointsInChart = 100;
 
-        // Threads
-        public Thread CheckPowerStatusThread;
-        public ThreadStart CheckPowerStatusThread_startref;
-        //public Thread SetPowerStatusThread;
 
 
         /// <summary>
@@ -107,7 +103,7 @@ namespace ObservatoryCenter
             try
             {
                 ObsControl.ASCOMSwitch.Connect = true;
-                CheckPowerSwitchStatus_caller();
+                ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
             }
             catch (Exception ex)
             {
@@ -151,8 +147,8 @@ namespace ObservatoryCenter
             //DrawTelescopeV(panelTelescope);
 
             //Init versiondata static class
-            VersionData.initVersionData();
             //Display about information
+            VersionData.initVersionData();
             LoadAboutData();
 
             //Init Log DropDown box
@@ -199,13 +195,19 @@ namespace ObservatoryCenter
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Timers block
         #region /// TIMERS *****************************************************************
+        //Phylosophy:
+        // 1. Query devices/programs in Long timer
+        // 2. Query in separate thread - good practice
+        // 3. mainTimerShort - change interface elements quering internal objects
+
+
         /// <summary>
         /// Main timer tick
         /// </summary>
         private void mainTimerShort_Tick(object sender, EventArgs e)
         {
-            UpdatePowerButtonsStatus();
-            UpdateStatusbarASCOMStatus();
+            UpdatePowerButtonsStatus(); //checked for not quering device/program
+            UpdateStatusbarASCOMStatus(); //checked for not quering device/program
             UpdateTelescopeStatus();
             UpdateRoofPicture();
             UpdateSettingsTabStatusFileds();
@@ -235,8 +237,10 @@ namespace ObservatoryCenter
         private void mainTimer_Long_Tick(object sender, EventArgs e)
         {
             //check power switch status
-            CheckPowerSwitchStatus_caller();
+            ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
 
+            //check maxim status
+            ObsControl.objMaxim.CheckMaximStatus();
 
             //update AstroTortilla solver status
             UpdateSolverFileds();
@@ -304,28 +308,6 @@ namespace ObservatoryCenter
             }
         }
 
-        private void btnRoofPower_Click(object sender, EventArgs e)
-        {
-            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-
-            //get current state
-            bool SwitchState = (((Button)sender).BackColor == OnColor);
-            SwitchState = !SwitchState;
-
-            //toggle
-            if (ObsControl.ASCOMSwitch.PowerSet(ObsControl.ASCOMSwitch.POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", SwitchState, out ObsControl.ASCOMSwitch.Roof_power_flag))
-            {
-                //if switching was successful
-                //display new status
-                ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
-                //ObsControl.Roof_power_flag = SwitchState;
-            }
-            else
-            {
-                //if switching wasn't proceed
-            }
-        }
-
         private void btnCameraPower_Click(object sender, EventArgs e)
         {
             Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
@@ -351,52 +333,9 @@ namespace ObservatoryCenter
 
             }
         }
-
-        private void btnFocuserPower_Click(object sender, EventArgs e)
-        {
-            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-            //get current state
-            bool SwitchState = (((Button)sender).BackColor == OnColor);
-            SwitchState = !SwitchState;
-
-            //toggle
-            if (ObsControl.ASCOMSwitch.PowerSet(ObsControl.ASCOMSwitch.POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", SwitchState, out ObsControl.ASCOMSwitch.Focuser_power_flag))
-            {
-                //if switching was successful
-
-                //display new status
-                ((Button)sender).BackColor = (SwitchState ? OnColor : OffColor);
-                //ObsControl.Focuser_power_flag = SwitchState;
-            }
-            else
-            {
-                //if switching wasn't proceed
-
-            }
-        }
-
-        private void btnPowerAll_Click(object sender, EventArgs e)
-        {
-            if (((Button)sender).Text == "Power all")
-            {
-                //Power all
-                ObsControl.ASCOMSwitch.PowerCameraOn();
-                ObsControl.ASCOMSwitch.PowerMountOn();
-                ObsControl.ASCOMSwitch.PowerFocuserOn();
-                ObsControl.ASCOMSwitch.PowerRoofOn();
-            }
-            else if (((Button)sender).Text == "Depower all")
-            {
-                //Power all
-                ObsControl.ASCOMSwitch.PowerCameraOff();
-                ObsControl.ASCOMSwitch.PowerMountOff();
-                ObsControl.ASCOMSwitch.PowerFocuserOff();
-                ObsControl.ASCOMSwitch.PowerRoofOff();
-            }
-        }
-
         #endregion Power button handling
         // End of block with power buttons handling
+
 
         // Block with Scenarios run
         #region /// Scenarios run procedures ////////////////////////////////////////////////////
@@ -495,7 +434,7 @@ namespace ObservatoryCenter
             try
             {
                 ObsControl.ASCOMSwitch.Connect = !ObsControl.ASCOMSwitch.Connected_flag;
-                CheckPowerSwitchStatus_caller();
+                ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
             }
             catch (Exception ex)
             {
@@ -637,7 +576,7 @@ namespace ObservatoryCenter
                 //connect
                 ObsControl.ASCOMSwitch.Enabled = true;
                 ObsControl.ASCOMSwitch.Connect = true;
-                CheckPowerSwitchStatus_caller();
+                ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
             }
             Update_SWITCH_related_elements();
             Properties.Settings.Default.DeviceEnabled_Switch = ObsControl.ASCOMSwitch.Enabled;
@@ -653,7 +592,8 @@ namespace ObservatoryCenter
 
             ObsControl.ASCOMSwitch.Reset();
             ObsControl.ASCOMSwitch.Connect = true;
-            CheckPowerSwitchStatus_caller();
+            ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
+
             Update_SWITCH_related_elements();
         }
         private void chkASCOM_Enable_Dome_CheckedChanged(object sender, EventArgs e)
@@ -720,30 +660,6 @@ namespace ObservatoryCenter
 
         #endregion /// Settings tab ASCOM Devices /////////////////////////////////////////////////////////////////
         // End of Settings tab ASCOM Devices block
-
-        /// <summary>
-        /// Wrapper to call check power switch status on background (separate thread)
-        /// because in case of network timeout it can hang system
-        /// </summary>
-        public void CheckPowerSwitchStatus_caller()
-        {
-            if (ObsControl.ASCOMSwitch.Connected_flag)
-            {
-                try
-                {
-                    if (CheckPowerStatusThread == null || !CheckPowerStatusThread.IsAlive)
-                    {
-                        CheckPowerStatusThread_startref = new ThreadStart(ObsControl.ASCOMSwitch.CheckPowerDeviceStatus);
-                        CheckPowerStatusThread = new Thread(CheckPowerStatusThread_startref);
-                        CheckPowerStatusThread.Start();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Exception in Main timer CheckPowerDeviceStatus! " + ex.ToString());
-                }
-            }
-        }
 
         /// <summary>
         /// Separate thread for socket server
@@ -880,15 +796,26 @@ namespace ObservatoryCenter
             }
         }
 
-        private void linkMaximDL_LinkClicked(object sender, EventArgs e)
+        private void chkMaxim_Click(object sender, EventArgs e)
         {
-
+            if (!((CheckBox)sender).Checked && ((CheckBox)sender).BackColor != OnColor)
+            {
+                LinkLabelLinkClickedEventArgs dummy = new LinkLabelLinkClickedEventArgs(linkMaximDL.Links[0]);
+                linkMaximDL_LinkClicked(sender, dummy);
+            }
         }
 
-        private void chkMaxim_CheckedChanged(object sender, EventArgs e)
+        private void chkPower_Click(object sender, EventArgs e)
         {
-            LinkLabelLinkClickedEventArgs dummy = new LinkLabelLinkClickedEventArgs(linkMaximDL.Links[0]);
-            linkMaximDL_LinkClicked(sender, dummy);
+                if (((CheckBox)sender).BackColor != OnColor)
+                {
+                    ObsControl.CommandParser.ParseSingleCommand("POWER_ON");
+                }
+                else
+                {
+                    ObsControl.CommandParser.ParseSingleCommand("POWER_OFF");
+                }
+
         }
     }
 }

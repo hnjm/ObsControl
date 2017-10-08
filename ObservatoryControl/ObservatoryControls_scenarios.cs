@@ -50,10 +50,11 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("POWER_MOUNT_OFF", (a) => this.ASCOMSwitch.PowerMountOff());
             CommandParser.Commands.Add("POWER_CAMERA_ON", (a) => this.ASCOMSwitch.PowerCameraOn());
             CommandParser.Commands.Add("POWER_CAMERA_OFF", (a) => this.ASCOMSwitch.PowerCameraOff());
-            CommandParser.Commands.Add("POWER_FOCUSER_ON", (a) => this.ASCOMSwitch.PowerFocuserOn());
-            CommandParser.Commands.Add("POWER_FOCUSER_OFF", (a) => this.ASCOMSwitch.PowerFocuserOff());
-            CommandParser.Commands.Add("POWER_ROOF_ON", (a) => this.ASCOMSwitch.PowerRoofOn());
-            CommandParser.Commands.Add("POWER_ROOF_OFF", (a) => this.ASCOMSwitch.PowerRoofOff());
+            //CommandParser.Commands.Add("POWER_FOCUSER_ON", (a) => this.ASCOMSwitch.PowerFocuserOn());
+            //CommandParser.Commands.Add("POWER_FOCUSER_OFF", (a) => this.ASCOMSwitch.PowerFocuserOff());
+            //CommandParser.Commands.Add("POWER_ROOF_ON", (a) => this.ASCOMSwitch.PowerRoofOn());
+            //CommandParser.Commands.Add("POWER_ROOF_OFF", (a) => this.ASCOMSwitch.PowerRoofOff());
+            CommandParser.Commands.Add("POWER_OFF", (a) => this.ASCOMSwitch.PowerMainRelaysOff()); //Power Mount, Camera, Focuser
 
             //MaimDL
             CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());

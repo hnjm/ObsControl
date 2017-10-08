@@ -40,8 +40,13 @@ namespace ObservatoryCenter
         //Power buttons state flags
         public bool? Telescope_power_flag = null;
         public bool? Camera_power_flag = null;
-        public bool? Focuser_power_flag = null;
-        public bool? Roof_power_flag = null;
+        public bool? _Focuser_power_flag = null;
+        public bool? _Roof_power_flag = null;
+
+        // Threads
+        private Thread CheckPowerStatusThread;
+        private ThreadStart CheckPowerStatusThread_startref;
+
 
         /// <summary>
         /// Constructor
@@ -187,6 +192,7 @@ namespace ObservatoryCenter
                     val = null;
                     Logging.AddLog("Get "+PORT_NAME+" unknown exception [" + ex.Message + "]!", LogLevel.Important, Highlight.Error);
                     Logging.AddLog(""+PORT_NAME+" exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                    Connected_flag = false;
                 }
             }
             else
@@ -320,59 +326,89 @@ namespace ObservatoryCenter
         /// <summary>
         /// Wrapper for focuse power on|off. Used in command processor
         /// </summary>
-        public string PowerFocuserOn()
+        public string _PowerFocuserOn()
         {
             Logging.AddLog("Switch focuser power on", LogLevel.Trace);
-            PowerSet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", true, out Focuser_power_flag);
+            PowerSet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", true, out _Focuser_power_flag);
             return "PowerFocuserOn";
         }
-        public string PowerFocuserOff()
+        public string _PowerFocuserOff()
         {
             Logging.AddLog("Switch focuser power off", LogLevel.Trace);
-            PowerSet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", false, out Focuser_power_flag);
+            PowerSet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT", false, out _Focuser_power_flag);
             return "PowerFocuserOff";
         }
 
         /// <summary>
         /// Wrapper for roof power on|off. Used in command processor
         /// </summary>
-        public string PowerRoofOn()
+        public string _PowerRoofOn()
         {
             Logging.AddLog("Switch roof power on", LogLevel.Trace);
-            PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", true, out Roof_power_flag);
+            PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", true, out _Roof_power_flag);
             return "PowerRoofOn";
         }
-        public string PowerRoofOff()
+        public string _PowerRoofOff()
         {
             Logging.AddLog("Switch roof power off", LogLevel.Trace);
-            PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", false, out Roof_power_flag);
+            PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", false, out _Roof_power_flag);
             return "PowerRoofOff";
         }
 
         public string PowerMainRelaysOn()
         {
+            if (!this.Connected_flag)
+            {
+                this.Connect = true;
+            }
             PowerMountOn();
             PowerCameraOn();
-            PowerFocuserOn();
             return "PowerMainRelays";
         }
 
+        public string PowerMainRelaysOff()
+        {
+            PowerMountOff();
+            PowerCameraOff();
+            return "PowerMainRelaysOff";
+        }
         #endregion Power controlling
 
 
-#region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
+        #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
         public void CheckPowerDeviceStatus()
         {
             try
             {
                 Telescope_power_flag = PowerGet(POWER_TELESCOPE_PORT,"POWER_MOUNT_PORT");
                 Camera_power_flag = PowerGet(POWER_CAMERA_PORT, "POWER_CAMERA_PORT");
-                Roof_power_flag = PowerGet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT");
-                Focuser_power_flag = PowerGet(POWER_FOCUSER_PORT, "POWER_FOCUSER_PORT");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception in ChechDeviceStatus! "+ex.ToString());
+                Logging.AddLog("Exception in ChechDeviceStatus ["+ex.ToString()+"]",LogLevel.Important,Highlight.Error);
+            }
+        }
+
+        /// <summary>
+        /// Checking device status in separate thread
+        /// </summary>
+        public void CheckPowerDeviceStatus_async()
+        {
+            if (Connected_flag)
+            {
+                try
+                {
+                    if (CheckPowerStatusThread == null || !CheckPowerStatusThread.IsAlive)
+                    {
+                        CheckPowerStatusThread_startref = new ThreadStart(CheckPowerDeviceStatus);
+                        CheckPowerStatusThread = new Thread(CheckPowerStatusThread_startref);
+                        CheckPowerStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Exception in CheckPowerDeviceStatus_async [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
             }
         }
 
@@ -382,7 +418,7 @@ namespace ObservatoryCenter
             {
                 try
                 {
-                    PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", (bool)RoofPower, out Roof_power_flag);
+                    PowerSet(POWER_ROOFPOWER_PORT, "POWER_ROOFPOWER_PORT", (bool)RoofPower, out _Roof_power_flag);
                 }
                 catch (Exception ex)
                 {
@@ -404,8 +440,8 @@ namespace ObservatoryCenter
 
             Telescope_power_flag = null;
             Camera_power_flag = null;
-            Focuser_power_flag = null;
-            Roof_power_flag = null;
+            _Focuser_power_flag = null;
+            _Roof_power_flag = null;
 
             objSwitch = null;
         }

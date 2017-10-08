@@ -467,7 +467,8 @@ namespace ObservatoryCenter
             ParentMainForm.ObsControl.ASCOMSwitch.DRIVER_NAME = txtSwitchDriverId.Text;
             ParentMainForm.ObsControl.ASCOMSwitch.Reset();
             ParentMainForm.ObsControl.ASCOMSwitch.Connect = true;
-            ParentMainForm.CheckPowerSwitchStatus_caller();
+            ParentMainForm.ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
+
         }
 
         private void btnChooseDome_Click(object sender, EventArgs e)

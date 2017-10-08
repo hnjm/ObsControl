@@ -22,6 +22,11 @@ namespace ObservatoryCenter
         public MaxIm.Application    MaximApplicationObj;    //Application object
         public MaxIm.CCDCamera      CCDCamera;              //Camera object
 
+        public bool TelescopeConnected = false;
+        public bool CameraConnected = false;
+        public bool FocuserConnected = false;
+
+
         public double CameraSetTemp = -30;
 
         public bool GuiderRunnig = false;
@@ -38,7 +43,50 @@ namespace ObservatoryCenter
             MaximApplicationObj = new MaxIm.Application();
         }
 
-        /// <summary>
+
+        #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
+        public void CheckMaximStatus()
+        {
+            try
+            {
+                if (IsRunning() && MaximApplicationObj != null)
+                {
+                    TelescopeConnected = TelescopeConnectStatus();
+                    CameraConnected = CameraConnectStatus();
+                    FocuserConnected = FocuserConnectStatus(); 
+                }
+            }
+            catch (Exception ex)
+            {
+                string FullMessage = "CheckMaximStatus exception!" + Environment.NewLine;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("CheckMaximStatus exception [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+            }
+        }
+        #endregion
+
+
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Cnnection status
+        
+            /// <summary>
         /// Connect cameras in MaximDL
         /// </summary>
         /// <returns></returns>
@@ -75,10 +123,10 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
-        /// Connect cameras in MaximDL
+        /// Camera connection status in MaximDL
         /// </summary>
         /// <returns></returns>
-        public bool ConnectCameraStatus()
+        private bool CameraConnectStatus()
         {
             bool res = false;
 
@@ -151,10 +199,10 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
-        /// Connect telescope in MaximDL
+        /// Telescope connection status in MaximDL
         /// </summary>
         /// <returns></returns>
-        public bool ConnectTelescopeStatus()
+        private bool TelescopeConnectStatus()
         {
             bool res = false;
             if (MaximApplicationObj != null)
@@ -225,8 +273,50 @@ namespace ObservatoryCenter
             }
         }
 
-/////// Cooling management ////////////////////////////////////////////////////////////////////////////////////////////////////
-#region Cooling management
+        /// <summary>
+        /// Focuser connection state in MaximDL
+        /// </summary>
+        /// <returns></returns>
+        private bool FocuserConnectStatus()
+        {
+            bool res = false;
+            if (MaximApplicationObj != null)
+            {
+                try
+                {
+                    res = MaximApplicationObj.FocuserConnected;
+                }
+                catch (Exception ex)
+                {
+                    StackTrace st = new StackTrace(ex, true);
+                    StackFrame[] frames = st.GetFrames();
+                    string messstr = "";
+
+                    // Iterate over the frames extracting the information you need
+                    foreach (StackFrame frame in frames)
+                    {
+                        messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                    }
+
+                    string FullMessage = "MaximDL focuser check connection failed!" + Environment.NewLine;
+                    FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                            + Environment.NewLine + Environment.NewLine + messstr;
+                    //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                    Logging.AddLog("MaximDL focuser check connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                }
+            }
+            return res;
+        }
+        #endregion /// connections ///
+
+
+
+
+
+        /////// Cooling management ////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Cooling management
 
         /// <summary>
         /// Set main camera cooling temperature
@@ -427,7 +517,7 @@ namespace ObservatoryCenter
 
 
 
-        public bool CheckCameraAvailable()
+        private bool CheckCameraAvailable()
         {
             bool res = false;
 

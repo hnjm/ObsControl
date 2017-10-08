@@ -140,7 +140,7 @@ namespace ObservatoryCenter
             //Check if power is connected. Only if we have link to external ASCOM Switch object
             if (ExtASCOMSiwitchObj != null)
             {
-                if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj.Roof_power_flag != true)
+                if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj._Roof_power_flag != true)
                 {
                     Logging.AddLog("Roof power switched off", LogLevel.Important, Highlight.Error);
                     return false;
@@ -181,7 +181,7 @@ namespace ObservatoryCenter
             //Check if power is connected
             if (ExtASCOMSiwitchObj != null)
             {
-                if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj.Roof_power_flag != true)
+                if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj._Roof_power_flag != true)
                 {
                     Logging.AddLog("Roof power switched off", LogLevel.Activity);
                     return false;
