@@ -139,9 +139,12 @@ namespace ObservatoryCenter
             //Was enough time passed to start cheking actual roof status?
             if (tickCount > waitTicksBeforeCheck)
             {
+                //check hardware status sync mode
+                ObsControl.ASCOMDome.CheckDomeShutterStatus();
+
                 //Roof was opened/closed?
-                if (((ROOF_incPos > 0) && ObsControl.ASCOMDome.DomeShutterStatus != ShutterState.shutterOpen) ||
-                    ((ROOF_incPos < 0) && ObsControl.ASCOMDome.DomeShutterStatus != ShutterState.shutterClosed))
+                if (((ROOF_incPos > 0) && ObsControl.ASCOMDome.curShutterStatus != ShutterState.shutterOpen) ||
+                    ((ROOF_incPos < 0) && ObsControl.ASCOMDome.curShutterStatus != ShutterState.shutterClosed))
 
                 {
                 //Not yet
@@ -223,7 +226,10 @@ namespace ObservatoryCenter
         }
         private void RoofAnimation_drawStoped()
         {
-            ShutterState curShutState = ObsControl.ASCOMDome.DomeShutterStatus;
+            //check hardware status sync mode
+            ObsControl.ASCOMDome.CheckDomeShutterStatus();
+            ShutterState curShutState = ObsControl.ASCOMDome.curShutterStatus;
+
             if ((curShutState == ShutterState.shutterOpening) || (curShutState == ShutterState.shutterClosing))
             {
                 rectRoof.Left = ROOF_startPos.X + Convert.ToInt16(Math.Round((double)ROOF_endPos / 2));
@@ -260,19 +266,20 @@ namespace ObservatoryCenter
 
 
         /// <summary>
+        /// Update current roof status
         /// Draw roof position whenever needed
-        /// as for now called only once - form_load
+        /// called only also from - form_load
         /// </summary>
         private void UpdateRoofPicture()
         {
             //Draw roof status
             if (ObsControl.ASCOMDome.Enabled && ObsControl.ASCOMDome.DRIVER_NAME != "" && ObsControl.ASCOMDome.Connected_flag)
             { 
-                if (ObsControl.ASCOMDome.DomeShutterStatus == ShutterState.shutterClosed)
+                if (ObsControl.ASCOMDome.curShutterStatus == ShutterState.shutterClosed)
                 {
                     RoofAnimation_drawClosed();
                 }
-                else if (ObsControl.ASCOMDome.DomeShutterStatus == ShutterState.shutterOpen)
+                else if (ObsControl.ASCOMDome.curShutterStatus == ShutterState.shutterOpen)
                 {
                     RoofAnimation_drawOpened();
                 }

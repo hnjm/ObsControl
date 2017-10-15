@@ -297,6 +297,7 @@
             this.chkPower = new System.Windows.Forms.CheckBox();
             this.chkCCDC = new System.Windows.Forms.CheckBox();
             this.chkMaxim = new System.Windows.Forms.CheckBox();
+            this.chkPHD = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.updownCameraSetPoint = new System.Windows.Forms.NumericUpDown();
             this.txtCCDAutomationStatus = new System.Windows.Forms.RichTextBox();
@@ -360,7 +361,6 @@
             this.chkKill = new System.Windows.Forms.CheckBox();
             this.chkPause = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.chkPHD = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPageLog.SuspendLayout();
@@ -3150,8 +3150,9 @@
             // chkRoof
             // 
             this.chkRoof.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkRoof.AutoCheck = false;
             this.chkRoof.AutoSize = true;
-            this.chkRoof.Location = new System.Drawing.Point(149, 2);
+            this.chkRoof.Location = new System.Drawing.Point(3, 3);
             this.chkRoof.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkRoof.Name = "chkRoof";
             this.chkRoof.Size = new System.Drawing.Size(37, 35);
@@ -3163,6 +3164,7 @@
             // chkSyncMount
             // 
             this.chkSyncMount.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSyncMount.AutoCheck = false;
             this.chkSyncMount.AutoSize = true;
             this.chkSyncMount.Location = new System.Drawing.Point(1229, 2);
             this.chkSyncMount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3176,6 +3178,7 @@
             // chkAbort
             // 
             this.chkAbort.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAbort.AutoCheck = false;
             this.chkAbort.AutoSize = true;
             this.chkAbort.Location = new System.Drawing.Point(683, 2);
             this.chkAbort.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3189,6 +3192,7 @@
             // chkRun
             // 
             this.chkRun.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkRun.AutoCheck = false;
             this.chkRun.AutoSize = true;
             this.chkRun.Location = new System.Drawing.Point(527, 2);
             this.chkRun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3202,6 +3206,7 @@
             // chkMountPark
             // 
             this.chkMountPark.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMountPark.AutoCheck = false;
             this.chkMountPark.AutoSize = true;
             this.chkMountPark.Location = new System.Drawing.Point(441, 2);
             this.chkMountPark.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3215,8 +3220,9 @@
             // chkPower
             // 
             this.chkPower.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkPower.AutoCheck = false;
             this.chkPower.AutoSize = true;
-            this.chkPower.Location = new System.Drawing.Point(192, 2);
+            this.chkPower.Location = new System.Drawing.Point(41, 3);
             this.chkPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkPower.Name = "chkPower";
             this.chkPower.Size = new System.Drawing.Size(36, 35);
@@ -3229,8 +3235,9 @@
             // chkCCDC
             // 
             this.chkCCDC.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkCCDC.AutoCheck = false;
             this.chkCCDC.AutoSize = true;
-            this.chkCCDC.Location = new System.Drawing.Point(91, 2);
+            this.chkCCDC.Location = new System.Drawing.Point(187, 3);
             this.chkCCDC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkCCDC.Name = "chkCCDC";
             this.chkCCDC.Size = new System.Drawing.Size(37, 35);
@@ -3238,12 +3245,14 @@
             this.chkCCDC.Text = "C";
             this.toolTip1.SetToolTip(this.chkCCDC, "CCDCommander");
             this.chkCCDC.UseVisualStyleBackColor = true;
+            this.chkCCDC.Click += new System.EventHandler(this.chkCCDC_Click);
             // 
             // chkMaxim
             // 
             this.chkMaxim.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMaxim.AutoCheck = false;
             this.chkMaxim.AutoSize = true;
-            this.chkMaxim.Location = new System.Drawing.Point(3, 2);
+            this.chkMaxim.Location = new System.Drawing.Point(122, 3);
             this.chkMaxim.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkMaxim.Name = "chkMaxim";
             this.chkMaxim.Size = new System.Drawing.Size(40, 35);
@@ -3252,6 +3261,21 @@
             this.toolTip1.SetToolTip(this.chkMaxim, "Maxim DL");
             this.chkMaxim.UseVisualStyleBackColor = true;
             this.chkMaxim.Click += new System.EventHandler(this.chkMaxim_Click);
+            // 
+            // chkPHD
+            // 
+            this.chkPHD.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkPHD.AutoCheck = false;
+            this.chkPHD.AutoSize = true;
+            this.chkPHD.Location = new System.Drawing.Point(158, 3);
+            this.chkPHD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkPHD.Name = "chkPHD";
+            this.chkPHD.Size = new System.Drawing.Size(36, 35);
+            this.chkPHD.TabIndex = 13;
+            this.chkPHD.Text = "P";
+            this.toolTip1.SetToolTip(this.chkPHD, "PHD");
+            this.chkPHD.UseVisualStyleBackColor = true;
+            this.chkPHD.Click += new System.EventHandler(this.chkPHD_Click);
             // 
             // groupBox5
             // 
@@ -3932,6 +3956,7 @@
             this.PannelShort.Controls.Add(this.txtHFDLast);
             this.PannelShort.Controls.Add(this.txtCCDCInfo_SinceLastFocus);
             this.PannelShort.Controls.Add(this.txtCooler);
+            this.PannelShort.Controls.Add(this.chkPower);
             this.PannelShort.Controls.Add(this.chkRoof);
             this.PannelShort.Controls.Add(this.chkSyncMount);
             this.PannelShort.Controls.Add(this.chkFocus);
@@ -3941,19 +3966,19 @@
             this.PannelShort.Controls.Add(this.chkRun);
             this.PannelShort.Controls.Add(this.checkBox1);
             this.PannelShort.Controls.Add(this.chkMountPark);
-            this.PannelShort.Controls.Add(this.chkPower);
             this.PannelShort.Controls.Add(this.chkCCDC);
             this.PannelShort.Controls.Add(this.chkPHD);
             this.PannelShort.Controls.Add(this.chkMaxim);
-            this.PannelShort.Location = new System.Drawing.Point(80, 1196);
+            this.PannelShort.Location = new System.Drawing.Point(166, 1188);
             this.PannelShort.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PannelShort.Name = "PannelShort";
-            this.PannelShort.Size = new System.Drawing.Size(1325, 40);
+            this.PannelShort.Size = new System.Drawing.Size(1391, 40);
             this.PannelShort.TabIndex = 5;
             // 
             // chkFocus
             // 
             this.chkFocus.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkFocus.AutoCheck = false;
             this.chkFocus.AutoSize = true;
             this.chkFocus.Location = new System.Drawing.Point(919, 2);
             this.chkFocus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3966,6 +3991,7 @@
             // chkKill
             // 
             this.chkKill.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkKill.AutoCheck = false;
             this.chkKill.AutoSize = true;
             this.chkKill.Location = new System.Drawing.Point(763, 2);
             this.chkKill.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3978,6 +4004,7 @@
             // chkPause
             // 
             this.chkPause.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkPause.AutoCheck = false;
             this.chkPause.AutoSize = true;
             this.chkPause.Location = new System.Drawing.Point(595, 2);
             this.chkPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -3990,26 +4017,15 @@
             // checkBox1
             // 
             this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox1.AutoCheck = false;
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(267, 2);
+            this.checkBox1.Location = new System.Drawing.Point(266, 3);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(37, 35);
             this.checkBox1.TabIndex = 9;
             this.checkBox1.Text = "C";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // chkPHD
-            // 
-            this.chkPHD.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkPHD.AutoSize = true;
-            this.chkPHD.Location = new System.Drawing.Point(49, 2);
-            this.chkPHD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkPHD.Name = "chkPHD";
-            this.chkPHD.Size = new System.Drawing.Size(36, 35);
-            this.chkPHD.TabIndex = 13;
-            this.chkPHD.Text = "P";
-            this.chkPHD.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 

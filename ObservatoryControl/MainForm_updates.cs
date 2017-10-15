@@ -98,54 +98,6 @@ namespace ObservatoryCenter
 
         }
 
-        /// <summary>
-        /// Update short pannel application status
-        /// </summary>
-        private void UpdateShortPannelButtonsStatus()
-        {
-            //Maxim DL status
-            Color MaximColor = new Color();
-            if (ObsControl.objMaxim.IsRunning())
-            {
-                chkMaxim.Checked = true;
-                MaximColor = InterColor;
-                if (ObsControl.objMaxim.CameraConnected)
-                {
-                    if (ObsControl.objMaxim.TelescopeConnected)
-                    {
-                        MaximColor = OnColor;
-                    }
-                }
-            }
-            else
-            {
-                chkMaxim.Checked = false;
-                MaximColor = OffColor;
-            }
-            chkMaxim.BackColor = MaximColor;
-
-
-            //Power buttons
-            if (ObsControl.ASCOMSwitch.Connected_flag)
-            {
-                chkPower.Checked = true;
-                if (ObsControl.ASCOMSwitch.Telescope_power_flag == true)
-                {
-                    chkPower.BackColor = OnColor;
-                }
-                else
-                { 
-                    chkPower.BackColor = OffColor;
-                }
-            }
-            else
-            {
-                chkPower.Checked = false;
-                chkPower.BackColor = DefaultBackColor;
-            }
-
-
-        }
 
 
         /// <summary>

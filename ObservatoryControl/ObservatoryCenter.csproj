@@ -31,8 +31,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>47</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>50</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -147,7 +147,13 @@
     <Compile Include="About.cs" />
     <Compile Include="AstroUtils.cs" />
     <Compile Include="BoltwoodClasses.cs" />
-    <Compile Include="MainForm_updates.cs">
+    <Compile Include="MainForm_ShortForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm_Events.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm_Updates.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ObservatoryControls_ASCOMTelescope.cs" />
@@ -165,7 +171,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm_animation.cs">
+    <Compile Include="MainForm_Animation.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProgControls_Maxim.cs" />
@@ -185,11 +191,11 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm_new.cs">
+    <Compile Include="__MainForm_new.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm_new.Designer.cs">
-      <DependentUpon>MainForm_new.cs</DependentUpon>
+    <Compile Include="__MainForm_new.Designer.cs">
+      <DependentUpon>__MainForm_new.cs</DependentUpon>
     </Compile>
     <Compile Include="SocketServer.cs" />
     <Compile Include="TestEquipmentForm.cs">
@@ -216,8 +222,8 @@
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm_new.resx">
-      <DependentUpon>MainForm_new.cs</DependentUpon>
+    <EmbeddedResource Include="__MainForm_new.resx">
+      <DependentUpon>__MainForm_new.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestEquipmentForm.resx">
       <DependentUpon>TestEquipmentForm.cs</DependentUpon>

@@ -78,7 +78,7 @@ namespace ObservatoryCenter
 
             //PHS2 related commands
             CommandParser.Commands.Add("PHD2_RUN", (a) => this.startPHD2());
-            CommandParser.Commands.Add("PHD2_CONNECT", (a) => this.objPHD2App.CMD_ConnectEquipment());
+            CommandParser.Commands.Add("PHD2_CONNECT", (a) => this.objPHD2App.CMD_ConnectEquipment2());
             CommandParser.Commands.Add("PHDBROKER_RUN", (a) => this.startPHDBroker());
 
             //WS commands

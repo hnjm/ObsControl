@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace ObservatoryCenter
 {
-    public partial class MainForm_new : Form
+    public partial class __MainForm_new : Form
     {
-        public MainForm_new()
+        public __MainForm_new()
         {
             InitializeComponent();
         }

@@ -34,6 +34,9 @@ namespace ObservatoryCenter
         internal DateTime RoofRoutine_StartTime;
         internal int curRoofRoutineDuration_Seconds;
 
+        // Threads
+        private Thread CheckDomeStatusThread;
+        private ThreadStart CheckDomeStatusThread_startref;
 
         /// <summary>
         /// Constructor 1 variant. Without any reference to external SWITCH OBJECT
@@ -137,15 +140,15 @@ namespace ObservatoryCenter
                 return false;
             }
 
-            //Check if power is connected. Only if we have link to external ASCOM Switch object
-            if (ExtASCOMSiwitchObj != null)
-            {
-                if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj._Roof_power_flag != true)
-                {
-                    Logging.AddLog("Roof power switched off", LogLevel.Important, Highlight.Error);
-                    return false;
-                }
-            }
+            ////Check if power is connected. Only if we have link to external ASCOM Switch object
+            //if (ExtASCOMSiwitchObj != null)
+            //{
+            //    if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj._Roof_power_flag != true)
+            //    {
+            //        Logging.AddLog("Roof power switched off", LogLevel.Important, Highlight.Error);
+            //        return false;
+            //    }
+            //}
             RoofRoutine_StartTime = DateTime.Now;
 
             try
@@ -179,14 +182,14 @@ namespace ObservatoryCenter
             }
 
             //Check if power is connected
-            if (ExtASCOMSiwitchObj != null)
-            {
-                if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj._Roof_power_flag != true)
-                {
-                    Logging.AddLog("Roof power switched off", LogLevel.Activity);
-                    return false;
-                }
-            }
+            //if (ExtASCOMSiwitchObj != null)
+            //{
+            //    if (ExtASCOMSiwitchObj.Connected_flag && ExtASCOMSiwitchObj._Roof_power_flag != true)
+            //    {
+            //        Logging.AddLog("Roof power switched off", LogLevel.Activity);
+            //        return false;
+            //    }
+            //}
             RoofRoutine_StartTime = DateTime.Now;
 
             try
@@ -208,39 +211,71 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get shutter status
         /// </summary>
-        public ShutterState DomeShutterStatus
+        private ShutterState getDomeShutterStatus()
         {
-            get
+            //Log enter
+            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
+
+            //if device present at all and its ID is set
+            if (Enabled && DRIVER_NAME != "" && this.Connect == true)
             {
-                //Log enter
-                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
-
-
-                //if device present at all and its ID is set
-                if (Enabled && DRIVER_NAME != "")
+                try
                 {
-                    try
-                    {
-                        curShutterStatus = objDome.ShutterStatus;
-                    }
-                    catch (Exception ex)
-                    {
-                        curShutterStatus = ShutterState.shutterError;
-                        Logging.AddLog("Couldn't get shutter state", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
-                    }
+                    curShutterStatus = objDome.ShutterStatus;
                 }
-                else
+                catch (Exception ex)
                 {
                     curShutterStatus = ShutterState.shutterError;
-                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
-                    Logging.AddLog("Dome is not set. Couldn't return status of shutter", LogLevel.Debug, Highlight.Error);
+                    Connected_flag = false;
+                    Logging.AddLog("Couldn't get shutter state", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
                 }
+            }
+            else
+            {
+                curShutterStatus = ShutterState.shutterError;
+                Connected_flag = false;
+                //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                Logging.AddLog("Dome is not set. Couldn't return status of shutter", LogLevel.Debug, Highlight.Error);
+            }
 
-                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + curShutterStatus, LogLevel.Trace);
-                return curShutterStatus;
+            Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + curShutterStatus, LogLevel.Trace);
+            return curShutterStatus;
+        }
+
+        /// <summary>
+        /// Dummy void method wrapper, because threadstart needs only void
+        /// </summary>
+        public void CheckDomeShutterStatus()
+        {
+            this.getDomeShutterStatus();
+        }
+
+        /// <summary>
+        /// Checking device status in separate thread
+        /// </summary>
+        public void CheckDomeShutterStatus_async()
+        {
+            if (Connected_flag)
+            {
+                try
+                {
+                    if (CheckDomeStatusThread == null || !CheckDomeStatusThread.IsAlive)
+                    {
+                        CheckDomeStatusThread_startref = new ThreadStart(CheckDomeShutterStatus);
+                        CheckDomeStatusThread = new Thread(CheckDomeStatusThread_startref);
+                        CheckDomeStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Exception in CheckPowerDeviceStatus_async [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
             }
         }
+
+
 
         #endregion Roof control end
 

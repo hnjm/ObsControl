@@ -101,6 +101,11 @@ namespace ObservatoryCenter
 
         public PHDState currentState = PHDState.Unknown;
 
+        public bool EquipmentConnected = false;
+        // Threads
+        private Thread CheckPHDStatusThread;
+        private ThreadStart CheckPHDStatusThread_startref;
+
         public Double LastRAError, LastDecError;
 
         public bool LastCommand_Result = false;
@@ -130,14 +135,14 @@ namespace ObservatoryCenter
                     string output2 = SocketServerClass.ReceiveFromServer(ProgramSocket, out Error);
 
                     //Parse response
-                    ParseServerResponse(output2);
+                    Handle_PHD_Response(output2);
 
                     res = true;
                 }
             }
             else
             {
-                Logging.AddLog("PHD2 already connected", LogLevel.Activity);
+                Logging.AddLog("PHD2 server already connected", LogLevel.Activity);
                 res = true;
             }
             return res;
@@ -172,7 +177,7 @@ namespace ObservatoryCenter
                 Logging.AddLog("PHD2_SendCommand: server response = " + output2, LogLevel.Debug, Highlight.Error);
 
                 //Parse response
-                ParseServerResponse(output2, out result);
+                Handle_PHD_Response(output2, out result);
 
                 //Check
                 if (!LastCommand_Result)
@@ -198,6 +203,7 @@ namespace ObservatoryCenter
             return res;
         }
 
+
         /// <summary>
         /// SendCommand overload with only 1 parameter
         /// </summary>
@@ -207,6 +213,40 @@ namespace ObservatoryCenter
         {
             string dumbstring = "";
             bool res = SendCommand(message, out dumbstring);
+            return res;
+        }
+
+
+        /// <summary>
+        /// Send commnad - just send, no read
+        /// </summary>
+        /// <returns></returns>
+        public bool SendCommand2(string message, out string str_result)
+        {
+            bool res = false;
+            string outMessage = "";
+
+            //if wasn't connected earlier, connect again
+            if (ProgramSocket == null)
+            {
+                EstablishConnection();
+            }
+
+
+            //Send command
+            Logging.AddLog("PHD2 sending comand: " + message, LogLevel.Debug);
+            int resSrv = SocketServerClass.SendToServer2(ProgramSocket, message, out outMessage);
+
+            if (resSrv >= 0)
+            {
+                res = true;
+            }
+            else
+            {
+                res = false;
+            }
+
+            str_result = outMessage;
             return res;
         }
 
@@ -224,7 +264,7 @@ namespace ObservatoryCenter
             //Parse response
             if (output != null)
             {
-                ParseServerResponse(output);
+                Handle_PHD_Response(output);
                 res = true;
 
             }
@@ -238,7 +278,7 @@ namespace ObservatoryCenter
         /// </summary>
         /// <param name="responsest">Raw string as returned from PHD2</param>
         /// <returns>true if succesfull</returns>
-        public bool ParseServerResponse(string responsest, out string result)
+        public bool Handle_PHD_Response(string responsest, out string result, int search_id=0)
         {
             bool res = false;
             result = "";
@@ -252,11 +292,37 @@ namespace ObservatoryCenter
             //2. Loop through lines
             foreach (string curline in lines)
             {
-
                 //3. Split response string into parts
                 string attribs = "", id = "", st_event = "";
-                st_event = ParseResponseString(curline, out attribs, out id);
+                st_event = Parse_PHD_ResponseString(curline, out attribs, out id);
+
                 Logging.AddLog("PHD2_ParseResponseString result: st_event = " + st_event + ", attributes = " + attribs + "", LogLevel.Debug, Highlight.Error);
+
+                //in case ID is given
+                //search and exit after evaluation
+                if (search_id>0 && id == search_id.ToString())
+                {
+                    if (st_event == "result" || st_event == "error")
+                    {
+                        if (st_event == "result")
+                        {
+                            if (attribs == "true")
+                            {
+                                result = attribs;
+                                return true;
+                            }else
+                            {
+                                result = "false";
+                                return false;
+                            }
+                        }
+                        else if (st_event == "error")
+                        {
+                            result = "false";
+                            return false;
+                        }
+                    }
+                }
 
                 //Logging.AddLog("PHD2 response. Event: " + st_event + ". Attributes: " + attribs + ". ID: " + id, LogLevel.Trace);
 
@@ -303,10 +369,10 @@ namespace ObservatoryCenter
         /// </summary>
         /// <param name="responsest"></param>
         /// <returns></returns>
-        public bool ParseServerResponse(string responsest)
+        public bool Handle_PHD_Response(string responsest)
         {
             string dumbstring = "";
-            bool res = ParseServerResponse(responsest, out dumbstring);
+            bool res = Handle_PHD_Response(responsest, out dumbstring);
             return res;
         }
 
@@ -318,7 +384,7 @@ namespace ObservatoryCenter
         /// <param name="attributes"></param>
         /// <param name="id"></param>
         /// <returns>event name or response tag</returns>
-        private string ParseResponseString(string responsestr, out string attributes, out string id, string jsonstring="")
+        private string Parse_PHD_ResponseString(string responsestr, out string attributes, out string id, string jsonstring="")
         {
             //{"Event":"Version","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"PHDVersion":"2.6.2","PHDSubver":"","MsgVersion":1}
             //{"Event":"CalibrationComplete","Timestamp":1474143595.908,"Host":"MAIN","Inst":1,"Mount":"On Camera"}
@@ -530,6 +596,162 @@ namespace ObservatoryCenter
             return output;
         }
 
+        /// <summary>
+        /// Connect equipment
+        /// </summary>
+        /// <returns></returns>
+        public string CMD_ConnectEquipment2()
+        {
+            if (!this.IsRunning())
+                return "";
+
+            //calc id
+            int CMD_ID = 81;
+            Random rand = new Random();
+            int temp = rand.Next(999);
+            int id = CMD_ID * 1000 + temp;
+
+            //make message
+            string message = @"{""method"": ""set_connected"", ""params"": [true], ""id"": " + id + "}" + "\r\n";
+
+            //send message to PHD2
+            string st_result = "", ret_message="";
+
+            bool resSend = SendCommand2(message, out st_result);
+            if (!resSend)
+            {
+                ret_message = "PHD2 CMD_ConnectEquipment2 send message error: [" + resSend + "]" + st_result;
+                Logging.AddLog(ret_message, LogLevel.Debug, Highlight.Error);
+                EquipmentConnected = false;
+                return ret_message;
+            }
+
+            //wait
+            Thread.Sleep(200);
+
+            //Read response
+            int errorCode = -999;
+            string output_from_server = SocketServerClass.ReceiveFromServer(ProgramSocket, out errorCode);
+            if (errorCode < 0)
+            {
+                ret_message = "PHD2 CMD_ConnectEquipment2 receive message error: [" + errorCode + "]";
+                Logging.AddLog(ret_message, LogLevel.Debug, Highlight.Error);
+                EquipmentConnected = false;
+                return ret_message;
+            }
+            Logging.AddLog("PHD2_SendCommand: server response = " + output_from_server, LogLevel.Debug, Highlight.Error);
+
+            //Parse response
+            Handle_PHD_Response(output_from_server, out st_result, id);
+
+            //Check
+            if (st_result == "true")
+            {
+                Error = 0;
+                ret_message = "PHD2 equipment connected";
+                Logging.AddLog(ret_message, LogLevel.Activity);
+            }
+            else
+            {
+                Error = -1;
+                ret_message = "PHD2 equipment not connected: " + LastCommand_Message + "]";
+                Logging.AddLog(ret_message, LogLevel.Important, Highlight.Error);
+            }
+
+            this.EquipmentConnected = (Error == 0);
+
+            return ret_message;
+        }
+
+
+        /// <summary>
+        /// get connect equipment status
+        /// </summary>
+        /// <returns></returns>
+        public void CMD_GetConnectEquipmentStatus()
+        {
+            if (!this.IsRunning())
+                return;
+            
+            //calc id
+            int CMD_ID = 80;
+            Random rand = new Random();
+            int temp = rand.Next(999);
+            int id = CMD_ID * 1000 + temp;
+            
+            //make message
+            string message = @"{""method"": ""get_connected"", ""id"": " + id + "}" + "\r\n";
+
+            //send message to PHD2
+            string st_result = "";
+            bool resSend = SendCommand2(message, out st_result);
+            if (!resSend)
+            {
+                Logging.AddLog("PHD2 CMD_GetConnectEquipmentStatus send message error: ["+ resSend + "]" + st_result, LogLevel.Debug, Highlight.Error);
+                EquipmentConnected = false;
+                return;
+            }
+
+            //wait
+            Thread.Sleep(200);
+
+            //Read response
+            int errorCode = -999;
+            string output_from_server = SocketServerClass.ReceiveFromServer(ProgramSocket, out errorCode);
+            if (errorCode<0)
+            {
+                Logging.AddLog("PHD2 CMD_GetConnectEquipmentStatus receive message error: [" + resSend + "]" + st_result, LogLevel.Debug, Highlight.Error);
+                EquipmentConnected = false;
+                return;
+            }
+            Logging.AddLog("PHD2_SendCommand: server response = " + output_from_server, LogLevel.Debug, Highlight.Error);
+
+            //Parse response
+            Handle_PHD_Response(output_from_server, out st_result, id);
+
+            //Check
+            if (st_result == "true")
+            {
+                Error = 0;
+                ErrorSt = "";
+                Logging.AddLog("PHD2 equipment connected", LogLevel.Debug);
+            }
+            else
+            {
+                Error = -1;
+                ErrorSt = LastCommand_Message;
+                Logging.AddLog("PHD2 equipment not connected or error: " + LastCommand_Message + "]", LogLevel.Debug, Highlight.Error);
+            }
+
+            this.EquipmentConnected = (Error == 0);
+
+            return;
+        }
+
+        /// <summary>
+        /// get connect equipment status
+        /// </summary>
+        /// <returns></returns>
+        public void CMD_GetConnectEquipmentStatus_async()
+        {
+            if (this.IsRunning())
+            {
+                try
+                {
+                    if (CheckPHDStatusThread == null || !CheckPHDStatusThread.IsAlive)
+                    {
+                        CheckPHDStatusThread_startref = new ThreadStart(CMD_GetConnectEquipmentStatus);
+                        CheckPHDStatusThread = new Thread(CheckPHDStatusThread_startref);
+                        CheckPHDStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Exception in CheckPowerDeviceStatus_async [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
+            }
+
+        }
 
 
         /// <summary>
@@ -649,7 +871,7 @@ namespace ObservatoryCenter
             message = message + "\r\n";
             string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, message, out Error);
             string attribs = "", id = "";
-            ParseResponseString(output, out attribs, out id);
+            Parse_PHD_ResponseString(output, out attribs, out id);
             if (!output.Contains("{\"jsonrpc\":\"2.0\",\"result\":0,\"id\":1}\r\n"))
             {
                 Error = -2;

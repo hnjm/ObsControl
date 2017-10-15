@@ -1,6 +1,6 @@
 ﻿namespace ObservatoryCenter
 {
-    partial class MainForm_new
+    partial class __MainForm_new
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm_new));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(__MainForm_new));
             this.groupBoxRoof = new System.Windows.Forms.GroupBox();
             this.btnStopRoof = new System.Windows.Forms.Button();
             this.btnCloseRoof = new System.Windows.Forms.Button();

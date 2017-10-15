@@ -264,6 +264,37 @@ namespace ObservatoryCenter
         /// Static method for connecting to socket server as a client 
         /// not very good place for a such method, but...
         /// </summary>
+        public static int SendToServer2(Socket ServerSocket, string message, out string outmessage)
+        {
+            int ReturnCode = -1;
+            string ReturnMess = "";
+            try
+            {
+                // Отправляем данные через сокет
+                byte[] msg = Encoding.UTF8.GetBytes(message);
+                Logging.AddLog("Sending to " + ServerSocket.RemoteEndPoint.ToString() + " message : " + message, LogLevel.Chat);
+
+                int bytesSent = ServerSocket.Send(msg);
+
+                ReturnCode = 0;
+                ReturnMess = "Message to " + ServerSocket.RemoteEndPoint.ToString() + " sent";
+            }
+            catch (Exception Ex)
+            {
+                ReturnMess = "SendToServer [" + message + "] failed";
+                Logging.LogExceptionMessage(Ex, ReturnMess);
+                ReturnCode = -1;
+            }
+            outmessage = ReturnMess;
+            return ReturnCode;
+        }
+
+
+
+        /// <summary>
+        /// Static method for connecting to socket server as a client 
+        /// not very good place for a such method, but...
+        /// </summary>
         public static string DisconnectFromServer(Socket ServerSocket, out int ErrorCode)
         {
             string st = "";
