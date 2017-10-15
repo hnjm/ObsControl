@@ -283,6 +283,13 @@ namespace ObservatoryCenter
             Logging.AddLog("StartUp routine finished", LogLevel.Activity);
         }
 
+        public void StartUpObservatory_async()
+        {
+            ThreadStart RunThreadRef = new ThreadStart(StartUpObservatory);
+            Thread childThread = new Thread(RunThreadRef);
+            childThread.Start();
+            Logging.AddLog("Command 'Prepare run' was initiated", LogLevel.Activity);
+        }
         #endregion Scenarios
 
 

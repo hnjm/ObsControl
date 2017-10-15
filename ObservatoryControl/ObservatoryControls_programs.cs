@@ -178,7 +178,6 @@ namespace ObservatoryCenter
 
         #endregion Program controlling
 
-
     }
 
 }

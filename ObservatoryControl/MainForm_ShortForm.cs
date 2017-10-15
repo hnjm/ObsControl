@@ -71,8 +71,8 @@ namespace ObservatoryCenter
                 chkPower.BackColor = DefBackColor;
             }
 
-                    
-            
+
+
             //Maxim DL status
             Color tmpMaximColor = new Color();
             if (ObsControl.objMaxim.IsRunning())
@@ -93,6 +93,80 @@ namespace ObservatoryCenter
                 tmpMaximColor = OffColor;
             }
             chkMaxim.BackColor = tmpMaximColor;
+
+
+            //Cooler Status
+            if (ObsControl.objMaxim.IsRunning())
+            {
+                if (ObsControl.objMaxim.CameraConnected)
+                {
+                    //Parameters
+                    txtShortTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
+                    txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.CameraSetPoint);
+                    txtShortPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
+
+                    if (ObsControl.objMaxim.CameraCoolerOnStatus)
+                    {
+                        chkCoolerFlag.Checked = true;
+                        chkCoolerFlag.BackColor = OnColor;
+
+                        //Check temp is set?
+                        if (Math.Abs(ObsControl.objMaxim.CameraTemp - ObsControl.objMaxim.CameraSetPoint) > 1.0 )
+                        {
+                            txtShortTemp.BackColor = OffColor;
+                        }
+                        else
+                        {
+                            txtShortTemp.BackColor = DefBackColor;
+                        }
+
+                        //Check power is to high?
+                        if (ObsControl.objMaxim.CameraCoolerPower >= 99.0)
+                        {
+                            txtShortPower.BackColor = OffColor;
+                        }
+                        else
+                        {
+                            txtShortPower.BackColor = DefBackColor;
+                        }
+
+                    }
+                    else
+                    {
+                        chkCoolerFlag.Checked = false;
+                        chkCoolerFlag.BackColor = OffColor;
+                    }
+                }
+                else
+                {
+                    txtShortTemp.Text = "";
+                    txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.TargetCameraSetTemp);
+                    txtShortPower.Text = "";
+
+                    //short form
+                    chkCoolerFlag.Checked = false;
+                    chkCoolerFlag.BackColor = DefBackColor;
+                }
+
+            }
+            else
+            {
+                txtCameraTemp.Text = "";
+                updownCameraSetPoint.Text = "";
+                txtCameraCoolerPower.Text = "";
+                txtCameraStatus.Text = "";
+
+                txtCameraTemp.BackColor = SystemColors.Control;
+                updownCameraSetPoint.BackColor = SystemColors.Control;
+                txtCameraCoolerPower.BackColor = SystemColors.Control;
+
+                //short form
+                chkCoolerFlag.Checked = false;
+                chkCoolerFlag.BackColor = DefBackColor;
+            }
+            txtShortTemp.Text = txtCameraTemp.Text;
+            txtShortSetPoint.Text = updownCameraSetPoint.Text;
+            txtShortPower.Text = txtCameraCoolerPower.Text;
 
 
 
@@ -135,16 +209,44 @@ namespace ObservatoryCenter
             chkCCDC.BackColor = tmpCCDCColor;
 
 
+            //Telescope park & track status
+            if (ObsControl.ASCOMTelescope.Connected_flag)
+            {
+                if (ObsControl.ASCOMTelescope.curAtPark)
+                {
+                    //btnPark.Text = "Parked";
+                    chkMountPark.BackColor = OffColor;
+                }
+                else
+                {
+                    //btnPark.Text = "UnParked";
+                    chkMountPark.BackColor = OnColor;
+                }
+
+                if (ObsControl.ASCOMTelescope.curTracking)
+                {
+                    //btnTrack.Text = "Parked";
+                    chkMountTrack.BackColor = OnColor;
+                }
+                else
+                {
+                    //btnTrack.Text = "UnParked";
+                    chkMountTrack.BackColor = OffColor;
+                }
+
+                txtShortAz.Text = String.Format("{0:0}", ObsControl.ASCOMTelescope.curAzimuth);
+                txtShortAlt.Text = String.Format("{0:0}", ObsControl.ASCOMTelescope.curAltitude);
+
+
+            }
+
+
+
         }
 
 
-
-
-
-
-
         // ShortForm interface events
-        #region //// ShortForm interface events  //////////////////////////////////////////////////
+            #region //// ShortForm interface events  //////////////////////////////////////////////////
 
         private void chkPower_Click(object sender, EventArgs e)
         {
@@ -160,7 +262,9 @@ namespace ObservatoryCenter
 
         private void chkMaxim_Click(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).BackColor != OnColor)
+            //always can press
+            //because COM obj and real Maxim live in diffrent way
+            if (((CheckBox)sender).BackColor != OnColor || true) 
             {
                 LinkLabelLinkClickedEventArgs dummy = new LinkLabelLinkClickedEventArgs(linkMaximDL.Links[0]);
                 linkMaximDL_LinkClicked(sender, dummy);
@@ -194,6 +298,41 @@ namespace ObservatoryCenter
             }
 
         }
+
+        private void chkCoolerFlag_Click(object sender, EventArgs e)
+        {
+            if (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.CameraConnected && !ObsControl.objMaxim.CameraCoolerOnStatus)
+            {
+                ObsControl.objMaxim.SetCameraCooling();
+            }
+        }
+
+        private void chkMountPark_Click(object sender, EventArgs e)
+        {
+            btnPark_Click(sender, e);
+        }
+        private void chkMountTrack_Click(object sender, EventArgs e)
+        {
+            btnTrack_Click(sender, e);
+        }
+
+
+        private void chkRun_Click(object sender, EventArgs e)
+        {
+            if (!((CheckBox)sender).Checked)
+            {
+                ((CheckBox)sender).Checked = true;
+                btnStartAll_Click(sender, e);
+            }
+        }
+
+
+        private void chkKill_Click(object sender, EventArgs e)
+        {
+            btnKILL_Click(sender, e);
+        }
+
+
 
         #endregion // ShortForm interface events ////////////////////////////////////////////////
         // End of ShortForm interface events

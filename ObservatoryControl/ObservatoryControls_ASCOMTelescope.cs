@@ -7,6 +7,7 @@ using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
 using System.Reflection;
+using System.Threading;
 
 namespace ObservatoryCenter
 {
@@ -19,16 +20,22 @@ namespace ObservatoryCenter
 
         private ASCOM.DriverAccess.Telescope objTelescope = null;
 
-        private PierSide curPierSideStatus = PierSide.pierUnknown;
+        public PierSide curPierSideStatus = PierSide.pierUnknown;
 
-        private double curAzimuth = -1;
-        private double curAltitude = -100;
-        private double curRightAscension = -100;
-        private double curDeclination = -100;
-        private double curSiderealTime = -100;
+        public double curAzimuth = -1;
+        public double curAltitude = -100;
+        public double curRightAscension = -100;
+        public double curDeclination = -100;
+        public double curSiderealTime = -100;
 
-        private bool curAtPark = false;
-        private bool curTracking = false;
+        public bool curAtPark = false;
+        public bool curTracking = false;
+
+
+        // Threads
+        private Thread CheckTelescopeStatusThread;
+        private ThreadStart CheckTelescopeStatusThread_startref;
+
 
         /// <summary>
         /// Constructor
@@ -36,6 +43,61 @@ namespace ObservatoryCenter
         public ObservatoryControls_ASCOMTelescope()
         {
         }
+
+
+
+        public void CheckTelescopeStatus()
+        {
+            //if device present at all and its ID is set
+            if (Enabled && DRIVER_NAME != "" && objTelescope != null)
+            {
+                try
+                {
+                    Connected_flag = this.Connect;
+                    curAzimuth = this.Azimuth;
+                    curAltitude = this.Altitude;
+                    curRightAscension = this.RightAscension;
+                    curDeclination = this.Declination;
+                    curSiderealTime = this.SiderealTime;
+
+                    curPierSideStatus = this.PierSideStatus;
+
+                    curAtPark = this.AtPark;
+                    curTracking = this.Tracking;
+
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("CheckTelescopeStatus error [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
+            }
+            else
+            {
+                //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                //Logging.AddLog("Telescope is not set. Couldn't set Park status", LogLevel.Debug, Highlight.Error);
+            }
+        }
+
+        public void CheckTelescopeStatus_async()
+        {
+            if (Connected_flag)
+            {
+                try
+                {
+                    if (CheckTelescopeStatusThread == null || !CheckTelescopeStatusThread.IsAlive)
+                    {
+                        CheckTelescopeStatusThread_startref = new ThreadStart(CheckTelescopeStatus);
+                        CheckTelescopeStatusThread = new Thread(CheckTelescopeStatusThread_startref);
+                        CheckTelescopeStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Exception in CheckTelescopeStatus_async [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
+            }
+        }
+
 
         /// <summary>
         /// SET: Connect/disconnect to telescope Wrapper
@@ -101,6 +163,7 @@ namespace ObservatoryCenter
                 }
                 else
                 {
+                    Connected_flag = false;
                     //Print if somebody try to connect if device isn't presetn. Mostly for debug
                     Logging.AddLog("Device is not set. Couldn't return status of telescope", LogLevel.Debug, Highlight.Error);
                 }
@@ -139,6 +202,33 @@ namespace ObservatoryCenter
             Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + "void", LogLevel.Trace);
         }
 
+        public void UnPark()
+        {
+            //Log enter
+            Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
+
+            //if device present at all and its ID is set
+            if (Enabled && DRIVER_NAME != "" && objTelescope != null)
+            {
+                try
+                {
+                    objTelescope.Unpark();
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Couldn't move to UnPark status", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
+            }
+            else
+            {
+                //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                Logging.AddLog("Telescope is not set. Couldn't set UnPark status", LogLevel.Debug, Highlight.Error);
+            }
+
+            Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + "void", LogLevel.Trace);
+        }
 
         public void TrackToggle()
         {

@@ -265,72 +265,111 @@ namespace ObservatoryCenter
         /// <summary>
         /// Updates CCD camera status
         /// </summary>
-        private void UpdateCCDCameraFieldsStatus()
+        private void UpdateCCDCameraStatus()
         {
             if (ObsControl.objMaxim.IsRunning())
             {
                 if (ObsControl.objMaxim.CameraConnected)
                 {
-                    //Binning
-                    int bin = ObsControl.objMaxim.CCDCamera.BinX;
-                    txtCameraBinMode.Text = Convert.ToString(bin) + "x" + Convert.ToString(bin);
-                    //Filters
-                    try
-                    {
-                        var st = ObsControl.objMaxim.CCDCamera.FilterNames;
-                        txtFilterName.Text = Convert.ToString(st[ObsControl.objMaxim.CCDCamera.Filter]);
-                    }
-                    catch (Exception ex)
-                    {
-                        txtFilterName.Text = "";
-                        Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                        Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-                    }
-
-                    //Cooling
-                    txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraTemp());
-                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.GetCameraSetpoint());
-                    txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.GetCoolerPower());
-
                     //Camera current status
-                    txtCameraStatus.Text = ObsControl.objMaxim.GetCameraStatus();
+                    txtCameraStatus.Text = ObsControl.objMaxim.CameraCurrentStatus.ToString();
 
+                    //Binning
+                    txtCameraBinMode.Text = Convert.ToString(ObsControl.objMaxim.CameraBin) + "x" + Convert.ToString(ObsControl.objMaxim.CameraBin);
 
+                    //Filter
+                    txtFilterName.Text = Convert.ToString(ObsControl.objMaxim.CurrentFilter);
+                    
                     txtFilterName.BackColor = OnColor;
                     txtCameraBinMode.BackColor = OnColor;
                     txtCameraStatus.BackColor = OnColor;
 
-                    if (ObsControl.objMaxim.CCDCamera.CoolerOn)
+                }
+                else
+                {
+                    txtFilterName.Text = "";
+                    txtCameraBinMode.Text = "";
+                    txtCameraStatus.Text = "";
+
+                    txtFilterName.BackColor = SystemColors.Control;
+                    txtCameraBinMode.BackColor = SystemColors.Control;
+                    txtCameraStatus.BackColor = SystemColors.Control;
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// Updates CCD camera status
+        /// </summary>
+        private void UpdateCCDCameraCoolerStatus()
+        {
+            if (ObsControl.objMaxim.IsRunning())
+            {
+                if (ObsControl.objMaxim.CameraConnected)
+                {
+                    //Cooling
+                    txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
+                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraSetPoint);
+                    txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
+
+                    if (ObsControl.objMaxim.CameraCoolerOnStatus)
                     {
                         txtCameraTemp.BackColor = OnColor;
                         updownCameraSetPoint.BackColor = OnColor;
                         txtCameraCoolerPower.BackColor = OnColor;
+
+                        //short form
+                        chkCoolerFlag.Checked = true;
+                        chkCoolerFlag.BackColor = OnColor;
                     }
                     else
                     {
                         txtCameraTemp.BackColor = OffColor;
                         updownCameraSetPoint.BackColor = OffColor;
                         txtCameraCoolerPower.BackColor = OffColor;
+
+                        //short form
+                        chkCoolerFlag.Checked = false;
+                        chkCoolerFlag.BackColor = OffColor;
                     }
                 }
                 else
                 {
                     txtCameraTemp.Text = "";
-                    txtFilterName.Text = "";
-                    txtCameraBinMode.Text = "";
-                    updownCameraSetPoint.Text = "";
+                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.TargetCameraSetTemp);
                     txtCameraCoolerPower.Text = "";
                     txtCameraStatus.Text = "";
-
-                    txtFilterName.BackColor = SystemColors.Control;
-                    txtCameraBinMode.BackColor = SystemColors.Control;
-                    txtCameraStatus.BackColor = SystemColors.Control;
 
                     txtCameraTemp.BackColor = SystemColors.Control;
                     updownCameraSetPoint.BackColor = SystemColors.Control;
                     txtCameraCoolerPower.BackColor = SystemColors.Control;
+
+                    //short form
+                    chkCoolerFlag.Checked = false;
+                    chkCoolerFlag.BackColor = DefBackColor;
                 }
+
             }
+            else
+            {
+                txtCameraTemp.Text = "";
+                updownCameraSetPoint.Text = "";
+                txtCameraCoolerPower.Text = "";
+                txtCameraStatus.Text = "";
+
+                txtCameraTemp.BackColor = SystemColors.Control;
+                updownCameraSetPoint.BackColor = SystemColors.Control;
+                txtCameraCoolerPower.BackColor = SystemColors.Control;
+
+                //short form
+                chkCoolerFlag.Checked = false;
+                chkCoolerFlag.BackColor = DefBackColor;
+            }
+            txtShortTemp.Text = txtCameraTemp.Text;
+            txtShortSetPoint.Text = updownCameraSetPoint.Text;
+            txtShortPower.Text = txtCameraCoolerPower.Text;
         }
 
         /// <summary>
@@ -398,6 +437,29 @@ namespace ObservatoryCenter
                 {
                     btnConnectTelescope.Text = "Diconnect";
                     btnConnectTelescope.BackColor = OnColor;
+
+                    if (ObsControl.ASCOMTelescope.curAtPark)
+                    {
+                        btnPark.Text = "Unpark";
+                        btnPark.BackColor = OffColor;
+                    }
+                    else
+                    {
+                        btnPark.Text = "Park";
+                        btnPark.BackColor = OnColor;
+                    }
+
+                    if (ObsControl.ASCOMTelescope.curTracking)
+                    {
+                        //btnTrack.Text = "Parked";
+                        btnTrack.BackColor = OnColor;
+                    }
+                    else
+                    {
+                        //btnTrack.Text = "UnParked";
+                        btnTrack.BackColor = OffColor;
+                    }
+
                 }
                 else
                 {
@@ -407,28 +469,6 @@ namespace ObservatoryCenter
                     btnPark.BackColor = SystemColors.Control;
                 }
 
-
-                if (ObsControl.ASCOMTelescope.AtPark)
-                {
-                    //btnPark.Text = "Parked";
-                    btnPark.BackColor = OffColor;
-                }
-                else
-                {
-                    //btnPark.Text = "UnParked";
-                    btnPark.BackColor = OnColor;
-                }
-
-                if (ObsControl.ASCOMTelescope.Tracking)
-                {
-                    //btnTrack.Text = "Parked";
-                    btnTrack.BackColor = OnColor;
-                }
-                else
-                {
-                    //btnTrack.Text = "UnParked";
-                    btnTrack.BackColor = OffColor;
-                }
 
                 //update fields
                 DrawTelescope_calculateTelescopePositionsVars(); //recalculate vars

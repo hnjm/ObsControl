@@ -19,6 +19,8 @@ using System.IO;
 using System.Xml;
 using System.Windows.Forms.DataVisualization.Charting;
 
+public enum FormAppearanceMode { MODE_SHORT, MODE_MAX };
+
 namespace ObservatoryCenter
 {
     public partial class MainForm : Form
@@ -40,6 +42,14 @@ namespace ObservatoryCenter
         /// Test form object
         /// </summary>
         public TestEquipmentForm TestForm;
+
+
+        public bool bMinModeEnabled = true; //should or shoudn't enabled short mode
+        private FormAppearanceMode FORM_APPEARANCE_MODE = FormAppearanceMode.MODE_MAX;
+        private int Form_Normal_Width = 0;
+        int borderWidth = 0;
+        int titleBarHeight = 0;
+        int statusBarHeight = 0;
 
         //Color constants
         Color OnColor = Color.DarkSeaGreen;
@@ -182,6 +192,14 @@ namespace ObservatoryCenter
             }
 
 
+            //FORM APPEARENCE
+            Form_Normal_Width = this.Width;
+            borderWidth = (this.Width - this.ClientSize.Width) / 2;
+            titleBarHeight = this.Height - this.ClientSize.Height - 2 * borderWidth;
+            statusBarHeight = statusBar.Height;
+            Form_SwitchTo_Maximum_Mode();
+
+
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -211,17 +229,18 @@ namespace ObservatoryCenter
         {
             UpdatePowerButtonsStatus(); //checked for not quering device/program
             UpdateStatusbarASCOMStatus(); //checked for not quering device/program
-            UpdateRoofPicture(); //Check for not quering device/program
+            UpdateRoofPicture(); //Checked for not quering device/program
 
+            UpdateCCDCameraStatus();//Checked for not quering device/program
+            UpdateCCDCameraCoolerStatus(); //Check for not quering device/program
 
-            UpdateTelescopeStatus();
+            UpdateTelescopeStatus(); //Checked for not quering device/program
 
 
             UpdateSettingsTabStatusFileds();
             UpdateApplicationsRunningStatus();
 
 
-            UpdateCCDCameraFieldsStatus();
 
             UpdatePHDstate();
             //UpdateGuiderFieldsStatus(); //Maxim Guider
@@ -248,11 +267,17 @@ namespace ObservatoryCenter
             //check dome status
             ObsControl.ASCOMDome.CheckDomeShutterStatus_async();
 
+            //check telscope status
+            ObsControl.ASCOMTelescope.CheckTelescopeStatus_async();
+
             //check phd status
             ObsControl.objPHD2App.CMD_GetConnectEquipmentStatus();
 
             //check maxim status
-            ObsControl.objMaxim.CheckMaximStatus();
+            ObsControl.objMaxim.CheckMaximDevicesStatus();
+
+            //check maxim camera temp status
+            ObsControl.objMaxim.checkCameraTemperatureStatus();
 
 
 
@@ -304,10 +329,7 @@ namespace ObservatoryCenter
         #region /// Scenarios run procedures ////////////////////////////////////////////////////
         private void btnStartAll_Click(object sender, EventArgs e)
         {
-            ThreadStart RunThreadRef = new ThreadStart(ObsControl.StartUpObservatory);
-            Thread childThread = new Thread(RunThreadRef);
-            childThread.Start();
-            Logging.AddLog("Command 'Prepare run' was initiated", LogLevel.Debug);
+            ObsControl.StartUpObservatory_async();
         }
 
         private void btnBeforeImaging_Click(object sender, EventArgs e)
@@ -416,6 +438,178 @@ namespace ObservatoryCenter
         #endregion About information
 
 
+        /*********************************************************************************************************************
+         * Changing form appearence mode 
+        *********************************************************************************************************************/
+        #region FORM_APPEREANCE_MODE
+        /// <summary>
+        /// Capture events for Minimize / Maximize event for changing FORM MODE
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref Message m)
+        {
+            bool stopEvents = false;
+
+            if (m.Msg == 0x0112 && bMinModeEnabled) // WM_SYSCOMMAND and Min mode enabled in settings
+            {
+                // Check your window state here
+                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
+                {
+                    if (FORM_APPEARANCE_MODE == FormAppearanceMode.MODE_SHORT)
+                    {
+                        Form_SwitchTo_Maximum_Mode();
+                        stopEvents = true;
+                    };
+
+                }
+                else if (m.WParam == new IntPtr(0xF020)) // Minimize event - SC_MINIMIZE from Winuser.h
+                {
+                    if (FORM_APPEARANCE_MODE == FormAppearanceMode.MODE_MAX)
+                    {
+                        Form_SwitchTo_Short_Mode();
+                        stopEvents = true;
+                    };
+                }
+            }
+
+            if (!stopEvents)
+            {
+                base.WndProc(ref m);
+            }
+        }
+
+
+        /// <summary>
+        /// MINIMUM mode
+        /// </summary>
+        private void Form_SwitchTo_Short_Mode()
+        {
+            if (!bMinModeEnabled) return;
+
+            //if maximized - switch to normal first
+            if (this.WindowState == FormWindowState.Maximized) this.WindowState = FormWindowState.Normal;
+
+            FORM_APPEARANCE_MODE = FormAppearanceMode.MODE_SHORT;
+
+            //hide default pannel
+            panelMaximum.Visible = false;
+            statusBar.Visible = false;
+
+            //show minimum pannel
+            PanelShort.Location = new Point(0, 0);
+            PanelShort.Visible = true;
+
+            //change window behaviour
+            this.TopMost = true;
+            this.Opacity = 0.8;
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            //change window size
+            this.MinimumSize = new Size(Form_Normal_Width, PanelShort.Size.Height+2); ;
+            this.MaximumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height);
+            this.Size = new Size(this.MinimumSize.Width, this.MinimumSize.Height);
+
+            //show maximize button
+            btnMaximize.Location = new Point(this.ClientSize.Width - btnMaximize.Width, 2);
+            btnMaximize.Visible = true;
+        }
+
+
+        /// <summary>
+        /// MAXIMUM mode
+        /// </summary>
+        private void Form_SwitchTo_Maximum_Mode()
+        {
+            //if (!bMinModeEnabled) return;
+
+            FORM_APPEARANCE_MODE = FormAppearanceMode.MODE_MAX;
+
+            //hide min pannel
+            //PanelShort.Visible = false;
+            btnMaximize.Visible = false;
+
+            //position min pannel
+            PanelShort.Location = new Point(0, panelMaximum.Size.Height);
+
+
+            //show maximum pannel
+            panelMaximum.Visible = true;
+            statusBar.Visible = true;
+
+            //change window size
+            this.MinimumSize = new Size(Form_Normal_Width, panelMaximum.Size.Height + PanelShort.Size.Height + titleBarHeight + statusBarHeight + borderWidth * 2);
+            this.MaximumSize = new Size(this.MinimumSize.Width, this.MinimumSize.Height);
+            this.Size = new Size(this.MinimumSize.Width, this.MinimumSize.Height);
+            //this.ClientSize = new Size(this.ClientSize.Width, panelMaximum.Size.Height + statusBarHeight);
+
+            //change window behaviour
+            this.TopMost = false;
+            this.Opacity = 1;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+        }
+
+        /// <summary>
+        /// Move bordless form by draging form
+        /// </summary>
+        private bool mouseDown;
+        private Point lastLocation;
+        private int newX, newY;
+
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            lastLocation = e.Location;
+        }
+
+        private void MainForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                //newX = (this.Location.X - lastLocation.X) + e.X;
+                //newY = (this.Location.Y - lastLocation.Y) + e.Y;
+
+                //if (newX > 0 && newY > 0 &&
+                //        newX < (Screen.PrimaryScreen.Bounds.Width - this.Width) && newY < Screen.PrimaryScreen.Bounds.Height - this.Height)
+                //{
+                //    this.Location = new Point(newX, newY);
+                //    this.Update();
+                //}
+
+                newX = Math.Min(Math.Max((this.Location.X - lastLocation.X) + e.X, 0), (Screen.PrimaryScreen.Bounds.Width - this.Width));
+                newY = Math.Min(Math.Max((this.Location.Y - lastLocation.Y) + e.Y, 0), Screen.PrimaryScreen.Bounds.Height - this.Height);
+                this.Location = new Point(newX, newY);
+                this.Update();
+
+            }
+        }
+
+        private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            Form_SwitchTo_Maximum_Mode();
+        }
+
+
+        //Make form in MIN MODE a bit transparent when not in focus
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (FORM_APPEARANCE_MODE == FormAppearanceMode.MODE_SHORT)
+            {
+                this.Opacity = 1;
+            }
+        }
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            if (FORM_APPEARANCE_MODE == FormAppearanceMode.MODE_SHORT)
+            {
+                this.Opacity = 0.8;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Separate thread for socket server
@@ -424,7 +618,6 @@ namespace ObservatoryCenter
         {
             SocketServer.ListenSocket();
         }
-
 
         private void panelTele3D_Paint(object sender, PaintEventArgs e)
         {

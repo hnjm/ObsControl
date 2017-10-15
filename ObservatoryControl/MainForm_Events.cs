@@ -375,7 +375,14 @@ namespace ObservatoryCenter
 
         private void btnPark_Click(object sender, EventArgs e)
         {
-            ObsControl.ASCOMTelescope.Park();
+            if (ObsControl.ASCOMTelescope.curAtPark)
+            {
+                ObsControl.ASCOMTelescope.UnPark();
+            }
+            else
+            {
+                ObsControl.ASCOMTelescope.Park();
+            }
         }
 
         private void btnTrack_Click(object sender, EventArgs e)
@@ -410,7 +417,7 @@ namespace ObservatoryCenter
 
 
 
-        private void tempNotImplemented_Click(object sender, EventArgs e)
+        private void tmpNotImplemented_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Not implemented yet");
         }

@@ -31,6 +31,13 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.1.0 [15.10.17]
+ - version renamed to 1.1
+ - Short Form is fully working
+ - cooler status, telescope status in short
+ - telescope check in separate thread
+ - maxim check improved and optimized
+
 0.9.2 [15.10.17]
 - SHORT: CCDC, PHD and Dome buttions are now working
 - PHD logic improved (id checking, code structuring; need further reworking)

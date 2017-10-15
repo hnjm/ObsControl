@@ -27,11 +27,27 @@ namespace ObservatoryCenter
         public bool FocuserConnected = false;
 
 
-        public double CameraSetTemp = -30;
+        //Cooling status
+        public double CameraTemp = -99;
+        public double CameraSetPoint = -99;
+        public double CameraCoolerPower = 0;
+        public bool CameraCoolerOnStatus = false;
+
+        public double TargetCameraSetTemp = -30;
+
+
+        //Camera status
+        public MaxIm.CameraStatusCode CameraCurrentStatus = MaxIm.CameraStatusCode.csError;
+        public int CameraBin = 0;
+        public string CurrentFilter = "";
+
 
         public bool GuiderRunnig = false;
         public bool GuiderNewMeasurements = false;
         public double GuiderXError = 0.0, GuiderYError = 0.0;
+
+
+
 
 
         public Maxim_ExternalApplication() : base()
@@ -45,7 +61,11 @@ namespace ObservatoryCenter
 
 
         #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
-        public void CheckMaximStatus()
+
+        /// <summary>
+        /// Get Maxim Devices status
+        /// </summary>
+        public void CheckMaximDevicesStatus()
         {
             try
             {
@@ -77,6 +97,62 @@ namespace ObservatoryCenter
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
         }
+
+
+        public void CheckCameraStatus()
+        {
+            try
+            {
+                if (IsRunning() && MaximApplicationObj != null && CCDCamera != null && this.CameraConnected)
+                {
+                    //Read camera current status
+                    CameraCurrentStatus = CCDCamera.CameraStatus;
+
+                    if (CameraCurrentStatus == MaxIm.CameraStatusCode.csError)
+                    {
+                        ConnectCamera(false); // disconnect
+                        return;
+                    }
+                     
+                    //Binning
+                    CameraBin = CCDCamera.BinX;
+
+                    //Filters
+                    try
+                    {
+                        var st = CCDCamera.FilterNames;
+                        CurrentFilter = Convert.ToString(st[CCDCamera.Filter]);
+                    }
+                    catch (Exception ex)
+                    {
+                        CurrentFilter = "";
+                        Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Trace, Highlight.Error);
+                        //Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string FullMessage = "CheckCameraStatus exception!" + Environment.NewLine;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("CheckCameraStatus exception [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+            }
+        }
+
         #endregion
 
 
@@ -84,20 +160,29 @@ namespace ObservatoryCenter
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region Cnnection status
-        
-            /// <summary>
+        #region Connect devices
+
+        /// <summary>
         /// Connect cameras in MaximDL
         /// </summary>
         /// <returns></returns>
-        public string ConnectCamera()
+        public string ConnectCamera(bool ConnectDisconnectFlag = true)
         {
             if (CCDCamera==null) CCDCamera = new MaxIm.CCDCamera();
             try
             {
-                CCDCamera.LinkEnabled = true;
-                Logging.AddLog("MaximDL camera connected", LogLevel.Activity);
-                return "Camera connected";
+                if (ConnectDisconnectFlag)
+                { 
+                    CCDCamera.LinkEnabled = true;
+                    Logging.AddLog("MaximDL camera connected", LogLevel.Activity);
+                    return "Camera connected";
+                }
+                else
+                {
+                    CCDCamera.LinkEnabled = false;
+                    Logging.AddLog("MaximDL camera disconnected", LogLevel.Activity);
+                    return "Camera disconnected";
+                }
             }
             catch (Exception ex)
             {
@@ -134,7 +219,7 @@ namespace ObservatoryCenter
             {
                 try
                 {
-                    res = CCDCamera.LinkEnabled;
+                    res = (CCDCamera.LinkEnabled && CCDCamera.CameraStatus != MaxIm.CameraStatusCode.csError);
                 }
                 catch (Exception ex)
                 {
@@ -158,6 +243,7 @@ namespace ObservatoryCenter
                 }
             }
 
+            CameraConnected = res;
             return res;
         }
 
@@ -318,12 +404,58 @@ namespace ObservatoryCenter
         /////// Cooling management ////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Cooling management
 
+        public void checkCameraTemperatureStatus()
+        {
+
+            //Cooling
+            CameraTemp = GetCameraTemp();
+            CameraSetPoint = GetCameraSetpoint();
+            CameraCoolerPower = GetCoolerPower();
+            CameraCoolerOnStatus = GetCoolerStatus();
+        }
+
+
+
+        public bool GetCoolerStatus()
+        {
+            bool getCoolerStatus = false;
+            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            try
+            {
+                getCoolerStatus = CCDCamera.CoolerOn;
+                Logging.AddLog("Camera cooler is " + (getCoolerStatus ? "on":"off"), LogLevel.Trace);
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL get camera cooler status failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("Get camera cooler status failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+            }
+            CameraCoolerOnStatus = getCoolerStatus;
+            return getCoolerStatus;
+        }
+
+
         /// <summary>
         /// Set main camera cooling temperature
         /// </summary>
         public string SetCameraCooling(double SetTemp = -1234.5)
         {
-            if (SetTemp == -1234.5) SetTemp = CameraSetTemp;
+            if (SetTemp == -1234.5) SetTemp = TargetCameraSetTemp;
 
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try
@@ -445,6 +577,7 @@ namespace ObservatoryCenter
                 Logging.AddLog("Camera get setpoint failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
+            CameraSetPoint = setTemp;
             return setTemp;
         }
 
@@ -477,6 +610,7 @@ namespace ObservatoryCenter
                 Logging.AddLog("Get camera temp failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
+            CameraTemp = getTemp;
             return getTemp;
         }
 
@@ -509,6 +643,7 @@ namespace ObservatoryCenter
                 Logging.AddLog("Get camera cooler power failed [" + ex.Message + "]", LogLevel.Debug, Highlight.Error);
                 Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
             }
+            CameraCoolerPower = getPower;
             return getPower;
         }
 
@@ -517,72 +652,11 @@ namespace ObservatoryCenter
 
 
 
-        private bool CheckCameraAvailable()
-        {
-            bool res = false;
-
-            if (CCDCamera == null || MaximApplicationObj == null)
-            {
-                if (MaximApplicationObj == null) MaximApplicationObj = new MaxIm.Application();
-                if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
-            }
-
-            try
-            {
-                res = (CCDCamera != null && CCDCamera.LinkEnabled && CCDCamera.CameraStatus != MaxIm.CameraStatusCode.csError);
-            }
-            catch (Exception ex)
-            {
-                res = false;
-                CCDCamera = null;
-                Logging.AddLog("Test camera exception: " + ex.Message, LogLevel.Important, Highlight.Error);
-                Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-            }
-
-            return res;
-        }
-
-
-
-        public string GetCameraStatus()
-        {
-            MaxIm.CameraStatusCode camStatus = MaxIm.CameraStatusCode.csError;
-            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
-            try
-            {
-                camStatus = CCDCamera.CameraStatus;
-                Logging.AddLog("Camera status is " + camStatus.ToString() + "", LogLevel.Trace);
-            }
-            catch (Exception ex)
-            {
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
-
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "MaximDL get camera status failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("Get camera status failed [" + ex.Message + "]", 0, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
-            }
-            return camStatus.ToString();
-        }
 
 
 
 
-
-
-
-
+        #region Maxim Guider. Left for compatability and future needs
 
         /// <summary>
         /// GetGuiderAggressiveness
@@ -692,7 +766,7 @@ namespace ObservatoryCenter
              */
             return new[] { 0.0, 0.0 };
         }
-
+    #endregion //end of guider block
 
     }
 }
