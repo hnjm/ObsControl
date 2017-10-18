@@ -689,5 +689,26 @@ namespace ObservatoryCenter
                 return angleInRadians;
             }
         }
+
+
+
+//using ASCOM.Astrometry.Transform;
+//        public void j2000toJNow(Target target)
+//        {
+//            this.form.log("J2000 -> JNow - in: " + target.getRa() + ", " + target.getDec());
+//            Transform t = new Transform();
+
+//            t.SiteElevation = Globals.god.telescope.SiteElevation;
+//            t.SiteLatitude = Globals.god.telescope.SiteLatitude;
+//            t.SiteLongitude = Globals.god.telescope.SiteLongitude;
+//            t.SiteTemperature = 0;
+
+//            t.SetJ2000(target.getRa() / 360 * 24, target.getDec());
+
+//            target.setRa(t.RATopocentric / 24 * 360);
+//            target.setDec(t.DECTopocentric);
+//            this.form.log("J2000 -> JNow - out: " + target.getRa() + ", " + target.getDec());
+//        }
+        
     }
 }

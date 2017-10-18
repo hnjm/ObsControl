@@ -147,6 +147,7 @@
     <Compile Include="About.cs" />
     <Compile Include="AstroUtils.cs" />
     <Compile Include="BoltwoodClasses.cs" />
+    <Compile Include="ObservatoryControls_boltwood.cs" />
     <Compile Include="MainForm_ShortForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -301,7 +302,12 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Documents\Visual Studio 2015\Projects\ConsoleApplication1\WeatherControl\WeatherControl.csproj">
+      <Project>{5eaf0786-5dcb-49f9-85a2-2f8165bedb58}</Project>
+      <Name>WeatherControl</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -326,6 +326,21 @@ namespace ObservatoryCenter
             }
         }
 
+        private void chkPause_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                ((CheckBox)sender).Checked =false ;
+                Boltwood.Switch_to_GOOD();
+            }
+            else
+            {
+                ((CheckBox)sender).Checked = true;
+                Boltwood.Switch_to_BAD();
+            }
+            Boltwood.WriteFile();
+
+        }
 
         private void chkKill_Click(object sender, EventArgs e)
         {

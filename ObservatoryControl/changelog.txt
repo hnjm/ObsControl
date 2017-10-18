@@ -31,6 +31,8 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.1.1 [18.10.17]
+
 1.1.0 [15.10.17]
  - version renamed to 1.1
  - Short Form is fully working

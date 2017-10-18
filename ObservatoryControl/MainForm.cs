@@ -44,6 +44,12 @@ namespace ObservatoryCenter
         public TestEquipmentForm TestForm;
 
 
+        /// <summary>
+        /// Boltwood file generation object
+        /// </summary>
+        internal ObservatoryControls_boltwood Boltwood;
+
+
         public bool bMinModeEnabled = true; //should or shoudn't enabled short mode
         private FormAppearanceMode FORM_APPEARANCE_MODE = FormAppearanceMode.MODE_MAX;
         private int Form_Normal_Width = 0;
@@ -79,6 +85,8 @@ namespace ObservatoryCenter
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
             TestForm = new TestEquipmentForm(this);
+
+            Boltwood = new ObservatoryControls_boltwood();
 
             //Prepare separate thread obj (just dummy init, because it couldn't be null)
             //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
@@ -253,7 +261,6 @@ namespace ObservatoryCenter
             //Short form
             UpdateShortPannelButtonsStatus();
 
-
         }
 
 
@@ -279,6 +286,8 @@ namespace ObservatoryCenter
             //check maxim camera temp status
             ObsControl.objMaxim.checkCameraTemperatureStatus();
 
+            //Update weather file
+            Boltwood.WriteFile();
 
 
 
