@@ -31,7 +31,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>56</ApplicationRevision>
+    <ApplicationRevision>57</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -303,7 +303,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Documents\Visual Studio 2015\Projects\ConsoleApplication1\WeatherControl\WeatherControl.csproj">
+    <ProjectReference Include="..\..\WeatherControlEmulation\WeatherControl\WeatherControl.csproj">
       <Project>{5eaf0786-5dcb-49f9-85a2-2f8165bedb58}</Project>
       <Name>WeatherControl</Name>
     </ProjectReference>

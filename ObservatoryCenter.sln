@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ObservatoryControl\astrotortilla_solve_12.au3 = ObservatoryControl\astrotortilla_solve_12.au3
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherControl", "..\..\..\Documents\Visual Studio 2015\Projects\ConsoleApplication1\WeatherControl\WeatherControl.csproj", "{5EAF0786-5DCB-49F9-85A2-2F8165BEDB58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherControl", "..\WeatherControlEmulation\WeatherControl\WeatherControl.csproj", "{5EAF0786-5DCB-49F9-85A2-2F8165BEDB58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
