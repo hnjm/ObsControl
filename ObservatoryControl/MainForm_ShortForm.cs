@@ -30,7 +30,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Update short pannel application status
         /// </summary>
-        private void UpdateShortPannelButtonsStatus()
+        private void UpdateShortPanelButtonsStatus()
         {
             //RoofStatus
             if (ObsControl.ASCOMDome.Connected_flag)
@@ -108,10 +108,18 @@ namespace ObservatoryCenter
                     if (ObsControl.objMaxim.CameraCoolerOnStatus)
                     {
                         chkCoolerFlag.Checked = true;
-                        chkCoolerFlag.BackColor = OnColor;
+
+                        if (ObsControl.objMaxim.CameraWarmpUpNow)
+                        {
+                            chkCoolerFlag.BackColor = InterColor;
+                        }
+                        else
+                        {
+                            chkCoolerFlag.BackColor = OnColor;
+                        }
 
                         //Check temp is set?
-                        if (Math.Abs(ObsControl.objMaxim.CameraTemp - ObsControl.objMaxim.CameraSetPoint) > 1.0 )
+                        if (!ObsControl.objMaxim.checkTempNearSetpoint())
                         {
                             txtShortTemp.BackColor = OffColor;
                             panelShortTemp.BackColor = OffColor;
@@ -302,9 +310,20 @@ namespace ObservatoryCenter
 
         private void chkCoolerFlag_Click(object sender, EventArgs e)
         {
-            if (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.CameraConnected && !ObsControl.objMaxim.CameraCoolerOnStatus)
+            if (ObsControl.objMaxim.IsRunning() && ObsControl.objMaxim.CameraConnected)
             {
-                ObsControl.objMaxim.SetCameraCooling();
+                if  (!ObsControl.objMaxim.CameraCoolerOnStatus)
+                {
+                    ObsControl.objMaxim.CameraCoolingOn(); //switch on
+                }
+                else if (ObsControl.objMaxim.CameraCoolerOnStatus && ObsControl.objMaxim.CameraWarmpUpNow)
+                {
+                    ObsControl.objMaxim.CameraCoolingOff(); //switch off cooler
+                }
+                else if (ObsControl.objMaxim.CameraCoolerOnStatus && ObsControl.objMaxim.checkTempNearSetpoint())
+                {
+                    ObsControl.objMaxim.CameraCoolingOff(true); //warmup
+                }
             }
         }
 
@@ -332,11 +351,13 @@ namespace ObservatoryCenter
             if (((CheckBox)sender).Checked)
             {
                 ((CheckBox)sender).Checked =false ;
+                ((CheckBox)sender).BackColor = DefBackColor;
                 Boltwood.Switch_to_GOOD();
             }
             else
             {
                 ((CheckBox)sender).Checked = true;
+                ((CheckBox)sender).BackColor = OffColor;
                 Boltwood.Switch_to_BAD();
             }
             Boltwood.WriteFile();

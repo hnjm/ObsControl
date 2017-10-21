@@ -319,20 +319,12 @@ namespace ObservatoryCenter
                         txtCameraTemp.BackColor = OnColor;
                         updownCameraSetPoint.BackColor = OnColor;
                         txtCameraCoolerPower.BackColor = OnColor;
-
-                        //short form
-                        chkCoolerFlag.Checked = true;
-                        chkCoolerFlag.BackColor = OnColor;
                     }
                     else
                     {
                         txtCameraTemp.BackColor = OffColor;
                         updownCameraSetPoint.BackColor = OffColor;
                         txtCameraCoolerPower.BackColor = OffColor;
-
-                        //short form
-                        chkCoolerFlag.Checked = false;
-                        chkCoolerFlag.BackColor = OffColor;
                     }
                 }
                 else
@@ -345,10 +337,6 @@ namespace ObservatoryCenter
                     txtCameraTemp.BackColor = SystemColors.Control;
                     updownCameraSetPoint.BackColor = SystemColors.Control;
                     txtCameraCoolerPower.BackColor = SystemColors.Control;
-
-                    //short form
-                    chkCoolerFlag.Checked = false;
-                    chkCoolerFlag.BackColor = DefBackColor;
                 }
 
             }
@@ -362,14 +350,7 @@ namespace ObservatoryCenter
                 txtCameraTemp.BackColor = SystemColors.Control;
                 updownCameraSetPoint.BackColor = SystemColors.Control;
                 txtCameraCoolerPower.BackColor = SystemColors.Control;
-
-                //short form
-                chkCoolerFlag.Checked = false;
-                chkCoolerFlag.BackColor = DefBackColor;
             }
-            txtShortTemp.Text = txtCameraTemp.Text;
-            txtShortSetPoint.Text = updownCameraSetPoint.Text;
-            txtShortPower.Text = txtCameraCoolerPower.Text;
         }
 
         /// <summary>
@@ -546,15 +527,15 @@ namespace ObservatoryCenter
             {
                 txtSet_Telescope.BackColor = SystemColors.Control;
             }
-
+            
             //MAXIM DATA
             if (ObsControl.objMaxim.CameraConnected)
             {
-                txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CCDCamera.CameraName;
-                txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+                txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CameraName;
+                txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CameraConnected ? OnColor : SystemColors.Control);
 
-                txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
-                txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
+                txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.GuiderName;
+                txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CameraConnected ? OnColor : SystemColors.Control);
 
                 //txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
                 //txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
@@ -591,15 +572,17 @@ namespace ObservatoryCenter
             txtATSolutionRA.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
             txtATSolutionDec.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
         }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion *** update visual elements *************************************************************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// end of block
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #endregion *** update visual elements *************************************************************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // end of block
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#region *** Update PHD and CCDAP data *****************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region *** Update PHD and CCDAP data *****************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        
 
         /// <summary>
         /// Update PHD state
@@ -617,16 +600,17 @@ namespace ObservatoryCenter
                     //If guiding now, calclulate and display stats
                     if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
                     {
-                        double XVal1 = Math.Round(ObsControl.objPHD2App.LastRAError, 2);
-                        double YVal1 = Math.Round(ObsControl.objPHD2App.LastDecError, 2);
-
-                        txtGuiderErrorPHD.AppendText(XVal1 + " / " + YVal1 + Environment.NewLine);
-
+                        //get values
                         double XVal = Math.Round(ObsControl.objPHD2App.LastRAError, 2); //* ObsControl.GuidePiexelScale
                         double YVal = Math.Round(ObsControl.objPHD2App.LastDecError, 2); //* ObsControl.GuidePiexelScale
 
-                        GuidingStats.CalculateRMS(XVal, YVal);
+                        //add values to object
+                        GuidingStats.Add(XVal, YVal);
+                       
+                        //display in numbers last values
+                        txtGuiderErrorPHD.Text = GuidingStats.GetLastNValuesSt(10);
 
+                        //draw 
                         string sername = "SeriesGuideError";
                         if (Math.Abs(XVal) > 1)
                         {
@@ -636,17 +620,13 @@ namespace ObservatoryCenter
                         {
                             YVal = 2 * Math.Sign(YVal); sername = "SeriesGuideErrorOutOfScale";
                         }
-                        //draw value
+                        //add pount
                         chart1.Series[sername].Points.AddXY(XVal, YVal);
 
                         // Keep a constant number of points by removing them from the left
                         if (chart1.Series[sername].Points.Count > maxNumberOfPointsInChart)
                         {
                             chart1.Series[sername].Points.RemoveAt(0);
-
-                            // Adjust X axis scale
-                            //CurChart.ChartAreas[0].AxisX.Minimum = curX - maxNumberOfPointsInChart;
-                            //CurChart.ChartAreas[0].AxisX.Maximum = CurChart.ChartAreas[0].AxisX.Minimum + maxNumberOfPointsInChart;
                         }
 
                         // Adjust Y & X axis scale

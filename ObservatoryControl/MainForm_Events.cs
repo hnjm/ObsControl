@@ -306,7 +306,7 @@ namespace ObservatoryCenter
 
         private void btnCoolerOn_Click(object sender, EventArgs e)
         {
-            ObsControl.objMaxim.SetCameraCooling();
+            ObsControl.objMaxim.CameraCoolingOn();
         }
 
         private void btnCoolerOff_Click(object sender, EventArgs e)
@@ -321,7 +321,7 @@ namespace ObservatoryCenter
 
         private void up_down_SetPoint_ValueChanged(object sender, EventArgs e)
         {
-            ObsControl.objMaxim.SetCameraCooling(Convert.ToDouble(updownCameraSetPoint.Value));
+            ObsControl.objMaxim.CameraCoolingOn(Convert.ToDouble(updownCameraSetPoint.Value));
         }
         #endregion // Camera control events ////////////////////////////////////////////////
         // End of Camera control events 

@@ -56,6 +56,7 @@ namespace ObservatoryCenter
         int borderWidth = 0;
         int titleBarHeight = 0;
         int statusBarHeight = 0;
+        int prevX, prevY = 0;
 
         //Color constants
         Color OnColor = Color.DarkSeaGreen;
@@ -205,6 +206,8 @@ namespace ObservatoryCenter
             borderWidth = (this.Width - this.ClientSize.Width) / 2;
             titleBarHeight = this.Height - this.ClientSize.Height - 2 * borderWidth;
             statusBarHeight = statusBar.Height;
+            prevX = this.Location.X;
+            prevY = this.Location.Y;
             Form_SwitchTo_Maximum_Mode();
 
 
@@ -244,22 +247,24 @@ namespace ObservatoryCenter
 
             UpdateTelescopeStatus(); //Checked for not quering device/program
 
+            UpdateSettingsTabStatusFileds(); // Checked for not quering device / program
 
-            UpdateSettingsTabStatusFileds();
-            UpdateApplicationsRunningStatus();
+            UpdateApplicationsRunningStatus();// Checked for not quering device / program
+                       
+
+            UpdatePHDstate();// Checked for not quering device / program
 
 
-
-            UpdatePHDstate();
-            //UpdateGuiderFieldsStatus(); //Maxim Guider
-
-            UpdateCCDAPstate();
             UpdateCCDCstate();
 
-            UpdateTimePannel();
+            UpdateTimePannel(); //ok
 
             //Short form
-            UpdateShortPannelButtonsStatus();
+            UpdateShortPanelButtonsStatus(); //ok
+
+
+            //UpdateGuiderFieldsStatus(); //Maxim Guider
+            //UpdateCCDAPstate(); //CCDAP
 
         }
 
@@ -455,6 +460,7 @@ namespace ObservatoryCenter
         /// Capture events for Minimize / Maximize event for changing FORM MODE
         /// </summary>
         /// <param name="m"></param>
+        //protected override void WndProc(ref Message m)
         protected override void WndProc(ref Message m)
         {
             bool stopEvents = false;
@@ -499,6 +505,10 @@ namespace ObservatoryCenter
             if (this.WindowState == FormWindowState.Maximized) this.WindowState = FormWindowState.Normal;
 
             FORM_APPEARANCE_MODE = FormAppearanceMode.MODE_SHORT;
+
+            //move to top
+            this.Location = new Point(prevX, 0);
+            //this.Update();
 
             //hide default pannel
             panelMaximum.Visible = false;
@@ -554,7 +564,8 @@ namespace ObservatoryCenter
             //change window behaviour
             this.TopMost = false;
             this.Opacity = 1;
-            this.FormBorderStyle = FormBorderStyle.Sizable;
+            if (this.FormBorderStyle != FormBorderStyle.Sizable) this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.Location = new Point(prevX, prevY);
         }
 
         /// <summary>

@@ -59,7 +59,7 @@ namespace ObservatoryCenter
             //MaimDL
             CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());
             CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", (a) => objMaxim.ConnectCamera());
-            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.SetCameraCooling());
+            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.CameraCoolingOn());
             CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", (a) => objMaxim.ConnectTelescope());
             CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", (a) => objMaxim.ConnectFocuser());
 

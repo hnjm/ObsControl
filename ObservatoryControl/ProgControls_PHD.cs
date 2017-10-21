@@ -53,11 +53,15 @@ namespace ObservatoryCenter
 
     public static class GuidingStats
     {
+        internal static List<Tuple<double, double>> ErrorsList = new List<Tuple<double, double>>();
+
         internal static double SUM_XX, SUM_YY;
         internal static int NUMX, NUMY;
 
         public static double RMS_X, RMS_Y, RMS;
         public static double LastRAError, LastDecError;
+
+        public static int maxNumberOfStoredValues = 100;
 
         public static void Reset()
         {
@@ -66,21 +70,49 @@ namespace ObservatoryCenter
             RMS_X = 0;
             RMS_Y = 0;
             RMS = 0;
-        }
-        public static void CalculateRMS(double XVal, double YVal)
-        {
-            LastRAError = XVal;
-            LastDecError = YVal;
 
-            SUM_XX += XVal * XVal;
+            LastRAError = 0;
+            LastDecError = 0;
+
+            ErrorsList.Clear();
+
+        }
+        public static void CalculateRMS()
+        {
+            LastRAError = ErrorsList [ErrorsList.Count - 1].Item1;
+            LastDecError = ErrorsList[ErrorsList.Count - 1].Item1;
+
+            SUM_XX += LastRAError * LastRAError;
             NUMX++; 
-            SUM_YY += YVal * YVal;
+            SUM_YY += LastDecError * LastDecError;
             NUMY++;
 
             RMS_X = Math.Sqrt(SUM_XX/NUMX);
             RMS_Y = Math.Sqrt(SUM_YY/NUMY);
 
             RMS = Math.Sqrt(RMS_X * RMS_X + RMS_Y * RMS_Y);
+        }
+
+        public static void Add(double XVal, double YVal)
+        {
+            //add value
+            ErrorsList.Add(new Tuple<double, double>(XVal, YVal));
+
+            //keep list lenght not more then maxNumberOfStoredValues
+            if (ErrorsList.Count > maxNumberOfStoredValues) ErrorsList.RemoveRange(0, ErrorsList.Count - maxNumberOfStoredValues); 
+
+            //recalculate RMS
+            CalculateRMS();
+        }
+
+        public static string GetLastNValuesSt(int N)
+        {
+            string st = "";
+            foreach (Tuple<double, double> el in ErrorsList.Skip(Math.Max(0, ErrorsList.Count() - N)))
+            {
+                st += el.Item1.ToString() + " / " + el.Item2.ToString() + Environment.NewLine;
+            }
+            return st;
         }
 
     }
