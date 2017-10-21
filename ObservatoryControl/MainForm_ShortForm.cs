@@ -114,20 +114,24 @@ namespace ObservatoryCenter
                         if (Math.Abs(ObsControl.objMaxim.CameraTemp - ObsControl.objMaxim.CameraSetPoint) > 1.0 )
                         {
                             txtShortTemp.BackColor = OffColor;
+                            panelShortTemp.BackColor = OffColor;
                         }
                         else
                         {
                             txtShortTemp.BackColor = DefBackColor;
+                            panelShortTemp.BackColor = DefBackColor;
                         }
 
                         //Check power is to high?
                         if (ObsControl.objMaxim.CameraCoolerPower >= 99.0)
                         {
                             txtShortPower.BackColor = OffColor;
+                            panelShortPower.BackColor = OffColor;
                         }
                         else
                         {
                             txtShortPower.BackColor = DefBackColor;
+                            panelShortPower.BackColor = DefBackColor;
                         }
 
                     }
@@ -151,22 +155,19 @@ namespace ObservatoryCenter
             }
             else
             {
-                txtCameraTemp.Text = "";
-                updownCameraSetPoint.Text = "";
-                txtCameraCoolerPower.Text = "";
-                txtCameraStatus.Text = "";
+                txtShortPower.BackColor = DefBackColor;
+                panelShortPower.BackColor = DefBackColor;
+                txtShortTemp.BackColor = DefBackColor;
+                panelShortTemp.BackColor = DefBackColor;
 
-                txtCameraTemp.BackColor = SystemColors.Control;
-                updownCameraSetPoint.BackColor = SystemColors.Control;
-                txtCameraCoolerPower.BackColor = SystemColors.Control;
+                txtShortTemp.Text = "";
+                txtShortSetPoint.Text = "";
+                txtShortPower.Text = "";
 
                 //short form
                 chkCoolerFlag.Checked = false;
                 chkCoolerFlag.BackColor = DefBackColor;
             }
-            txtShortTemp.Text = txtCameraTemp.Text;
-            txtShortSetPoint.Text = updownCameraSetPoint.Text;
-            txtShortPower.Text = txtCameraCoolerPower.Text;
 
 
 

@@ -288,7 +288,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.txtHFDLast = new System.Windows.Forms.TextBox();
             this.txtCCDCInfo_SinceLastFocus = new System.Windows.Forms.TextBox();
-            this.txtShortTemp = new System.Windows.Forms.TextBox();
             this.chkRoof = new System.Windows.Forms.CheckBox();
             this.chkSyncMount = new System.Windows.Forms.CheckBox();
             this.chkAbort = new System.Windows.Forms.CheckBox();
@@ -301,8 +300,6 @@
             this.chkCoolerFlag = new System.Windows.Forms.CheckBox();
             this.btnMaximize = new System.Windows.Forms.Button();
             this.chkMountTrack = new System.Windows.Forms.CheckBox();
-            this.txtShortPower = new System.Windows.Forms.TextBox();
-            this.txtShortSetPoint = new System.Windows.Forms.TextBox();
             this.txtShortAz = new System.Windows.Forms.TextBox();
             this.txtShortAlt = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -368,6 +365,12 @@
             this.chkKill = new System.Windows.Forms.CheckBox();
             this.chkPause = new System.Windows.Forms.CheckBox();
             this.panelMaximum = new System.Windows.Forms.Panel();
+            this.panelShortSetPoint = new System.Windows.Forms.Panel();
+            this.txtShortSetPoint = new System.Windows.Forms.TextBox();
+            this.panelShortPower = new System.Windows.Forms.Panel();
+            this.txtShortPower = new System.Windows.Forms.TextBox();
+            this.panelShortTemp = new System.Windows.Forms.Panel();
+            this.txtShortTemp = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageLog.SuspendLayout();
             this.MaximGuider.SuspendLayout();
@@ -410,6 +413,9 @@
             this.groupBox8.SuspendLayout();
             this.PanelShort.SuspendLayout();
             this.panelMaximum.SuspendLayout();
+            this.panelShortSetPoint.SuspendLayout();
+            this.panelShortPower.SuspendLayout();
+            this.panelShortTemp.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -3162,19 +3168,6 @@
             this.txtCCDCInfo_SinceLastFocus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.toolTip1.SetToolTip(this.txtCCDCInfo_SinceLastFocus, "Since last focus");
             // 
-            // txtShortTemp
-            // 
-            this.txtShortTemp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortTemp.Location = new System.Drawing.Point(136, 3);
-            this.txtShortTemp.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtShortTemp.Multiline = true;
-            this.txtShortTemp.Name = "txtShortTemp";
-            this.txtShortTemp.ReadOnly = true;
-            this.txtShortTemp.Size = new System.Drawing.Size(28, 21);
-            this.txtShortTemp.TabIndex = 17;
-            this.txtShortTemp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.txtShortTemp, "CCD Camera cooler temperature");
-            // 
             // chkRoof
             // 
             this.chkRoof.Appearance = System.Windows.Forms.Appearance.Button;
@@ -3211,7 +3204,7 @@
             this.chkAbort.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkAbort.AutoCheck = false;
             this.chkAbort.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.chkAbort.Location = new System.Drawing.Point(452, 3);
+            this.chkAbort.Location = new System.Drawing.Point(446, 3);
             this.chkAbort.Margin = new System.Windows.Forms.Padding(0);
             this.chkAbort.Name = "chkAbort";
             this.chkAbort.Size = new System.Drawing.Size(54, 21);
@@ -3227,7 +3220,7 @@
             this.chkRun.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkRun.AutoCheck = false;
             this.chkRun.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.chkRun.Location = new System.Drawing.Point(352, 3);
+            this.chkRun.Location = new System.Drawing.Point(340, 3);
             this.chkRun.Margin = new System.Windows.Forms.Padding(0);
             this.chkRun.Name = "chkRun";
             this.chkRun.Size = new System.Drawing.Size(48, 21);
@@ -3243,7 +3236,7 @@
             this.chkMountPark.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkMountPark.AutoCheck = false;
             this.chkMountPark.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.chkMountPark.Location = new System.Drawing.Point(227, 3);
+            this.chkMountPark.Location = new System.Drawing.Point(234, 3);
             this.chkMountPark.Margin = new System.Windows.Forms.Padding(0);
             this.chkMountPark.Name = "chkMountPark";
             this.chkMountPark.Size = new System.Drawing.Size(20, 21);
@@ -3346,7 +3339,7 @@
             this.chkMountTrack.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkMountTrack.AutoCheck = false;
             this.chkMountTrack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.chkMountTrack.Location = new System.Drawing.Point(248, 3);
+            this.chkMountTrack.Location = new System.Drawing.Point(255, 3);
             this.chkMountTrack.Margin = new System.Windows.Forms.Padding(0);
             this.chkMountTrack.Name = "chkMountTrack";
             this.chkMountTrack.Size = new System.Drawing.Size(20, 21);
@@ -3356,36 +3349,10 @@
             this.chkMountTrack.UseVisualStyleBackColor = true;
             this.chkMountTrack.Click += new System.EventHandler(this.chkMountTrack_Click);
             // 
-            // txtShortPower
-            // 
-            this.txtShortPower.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortPower.Location = new System.Drawing.Point(165, 3);
-            this.txtShortPower.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtShortPower.Multiline = true;
-            this.txtShortPower.Name = "txtShortPower";
-            this.txtShortPower.ReadOnly = true;
-            this.txtShortPower.Size = new System.Drawing.Size(28, 21);
-            this.txtShortPower.TabIndex = 17;
-            this.txtShortPower.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.txtShortPower, "Cooler power");
-            // 
-            // txtShortSetPoint
-            // 
-            this.txtShortSetPoint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortSetPoint.Location = new System.Drawing.Point(194, 3);
-            this.txtShortSetPoint.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtShortSetPoint.Multiline = true;
-            this.txtShortSetPoint.Name = "txtShortSetPoint";
-            this.txtShortSetPoint.ReadOnly = true;
-            this.txtShortSetPoint.Size = new System.Drawing.Size(28, 21);
-            this.txtShortSetPoint.TabIndex = 17;
-            this.txtShortSetPoint.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toolTip1.SetToolTip(this.txtShortSetPoint, "Set point");
-            // 
             // txtShortAz
             // 
             this.txtShortAz.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortAz.Location = new System.Drawing.Point(269, 3);
+            this.txtShortAz.Location = new System.Drawing.Point(276, 3);
             this.txtShortAz.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.txtShortAz.Multiline = true;
             this.txtShortAz.Name = "txtShortAz";
@@ -3398,7 +3365,7 @@
             // txtShortAlt
             // 
             this.txtShortAlt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortAlt.Location = new System.Drawing.Point(298, 3);
+            this.txtShortAlt.Location = new System.Drawing.Point(305, 3);
             this.txtShortAlt.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.txtShortAlt.Multiline = true;
             this.txtShortAlt.Name = "txtShortAlt";
@@ -4084,13 +4051,13 @@
             // 
             // PanelShort
             // 
+            this.PanelShort.Controls.Add(this.panelShortTemp);
+            this.PanelShort.Controls.Add(this.panelShortPower);
+            this.PanelShort.Controls.Add(this.panelShortSetPoint);
             this.PanelShort.Controls.Add(this.txtHFDLast);
             this.PanelShort.Controls.Add(this.txtCCDCInfo_SinceLastFocus);
-            this.PanelShort.Controls.Add(this.txtShortSetPoint);
-            this.PanelShort.Controls.Add(this.txtShortPower);
             this.PanelShort.Controls.Add(this.txtShortAlt);
             this.PanelShort.Controls.Add(this.txtShortAz);
-            this.PanelShort.Controls.Add(this.txtShortTemp);
             this.PanelShort.Controls.Add(this.chkPower);
             this.PanelShort.Controls.Add(this.chkRoof);
             this.PanelShort.Controls.Add(this.chkSyncMount);
@@ -4134,7 +4101,7 @@
             this.chkKill.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkKill.AutoCheck = false;
             this.chkKill.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.chkKill.Location = new System.Drawing.Point(507, 3);
+            this.chkKill.Location = new System.Drawing.Point(502, 3);
             this.chkKill.Margin = new System.Windows.Forms.Padding(0);
             this.chkKill.Name = "chkKill";
             this.chkKill.Size = new System.Drawing.Size(40, 21);
@@ -4148,9 +4115,9 @@
             // 
             this.chkPause.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkPause.AutoCheck = false;
-            this.chkPause.FlatAppearance.CheckedBackColor = System.Drawing.Color.DarkGray;
-            this.chkPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkPause.Location = new System.Drawing.Point(402, 3);
+            this.chkPause.FlatAppearance.CheckedBackColor = System.Drawing.Color.Tomato;
+            this.chkPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.chkPause.Location = new System.Drawing.Point(390, 3);
             this.chkPause.Margin = new System.Windows.Forms.Padding(0);
             this.chkPause.Name = "chkPause";
             this.chkPause.Size = new System.Drawing.Size(48, 21);
@@ -4175,6 +4142,85 @@
             this.panelMaximum.Name = "panelMaximum";
             this.panelMaximum.Size = new System.Drawing.Size(834, 609);
             this.panelMaximum.TabIndex = 6;
+            // 
+            // panelShortSetPoint
+            // 
+            this.panelShortSetPoint.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panelShortSetPoint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelShortSetPoint.Controls.Add(this.txtShortSetPoint);
+            this.panelShortSetPoint.Location = new System.Drawing.Point(198, 3);
+            this.panelShortSetPoint.Name = "panelShortSetPoint";
+            this.panelShortSetPoint.Size = new System.Drawing.Size(24, 21);
+            this.panelShortSetPoint.TabIndex = 18;
+            // 
+            // txtShortSetPoint
+            // 
+            this.txtShortSetPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtShortSetPoint.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.txtShortSetPoint.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtShortSetPoint.Location = new System.Drawing.Point(-2, 3);
+            this.txtShortSetPoint.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtShortSetPoint.Name = "txtShortSetPoint";
+            this.txtShortSetPoint.ReadOnly = true;
+            this.txtShortSetPoint.Size = new System.Drawing.Size(22, 13);
+            this.txtShortSetPoint.TabIndex = 18;
+            this.txtShortSetPoint.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.txtShortSetPoint, "Set point");
+            // 
+            // panelShortPower
+            // 
+            this.panelShortPower.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panelShortPower.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelShortPower.Controls.Add(this.txtShortPower);
+            this.panelShortPower.Location = new System.Drawing.Point(167, 3);
+            this.panelShortPower.Name = "panelShortPower";
+            this.panelShortPower.Size = new System.Drawing.Size(30, 21);
+            this.panelShortPower.TabIndex = 19;
+            // 
+            // txtShortPower
+            // 
+            this.txtShortPower.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtShortPower.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.txtShortPower.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtShortPower.Location = new System.Drawing.Point(-2, 3);
+            this.txtShortPower.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtShortPower.Name = "txtShortPower";
+            this.txtShortPower.ReadOnly = true;
+            this.txtShortPower.Size = new System.Drawing.Size(28, 13);
+            this.txtShortPower.TabIndex = 18;
+            this.txtShortPower.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.txtShortPower, "Set point");
+            // 
+            // panelShortTemp
+            // 
+            this.panelShortTemp.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panelShortTemp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelShortTemp.Controls.Add(this.txtShortTemp);
+            this.panelShortTemp.Location = new System.Drawing.Point(136, 3);
+            this.panelShortTemp.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
+            this.panelShortTemp.Name = "panelShortTemp";
+            this.panelShortTemp.Size = new System.Drawing.Size(30, 21);
+            this.panelShortTemp.TabIndex = 20;
+            // 
+            // txtShortTemp
+            // 
+            this.txtShortTemp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtShortTemp.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.txtShortTemp.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtShortTemp.Location = new System.Drawing.Point(-1, 3);
+            this.txtShortTemp.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtShortTemp.Name = "txtShortTemp";
+            this.txtShortTemp.ReadOnly = true;
+            this.txtShortTemp.Size = new System.Drawing.Size(26, 13);
+            this.txtShortTemp.TabIndex = 18;
+            this.txtShortTemp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.txtShortTemp, "Set point");
             // 
             // MainForm
             // 
@@ -4266,6 +4312,12 @@
             this.PanelShort.ResumeLayout(false);
             this.PanelShort.PerformLayout();
             this.panelMaximum.ResumeLayout(false);
+            this.panelShortSetPoint.ResumeLayout(false);
+            this.panelShortSetPoint.PerformLayout();
+            this.panelShortPower.ResumeLayout(false);
+            this.panelShortPower.PerformLayout();
+            this.panelShortTemp.ResumeLayout(false);
+            this.panelShortTemp.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4571,7 +4623,6 @@
         private System.Windows.Forms.Panel PanelShort;
         private System.Windows.Forms.TextBox txtHFDLast;
         private System.Windows.Forms.TextBox txtCCDCInfo_SinceLastFocus;
-        private System.Windows.Forms.TextBox txtShortTemp;
         private System.Windows.Forms.CheckBox chkRoof;
         private System.Windows.Forms.CheckBox chkSyncMount;
         private System.Windows.Forms.CheckBox chkFocus;
@@ -4588,10 +4639,14 @@
         private System.Windows.Forms.Panel panelMaximum;
         private System.Windows.Forms.Button btnMaximize;
         private System.Windows.Forms.CheckBox chkMountTrack;
-        private System.Windows.Forms.TextBox txtShortSetPoint;
-        private System.Windows.Forms.TextBox txtShortPower;
         private System.Windows.Forms.TextBox txtShortAlt;
         private System.Windows.Forms.TextBox txtShortAz;
+        private System.Windows.Forms.Panel panelShortSetPoint;
+        private System.Windows.Forms.TextBox txtShortSetPoint;
+        private System.Windows.Forms.Panel panelShortPower;
+        private System.Windows.Forms.TextBox txtShortPower;
+        private System.Windows.Forms.Panel panelShortTemp;
+        private System.Windows.Forms.TextBox txtShortTemp;
     }
 }
 
