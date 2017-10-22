@@ -59,12 +59,12 @@ namespace ObservatoryCenter
             //MaimDL
             CommandParser.Commands.Add("MAXIM_RUN", (a) => this.startMaximDL());
             CommandParser.Commands.Add("MAXIM_CAMERA_CONNECT", (a) => objMaxim.ConnectCamera());
-            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.CameraCoolingOn());
             CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", (a) => objMaxim.ConnectTelescope());
             CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", (a) => objMaxim.ConnectFocuser());
 
-            CommandParser.Commands.Add("CAMERA_WARMPUP", (a) => objMaxim.CameraCoolingOff(true));
-            CommandParser.Commands.Add("CAMERA_COOLER_ON", (a) => objMaxim.CameraCoolingOn(a));
+            CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", (a) => objMaxim.CameraCoolingOn()); //switch cooling on and set to def temp
+            CommandParser.Commands.Add("CAMERA_SET_COOLER_TEMP", (a) => objMaxim.CameraCoolingOn(a));//switch cooling on and set to specified temp
+            CommandParser.Commands.Add("CAMERA_WARMPUP", (a) => objMaxim.CameraCoolingOff(true)); //warmup
 
 
             //FocusMax

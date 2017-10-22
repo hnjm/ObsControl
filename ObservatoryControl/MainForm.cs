@@ -278,16 +278,15 @@ namespace ObservatoryCenter
             ObsControl.objPHD2App.CMD_GetConnectEquipmentStatus();
 
             //check maxim status
-            ObsControl.objMaxim.CheckMaximDevicesStatus();
+            ObsControl.objMaxim.CheckMaximDevicesStatus_async();
 
             //check maxim camera temp status
-            ObsControl.objMaxim.checkCameraTemperatureStatus();
+            ObsControl.objMaxim.checkCameraTemperatureStatus_async();
+
 
             //Update weather file
             ObsControl.Boltwood.WriteFile();
-
-
-
+            
             //update AstroTortilla solver status
             UpdateSolverFileds();
 

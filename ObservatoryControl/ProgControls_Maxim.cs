@@ -50,6 +50,12 @@ namespace ObservatoryCenter
         public int CameraBin = 0;
         public string GuiderName = "";
 
+        // Threads
+        private Thread CheckMaximStatusThread;
+        private ThreadStart CheckMaximStatusThread_startref;
+
+        private Thread CheckMaximCoolerStatusThread;
+        private ThreadStart CheckMaximCoolerStatusThread_startref;
 
         public Maxim_ExternalApplication() : base()
         { }
@@ -62,6 +68,27 @@ namespace ObservatoryCenter
 
 
         #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        public void CheckMaximDevicesStatus_async()
+        {
+            if (IsRunning() && MaximApplicationObj != null)
+            {
+                try
+                {
+                    if (CheckMaximStatusThread == null || !CheckMaximStatusThread.IsAlive)
+                    {
+                        CheckMaximStatusThread_startref = new ThreadStart(CheckMaximDevicesStatus);
+                        CheckMaximStatusThread = new Thread(CheckMaximStatusThread_startref);
+                        CheckMaximStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Exception in CheckMaximDevicesStatus_async [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
+            }
+        }
 
         /// <summary>
         /// Get Maxim Devices status
@@ -409,7 +436,27 @@ namespace ObservatoryCenter
         /////// Cooling management ////////////////////////////////////////////////////////////////////////////////////////////////////
         #region Cooling management
 
-        public void checkCameraTemperatureStatus()
+        public void checkCameraTemperatureStatus_async()
+        {
+            if (IsRunning() && MaximApplicationObj != null)
+            {
+                try
+                {
+                    if (CheckMaximCoolerStatusThread == null || !CheckMaximCoolerStatusThread.IsAlive)
+                    {
+                        CheckMaximCoolerStatusThread_startref = new ThreadStart(checkCameraTemperatureStatus);
+                        CheckMaximCoolerStatusThread = new Thread(CheckMaximCoolerStatusThread_startref);
+                        CheckMaximCoolerStatusThread.Start();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.AddLog("Exception in checkCameraTemperatureStatus_asyn [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                }
+            }
+        }
+
+        private void checkCameraTemperatureStatus()
         {
 
             //Cooling
@@ -440,7 +487,7 @@ namespace ObservatoryCenter
                 {
                     CCDCamera.CoolerOn = true;
                     CCDCamera.TemperatureSetpoint = SetTemp; ////////
-                    Logging.AddLog("Cooler set to " + SetTemp + " deg", LogLevel.Debug);
+                    Logging.AddLog("Camera cooler set to " + SetTemp + " deg", LogLevel.Activity);
                     return "Cooler set to " + SetTemp + " deg";
                 }
                 else
@@ -546,7 +593,7 @@ namespace ObservatoryCenter
         /// Check if cooler ON/OFF
         /// </summary>
         /// <returns></returns>
-        public bool GetCoolerStatus()
+        private bool GetCoolerStatus()
         {
             bool getCoolerStatus = false;
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();

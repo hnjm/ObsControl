@@ -245,8 +245,12 @@ namespace ObservatoryCenter
 
                 txtShortAz.Text = String.Format("{0:0}", ObsControl.ASCOMTelescope.curAzimuth);
                 txtShortAlt.Text = String.Format("{0:0}", ObsControl.ASCOMTelescope.curAltitude);
-
-
+            }else
+            {
+                chkMountPark.BackColor = DefBackColor;
+                chkMountTrack.BackColor = DefBackColor;
+                txtShortAz.Text = "";
+                txtShortAlt.Text = "";
             }
 
 

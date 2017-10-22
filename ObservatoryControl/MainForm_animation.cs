@@ -341,10 +341,10 @@ namespace ObservatoryCenter
             Y0 = (int)(panelTele3D.Height / 2 * 1.2);
 
             //update fields
-            DEC_grad = (float)ObsControl.ASCOMTelescope.Declination;
-            RA = (float)ObsControl.ASCOMTelescope.RightAscension;
+            DEC_grad = (float)ObsControl.ASCOMTelescope.curDeclination;
+            RA = (float)ObsControl.ASCOMTelescope.curRightAscension;
 
-            HA = (float)(ObsControl.ASCOMTelescope.SiderealTime - RA);
+            HA = (float)(ObsControl.ASCOMTelescope.curSiderealTime - RA);
             if (HA < 0) HA = HA + 24.0F;
             if (HA > 24) HA = HA - 24.0F;
 
@@ -352,14 +352,14 @@ namespace ObservatoryCenter
             //Determine physical side of peir and calculate Mechanical HA
             if (HA>=0 && HA<6)
             {
-                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
@@ -369,14 +369,14 @@ namespace ObservatoryCenter
             }
             else if (HA >= 6 && HA < 12)
             {
-                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
@@ -386,14 +386,14 @@ namespace ObservatoryCenter
             }
             else if (HA >= 12 && HA < 18)
             {
-                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = false;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = true;
@@ -403,14 +403,14 @@ namespace ObservatoryCenter
             }
             else  if (HA >= 18 && HA < 24)
             {
-                if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierEast)
+                if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierEast)
                 {
                     PoinitingSideEtoW = true;
                     PoinitingPhysicalSideE = true;
                     HA_mech = HA;
                     DEC_mech_grad = DEC_grad;
                 }
-                else if (ObsControl.ASCOMTelescope.PierSideStatus == PierSide.pierWest)
+                else if (ObsControl.ASCOMTelescope.curPierSideStatus == PierSide.pierWest)
                 {
                     PoinitingSideEtoW = false;
                     PoinitingPhysicalSideE = false;
@@ -425,8 +425,8 @@ namespace ObservatoryCenter
 
             //DEC_mech_grad = DEC_grad;//for debug only
 
-            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.ASCOMTelescope.Azimuth);
-            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.ASCOMTelescope.Altitude);
+            txtTelescopeAz.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.ASCOMTelescope.curAzimuth);
+            txtTelescopeAlt.Text = ObsControl.ASCOMUtils.DegreesToDMS(ObsControl.ASCOMTelescope.curAltitude);
 
             txtTelescopeRA.Text = ObsControl.ASCOMUtils.HoursToHMS(RA);
             txtTelescopeDec.Text = ObsControl.ASCOMUtils.DegreesToDMS(DEC_grad);

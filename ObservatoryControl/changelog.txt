@@ -35,6 +35,8 @@ bugs:
 1.1.4 [23.10.17]
  - abort action implemented
  - cross events correction
+ - maxim querying in separate thread
+ - ascom telescope all quering through async interface
  
 1.1.3 [21.10.17]
  - short interface correction in natural DPI enviroment

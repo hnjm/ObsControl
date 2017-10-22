@@ -46,7 +46,7 @@ namespace ObservatoryCenter
 
 
 
-        public void CheckTelescopeStatus()
+        private void CheckTelescopeStatus()
         {
             //if device present at all and its ID is set
             if (Enabled && DRIVER_NAME != "" && objTelescope != null)
@@ -143,7 +143,7 @@ namespace ObservatoryCenter
                     Logging.AddLog("Device is not set. Couldn't " + (value ? "connect to" : "disconnect ") + " telescope", LogLevel.Debug, Highlight.Error);
                 }
             }
-            get
+            private get
             {
                 //Log enter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
@@ -190,7 +190,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Logging.AddLog("Couldn't move to Park status", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
             }
             else
@@ -218,7 +218,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Logging.AddLog("Couldn't move to UnPark status", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
             }
             else
@@ -248,7 +248,7 @@ namespace ObservatoryCenter
                 catch (Exception ex)
                 {
                     Logging.AddLog("Couldn't switch on Tracking", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                    Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                 }
             }
             else
@@ -260,7 +260,7 @@ namespace ObservatoryCenter
             Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + "void", LogLevel.Trace);
         }
 
-        public PierSide PierSideStatus
+        private PierSide PierSideStatus
         {
             get
             {
@@ -279,7 +279,7 @@ namespace ObservatoryCenter
                     {
                         curPierSideStatus = PierSide.pierUnknown;
                         Logging.AddLog("Couldn't get SidePier status", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -298,7 +298,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope Azimuth
         /// </summary>
-        public double Azimuth
+        private double Azimuth
         {
             get
             {
@@ -316,8 +316,9 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         curAzimuth = -1;
+                        Reset();
                         Logging.AddLog("Couldn't get telescope Azimuth", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -336,7 +337,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope Altitude
         /// </summary>
-        public double Altitude
+        private double Altitude
         {
             get
             {
@@ -354,8 +355,9 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         curAltitude = -100;
+                        Reset();
                         Logging.AddLog("Couldn't get telescope Altitude", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -374,7 +376,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope Declination
         /// </summary>
-        public double Declination
+        private double Declination
         {
             get
             {
@@ -392,8 +394,9 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         curDeclination = -100;
+                        Reset();
                         Logging.AddLog("Couldn't get telescope Declination", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -411,7 +414,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope RightAscension
         /// </summary>
-        public double RightAscension
+        private double RightAscension
         {
             get
             {
@@ -429,8 +432,9 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         curRightAscension = -100;
+                        Reset();
                         Logging.AddLog("Couldn't get telescope RightAscension", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -450,7 +454,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope SiderealTime
         /// </summary>
-        public double SiderealTime
+        private double SiderealTime
         {
             get
             {
@@ -469,12 +473,13 @@ namespace ObservatoryCenter
                     {
                         curSiderealTime = -100;
                         Logging.AddLog("Couldn't get telescope SiderealTime", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
                 {
                     curSiderealTime = -100;
+                    Reset();
                     //Print if somebody try to connect if device isn't presetn. Mostly for debug
                     Logging.AddLog("Telescope is not set. Couldn't return SiderealTime", LogLevel.Debug, Highlight.Error);
                 }
@@ -489,7 +494,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Get Telescope AtPark status
         /// </summary>
-        public bool AtPark
+        private bool AtPark
         {
             get
             {
@@ -507,8 +512,9 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         curAtPark = false;
+                        Reset();
                         Logging.AddLog("Couldn't get telescope AtPark status", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -526,7 +532,7 @@ namespace ObservatoryCenter
 
         /// Get Telescope Tracking status
         /// </summary>
-        public bool Tracking
+        private bool Tracking
         {
             get
             {
@@ -544,8 +550,9 @@ namespace ObservatoryCenter
                     catch (Exception ex)
                     {
                         curTracking = false;
+                        Reset();
                         Logging.AddLog("Couldn't get telescope Tracking status", LogLevel.Important, Highlight.Error);
-                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
                     }
                 }
                 else
@@ -573,6 +580,7 @@ namespace ObservatoryCenter
             curRightAscension = -100;
             curDeclination = -100;
             curSiderealTime = -100;
+            curPierSideStatus = PierSide.pierUnknown;
 
             curAtPark = false;
             curTracking = false;

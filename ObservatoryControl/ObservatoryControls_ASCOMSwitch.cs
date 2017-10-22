@@ -101,7 +101,7 @@ namespace ObservatoryCenter
                     Logging.AddLog("Device is not set. Couldn't " + (value ? "connect to" : "disconnect ") + " switch", LogLevel.Debug, Highlight.Error);
                 }
             }
-            get
+            private get
             {
                 //Log enter
                 Logging.AddLog(MethodBase.GetCurrentMethod().Name +" enter", LogLevel.Trace);
@@ -376,7 +376,7 @@ namespace ObservatoryCenter
 
 
         #region Multithreading ////////////////////////////////////////////////////////////////////////////////////////////
-        public void CheckPowerDeviceStatus()
+        private void CheckPowerDeviceStatus()
         {
             try
             {
