@@ -63,6 +63,10 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("MAXIM_TELESCOPE_CONNECT", (a) => objMaxim.ConnectTelescope());
             CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", (a) => objMaxim.ConnectFocuser());
 
+            CommandParser.Commands.Add("CAMERA_WARMPUP", (a) => objMaxim.CameraCoolingOff(true));
+            CommandParser.Commands.Add("CAMERA_COOLER_ON", (a) => objMaxim.CameraCoolingOn(a));
+
+
             //FocusMax
             CommandParser.Commands.Add("FOCUSMAX_RUN", (a) => this.startFocusMax());
 
@@ -93,6 +97,12 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("TTC_HEATERAUTO_OFF", (a) => this.objTTCApp.CMD_SetHeaterControl_OFF());
             CommandParser.Commands.Add("TTC_SETFANPWR", (a) => this.objTTCApp.CMD_SetFanPWR(a));
             CommandParser.Commands.Add("TTC_SETHEATERPWR", (a) => this.objTTCApp.CMD_SetHeaterPWR(a));
+
+            //Complex commmands
+            CommandParser.Commands.Add("IMAGING_RUN_PAUSE", (a) => this.ImagingRun_Pause());
+            CommandParser.Commands.Add("IMAGING_RUN_RESUME", (a) => this.ImagingRun_Resume());
+
+            CommandParser.Commands.Add("IMAGING_RUN_ABORT", (a) => this.ImagingRun_Abort());
         }
 
         /// <summary>
@@ -244,7 +254,7 @@ namespace ObservatoryCenter
         }
 
 
-        public void StartMaximDLroutines()
+        public void StartMaximDLroutines_old()
         {
             //1. Switch on power
             CommandParser.ParseSingleCommand("POWER_MOUNT_ON");
@@ -281,6 +291,9 @@ namespace ObservatoryCenter
             ParseXMLScenario("scenarioMain");
 
             Logging.AddLog("StartUp routine finished", LogLevel.Activity);
+
+            //Change user interface buttons
+            ParentMainForm.Invoke(new Action(() => ParentMainForm.endRunAction()));
         }
 
         public void StartUpObservatory_async()
@@ -308,6 +321,38 @@ namespace ObservatoryCenter
 
             return pauseLength.ToString();
         }
+
+        public string ImagingRun_Pause()
+        {
+            Logging.AddLog("Imaging run paused", LogLevel.Activity);
+
+            Boltwood.Switch_to_BAD();
+            Boltwood.WriteFile();
+
+            return "RETURN: Imaging run paused";
+        }
+
+        public string ImagingRun_Resume()
+        {
+            Logging.AddLog("Imaging run resumed", LogLevel.Activity);
+
+            Boltwood.Switch_to_GOOD();
+            Boltwood.WriteFile();
+
+            return "RETURN: Imaging run resumed";
+        }
+
+        public string ImagingRun_Abort()
+        {
+            Logging.AddLog("Imaging run abortion started", LogLevel.Activity);
+
+            ImagingRun_Pause();
+
+            CommandParser.ParseSingleCommand("CAMERA_WARMPUP");
+
+            return "RETURN: Imaging run aborted";
+        }
+        
 
         #endregion
         // end of Special scenario commands block

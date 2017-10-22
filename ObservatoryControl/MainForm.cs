@@ -44,12 +44,6 @@ namespace ObservatoryCenter
         public TestEquipmentForm TestForm;
 
 
-        /// <summary>
-        /// Boltwood file generation object
-        /// </summary>
-        internal ObservatoryControls_boltwood Boltwood;
-
-
         public bool bMinModeEnabled = true; //should or shoudn't enabled short mode
         private FormAppearanceMode FORM_APPEARANCE_MODE = FormAppearanceMode.MODE_MAX;
         private int Form_Normal_Width = 0;
@@ -86,8 +80,6 @@ namespace ObservatoryCenter
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
             TestForm = new TestEquipmentForm(this);
-
-            Boltwood = new ObservatoryControls_boltwood();
 
             //Prepare separate thread obj (just dummy init, because it couldn't be null)
             //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
@@ -292,7 +284,7 @@ namespace ObservatoryCenter
             ObsControl.objMaxim.checkCameraTemperatureStatus();
 
             //Update weather file
-            Boltwood.WriteFile();
+            ObsControl.Boltwood.WriteFile();
 
 
 
@@ -343,8 +335,22 @@ namespace ObservatoryCenter
         #region /// Scenarios run procedures ////////////////////////////////////////////////////
         private void btnStartAll_Click(object sender, EventArgs e)
         {
+            btnStartAll.BackColor = OffColor;
+            chkRun.Checked = true;
+            chkRun.BackColor = OffColor;
             ObsControl.StartUpObservatory_async();
         }
+        /// <summary>
+        /// Inoveked from other thread when startup ends
+        /// </summary>
+        public void endRunAction()
+        {
+            chkRun.Checked = false;
+            chkRun.BackColor = DefBackColor;
+
+            btnStartAll.BackColor = DefBackColor;
+        }
+
 
         private void btnBeforeImaging_Click(object sender, EventArgs e)
         {
@@ -629,6 +635,7 @@ namespace ObservatoryCenter
                 this.Opacity = 0.8;
             }
         }
+
         #endregion
 
         /// <summary>

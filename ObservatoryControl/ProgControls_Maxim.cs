@@ -431,6 +431,7 @@ namespace ObservatoryCenter
         public string CameraCoolingOn(double SetTemp = -1234.5)
         {
             if (SetTemp == -1234.5) SetTemp = TargetCameraSetTemp;
+            CameraWarmpUpNow = false;
 
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try
@@ -439,13 +440,11 @@ namespace ObservatoryCenter
                 {
                     CCDCamera.CoolerOn = true;
                     CCDCamera.TemperatureSetpoint = SetTemp; ////////
-                    CameraWarmpUpNow = false;
                     Logging.AddLog("Cooler set to " + SetTemp + " deg", LogLevel.Debug);
                     return "Cooler set to " + SetTemp + " deg";
                 }
                 else
                 {
-                    CameraWarmpUpNow = false;
                     Logging.AddLog("Camera can't set temperature", LogLevel.Debug); //'Debug' to not dublicate messages
                     return "Camera can't set temperature";
                 }
@@ -474,6 +473,15 @@ namespace ObservatoryCenter
             }
         }
 
+        public string CameraCoolingOn(string[] CommandString_param_arr)
+        {
+            double SetTemp = -1234.5;
+            if (!Double.TryParse(CommandString_param_arr[0], out SetTemp))
+                SetTemp = -1234.5;
+
+            return CameraCoolingOn(SetTemp);
+        }
+
         /// <summary>
         /// Switch cooler off
         /// </summary>
@@ -496,6 +504,7 @@ namespace ObservatoryCenter
                     }
                     else
                     {
+                        CameraWarmpUpNow = false;
                         Logging.AddLog("Camera can't set temperature", LogLevel.Activity);
                         return "Camera can't set temperature";
                     }
@@ -530,6 +539,8 @@ namespace ObservatoryCenter
                 return "Set camera cooling failed ";
             }
         }
+
+
 
         /// <summary>
         /// Check if cooler ON/OFF

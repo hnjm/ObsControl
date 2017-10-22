@@ -341,27 +341,58 @@ namespace ObservatoryCenter
         {
             if (!((CheckBox)sender).Checked)
             {
-                ((CheckBox)sender).Checked = true;
+                //redirect to start button
                 btnStartAll_Click(sender, e);
             }
         }
 
+
+        /// <summary>
+        /// Pause action
+        /// </summary>
         private void chkPause_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
             {
-                ((CheckBox)sender).Checked =false ;
+                ((CheckBox)sender).Checked = false;
                 ((CheckBox)sender).BackColor = DefBackColor;
-                Boltwood.Switch_to_GOOD();
+
+                //Switch off abort button
+                chkAbort.BackColor = DefBackColor;
+                btnEmergencyStop.BackColor = DefBackColor;
+
+                //Resume run
+                ObsControl.CommandParser.ParseSingleCommand("IMAGING_RUN_RESUME");
+
+                //toggle main window state
+                btnSoftStop.BackColor = DefBackColor;
             }
             else
             {
                 ((CheckBox)sender).Checked = true;
                 ((CheckBox)sender).BackColor = OffColor;
-                Boltwood.Switch_to_BAD();
-            }
-            Boltwood.WriteFile();
 
+                //Pause and park
+                ObsControl.CommandParser.ParseSingleCommand("IMAGING_RUN_PAUSE");
+
+                //toggle main window state
+                btnSoftStop.BackColor = OffColor;
+            }
+        }
+
+
+        /// <summary>
+        /// Abort action
+        /// </summary>
+        private void chkAbort_Click(object sender, EventArgs e)
+        {
+            ((CheckBox)sender).BackColor = OffColor;
+            btnEmergencyStop.BackColor = OffColor;
+
+            //toogle pause buttons
+            chkPause_CheckedChanged(chkPause, e);
+
+            ObsControl.CommandParser.ParseSingleCommand("IMAGING_RUN_ABORT");
         }
 
         private void chkKill_Click(object sender, EventArgs e)

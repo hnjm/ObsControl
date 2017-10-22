@@ -44,6 +44,10 @@ namespace ObservatoryCenter
         public ObservatoryControls_ASCOMTelescope ASCOMTelescope;
         public ObservatoryControls_ASCOMDome ASCOMDome;
 
+        /// <summary>
+        /// Boltwood file generation object
+        /// </summary>
+        internal ObservatoryControls_boltwood Boltwood;
 
         /// <summary>
         /// Conctructor
@@ -58,6 +62,8 @@ namespace ObservatoryCenter
             ASCOMSwitch = new ObservatoryControls_ASCOMSwitch();
             ASCOMTelescope = new ObservatoryControls_ASCOMTelescope();
             ASCOMDome = new ObservatoryControls_ASCOMDome(ASCOMSwitch);
+
+            Boltwood = new ObservatoryControls_boltwood();
 
             //for debug
             //SWITCH_DRIVER_NAME = "SwitchSim.Switch";

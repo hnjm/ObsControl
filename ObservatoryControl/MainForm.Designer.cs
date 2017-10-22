@@ -2482,7 +2482,7 @@
             // 
             this.btnCameraPower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCameraPower.BackColor = System.Drawing.Color.Tomato;
-            this.btnCameraPower.Location = new System.Drawing.Point(153, 31);
+            this.btnCameraPower.Location = new System.Drawing.Point(153, 29);
             this.btnCameraPower.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCameraPower.Name = "btnCameraPower";
             this.btnCameraPower.Size = new System.Drawing.Size(120, 38);
@@ -2701,15 +2701,14 @@
             // 
             // btnSoftStop
             // 
-            this.btnSoftStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.btnSoftStop.Location = new System.Drawing.Point(6, 23);
             this.btnSoftStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSoftStop.Name = "btnSoftStop";
             this.btnSoftStop.Size = new System.Drawing.Size(105, 32);
             this.btnSoftStop.TabIndex = 5;
-            this.btnSoftStop.Text = "Soft stop";
+            this.btnSoftStop.Text = "Pause";
             this.btnSoftStop.UseVisualStyleBackColor = false;
-            this.btnSoftStop.Click += new System.EventHandler(this.tmpNotImplemented_Click);
+            this.btnSoftStop.Click += new System.EventHandler(this.btnSoftStop_Click);
             // 
             // btnEmergencyStop
             // 
@@ -2721,7 +2720,7 @@
             this.btnEmergencyStop.TabIndex = 5;
             this.btnEmergencyStop.Text = "Emergency stop";
             this.btnEmergencyStop.UseVisualStyleBackColor = false;
-            this.btnEmergencyStop.Click += new System.EventHandler(this.tmpNotImplemented_Click);
+            this.btnEmergencyStop.Click += new System.EventHandler(this.btnEmergencyStop_Click);
             // 
             // groupBox7
             // 
@@ -2875,11 +2874,11 @@
             this.groupBox2.Controls.Add(this.linkMaximDL);
             this.groupBox2.Controls.Add(this.btnBeforeImaging);
             this.groupBox2.Controls.Add(this.btnStartAll);
-            this.groupBox2.Location = new System.Drawing.Point(9, 362);
+            this.groupBox2.Location = new System.Drawing.Point(9, 294);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.groupBox2.Size = new System.Drawing.Size(285, 188);
+            this.groupBox2.Size = new System.Drawing.Size(285, 239);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Scenarios";
@@ -2888,7 +2887,7 @@
             // 
             this.linkPHDBroker.AutoSize = true;
             this.linkPHDBroker.LinkColor = System.Drawing.Color.Blue;
-            this.linkPHDBroker.Location = new System.Drawing.Point(81, 111);
+            this.linkPHDBroker.Location = new System.Drawing.Point(159, 74);
             this.linkPHDBroker.Name = "linkPHDBroker";
             this.linkPHDBroker.Size = new System.Drawing.Size(90, 20);
             this.linkPHDBroker.TabIndex = 4;
@@ -2900,7 +2899,7 @@
             // 
             this.linkTelescopeTempControl.AutoSize = true;
             this.linkTelescopeTempControl.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.linkTelescopeTempControl.Location = new System.Drawing.Point(141, 149);
+            this.linkTelescopeTempControl.Location = new System.Drawing.Point(136, 199);
             this.linkTelescopeTempControl.Name = "linkTelescopeTempControl";
             this.linkTelescopeTempControl.Size = new System.Drawing.Size(121, 20);
             this.linkTelescopeTempControl.TabIndex = 4;
@@ -2911,7 +2910,7 @@
             // linkTest
             // 
             this.linkTest.AutoSize = true;
-            this.linkTest.Location = new System.Drawing.Point(255, 149);
+            this.linkTest.Location = new System.Drawing.Point(270, 201);
             this.linkTest.Name = "linkTest";
             this.linkTest.Size = new System.Drawing.Size(40, 20);
             this.linkTest.TabIndex = 4;
@@ -2924,7 +2923,7 @@
             // 
             this.linkWeatherStation.AutoSize = true;
             this.linkWeatherStation.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.linkWeatherStation.Location = new System.Drawing.Point(12, 149);
+            this.linkWeatherStation.Location = new System.Drawing.Point(9, 199);
             this.linkWeatherStation.Name = "linkWeatherStation";
             this.linkWeatherStation.Size = new System.Drawing.Size(121, 20);
             this.linkWeatherStation.TabIndex = 4;
@@ -2936,7 +2935,7 @@
             // 
             this.linkFocusMax.AutoSize = true;
             this.linkFocusMax.LinkColor = System.Drawing.Color.Blue;
-            this.linkFocusMax.Location = new System.Drawing.Point(183, 111);
+            this.linkFocusMax.Location = new System.Drawing.Point(115, 107);
             this.linkFocusMax.Name = "linkFocusMax";
             this.linkFocusMax.Size = new System.Drawing.Size(82, 20);
             this.linkFocusMax.TabIndex = 4;
@@ -2947,7 +2946,7 @@
             // linkCdC
             // 
             this.linkCdC.AutoSize = true;
-            this.linkCdC.Location = new System.Drawing.Point(159, 74);
+            this.linkCdC.Location = new System.Drawing.Point(9, 107);
             this.linkCdC.Name = "linkCdC";
             this.linkCdC.Size = new System.Drawing.Size(40, 20);
             this.linkCdC.TabIndex = 4;
@@ -2970,7 +2969,7 @@
             // 
             this.linkCCDC.AutoSize = true;
             this.linkCCDC.LinkColor = System.Drawing.Color.Blue;
-            this.linkCCDC.Location = new System.Drawing.Point(213, 74);
+            this.linkCCDC.Location = new System.Drawing.Point(55, 107);
             this.linkCCDC.Name = "linkCCDC";
             this.linkCCDC.Size = new System.Drawing.Size(54, 20);
             this.linkCCDC.TabIndex = 4;
@@ -2982,7 +2981,7 @@
             // 
             this.linkCCDAP.AutoSize = true;
             this.linkCCDAP.LinkColor = System.Drawing.Color.Blue;
-            this.linkCCDAP.Location = new System.Drawing.Point(9, 111);
+            this.linkCCDAP.Location = new System.Drawing.Point(9, 148);
             this.linkCCDAP.Name = "linkCCDAP";
             this.linkCCDAP.Size = new System.Drawing.Size(64, 20);
             this.linkCCDAP.TabIndex = 4;
@@ -3136,7 +3135,7 @@
             this.chkAbort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.chkAbort, "Abort imaging run");
             this.chkAbort.UseVisualStyleBackColor = true;
-            this.chkAbort.Click += new System.EventHandler(this.tmpNotImplemented_Click);
+            this.chkAbort.Click += new System.EventHandler(this.chkAbort_Click);
             // 
             // chkRun
             // 

@@ -448,7 +448,15 @@ namespace ObservatoryCenter
         }
 
 
+        private void btnSoftStop_Click(object sender, EventArgs e)
+        {
+            chkPause_CheckedChanged(chkPause, e);
+        }
 
+        private void btnEmergencyStop_Click(object sender, EventArgs e)
+        {
+            chkAbort_Click(chkAbort, e);
+        }
 
     }
 }
