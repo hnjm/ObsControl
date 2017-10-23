@@ -3,8 +3,6 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
-- integrate Pause based on Boltwood classe
-- restore Maxim guiding info
 - CCDC session stage signaling (standalone session monitor program)
 - send CCDAP/CCDC activity  to server
 - operational observatory tests
@@ -23,14 +21,15 @@ to do:
 - web platform for remote control
 - parsing CCDAP activity (through log)
 - CCDAP session stage signaling (standalone session monitor program)
+- restore Maxim guiding info
 
 bugs:
-- when closing manualy SiTech, ObsCenter is hanging
 - ccdc not last log
-- MaximDL running, but CCDCamera obj isn't connected
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.1.5 [24.10.17]
+ - commandinterpretator improved (added description)
 
 1.1.4 [23.10.17]
  - abort action implemented

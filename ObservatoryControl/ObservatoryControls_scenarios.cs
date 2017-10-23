@@ -36,8 +36,13 @@ namespace ObservatoryCenter
         /// </summary>
         public void InitComandInterpretator()
         {
+            CommandParser.Commands2.Add("VERSION", new Command((a) => VersionData.getVersionString(),"Get current program version")); //Pring version
+            CommandParser.Commands2.Add("HELP", new Command((a) => this.CommandParser.ListCommandsFormated2(), "List all available commands")); //list of commands
+            CommandParser.Commands2.Add("WAIT", new Command((a) => this.pauseExecution(a), "Pause execution for N milliseconds", "N")); //Pause execution for ... milliseconds
+
+
             //Internal commands
-            CommandParser.Commands.Add("HELP", (a) => this.CommandParser.ListCommands()); //list of commands
+            CommandParser.Commands.Add("HELP", (a) => this.CommandParser.ListCommandsFormated2()); //list of commands
             CommandParser.Commands.Add("VERSION", (a) => VersionData.getVersionString()); //Pring version
             CommandParser.Commands.Add("WAIT", (a) => this.pauseExecution(a)); //Pause execution for ... milliseconds
 
@@ -103,6 +108,7 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("IMAGING_RUN_RESUME", (a) => this.ImagingRun_Resume());
 
             CommandParser.Commands.Add("IMAGING_RUN_ABORT", (a) => this.ImagingRun_Abort());
+            CommandParser.Commands2.Add("IMAGING_RUN_ABORT", new Command((a) => this.ImagingRun_Abort(),"Abort current image run. i.e. send pause command to CCDC through boltwood interface and engage camera warmup"));
         }
 
         /// <summary>
@@ -315,7 +321,12 @@ namespace ObservatoryCenter
         /// <param name="CommandString_param_arr">1st param - number of milliseconds</param>
         public string pauseExecution(string[] CommandString_param_arr)
         {
-            int pauseLength = Convert.ToInt16(CommandString_param_arr[0]);
+            int pauseLength = 0;
+
+            if (CommandString_param_arr.Count()!=0)
+            {
+                pauseLength = Convert.ToInt16(CommandString_param_arr[0]);
+            }
 
             Thread.Sleep(pauseLength);
 

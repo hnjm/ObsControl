@@ -510,7 +510,7 @@ namespace ObservatoryCenter
                     if (ParentMainForm.ObsControl.CommandParser.ParseSingleCommand(cmd, out cmd_output))
                     {
                         Logging.AddLog("Client [" + ClientSocket.RemoteEndPoint + "]: " + "command [" + cmd + "] successfully run. Output: " + cmd_output, LogLevel.Activity, Highlight.Normal);
-                        msg = "Command [" + cmd + "] was run. Output: " + cmd_output;
+                        msg = "Command [" + cmd + "] was run. Output: " + Environment.NewLine  + cmd_output;
                     }
                     else
                     {

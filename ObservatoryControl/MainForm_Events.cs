@@ -104,6 +104,8 @@ namespace ObservatoryCenter
             Thread.Sleep(ConfigManagement.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
 
             ObsControl.CommandParser.ParseSingleCommand("PHD2_CONNECT");
+
+            ObsControl.CommandParser.ParseSingleCommand2("VERSION");
         }
         private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
