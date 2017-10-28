@@ -1,0 +1,7 @@
+﻿ 
+ Sitech options:
+
+ InterfaceVersion: 3
+ CanSlewAltAzAsync:	true
+ CanSlewAltAz: true
+ CanSlewAsync: true

@@ -54,7 +54,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: Maxim DL run test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_RUN");
 
             //check result
             try
@@ -83,7 +83,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: Maxim DL Camera Connect test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_CAMERA_CONNECT");
 
             //check result
             try
@@ -120,7 +120,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: Maxim DL Telescope Connect test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_TELESCOPE_CONNECT");
 
             //check result
             try
@@ -157,7 +157,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: Maxim DL Camera Cooling test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_CAMERA_SETCOOLING");
 
             //check result
             try
@@ -295,7 +295,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: PHD2 run test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("PHD2_RUN");
 
             //check result
             try
@@ -415,7 +415,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: CdC run test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("CdC_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("CdC_RUN");
 
             //check result
             try
@@ -449,7 +449,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: CdC connect test started");
 
             //Connect
-            ObsControl.CommandParser.ParseSingleCommand("CdC_TELESCOPE_CONNECT");
+            ObsControl.CommandParser.ParseSingleCommand2("CdC_TELESCOPE_CONNECT");
 
             //check result
             try
@@ -491,7 +491,7 @@ namespace ObservatoryCenter
             Thread.Sleep(2000);
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("FOCUSMAX_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("FOCUSMAX_RUN");
 
             //check result
             try
@@ -581,7 +581,7 @@ namespace ObservatoryCenter
             TestResult.AddStr("TestEquipment: TelescopeTempControl run test started");
 
             //run test
-            ObsControl.CommandParser.ParseSingleCommand("TTC_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("TTC_RUN");
             Thread.Sleep(500);
 
             //check result
@@ -620,7 +620,7 @@ namespace ObservatoryCenter
             double startFanSpeed = 0.0;
             double startFanPWR = 0.0;
             //Get fresh data
-            ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+            ObsControl.CommandParser.ParseSingleCommand2("TTC_GETDATA");
             startFanSpeed = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM;
             startFanPWR = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_FPWM;
             TestResult.AddStr("TestEquipment: TelescopeTempControl start fan speed = " + startFanSpeed + ", fan PWR = " + startFanPWR);
@@ -629,7 +629,7 @@ namespace ObservatoryCenter
             {
                 //Switch fan autocontroll off
                 autocontrolon = true;
-                ObsControl.CommandParser.ParseSingleCommand("TTC_FANAUTO_OFF");
+                ObsControl.CommandParser.ParseSingleCommand2("TTC_FANAUTO_OFF");
                 Thread.Sleep(1000);
             }
 
@@ -643,11 +643,11 @@ namespace ObservatoryCenter
             {
                 setFanPWR = 255;
             }
-            ObsControl.CommandParser.ParseSingleCommand("TTC_SETFANPWR "+ setFanPWR);
+            ObsControl.CommandParser.ParseSingleCommand2("TTC_SETFANPWR "+ setFanPWR);
             Thread.Sleep(5000);
 
             //Get fresh data
-            ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+            ObsControl.CommandParser.ParseSingleCommand2("TTC_GETDATA");
             double newFanSpeed = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM;
 
             TestResult.AddStr("TestEquipment: TelescopeTempControl start fan speed = " + newFanSpeed + ", fan PWR = " + setFanPWR);
@@ -663,10 +663,10 @@ namespace ObservatoryCenter
                     //if fan autocontroll was on, switch back
                     if (autocontrolon)
                     {
-                        ObsControl.CommandParser.ParseSingleCommand("TTC_FANAUTO_ON");
+                        ObsControl.CommandParser.ParseSingleCommand2("TTC_FANAUTO_ON");
                         Thread.Sleep(1000);
                     }
-                    ObsControl.CommandParser.ParseSingleCommand("TTC_SETFANPWR " + startFanPWR);
+                    ObsControl.CommandParser.ParseSingleCommand2("TTC_SETFANPWR " + startFanPWR);
 
                 }
                 else
@@ -698,7 +698,7 @@ namespace ObservatoryCenter
             double startExtTemp = 0.0;
             double startHeaterPWR = 0.0;
             //Get fresh data
-            ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+            ObsControl.CommandParser.ParseSingleCommand2("TTC_GETDATA");
             startSecondTemp = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp;
             startExtTemp = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
             startHeaterPWR = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPWM;
@@ -708,7 +708,7 @@ namespace ObservatoryCenter
             {
                 //Switch heater autocontroll off
                 autocontrolon = true;
-                ObsControl.CommandParser.ParseSingleCommand("TTC_HEATERAUTO_OFF");
+                ObsControl.CommandParser.ParseSingleCommand2("TTC_HEATERAUTO_OFF");
                 Thread.Sleep(1000);
             }
 
@@ -722,7 +722,7 @@ namespace ObservatoryCenter
             {
                 setHeaterPWR = 255;
             }
-            ObsControl.CommandParser.ParseSingleCommand("TTC_SETHEATERPWR " + setHeaterPWR);
+            ObsControl.CommandParser.ParseSingleCommand2("TTC_SETHEATERPWR " + setHeaterPWR);
             Thread.Sleep(5000);
 
             //Get fresh data
@@ -731,7 +731,7 @@ namespace ObservatoryCenter
 
             for (int i=1;i<=5;i++)
             {
-                ObsControl.CommandParser.ParseSingleCommand("TTC_GETDATA");
+                ObsControl.CommandParser.ParseSingleCommand2("TTC_GETDATA");
                 newSecondTemp = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp;
                 newExtTemp = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
 
@@ -752,10 +752,10 @@ namespace ObservatoryCenter
                     //if heater autocontroll was on, switch back
                     if (autocontrolon)
                     {
-                        ObsControl.CommandParser.ParseSingleCommand("TTC_HEATERAUTO_ON");
+                        ObsControl.CommandParser.ParseSingleCommand2("TTC_HEATERAUTO_ON");
                         Thread.Sleep(1000);
                     }
-                    ObsControl.CommandParser.ParseSingleCommand("TTC_SETHEATERPWR " + startHeaterPWR);
+                    ObsControl.CommandParser.ParseSingleCommand2("TTC_SETHEATERPWR " + startHeaterPWR);
 
                 }
                 else

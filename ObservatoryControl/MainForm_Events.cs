@@ -99,20 +99,18 @@ namespace ObservatoryCenter
         }
         private void linkPHD2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.CommandParser.ParseSingleCommand("PHD2_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("PHD2_RUN");
 
             Thread.Sleep(ConfigManagement.getInt("scenarioMainParams", "PHD_CONNECT_PAUSE") ?? 0);
 
-            ObsControl.CommandParser.ParseSingleCommand("PHD2_CONNECT");
-
-            ObsControl.CommandParser.ParseSingleCommand2("VERSION");
+            ObsControl.CommandParser.ParseSingleCommand2("PHD2_CONNECT");
         }
         private void linkMaximDL_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_RUN");
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_CONNECT");
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_CAMERA_SETCOOLING");
-            ObsControl.CommandParser.ParseSingleCommand("MAXIM_TELESCOPE_CONNECT");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_CAMERA_CONNECT");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_CAMERA_SETCOOLING");
+            ObsControl.CommandParser.ParseSingleCommand2("MAXIM_TELESCOPE_CONNECT");
         }
         private void linkCCDAP_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -120,7 +118,7 @@ namespace ObservatoryCenter
         }
         private void linkPHDBroker_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.CommandParser.ParseSingleCommand("PHDBROKER_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("PHDBROKER_RUN");
         }
         private void linkFocusMax_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -137,7 +135,15 @@ namespace ObservatoryCenter
 
         private void linkCCDC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ObsControl.CommandParser.ParseSingleCommand("CCDC_RUN");
+            ObsControl.CommandParser.ParseSingleCommand2("CCDC_RUN");
+
+            ObsControl.objCCDCApp.Automation_Run();
+
+            Thread.Sleep(2000);
+            ObsControl.objCCDCApp.Automation_Pause();
+
+            Thread.Sleep(2000);
+            //ObsControl.objCCDCApp.Automation_Stop();
         }
         #endregion //// AppLinks Events //////////////////////////////////////
         // End of AppLinks Events block 

@@ -96,86 +96,86 @@ namespace ObservatoryCenter
 
 
             //Cooler Status
-            if (ObsControl.objMaxim.IsRunning())
-            {
-                if (ObsControl.objMaxim.CameraConnected)
-                {
-                    //Parameters
-                    txtShortTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
-                    txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.CameraSetPoint);
-                    txtShortPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
+            //if (ObsControl.objMaxim.IsRunning())
+            //{
+            //    if (ObsControl.objMaxim.CameraConnected)
+            //    {
+            //        //Parameters
+            //        txtShortTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
+            //        txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.CameraSetPoint);
+            //        txtShortPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
 
-                    if (ObsControl.objMaxim.CameraCoolerOnStatus)
-                    {
-                        chkCoolerFlag.Checked = true;
+            //        if (ObsControl.objMaxim.CameraCoolerOnStatus)
+            //        {
+            //            chkCoolerFlag.Checked = true;
 
-                        if (ObsControl.objMaxim.CameraWarmpUpNow)
-                        {
-                            chkCoolerFlag.BackColor = InterColor;
-                        }
-                        else
-                        {
-                            chkCoolerFlag.BackColor = OnColor;
-                        }
+            //            if (ObsControl.objMaxim.CameraWarmpUpNow)
+            //            {
+            //                chkCoolerFlag.BackColor = InterColor;
+            //            }
+            //            else
+            //            {
+            //                chkCoolerFlag.BackColor = OnColor;
+            //            }
 
-                        //Check temp is set?
-                        if (!ObsControl.objMaxim.checkTempNearSetpoint())
-                        {
-                            txtShortTemp.BackColor = OffColor;
-                            panelShortTemp.BackColor = OffColor;
-                        }
-                        else
-                        {
-                            txtShortTemp.BackColor = DefBackColor;
-                            panelShortTemp.BackColor = DefBackColor;
-                        }
+            //            //Check temp is set?
+            //            if (!ObsControl.objMaxim.checkTempNearSetpoint())
+            //            {
+            //                txtShortTemp.BackColor = OffColor;
+            //                panelShortTemp.BackColor = OffColor;
+            //            }
+            //            else
+            //            {
+            //                txtShortTemp.BackColor = DefBackColor;
+            //                panelShortTemp.BackColor = DefBackColor;
+            //            }
 
-                        //Check power is to high?
-                        if (ObsControl.objMaxim.CameraCoolerPower >= 99.0)
-                        {
-                            txtShortPower.BackColor = OffColor;
-                            panelShortPower.BackColor = OffColor;
-                        }
-                        else
-                        {
-                            txtShortPower.BackColor = DefBackColor;
-                            panelShortPower.BackColor = DefBackColor;
-                        }
+            //            //Check power is to high?
+            //            if (ObsControl.objMaxim.CameraCoolerPower >= 99.0)
+            //            {
+            //                txtShortPower.BackColor = OffColor;
+            //                panelShortPower.BackColor = OffColor;
+            //            }
+            //            else
+            //            {
+            //                txtShortPower.BackColor = DefBackColor;
+            //                panelShortPower.BackColor = DefBackColor;
+            //            }
 
-                    }
-                    else
-                    {
-                        chkCoolerFlag.Checked = false;
-                        chkCoolerFlag.BackColor = OffColor;
-                    }
-                }
-                else
-                {
-                    txtShortTemp.Text = "";
-                    txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.TargetCameraSetTemp);
-                    txtShortPower.Text = "";
+            //        }
+            //        else
+            //        {
+            //            chkCoolerFlag.Checked = false;
+            //            chkCoolerFlag.BackColor = OffColor;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        txtShortTemp.Text = "";
+            //        txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.TargetCameraSetTemp);
+            //        txtShortPower.Text = "";
 
-                    //short form
-                    chkCoolerFlag.Checked = false;
-                    chkCoolerFlag.BackColor = DefBackColor;
-                }
+            //        //short form
+            //        chkCoolerFlag.Checked = false;
+            //        chkCoolerFlag.BackColor = DefBackColor;
+            //    }
 
-            }
-            else
-            {
-                txtShortPower.BackColor = DefBackColor;
-                panelShortPower.BackColor = DefBackColor;
-                txtShortTemp.BackColor = DefBackColor;
-                panelShortTemp.BackColor = DefBackColor;
+            //}
+            //else
+            //{
+            //    txtShortPower.BackColor = DefBackColor;
+            //    panelShortPower.BackColor = DefBackColor;
+            //    txtShortTemp.BackColor = DefBackColor;
+            //    panelShortTemp.BackColor = DefBackColor;
 
-                txtShortTemp.Text = "";
-                txtShortSetPoint.Text = "";
-                txtShortPower.Text = "";
+            //    txtShortTemp.Text = "";
+            //    txtShortSetPoint.Text = "";
+            //    txtShortPower.Text = "";
 
-                //short form
-                chkCoolerFlag.Checked = false;
-                chkCoolerFlag.BackColor = DefBackColor;
-            }
+            //    //short form
+            //    chkCoolerFlag.Checked = false;
+            //    chkCoolerFlag.BackColor = DefBackColor;
+            //}
 
 
 
@@ -265,11 +265,11 @@ namespace ObservatoryCenter
         {
             if (((CheckBox)sender).BackColor != OnColor)
             {
-                ObsControl.CommandParser.ParseSingleCommand("POWER_ON");
+                ObsControl.CommandParser.ParseSingleCommand2("POWER_ON");
             }
             else
             {
-                ObsControl.CommandParser.ParseSingleCommand("POWER_OFF");
+                ObsControl.CommandParser.ParseSingleCommand2("POWER_OFF");
             }
         }
 
@@ -366,7 +366,7 @@ namespace ObservatoryCenter
                 btnEmergencyStop.BackColor = DefBackColor;
 
                 //Resume run
-                ObsControl.CommandParser.ParseSingleCommand("IMAGING_RUN_RESUME");
+                ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_RESUME",true);
 
                 //toggle main window state
                 btnSoftStop.BackColor = DefBackColor;
@@ -377,7 +377,7 @@ namespace ObservatoryCenter
                 ((CheckBox)sender).BackColor = OffColor;
 
                 //Pause and park
-                ObsControl.CommandParser.ParseSingleCommand("IMAGING_RUN_PAUSE");
+                ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_PAUSE",true);
 
                 //toggle main window state
                 btnSoftStop.BackColor = OffColor;
@@ -395,8 +395,7 @@ namespace ObservatoryCenter
 
             //toogle pause buttons
             chkPause_CheckedChanged(chkPause, e);
-
-            ObsControl.CommandParser.ParseSingleCommand("IMAGING_RUN_ABORT");
+            ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_ABORT",true);
         }
 
         private void chkKill_Click(object sender, EventArgs e)

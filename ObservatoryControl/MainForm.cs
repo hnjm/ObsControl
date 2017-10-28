@@ -230,6 +230,10 @@ namespace ObservatoryCenter
         /// </summary>
         private void mainTimerShort_Tick(object sender, EventArgs e)
         {
+            //check telscope status
+            ObsControl.ASCOMTelescope.CheckTelescopeStatus_async();
+
+
             UpdatePowerButtonsStatus(); //checked for not quering device/program
             UpdateStatusbarASCOMStatus(); //checked for not quering device/program
             UpdateRoofPicture(); //Checked for not quering device/program
@@ -272,7 +276,7 @@ namespace ObservatoryCenter
             ObsControl.ASCOMDome.CheckDomeShutterStatus_async();
 
             //check telscope status
-            ObsControl.ASCOMTelescope.CheckTelescopeStatus_async();
+            //ObsControl.ASCOMTelescope.CheckTelescopeStatus_async();
 
             //check phd status
             ObsControl.objPHD2App.CMD_GetConnectEquipmentStatus();

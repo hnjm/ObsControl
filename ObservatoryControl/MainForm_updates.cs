@@ -305,26 +305,74 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateCCDCameraCoolerStatus()
         {
+
             if (ObsControl.objMaxim.IsRunning())
             {
                 if (ObsControl.objMaxim.CameraConnected)
                 {
-                    //Cooling
+                    //Large form
                     txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
                     updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraSetPoint);
                     txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
 
+                    //Short form
+                    txtShortTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
+                    txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.CameraSetPoint);
+                    txtShortPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
+
                     if (ObsControl.objMaxim.CameraCoolerOnStatus)
                     {
+                        //large
                         txtCameraTemp.BackColor = OnColor;
                         updownCameraSetPoint.BackColor = OnColor;
                         txtCameraCoolerPower.BackColor = OnColor;
+
+                        //short
+                        chkCoolerFlag.Checked = true;
+                        if (ObsControl.objMaxim.CameraWarmpUpNow)
+                        {
+                            chkCoolerFlag.BackColor = InterColor;
+                        }
+                        else
+                        {
+                            chkCoolerFlag.BackColor = OnColor;
+                        }
+
+                        //Check temp is set?
+                        if (!ObsControl.objMaxim.checkTempNearSetpoint())
+                        {
+                            txtShortTemp.BackColor = OffColor;
+                            panelShortTemp.BackColor = OffColor;
+                        }
+                        else
+                        {
+                            txtShortTemp.BackColor = DefBackColor;
+                            panelShortTemp.BackColor = DefBackColor;
+                        }
+
+                        //Check power is to high?
+                        if (ObsControl.objMaxim.CameraCoolerPower >= 99.0)
+                        {
+                            txtShortPower.BackColor = OffColor;
+                            panelShortPower.BackColor = OffColor;
+                        }
+                        else
+                        {
+                            txtShortPower.BackColor = DefBackColor;
+                            panelShortPower.BackColor = DefBackColor;
+                        }
+
                     }
                     else
                     {
                         txtCameraTemp.BackColor = OffColor;
                         updownCameraSetPoint.BackColor = OffColor;
                         txtCameraCoolerPower.BackColor = OffColor;
+
+
+                        //short form
+                        chkCoolerFlag.Checked = false;
+                        chkCoolerFlag.BackColor = OffColor;
                     }
                 }
                 else
@@ -337,8 +385,16 @@ namespace ObservatoryCenter
                     txtCameraTemp.BackColor = SystemColors.Control;
                     updownCameraSetPoint.BackColor = SystemColors.Control;
                     txtCameraCoolerPower.BackColor = SystemColors.Control;
-                }
 
+
+                    //short form
+                    txtShortTemp.Text = "";
+                    txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.TargetCameraSetTemp);
+                    txtShortPower.Text = "";
+
+                    chkCoolerFlag.Checked = false;
+                    chkCoolerFlag.BackColor = DefBackColor;
+                }
             }
             else
             {
@@ -350,7 +406,22 @@ namespace ObservatoryCenter
                 txtCameraTemp.BackColor = SystemColors.Control;
                 updownCameraSetPoint.BackColor = SystemColors.Control;
                 txtCameraCoolerPower.BackColor = SystemColors.Control;
+
+                //short form
+                txtShortPower.BackColor = DefBackColor;
+                panelShortPower.BackColor = DefBackColor;
+                txtShortTemp.BackColor = DefBackColor;
+                panelShortTemp.BackColor = DefBackColor;
+
+                txtShortTemp.Text = "";
+                txtShortSetPoint.Text = "";
+                txtShortPower.Text = "";
+
+                chkCoolerFlag.Checked = false;
+                chkCoolerFlag.BackColor = DefBackColor;
+
             }
+
         }
 
         /// <summary>
@@ -684,7 +755,20 @@ namespace ObservatoryCenter
                     {
                         //5. Выводим строким в логи
                         foreach (string st in NewLogLines) txtCCDAutomationStatus.Text = st + txtCCDAutomationStatus.Text;
+
+                        txtCCDCL_lastHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
+                        txtCCDCL_lastPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString();
+                        txtCCDCL_lastImage.Text = ObsControl.objCCDCApp.LastImageName;
+                        txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
+                        txtCCDCL_lastImageTime.Text = ObsControl.objCCDCApp.LastStartExposure.ToString();
+
+
+                        txtShort_SinceLastFocus.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
+                        txtShort_HFDLast.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
+
+                        txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString();
                     }
+
                 }
             }
         }

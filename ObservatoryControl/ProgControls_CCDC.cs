@@ -5,7 +5,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace ObservatoryCenter
 {
@@ -32,7 +36,7 @@ namespace ObservatoryCenter
         public int _MAX_VALID_CCDC_LOGFILE_MOD_AGE = 3000;       //how old log file can be (from last change) in seconds
 
         private Int32 prevLinesCount = 0;
-        public int _MAX_CCDC_LOGLINES_PARSE_ATATIME_LIMIT = 5; //parse only 5 last lines (need to be limited if started during session)
+        public int _MAX_CCDC_LOGLINES_PARSE_ATATIME_LIMIT = 100; //parse only 5 last lines (need to be limited if started during session)
 
         //Path to actions
         public string ActionsPath = @"c:\CCD Commander\Actions";
@@ -43,6 +47,16 @@ namespace ObservatoryCenter
         public string MessageText;
 
         public Dictionary<string, CCDAP_Command_class> CCDAPKeywordsList = new Dictionary<string, CCDAP_Command_class>();
+
+
+        //Log information
+        public double LastPointingError = 0.0;
+        public double LastFocusHFD = 0.0;
+        public DateTime LastFocusTime;
+        public string LastImageName = "";
+        public DateTime LastStartExposure;
+        public string LastSequenceInfo = "";
+
 
         /// <summary>
         /// Init CCDC activity
@@ -82,6 +96,47 @@ namespace ObservatoryCenter
                 abortKey.SetValue("Aborted", "1", RegistryValueKind.String);
                 abortKey.Close();
             }
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+
+        private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string className, string lpszWindow);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern IntPtr PostMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+
+        const int WM_COMMAND = 0x111;
+
+        public void Automation_Run()
+        {
+            //AutoItX3 _autoit = new AutoItX3();
+            //IntPtr hWnd=AutoItX.WinGetHandle("CCD Commander", "");
+            //_autoit.WinMenuSelectItem("CCD Commander", "", "&Run", "&Start");
+            ////AutoItX._GUICtrlMenu_GetMenu(hWnd);
+
+            //AutoItX.WinMenuSelectItem("CCD Commander", "", "&Run", "&Start");
+
+            IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
+
+            Utils.SetForegroundWindow(ccdHandle2);
+
+            SendKeys.SendWait("%RS");
+            SendKeys.Flush();
+        }
+        public void Automation_Pause()
+        {
+            IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
+            Utils.SetForegroundWindow(ccdHandle2);
+            SendKeys.SendWait("%RP");
+            SendKeys.Flush();
+        }
+        public void Automation_Stop()
+        {
+            IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
+            Utils.SetForegroundWindow(ccdHandle2);
+            SendKeys.SendWait("%RT");
         }
 
         /// <summary>
@@ -155,6 +210,7 @@ namespace ObservatoryCenter
                         break;
                     }
                 }
+                currentLogFile.Refresh();
             }
             catch (Exception ex)
             {
@@ -310,6 +366,8 @@ namespace ObservatoryCenter
             IEnumerable <string> notReadLines = contentsLogFile.Skip(numberOfLinesToSkip);
             int newLinesCount = notReadLines.Count();
 
+
+            //Parse new lines
             bool needConcat = false;
             string strDataConcat = "";
             DateTime curLineTime, prevLineTime;
@@ -317,8 +375,8 @@ namespace ObservatoryCenter
             int cntReadLines = 0;
             string RetStr = "";
 
-            if (newLinesCount > 0)
             //If there is lines to parse
+            if (newLinesCount > 0)
             {
                 //Loop throug new lines
                 foreach (string curLine in notReadLines)
@@ -346,7 +404,7 @@ namespace ObservatoryCenter
                         // Пропустить, если это первая строка (она всегда будет пустой)
                         if (cntReadLines != 1)
                         {
-                            ParseCommandLine(curFullLineData);
+                            ParseCommandLine(curFullLineData, curLineTime);
 
                             RetStr = String.Format("{0}", curLineTime.ToString("HH:mm:ss"));
                             RetStr += String.Format(": {0}", curFullLineData) + Environment.NewLine;
@@ -362,7 +420,7 @@ namespace ObservatoryCenter
                         if (cntReadLines == newLinesCount)
                         {
                             curFullLineData = prevLineData;
-                            ParseCommandLine(curFullLineData);
+                            ParseCommandLine(curFullLineData, curLineTime);
 
                             RetStr = String.Format("{0}", curLineTime.ToString("HH:mm:ss"));
                             RetStr += String.Format(": {0}", curFullLineData) + Environment.NewLine;
@@ -402,19 +460,50 @@ namespace ObservatoryCenter
             return RetRes;
         }
 
-
         private bool ParseCommandLine(string LineSt)
+        {
+            return ParseCommandLine(LineSt, DateTime.Now);
+        }
+
+        private bool ParseCommandLine(string LineSt, DateTime LineTime)
         {
             bool res = false;
 
             //2. parse lines
-            if (LineSt.Contains(""))
-            {
 
+            //Pointing accuracy
+            //      Pointing error vector = 38.1 arcsec, 315.9 degrees.
+            if (LineSt.Contains("Pointing error vector"))
+            {
+                int beg1 = LineSt.LastIndexOf("=")+1;
+                int end1 = LineSt.LastIndexOf("arcsec");
+                string stRes = LineSt.Substring(beg1, end1 - beg1).Trim();
+                LastPointingError = Utils.ConvertToDouble(stRes);
             }
-            else if (LineSt.Contains(""))
+            //Focusing accuracy
+            //      Focus succeeded! HFD = 2.79
+            else if (LineSt.Contains("Focus succeeded"))
             {
-
+                int beg1 = LineSt.LastIndexOf("=")+1;
+                string stRes = LineSt.Substring(beg1).Trim();
+                LastFocusHFD = Utils.ConvertToDouble(stRes);
+                LastFocusTime = LineTime;
+            }
+            //Start imaging
+            //      Setting file name prefix to: LeoTrio_L_600s_1x1_ - 20degC_0211_0.0degN
+            //      Starting imager exposure(1 of 10).
+            else if (LineSt.Contains("Setting file name prefix to"))
+            {
+                int beg1 = LineSt.LastIndexOf(":")+1;
+                LastImageName = LineSt.Substring(beg1).Trim();
+            }
+            //      Starting imager exposure(1 of 10).
+            else if (LineSt.Contains("Starting imager exposure"))
+            {
+                int beg1 = LineSt.LastIndexOf("(")+1;
+                int end1 = LineSt.LastIndexOf(")");
+                LastSequenceInfo = LineSt.Substring(beg1,end1-beg1).Trim();
+                LastStartExposure = LineTime;
             }
 
             return res;

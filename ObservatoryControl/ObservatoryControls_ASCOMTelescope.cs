@@ -567,6 +567,28 @@ namespace ObservatoryCenter
             }
         }
 
+        public string DirectAccessGetString(string propertyName)
+        {
+            string res = "";
+            if (objTelescope != null)
+            {
+                var prop = objTelescope.GetType().GetProperty(propertyName).GetValue(objTelescope, null);
+                res = prop.ToString();
+            }
+            return res;
+        }
+        
+        public bool DirectAccessGetBool(string propertyName)
+        {
+            bool res = false;
+            if (objTelescope != null)
+            { 
+                var prop= objTelescope.GetType().GetProperty(propertyName).GetValue(objTelescope, null);
+                res = Convert.ToBoolean(prop);
+            }
+            return res;
+        }
+
         /// <summary>
         /// Wrapper to reset telescope driver 
         /// Later system would reinitiate it itself
