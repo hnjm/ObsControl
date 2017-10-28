@@ -3,10 +3,8 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
-- Abort even without running CCDC
 - CCDC session stage signaling (standalone session monitor program)
 - send CCDAP/CCDC activity  to server
-- operational observatory tests
 - run PAM throug AutoIt
 - implement focusing throug FocusMax
 - calculate and set suitable cooling temp
@@ -23,6 +21,7 @@ to do:
 - parsing CCDAP activity (through log)
 - CCDAP session stage signaling (standalone session monitor program)
 - restore Maxim guiding info
+- operational observatory tests
 
 bugs:
 - ccdc not last log
@@ -30,9 +29,12 @@ bugs:
 - unkown exception reason on Dome Connect!!!! to resolve
 
 1.1.6 [28.10.17]
+ - Parsing some CCDC events from log (focus, pointing, exposures)
+ - CCDC working with log optimization
  - commandinterpretator asnyc option
- 
  - CCDC automation commands
+ - abort even if CCDC not running
+
 1.1.5 [24.10.17]
  - commandinterpretator improved (added description)
 
