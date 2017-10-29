@@ -186,6 +186,7 @@ namespace ObservatoryCenter
                 try
                 {
                     objTelescope.Park();
+                    Logging.AddLog("Parking scope", LogLevel.Activity);
                 }
                 catch (Exception ex)
                 {

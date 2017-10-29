@@ -30,9 +30,9 @@ bugs:
 
 1.1.6 [28.10.17]
  - Parsing some CCDC events from log (focus, pointing, exposures)
- - CCDC working with log optimization
+ - CCDC log some optimization (incl fileinfo.refresh)
  - commandinterpretator asnyc option
- - CCDC automation commands
+ - CCDC automation direct (through send keys) commands
  - abort even if CCDC not running
 
 1.1.5 [24.10.17]

@@ -394,6 +394,7 @@ namespace ObservatoryCenter
             btnEmergencyStop.BackColor = OffColor;
 
             //toogle pause buttons
+            chkPause.Checked = false;
             chkPause_CheckedChanged(chkPause, e);
             ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_ABORT",true);
         }

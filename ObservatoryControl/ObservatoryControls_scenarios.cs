@@ -346,6 +346,10 @@ namespace ObservatoryCenter
             return "RETURN: Imaging run resumed";
         }
 
+        /// <summary>
+        /// Imaging run ABORT SCENARIO
+        /// </summary>
+        /// <returns></returns>
         public string ImagingRun_Abort()
         {
             Logging.AddLog("Imaging run abortion started", LogLevel.Activity);
@@ -356,10 +360,11 @@ namespace ObservatoryCenter
 
             if (objCCDCApp.IsRunning())
             {
-                Thread.Sleep(10000); //wait
+                Thread.Sleep(20000); //wait
 
                 if (!ASCOMTelescope.DirectAccessGetBool("AtPark") && !ASCOMTelescope.DirectAccessGetBool("Slewing"))
                 {
+                    Logging.AddLog("Seems there is no activity. Force parking", LogLevel.Activity);
                     ASCOMTelescope.Park();
                 }
             }
