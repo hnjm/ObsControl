@@ -639,6 +639,25 @@ namespace ObservatoryCenter
             }
         }
 
+     
+        private void btbStartCCDC_Click(object sender, EventArgs e)
+        {
+            ObsControl.objCCDCApp.Automation_Start();
+        }
+
+        private void btnPauseCCDC_Click(object sender, EventArgs e)
+        {
+            ObsControl.objCCDCApp.Automation_Pause();
+        }
+
+        private void btnStopCCDC_Click(object sender, EventArgs e)
+        {
+             ObsControl.objCCDCApp.Automation_Stop();
+        
+        }
+
+
+
         #endregion
 
         /// <summary>

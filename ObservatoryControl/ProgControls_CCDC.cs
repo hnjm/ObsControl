@@ -43,6 +43,9 @@ namespace ObservatoryCenter
         //Last action file link
         public FileInfo lastActionFile;
 
+        //Path to guide start script
+        public string StartGuideScript;
+
 
         public string MessageText;
 
@@ -56,6 +59,9 @@ namespace ObservatoryCenter
         public string LastImageName = "";
         public DateTime LastStartExposure;
         public string LastSequenceInfo = "";
+
+        //Flip time
+        public DateTime LastFlipStartTime;
 
 
         /// <summary>
@@ -109,7 +115,7 @@ namespace ObservatoryCenter
 
         const int WM_COMMAND = 0x111;
 
-        public void Automation_Run()
+        public void Automation_Start()
         {
             //AutoItX3 _autoit = new AutoItX3();
             //IntPtr hWnd=AutoItX.WinGetHandle("CCD Commander", "");
@@ -124,6 +130,7 @@ namespace ObservatoryCenter
 
             SendKeys.SendWait("%RS");
             SendKeys.Flush();
+            Logging.AddLog("CCDC start pressed", LogLevel.Activity);
         }
         public void Automation_Pause()
         {
@@ -131,12 +138,15 @@ namespace ObservatoryCenter
             Utils.SetForegroundWindow(ccdHandle2);
             SendKeys.SendWait("%RP");
             SendKeys.Flush();
+            Logging.AddLog("CCDC pause pressed", LogLevel.Activity);
+
         }
         public void Automation_Stop()
         {
             IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
             Utils.SetForegroundWindow(ccdHandle2);
             SendKeys.SendWait("%RT");
+            Logging.AddLog("CCDC stop pressed", LogLevel.Activity);
         }
 
         /// <summary>
@@ -465,12 +475,18 @@ namespace ObservatoryCenter
             return ParseCommandLine(LineSt, DateTime.Now);
         }
 
+
+        /// <summary>
+        /// Check line and make an action if detected smth.
+        /// </summary>
+        /// <param name="LineSt">Line text</param>
+        /// <param name="LineTime">Line time</param>
+        /// <returns></returns>
         private bool ParseCommandLine(string LineSt, DateTime LineTime)
         {
             bool res = false;
 
             //2. parse lines
-
             //Pointing accuracy
             //      Pointing error vector = 38.1 arcsec, 315.9 degrees.
             if (LineSt.Contains("Pointing error vector"))
@@ -479,6 +495,7 @@ namespace ObservatoryCenter
                 int end1 = LineSt.LastIndexOf("arcsec");
                 string stRes = LineSt.Substring(beg1, end1 - beg1).Trim();
                 LastPointingError = Utils.ConvertToDouble(stRes);
+                Logging.AddLog("CCDC Pointing error vector detected", LogLevel.Debug);
             }
             //Focusing accuracy
             //      Focus succeeded! HFD = 2.79
@@ -488,6 +505,7 @@ namespace ObservatoryCenter
                 string stRes = LineSt.Substring(beg1).Trim();
                 LastFocusHFD = Utils.ConvertToDouble(stRes);
                 LastFocusTime = LineTime;
+                Logging.AddLog("CCDC Focus succeeded detected", LogLevel.Debug);
             }
             //Start imaging
             //      Setting file name prefix to: LeoTrio_L_600s_1x1_ - 20degC_0211_0.0degN
@@ -506,9 +524,63 @@ namespace ObservatoryCenter
                 LastStartExposure = LineTime;
             }
 
+            // MAKE AN Action            
+
+            //            23:13:20  Need to do a meridian flip!
+            //            23:13:20  Flipping....
+            //            23:14:41  Recentering....
+            //            23:14:56  Flip complete.
+
+            //23:55:01  Need to do a meridian flip!
+            //23:55:01  Cannot flip the mount yet!
+            //23:55:01  Waiting for mount to enter the meridian zone...
+            else if (LineSt.Contains("Flipping...."))
+            {
+                LastFlipStartTime = LineTime;
+            }
+            else if (LineSt.Contains("Flip complete."))
+            {
+                //проверить, как давно это было
+                if ((DateTime.Now - LineTime).TotalSeconds < 10)
+                {
+                    Logging.AddLog("CCDC Flip complete detected", LogLevel.Activity);
+                    HandleFlip();            
+                }
+            }
+
             return res;
         }
 
-#endregion End of Working with log ****
+
+        #endregion End of Working with log ****
+
+
+        private void HandleFlip_async()
+        {
+        }
+
+        private void HandleFlip()
+        {
+            //CCDC на паузу
+            this.Automation_Pause();
+
+            //PHD начать гидирование
+            Process objProcess = new Process();
+            objProcess.StartInfo.FileName = this.StartGuideScript;
+            objProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+            objProcess.StartInfo.UseShellExecute = true;
+            objProcess.StartInfo.Arguments = ParameterString;
+            objProcess.Start();
+            objProcess.WaitForInputIdle(15000); //wait for program to start
+            Logging.AddLog("Process [" + objProcess.StartInfo.FileName + "] started", LogLevel.Activity);
+            ErrorSt = "";
+            Error = 0;
+
+
+            //CCDC запустить
+            this.Automation_Start();
+
+        }
+
     }
 }

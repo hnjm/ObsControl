@@ -137,7 +137,7 @@ namespace ObservatoryCenter
         {
             ObsControl.CommandParser.ParseSingleCommand2("CCDC_RUN");
 
-            ObsControl.objCCDCApp.Automation_Run();
+            ObsControl.objCCDCApp.Automation_Start();
 
             Thread.Sleep(2000);
             ObsControl.objCCDCApp.Automation_Pause();

@@ -3,7 +3,6 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
-- change TextBox to valigned boxes
 - CCDC session parsing: detect flipping and restart
 - CCDC session command: restart after end of image
 - Telescope "is slewing" displaying

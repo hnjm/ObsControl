@@ -1,0 +1,16 @@
+﻿programsPath
+	CCDC			
+	Path to CCDCommander executable
+	"c:\CCD Commander\CCDCommander.exe"
+
+	CCDC_Logs		
+	Path to CCDCommander logs folder
+	"c:\CCD Commander\Logs"
+
+	CCDC_Actions	
+	Path to CCDCommander actions folder
+	"c:\CCD Commander\Actions"
+    
+	PHDBrokerGuideStart
+	Path to script (or program) which will start guiding
+	"c:\CCD Commander\auto.vbs" ("c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Scripts\phd_broker_end_slew.bat")

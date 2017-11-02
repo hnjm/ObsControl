@@ -80,6 +80,8 @@ namespace ObservatoryCenter
             objCCDCApp.ActionsPath = ConfigManagement.getString("programsPath", "CCDC_Actions") ?? @"c:\CCD Commander\Actions";
             objCCDCApp.ParameterString = objCCDCApp.GetLastActionFile().FullName;
 
+            objCCDCApp.StartGuideScript = ConfigManagement.getString("programsPath", "PHDBrokerGuideStart") ?? @"c:\CCD Commander\auto.vbs";
+
 
             //FocusMax
             objFocusMaxApp = new FocusMax_ExternalApplication();
