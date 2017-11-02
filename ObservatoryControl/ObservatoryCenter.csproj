@@ -32,7 +32,7 @@
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
     <ApplicationRevision>71</ApplicationRevision>
-    <ApplicationVersion>1.1.6.%2a</ApplicationVersion>
+    <ApplicationVersion>1.1.7.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
