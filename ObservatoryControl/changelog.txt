@@ -3,7 +3,6 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
-- CCDC session parsing: detect flipping and restart
 - CCDC session command: restart after end of image
 - Telescope "is slewing" displaying
 - FocusMax alert button. Refocus button. Alert if focus need to be rechecked
@@ -30,6 +29,12 @@ bugs:
 - ccdc not last log
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
+
+1.1.7 [06.11.17]
+ - CCDC log parsing: restart guiding on flip
+ - CCDC log parsing: detect object name and coordinates
+ - CCDC automation optimization
+ 
 
 1.1.6 [28.10.17]
  - Parsing some CCDC events from log (focus, pointing, exposures)

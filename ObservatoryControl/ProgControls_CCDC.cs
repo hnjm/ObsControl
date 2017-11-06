@@ -42,26 +42,35 @@ namespace ObservatoryCenter
         public string ActionsPath = @"c:\CCD Commander\Actions";
         //Last action file link
         public FileInfo lastActionFile;
-
-        //Path to guide start script
+        //Path to guide start script (phd_broker_end_slew.bat)
         public string StartGuideScript;
-
 
         public string MessageText;
 
-        public Dictionary<string, CCDAP_Command_class> CCDAPKeywordsList = new Dictionary<string, CCDAP_Command_class>();
 
+        //Log parse information
+        //pointing coordinates
+        public string ObjName = "";
+        public string ObjRA_st = "";
+        public string ObjDec_st = "";
+        public double ObjRA = 0.0;
+        public double ObjDec = 0.0;
+        private bool bMoveTo_beg = false;
+        private bool bMoveTo_end = true;
+        private bool bCoordWasntParsed = false;
 
-        //Log information
+        //pointing accuracy
         public double LastPointingError = 0.0;
+        //focus info
         public double LastFocusHFD = 0.0;
         public DateTime LastFocusTime;
+        //image starting
         public string LastImageName = "";
         public DateTime LastStartExposure;
         public string LastSequenceInfo = "";
-
         //Flip time
         public DateTime LastFlipStartTime;
+        public DateTime LastFlipInternalRoutineStartTime = new DateTime();
 
 
         /// <summary>
@@ -72,6 +81,31 @@ namespace ObservatoryCenter
 
         }
 
+        /// <summary>
+        /// Return FileInfo on last CCDC ACTION 
+        /// </summary>
+        /// <returns></returns>
+        public FileInfo GetLastActionFile()
+        {
+            DirectoryInfo objActionsDirectory;
+
+            try
+            {
+                //Get directory where to search actions
+                objActionsDirectory = new DirectoryInfo(ActionsPath);
+
+                //Get last file
+                lastActionFile = (from f in objActionsDirectory.GetFiles() orderby f.LastWriteTime descending select f).First();
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("CCDC ActionsPath is invalid", LogLevel.Debug, Highlight.Error);
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                lastActionFile = new FileInfo(ActionsPath + "");
+            }
+
+            return lastActionFile;
+        }
 
         public void CheckEmergengyRunAbortFlag()
         // set = 1 abort
@@ -104,76 +138,92 @@ namespace ObservatoryCenter
             }
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-
-        private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string className, string lpszWindow);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-        [DllImport("user32.dll")]
-        public static extern IntPtr PostMessage(IntPtr hWnd, int msg, int wParam, int lParam);
-
-        const int WM_COMMAND = 0x111;
-
+        /// <summary>
+        /// Emulate START | PAUSE | STOP commands
+        /// </summary>
         public void Automation_Start()
         {
-            //AutoItX3 _autoit = new AutoItX3();
-            //IntPtr hWnd=AutoItX.WinGetHandle("CCD Commander", "");
-            //_autoit.WinMenuSelectItem("CCD Commander", "", "&Run", "&Start");
-            ////AutoItX._GUICtrlMenu_GetMenu(hWnd);
+            Utils.BringWindowToFront("CCDCommander", "CCD Commander", 1);
 
-            //AutoItX.WinMenuSelectItem("CCD Commander", "", "&Run", "&Start");
+            SendKeys.SendWait("%R");
+            Thread.Sleep(100);
+            SendKeys.SendWait("S");
+            Thread.Sleep(100);
 
-            IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
-
-            Utils.SetForegroundWindow(ccdHandle2);
-
-            SendKeys.SendWait("%RS");
             SendKeys.Flush();
             Logging.AddLog("CCDC start pressed", LogLevel.Activity);
         }
         public void Automation_Pause()
         {
-            IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
-            Utils.SetForegroundWindow(ccdHandle2);
-            SendKeys.SendWait("%RP");
+            Utils.BringWindowToFront("CCDCommander", "CCD Commander", 1);
+            SendKeys.SendWait("%R");
+            Thread.Sleep(100);
+            SendKeys.SendWait("P");
+            Thread.Sleep(100);
+
             SendKeys.Flush();
             Logging.AddLog("CCDC pause pressed", LogLevel.Activity);
 
         }
         public void Automation_Stop()
         {
-            IntPtr ccdHandle2 = FindWindow(null, "CCD Commander");
-            Utils.SetForegroundWindow(ccdHandle2);
-            SendKeys.SendWait("%RT");
+            Utils.BringWindowToFront("CCDCommander","CCD Commander",1);
+            SendKeys.SendWait("%R");
+            Thread.Sleep(100);
+            SendKeys.SendWait("T");
+            Thread.Sleep(100);
+
             Logging.AddLog("CCDC stop pressed", LogLevel.Activity);
         }
 
         /// <summary>
-        /// Return FileInfo on last CCDC ACTION 
+        /// Restart session when flip detected
         /// </summary>
-        /// <returns></returns>
-        public FileInfo GetLastActionFile()
+        private void HandleFlip()
         {
-            DirectoryInfo objActionsDirectory;
+            //CCDC на паузу
+            this.Automation_Pause();
 
+            //Запустить скрипт: PHD начать гидирование
+            Process objProcess = new Process();
             try
             {
-                //Get directory where to search actions
-                objActionsDirectory = new DirectoryInfo(ActionsPath);
-
-                //Get last file
-                lastActionFile = (from f in objActionsDirectory.GetFiles() orderby f.LastWriteTime descending select f).First();
+                objProcess.StartInfo.FileName = this.StartGuideScript;
+                objProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                objProcess.StartInfo.UseShellExecute = true;
+                objProcess.Start();
+                Logging.AddLog("Process [" + objProcess.StartInfo.FileName + "] started", LogLevel.Activity);
             }
-            catch (Exception ex)
+            catch (Exception Ex)
             {
-                Logging.AddLog("CCDC ActionsPath is invalid", LogLevel.Debug, Highlight.Error);
-                Logging.AddLog(MethodBase.GetCurrentMethod().Name + "error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
-                lastActionFile = new FileInfo(ActionsPath+"");
+                ErrorSt = "Process [" + this.StartGuideScript + "] starting error! " + Ex.Message;
+                Error = -1;
+                Logging.AddLog(ErrorSt, LogLevel.Important, Highlight.Error);
             }
+            //подождать, пока он закончится
+            objProcess.WaitForExit(10000);
+            objProcess.Close();
 
-            return lastActionFile;
+            Thread.Sleep(5000); //hang the system to emulate Start Image Delay
+
+            //CCDC запустить
+            this.Automation_Start();
+
+            //Thread.Sleep(1000);
         }
+        
+        /// <summary>
+        /// Async start
+        /// </summary>
+        private void HandleFlip_async()
+        {
+            Thread childThread = new Thread(delegate () {
+                HandleFlip();
+            });
+            childThread.Start();
+
+        }
+
 
         // ************************************************************************************************************************************************************************
         // Логика работы с CCDC логами:
@@ -524,6 +574,73 @@ namespace ObservatoryCenter
                 LastStartExposure = LineTime;
             }
 
+            // Type 1
+            //19:17:47  Starting move to action.
+            //19:17:47  Running script from C:\Users\Administrator\Documents\CCDWare\CCDAutoPilot5\Scripts\Broker_begin_slew.vbs
+            //19:17:51  Script complete.
+            //19:17:51  Precessing coordinates.
+            //19:17:51  J2000 Coordinates: RA: 21h 43m 30.0s Dec: +58°46'49"
+            //19:17:51  JNow Coordinates: RA: 21h 44m 02.7s Dec: +58°51'44"
+            //19:17:51  Slewing to muCep...
+            //19:18:40  Done slewing!
+
+            // Type 2
+            //19:15:08  Starting move to action.
+            //19:15:08  Running script from D:\ASCOMscripts\phdbroker\auto_begin_slew.vbs
+            //19:15:11  Script complete.
+            //19:15:12  Slewing to NGC225...
+            //19:15:16  Done slewing!
+
+            // Want to parse:
+            //      J2000 Coordinates: RA: 23h 36m 57,1s Dec: +05°43'24"
+            // Do not forget: this string should be after "Precessing coordinates." or this can be Sync log output.
+            // BUT. Sometimes (when Apparent Coordinates are set, there is now coord. output - only "Slewing to ...", 
+            //      so we need to use last valud string
+            else if (LineSt.Contains("Starting move to action."))
+            {
+                bMoveTo_beg = true;
+                bMoveTo_end = false;
+                bCoordWasntParsed = true;
+            }
+            else if (LineSt.Contains("Done slewing"))
+            {
+                bMoveTo_beg = false;
+                bMoveTo_end = true;
+            }
+            else if (LineSt.Contains("Precessing coordinates."))
+            {
+            }
+            else if (LineSt.Contains("J2000 Coordinates: RA: "))
+            {
+                int beg1 = LineSt.LastIndexOf("RA: ")+4;
+                int end1 = LineSt.LastIndexOf(" Dec: ");
+                string ObjRA_st_temp = LineSt.Substring(beg1, end1 - beg1).Trim();
+                string ObjDec_st_temp = LineSt.Substring(end1 + 6).Trim();
+
+                //need to store? or skip?
+                //if inside block - store!
+                if ( bMoveTo_beg && !bMoveTo_end )
+                { 
+                    ObjRA_st = ObjRA_st_temp;
+                    ObjDec_st = ObjDec_st_temp;
+                    bCoordWasntParsed = false;
+                }
+                //if there was no coordinates in block - store also! every time you got it - store!
+                else if (bCoordWasntParsed)
+                {
+                    ObjRA_st = ObjRA_st_temp;
+                    ObjDec_st = ObjDec_st_temp;
+                }
+            }
+            //      Slewing to M83...
+            else if (LineSt.Contains("Slewing to "))
+            {
+                int beg1 = LineSt.LastIndexOf("Slewing to ") + 11;
+                int end1 = LineSt.LastIndexOf("...");
+                ObjName = LineSt.Substring(beg1, end1 - beg1).Trim();
+            }
+
+
             // MAKE AN Action            
 
             //            23:13:20  Need to do a meridian flip!
@@ -541,10 +658,23 @@ namespace ObservatoryCenter
             else if (LineSt.Contains("Flip complete."))
             {
                 //проверить, как давно это было
-                if ((DateTime.Now - LineTime).TotalSeconds < 10)
+                if ((DateTime.Now - LineTime).TotalSeconds < 10 && (DateTime.Now - LastFlipInternalRoutineStartTime).TotalSeconds > 10 )
                 {
+                    LastFlipInternalRoutineStartTime = DateTime.Now;
                     Logging.AddLog("CCDC Flip complete detected", LogLevel.Activity);
-                    HandleFlip();            
+                    HandleFlip_async();            
+                }
+            }
+            //      Starting imager delay...
+            //TEST
+            else if (LineSt.Contains("_________Starting imager delay"))
+            {
+                //проверить, как давно это было
+                if ((DateTime.Now - LineTime).TotalSeconds < 10 && (DateTime.Now - LastFlipInternalRoutineStartTime).TotalSeconds > 10)
+                {
+                    LastFlipInternalRoutineStartTime = DateTime.Now;
+                    Logging.AddLog("CCDC Flip complete detected", LogLevel.Activity);
+                    HandleFlip_async();
                 }
             }
 
@@ -555,32 +685,7 @@ namespace ObservatoryCenter
         #endregion End of Working with log ****
 
 
-        private void HandleFlip_async()
-        {
-        }
 
-        private void HandleFlip()
-        {
-            //CCDC на паузу
-            this.Automation_Pause();
-
-            //PHD начать гидирование
-            Process objProcess = new Process();
-            objProcess.StartInfo.FileName = this.StartGuideScript;
-            objProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            objProcess.StartInfo.UseShellExecute = true;
-            objProcess.StartInfo.Arguments = ParameterString;
-            objProcess.Start();
-            objProcess.WaitForInputIdle(15000); //wait for program to start
-            Logging.AddLog("Process [" + objProcess.StartInfo.FileName + "] started", LogLevel.Activity);
-            ErrorSt = "";
-            Error = 0;
-
-
-            //CCDC запустить
-            this.Automation_Start();
-
-        }
 
     }
 }

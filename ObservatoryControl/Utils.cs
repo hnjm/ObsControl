@@ -137,8 +137,127 @@ namespace ObservatoryCenter
     class Utils
     {
         [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string className, string windowTitle);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool ShowWindow(IntPtr hWnd, ShowWindowEnum flags);
+
+        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowPlacement(IntPtr hWnd, ref Windowplacement lpwndpl);
+
+
+        [DllImport("user32.dll", EntryPoint = "FindWindowEx", CharSet = CharSet.Auto)]
+        static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+
+        static List<IntPtr> GetAllChildrenWindowHandles(IntPtr hParent, int maxCount)
+        {
+            List<IntPtr> result = new List<IntPtr>();
+            int ct = 0;
+            IntPtr prevChild = IntPtr.Zero;
+            IntPtr currChild = IntPtr.Zero;
+            while (true && ct < maxCount)
+            {
+                currChild = FindWindowEx(hParent, prevChild, null, null);
+                if (currChild == IntPtr.Zero) break;
+
+                result.Add(currChild);
+                prevChild = currChild;
+
+                ++ct;
+            }
+            return result;
+        }
+
+        private enum ShowWindowEnum
+        {
+            SW_HIDE = 0,
+            ShowNormal = 1, ShowMinimized = 2, ShowMaximized = 3,
+            Maximize = 3, ShowNormalNoActivate = 4, SW_SHOW = 5,
+            SW_MINIMIZE = 6, ShowMinNoActivate = 7, ShowNoActivate = 8,
+            SW_RESTORE = 9, ShowDefault = 10, SW_FORCEMINIMIZE = 11
+        };
+
+        private struct Windowplacement
+        {
+            public int length;
+            public int flags;
+            public int showCmd;
+            public System.Drawing.Point ptMinPosition;
+            public System.Drawing.Point ptMaxPosition;
+            public System.Drawing.Rectangle rcNormalPosition;
+        }
+
+        public static void BringWindowToFront(string WindowName)
+        {
+            BringWindowToFront(WindowName, WindowName, 0);
+        }
+
+        public static void BringWindowToFront(string ProcessName, string WindowName, int ChildIndx=0)
+        {
+            IntPtr handleMainWindow = IntPtr.Zero; //parent window handler
+            IntPtr handleTargetWindow = IntPtr.Zero; //target window handler
+
+            IntPtr wdwIntPtr2 = FindWindow(null, WindowName); //main window handler
+                                                              //IntPtr wdwIntPtr2 = (IntPtr) 0x216A8; - CCDC handler
+
+            IntPtr wdwIntPtr3 = FindWindow(null, "CCD Commmander - "); //main window handler
+            IntPtr wdwIntPtr4 = FindWindowEx(IntPtr.Zero, IntPtr.Zero, null, "CCD Commander");
+
+            foreach (Process clsProcess in Process.GetProcesses())
+            {
+                if (clsProcess.ProcessName == ProcessName)
+                {
+                    handleMainWindow = clsProcess.MainWindowHandle;
+                }
+            }
+
+
+            //if ChildIndx is not zero, search child windows
+            if (ChildIndx > 0)
+            { 
+                List<IntPtr> childWindowsList= GetAllChildrenWindowHandles(handleMainWindow, 100);
+                if (childWindowsList.Count >= ChildIndx)
+                {
+                    handleTargetWindow = childWindowsList[ChildIndx - 1];
+                }
+                else
+                {
+                    handleTargetWindow = handleMainWindow;
+                }
+            }
+            else
+            {
+                handleTargetWindow = handleMainWindow;
+            }
+
+            ////Get the palcement of window
+            //Windowplacement placement = new Windowplacement();
+            //GetWindowPlacement(handleTargetWindow, ref placement);
+
+            //// Check if window is minimized
+            //if (placement.showCmd == 2)
+            //{
+            //    //the window is hidden so we restore it
+            //    ShowWindow(handleTargetWindow, ShowWindowEnum.SW_RESTORE);
+            //}
+
+            ShowWindow(handleMainWindow, ShowWindowEnum.SW_SHOW);  // Make the window visible if it was hidden
+            ShowWindow(handleMainWindow, ShowWindowEnum.SW_RESTORE);  // Next, restore it if it was minimized
+            SetForegroundWindow(handleMainWindow);  // Finally, activate the window 
+
+
+            ShowWindow(handleTargetWindow, ShowWindowEnum.SW_SHOW);  // Make the window visible if it was hidden
+            ShowWindow(handleTargetWindow, ShowWindowEnum.SW_RESTORE);  // Next, restore it if it was minimized
+            SetForegroundWindow(handleTargetWindow);  // Finally, activate the window 
+
+        }
 
 
         /// <summary>
@@ -156,7 +275,8 @@ namespace ObservatoryCenter
                 }
             }
         }
-        
+
+
         /// <summary>
         /// Create windows .lnk file (shortcut)
         /// </summary>
