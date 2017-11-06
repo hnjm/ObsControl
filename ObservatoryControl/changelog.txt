@@ -26,7 +26,6 @@ to do:
 - operational observatory tests
 
 bugs:
-- ccdc not last log
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
@@ -34,7 +33,8 @@ bugs:
  - CCDC log parsing: restart guiding on flip
  - CCDC log parsing: detect object name and coordinates
  - CCDC automation optimization
- 
+ - TextBox to valigned boxes
+ - BugFix: ccdc not last log
 
 1.1.6 [28.10.17]
  - Parsing some CCDC events from log (focus, pointing, exposures)
