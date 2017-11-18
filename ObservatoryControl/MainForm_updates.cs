@@ -749,28 +749,121 @@ namespace ObservatoryCenter
                 {
                     //3. Читаем содержимое в память
                     ObsControl.objCCDCApp.ReadLogFileContents();
-                    //4. Парсим содержимое и возвращаем строки для отображения в логн
+                    //4. Парсим содержимое и возвращаем строки для отображения в лог
                     List<string> NewLogLines = new List<string>();
                     if (ObsControl.objCCDCApp.ParseLogFile(out NewLogLines))
                     {
-                        //5. Выводим строким в логи
+                        //5. Выводим строки в логи
                         foreach (string st in NewLogLines) txtCCDAutomationStatus.Text = st + txtCCDAutomationStatus.Text;
 
-                        txtCCDCL_lastHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
-                        txtCCDCL_lastPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString();
-                        txtCCDCL_lastImage.Text = ObsControl.objCCDCApp.LastImageName;
-                        txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
-                        txtCCDCL_lastImageTime.Text = ObsControl.objCCDCApp.LastStartExposure.ToString();
-
-
+                        //6. Отображаем полученные данные в интерфейсе
+                        //Focusing
                         txtShort_SinceLastFocus.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
                         txtShort_HFDLast.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
+                        txtCCDCLog_HFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
+                        txtCCDCLog_FocusTime.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
+                        txtCCDCL_lastHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString(); //Main
 
-                        txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString();
+                        //Pointing
+                        txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Short
+                        txtCCDCLog_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //CCDC tab
+                        txtCCDCL_lastPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Main
+
+                        //Obj data
+                        txtCCDCLog_Obj.Text = ObsControl.objCCDCApp.ObjName;
+                        txtCCDCLog_ObjRA.Text = ObsControl.objCCDCApp.ObjRA_st;
+                        txtCCDCLog_ObjDec.Text = ObsControl.objCCDCApp.ObjDec_st;
+
+                        //Imaging
+                        txtCCDCL_lastImage.Text = ObsControl.objCCDCApp.LastImageName;
+                        txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
+                        txtCCDCL_lastImageTime.Text = ObsControl.objCCDCApp.LastExposureStartTime.ToString();
+
+                        txtCCDCLog_exp.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
+                        txtCCDCLog_filter.Text = ObsControl.objCCDCApp.LastExposure_filter;
+                        txtCCDCLog_ExpStartTime.Text = (ObsControl.objCCDCApp.LastExposureStartTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureStartTime.ToString("HH:mm:ss"));
+                        txtCCDCLog_ExpEndTime.Text = (ObsControl.objCCDCApp.LastExposureEndTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureEndTime.ToString("HH:mm:ss"));
+                        if (ObsControl.objCCDCApp.LastExposureStartTime > ObsControl.objCCDCApp.LastExposureEndTime)
+                        {
+                            txtCCDCLog_ExpEndTime.ForeColor = DefBackColorTextBoxes;
+                        }
+                        else
+                        {
+                            txtCCDCLog_ExpEndTime.ForeColor = DefaultForeColor;
+                        }
+
+
+                        txtCCDCLog_ActionsStart.Text = (ObsControl.objCCDCApp.ActionRunStartTime.Year == 2015 ? "" : ObsControl.objCCDCApp.ActionRunStartTime.ToString());
+                        txtCCDCLog_ActionsFinish.Text = (ObsControl.objCCDCApp.ActionRunEndTime.Year == 2015 ? "" : ObsControl.objCCDCApp.ActionRunEndTime.ToString());
+
+                    }
+
+                    //7. Проверяем на внешние реквесты 
+                    ObsControl.objCCDCApp.CheckEvents_async();
+
+                    UpdateCCDCState_progressbar();
+
+                    //Debug interface update
+                    txtCCDC_Request_Start_Flag.Text = ObsControl.objCCDCApp.Request_Start.RequestActive.ToString();
+                    txtCCDC_Request_Start_Time.Text = ObsControl.objCCDCApp.Request_Start.RequestedTime.ToString("HH:mm:ss");
+                    txtCCDC_Request_Start_Fulfiled_Flag.Text = ObsControl.objCCDCApp.Request_Start.RequestWasFulfiled.ToString();
+                    txtCCDC_Request_Start_Fulfiled_Res.Text = ObsControl.objCCDCApp.Request_Start.RequestWasSuccessful.ToString();
+                    txtCCDC_Request_Start_Fulfiled_Time.Text = ObsControl.objCCDCApp.Request_Start.FulfiledTime.ToString("HH:mm:ss");
+
+                    txtCCDC_Request_Stop_Flag.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive.ToString();
+                    txtCCDC_Request_Stop_Time.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestedTime.ToString("HH:mm:ss");
+                    txtCCDC_Request_Stop_Fulfiled_Flag.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestWasFulfiled.ToString();
+                    txtCCDC_Request_Stop_Fulfiled_Res.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestWasSuccessful.ToString();
+                    txtCCDC_Request_Stop_Fulfiled_Time.Text = ObsControl.objCCDCApp.Request_StopAfterImage.FulfiledTime.ToString("HH:mm:ss");
+
+                    //Request event interface elements
+                    if (ObsControl.objCCDCApp.Request_Start.RequestActive)
+                    {
+                        btnReStartCCDC.BackColor = InterColor;
+                    }
+                    else
+                    {
+                        btnReStartCCDC.BackColor = DefBackColor;
                     }
 
                 }
             }
+        }
+
+        //Обновить прогресс бар
+        private void UpdateCCDCState_progressbar()
+        {
+            int ExpLen = ObsControl.objCCDCApp.LastExposure_ExposureLength;
+            //Если все еще идет экспозиция 
+            if ( (DateTime.Now - ObsControl.objCCDCApp.LastExposureStartTime).TotalSeconds < ExpLen)
+            {
+                progressBar_Exposure.Maximum = ExpLen;
+
+                //Проверить:
+                // - не закончилось ли экспозиция
+                // - не был ли прерван ActionList
+                // - не был ли запущен новый ActionList
+                if (ObsControl.objCCDCApp.LastExposureEndTime > ObsControl.objCCDCApp.LastExposureStartTime || ObsControl.objCCDCApp.ActionRunEndTime.Year != 2015 || ObsControl.objCCDCApp.ActionRunStartTime > ObsControl.objCCDCApp.LastExposureStartTime)
+                {
+                    //Поставить на максимум
+                    progressBar_Exposure.Value = ExpLen;
+                }
+                else
+                {
+                    progressBar_Exposure.Value = Convert.ToInt32((DateTime.Now - ObsControl.objCCDCApp.LastExposureStartTime).TotalSeconds);
+                }
+
+                lblCCDC_Exp_progress.Text = progressBar_Exposure.Value + " of " + ExpLen + " sec";
+            }
+            //Если экспозиция закончилась
+            else if (ObsControl.objCCDCApp.LastExposureStartTime.Year != 2015)
+            {
+                //Поставить на максимум
+                progressBar_Exposure.Value = ExpLen;
+                lblCCDC_Exp_progress.Text = progressBar_Exposure.Value + " of " + ExpLen + " sec";
+            }
+
+
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -92,7 +92,7 @@ namespace ObservatoryCenter
         {
             foreach (Process clsProcess in Process.GetProcesses())
             {
-                if (clsProcess.ProcessName.Contains(Name))
+                if (clsProcess.ProcessName == Name)
                 {
                     Logging.AddLog("Process " + Name + " is found", LogLevel.Trace);
                     return true;

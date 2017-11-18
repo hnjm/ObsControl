@@ -14,6 +14,58 @@ using System.Threading;
 namespace ObservatoryCenter
 {
 
+    public class CCDC_request_class
+    {
+        //Максимальное время на исполнение запроса
+        public int RequestTimeout = 650; //sec
+
+        private bool RequestActiveFlag = false;
+        public DateTime RequestedTime = new DateTime(2015, 1, 1, 0, 0, 1);
+        public DateTime CanceledTime = new DateTime(2015, 1, 1, 0, 0, 1);
+        public DateTime FulfiledTime = new DateTime(2015, 1, 1, 0, 0, 1);
+
+        public bool RequestWasFulfiled = false;
+        public bool RequestWasSuccessful = false; 
+
+        public bool RequestActive
+        { 
+        get 
+            {
+                return RequestActiveFlag;
+            }
+        set
+            {
+                RequestActiveFlag = value;
+                //Установить потребность
+                if (value)
+                {
+                    RequestedTime = DateTime.Now;
+                    RequestWasFulfiled = false;
+                    RequestWasSuccessful = false;
+                }
+                //Отменить потребность
+                else
+                {
+                    CanceledTime = DateTime.Now;
+                    RequestWasFulfiled = false;
+                    RequestWasSuccessful = false;
+                }
+
+            }
+        }
+
+        //Пометить выполенным
+        public void MarkFulfiled(bool MarkSuccessful = true)
+        {
+            RequestActiveFlag = false;
+            FulfiledTime = DateTime.Now;
+            RequestWasFulfiled = true;
+            RequestWasSuccessful = MarkSuccessful;
+            CanceledTime = new DateTime(2015, 1, 1, 0, 0, 1);
+        }
+    }
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // CCD Commander class
@@ -30,6 +82,7 @@ namespace ObservatoryCenter
         //Current log file link
         public FileInfo currentLogFile;
         private IEnumerable<string> contentsLogFile;
+        public DateTime currentLogFileLastModTime = new DateTime(2015, 1, 1, 0, 0, 1);
         //private IEnumerable<string> contentsLogFile_Reversed;
 
         public int _MAX_VALID_CCDC_LOGFILE_NAME_AGE = 3600 * 12; //how old log file can be (in its name) in seconds
@@ -47,7 +100,6 @@ namespace ObservatoryCenter
 
         public string MessageText;
 
-
         //Log parse information
         //pointing coordinates
         public string ObjName = "";
@@ -60,17 +112,34 @@ namespace ObservatoryCenter
         private bool bCoordWasntParsed = false;
 
         //pointing accuracy
-        public double LastPointingError = 0.0;
+        public double LastPointingError = 0.0;  //104.3 arcsec
         //focus info
-        public double LastFocusHFD = 0.0;
-        public DateTime LastFocusTime;
-        //image starting
-        public string LastImageName = "";
-        public DateTime LastStartExposure;
-        public string LastSequenceInfo = "";
+        public double LastFocusHFD = 0.0;       //2.9 
+        public DateTime LastFocusTime = new DateTime(2015, 1, 1, 0, 0, 1);
+
+        //Current image attributes
+        public string LastExposure_ImageType = "";      //Light, Dark, ...
+        public string LastExposure_bin = "";       //1x1
+        public string LastExposure_filter = "";    //Red
+        public Int32 LastExposure_ExposureLength = 0;  //60 seconds
+        public DateTime LastExposureStartTime = new DateTime(2015,1,1,0,0,1);
+        public string LastImageName = "";       //M33_20171119_Red_60s_1x1_-30degC_0,0degN
+        public string LastSequenceInfo = "";    //(1 of 10)
+
+        //End imaging exposure event
+        public DateTime LastExposureEndTime = new DateTime(2015, 1, 1, 0, 0, 1);
+        
         //Flip time
-        public DateTime LastFlipStartTime;
-        public DateTime LastFlipInternalRoutineStartTime = new DateTime();
+        public DateTime LastFlipStartTime = new DateTime(2015, 1, 1, 0, 0, 1);
+        public DateTime LastFlipInternalRoutineStartTime = new DateTime(2015, 1, 1, 0, 0, 1);
+        
+        //Start/End time of actionlist
+        public DateTime ActionRunStartTime  = new DateTime(2015, 1, 1, 0, 0, 1);
+        public DateTime ActionRunEndTime = new DateTime(2015, 1, 1, 0, 0, 1);
+
+        //Request events
+        public CCDC_request_class Request_StopAfterImage = new CCDC_request_class();
+        public CCDC_request_class Request_Start = new CCDC_request_class();
 
 
         /// <summary>
@@ -105,37 +174,6 @@ namespace ObservatoryCenter
             }
 
             return lastActionFile;
-        }
-
-        public void CheckEmergengyRunAbortFlag()
-        // set = 1 abort
-        // set = 0 clear
-        {
-            //HKEY_CURRENT_USER\Software\VB and VBA Program Settings\CCDCommander\Test\Aborted
-
-            RegistryKey abortKey = Registry.CurrentUser.OpenSubKey("Software\\VB and VBA Program Settings\\CCDCommander\\Test", true);
-            if (abortKey != null)
-            {
-                abortKey.SetValue("Aborted", "1", RegistryValueKind.String);
-                abortKey.Close();
-            }
-        }
-
-
-        public void AbortRun(string set)
-        // set = 1 abort
-        // set = 0 clear
-        {
-            //HKEY_CURRENT_USER\Software\VB and VBA Program Settings\CCDCommander\Test\Aborted
-
-            // Не готово пока, нужно писать еще и тестировать
-
-            RegistryKey abortKey = Registry.CurrentUser.OpenSubKey("Software\\VB and VBA Program Settings\\CCDCommander\\Test", true);
-            if (abortKey != null)
-            {
-                abortKey.SetValue("Aborted", "1", RegistryValueKind.String);
-                abortKey.Close();
-            }
         }
 
         /// <summary>
@@ -174,6 +212,9 @@ namespace ObservatoryCenter
             Thread.Sleep(100);
 
             Logging.AddLog("CCDC stop pressed", LogLevel.Activity);
+
+
+
         }
 
         /// <summary>
@@ -225,6 +266,23 @@ namespace ObservatoryCenter
         }
 
 
+        public void AbortRun(string set)
+        // set = 1 abort
+        // set = 0 clear
+        {
+            //HKEY_CURRENT_USER\Software\VB and VBA Program Settings\CCDCommander\Test\Aborted
+
+            // Не готово пока, нужно писать еще и тестировать
+
+            RegistryKey abortKey = Registry.CurrentUser.OpenSubKey("Software\\VB and VBA Program Settings\\CCDCommander\\Test", true);
+            if (abortKey != null)
+            {
+                abortKey.SetValue("Aborted", "1", RegistryValueKind.String);
+                abortKey.Close();
+            }
+        }
+
+
         // ************************************************************************************************************************************************************************
         // Логика работы с CCDC логами:
         // 1. Берем последний лог файл и заносим его в [FileInfo currentLogFile]                                    - GetLastLogFile()
@@ -232,7 +290,7 @@ namespace ObservatoryCenter
         // 3. Читаем его содержимое в [IEnumerable<string> contentsLogFile]                                         - ReadLogFileContents();
         // 4. Парсим содержимое и возвращаем [List<string> NewLines], который должен быть выведен в текст лога      - ParseLogFile()
         // ************************************************************************************************************************************************************************
-#region *** Working with log ****
+        #region *** Working with log ****
         /// <summary>
         /// Return FileInfo on last LOG FILE from CCDC
         /// </summary>
@@ -245,6 +303,7 @@ namespace ObservatoryCenter
             {
                 //Get directory where to search logs
                 objLogDirectory = new DirectoryInfo(LogPath);
+                objLogDirectory.Refresh(); //need to be run, because file data is cached in system
 
                 //Get last file
                 //FileInfo tmpCurrentLogFile = (from f in objLogDirectory.GetFiles() orderby f.LastWriteTime descending select f).First();
@@ -270,7 +329,7 @@ namespace ObservatoryCenter
                         break;
                     }
                 }
-                currentLogFile.Refresh();
+                currentLogFile.Refresh(); //need to be run, because file data is cached in system
             }
             catch (Exception ex)
             {
@@ -321,7 +380,8 @@ namespace ObservatoryCenter
                 }
 
                 //1.2. Check file change date
-                int sinceMod = GetTimeSinceLogFileModified();
+                currentLogFileLastModTime = currentLogFile.LastWriteTime;
+                int sinceMod = (int)(DateTime.Now - currentLogFileLastModTime).TotalSeconds;
                 resChangeAgeValid = (sinceMod < _MAX_VALID_CCDC_LOGFILE_MOD_AGE);
             }
             else
@@ -364,7 +424,7 @@ namespace ObservatoryCenter
         /// Check - does log file ended?
         /// </summary>
         /// <returns></returns>
-        internal bool checkLogFileEnded()
+        internal bool ____checkLogFileEnded()
         {
             bool resLogFileEnded = false;
 
@@ -390,17 +450,6 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
-        /// Seconds past last file modification
-        /// </summary>
-        /// <returns></returns>
-        internal Int32 GetTimeSinceLogFileModified()
-        {
-            TimeSpan SinceMod = DateTime.Now - currentLogFile.LastWriteTime;
-            return (int)SinceMod.TotalSeconds;
-        }
-
-
-        /// <summary>
         /// Read and parse line by line CCDC Log file
         /// </summary>
         /// <returns>True - if there was new lines, false - in other case</returns>
@@ -418,6 +467,7 @@ namespace ObservatoryCenter
             if (numberOfLinesToWork > _MAX_CCDC_LOGLINES_PARSE_ATATIME_LIMIT)
             {
                 numberOfLinesToWork = _MAX_CCDC_LOGLINES_PARSE_ATATIME_LIMIT;
+                ActionRunStartTime = new DateTime(2017, 01, 01, 0, 0, 1); //Лишь не 2015 год. Так как если пропустим строчку - он будет считаться, что начала и не было...
             }
             //Расчитать, сколько строк нужно пропустить
             int numberOfLinesToSkip = (lineCount - numberOfLinesToWork);
@@ -464,7 +514,7 @@ namespace ObservatoryCenter
                         // Пропустить, если это первая строка (она всегда будет пустой)
                         if (cntReadLines != 1)
                         {
-                            ParseCommandLine(curFullLineData, curLineTime);
+                            ParseLogLine(curFullLineData, curLineTime);
 
                             RetStr = String.Format("{0}", curLineTime.ToString("HH:mm:ss"));
                             RetStr += String.Format(": {0}", curFullLineData) + Environment.NewLine;
@@ -480,7 +530,7 @@ namespace ObservatoryCenter
                         if (cntReadLines == newLinesCount)
                         {
                             curFullLineData = prevLineData;
-                            ParseCommandLine(curFullLineData, curLineTime);
+                            ParseLogLine(curFullLineData, curLineTime);
 
                             RetStr = String.Format("{0}", curLineTime.ToString("HH:mm:ss"));
                             RetStr += String.Format(": {0}", curFullLineData) + Environment.NewLine;
@@ -520,19 +570,13 @@ namespace ObservatoryCenter
             return RetRes;
         }
 
-        private bool ParseCommandLine(string LineSt)
-        {
-            return ParseCommandLine(LineSt, DateTime.Now);
-        }
-
-
         /// <summary>
         /// Check line and make an action if detected smth.
         /// </summary>
         /// <param name="LineSt">Line text</param>
         /// <param name="LineTime">Line time</param>
         /// <returns></returns>
-        private bool ParseCommandLine(string LineSt, DateTime LineTime)
+        private bool ParseLogLine(string LineSt, DateTime LineTime)
         {
             bool res = false;
 
@@ -541,7 +585,7 @@ namespace ObservatoryCenter
             //      Pointing error vector = 38.1 arcsec, 315.9 degrees.
             if (LineSt.Contains("Pointing error vector"))
             {
-                int beg1 = LineSt.LastIndexOf("=")+1;
+                int beg1 = LineSt.LastIndexOf("=") + 1;
                 int end1 = LineSt.LastIndexOf("arcsec");
                 string stRes = LineSt.Substring(beg1, end1 - beg1).Trim();
                 LastPointingError = Utils.ConvertToDouble(stRes);
@@ -551,28 +595,112 @@ namespace ObservatoryCenter
             //      Focus succeeded! HFD = 2.79
             else if (LineSt.Contains("Focus succeeded"))
             {
-                int beg1 = LineSt.LastIndexOf("=")+1;
+                int beg1 = LineSt.LastIndexOf("=") + 1;
                 string stRes = LineSt.Substring(beg1).Trim();
                 LastFocusHFD = Utils.ConvertToDouble(stRes);
                 LastFocusTime = LineTime;
                 Logging.AddLog("CCDC Focus succeeded detected", LogLevel.Debug);
             }
+
             //Start imaging
+            //23:27:35  Setting image type to Light.
+            //23:27:36  Setting imager bin mode to 1x1.
+            //23:27:36  Setting filter to R.
+            //23:27:36  Setting imager to full frame.
+            //23:27:36  Setting imager exposure time to 600 seconds.
+            //23:27:37  Starting imager delay...
+            //23:27:42  Setting file name prefix to: NGC247_20171020_R_600s_1x1_ - 25degC_0.0degN
+            //23:27:42  Starting imager exposure(1 of 1).
+
+            //23:27:35  Setting image type to Light.
+            else if (LineSt.Contains("Setting image type to"))
+            {
+                int beg1 = LineSt.LastIndexOf(" to ") + 4;
+                LastExposure_ImageType = LineSt.Substring(beg1, LineSt.Length - beg1 - 1).Trim();
+            }
+            //      Setting imager bin mode to 1x1.
+            else if (LineSt.Contains("Setting imager bin mode to"))
+            {
+                int beg1 = LineSt.LastIndexOf(" to ") + 4;
+                LastExposure_bin = LineSt.Substring(beg1, LineSt.Length-beg1-1).Trim();
+            }
+            //      Setting filter to R.
+            else if (LineSt.Contains("Setting filter to"))
+            {
+                int beg1 = LineSt.LastIndexOf(" to ") + 4;
+                LastExposure_filter = LineSt.Substring(beg1, LineSt.Length - beg1 - 1).Trim();
+            }
+            //      Setting imager exposure time to 600 seconds.
+            else if (LineSt.Contains("Setting imager exposure time to"))
+            {
+                int beg1 = LineSt.LastIndexOf(" to ") + 4;
+                int end1 = LineSt.LastIndexOf("seconds");
+                string LastExposure_ExposureLength_st= LineSt.Substring(beg1, end1 - beg1).Trim();
+                if (!Int32.TryParse(LastExposure_ExposureLength_st,out LastExposure_ExposureLength))
+                {
+                    LastExposure_ExposureLength = 0;
+                }
+
+            }
+
             //      Setting file name prefix to: LeoTrio_L_600s_1x1_ - 20degC_0211_0.0degN
-            //      Starting imager exposure(1 of 10).
             else if (LineSt.Contains("Setting file name prefix to"))
             {
-                int beg1 = LineSt.LastIndexOf(":")+1;
+                int beg1 = LineSt.LastIndexOf(":") + 1;
                 LastImageName = LineSt.Substring(beg1).Trim();
             }
             //      Starting imager exposure(1 of 10).
             else if (LineSt.Contains("Starting imager exposure"))
             {
-                int beg1 = LineSt.LastIndexOf("(")+1;
+                int beg1 = LineSt.LastIndexOf("(") + 1;
                 int end1 = LineSt.LastIndexOf(")");
-                LastSequenceInfo = LineSt.Substring(beg1,end1-beg1).Trim();
-                LastStartExposure = LineTime;
+                LastSequenceInfo = LineSt.Substring(beg1, end1 - beg1).Trim();
+                LastExposureStartTime = LineTime;
             }
+
+
+            //21:16:31  Action starting.
+            else if (LineSt.Contains("Action starting."))
+            {
+                ActionRunStartTime = LineTime;
+                ActionRunEndTime = new DateTime(2015, 1, 1, 0, 0, 1); //Сбросить "конец"
+            }
+
+            //Imaging end
+            //23:37:54  Saving image...
+            //23:37:55  Imager exposure complete.
+            //(if series ends:)
+            //23:37:55  Take Images Action complete.
+
+            //      Saving image...
+            else if (LineSt.Contains("Saving image..."))
+            {
+                LastExposureEndTime = LineTime;
+            }
+            //      Imager exposure complete.
+            else if (LineSt.Contains("Imager exposure complete."))
+            {
+                LastExposureEndTime = LineTime;
+            }
+
+            //Пауза через WeatherMonitor
+            //Пометим, что экспозиция прервалась
+            // 02:26:00  Unknown cloud sensor condition detected!  Pausing Action List.
+            else if (LineSt.Contains("Unknown cloud sensor condition detected!  Pausing Action List."))
+            {
+                LastExposureEndTime = LineTime;
+            }
+
+            //The END
+            //22:56:10  Action complete.
+            //04:28:09  Stopping.
+            //21:33:16  Action stopped.
+            //НО! Бывает и "Take Images Action complete." в конце блока
+            else if ((LineSt.Contains("Action complete.") && !LineSt.Contains("Take Images Action complete.")) || LineSt.Contains("Stopping.") || LineSt.Contains("Action stopped."))
+            {
+                ActionRunEndTime = LineTime;
+            }
+
 
             // Type 1
             //19:17:47  Starting move to action.
@@ -612,15 +740,15 @@ namespace ObservatoryCenter
             }
             else if (LineSt.Contains("J2000 Coordinates: RA: "))
             {
-                int beg1 = LineSt.LastIndexOf("RA: ")+4;
+                int beg1 = LineSt.LastIndexOf("RA: ") + 4;
                 int end1 = LineSt.LastIndexOf(" Dec: ");
                 string ObjRA_st_temp = LineSt.Substring(beg1, end1 - beg1).Trim();
                 string ObjDec_st_temp = LineSt.Substring(end1 + 6).Trim();
 
                 //need to store? or skip?
                 //if inside block - store!
-                if ( bMoveTo_beg && !bMoveTo_end )
-                { 
+                if (bMoveTo_beg && !bMoveTo_end)
+                {
                     ObjRA_st = ObjRA_st_temp;
                     ObjDec_st = ObjDec_st_temp;
                     bCoordWasntParsed = false;
@@ -658,15 +786,17 @@ namespace ObservatoryCenter
             else if (LineSt.Contains("Flip complete."))
             {
                 //проверить, как давно это было
-                if ((DateTime.Now - LineTime).TotalSeconds < 10 && (DateTime.Now - LastFlipInternalRoutineStartTime).TotalSeconds > 10 )
+                if ((DateTime.Now - LineTime).TotalSeconds < 10 && (DateTime.Now - LastFlipInternalRoutineStartTime).TotalSeconds > 10)
                 {
                     LastFlipInternalRoutineStartTime = DateTime.Now;
                     Logging.AddLog("CCDC Flip complete detected", LogLevel.Activity);
-                    HandleFlip_async();            
+                    HandleFlip_async();
                 }
             }
+
+
             //      Starting imager delay...
-            //TEST
+            //TEST PURPOSE ONLY!!!
             else if (LineSt.Contains("_________Starting imager delay"))
             {
                 //проверить, как давно это было
@@ -680,9 +810,86 @@ namespace ObservatoryCenter
 
             return res;
         }
-
+        private bool ParseCommandLine(string LineSt)
+        {
+            return ParseLogLine(LineSt, DateTime.Now);
+        }
 
         #endregion End of Working with log ****
+
+
+        //******************************************************************************************************************************************************************
+        /// <summary>
+        /// Check if event flag is ON and run appropriate handler
+        /// </summary>
+        /// 
+        private void CheckEvents()
+        {
+            //"STOP AFTER IMAGING"
+            if (Request_StopAfterImage.RequestActive)
+            {
+                //Если еще ни разу не запускалась съемка
+                //или ранее начатая съемка уже закончилась
+                if (
+                    (LastExposureEndTime.Year == 2015 && LastExposureStartTime.Year == 2015)
+                    || (LastExposureStartTime < LastExposureEndTime)
+                    )
+                {
+                    Automation_Stop();
+                    Request_StopAfterImage.MarkFulfiled();
+                }
+                // не запущена программа, лог файл не обновляется, 
+                // по текущему логу уже есть "конец"
+                // ну или таймаут
+                else if (
+                    (DateTime.Now - Request_StopAfterImage.RequestedTime).TotalSeconds > Request_StopAfterImage.RequestTimeout
+                    || !IsRunning() || !checkLogFileIsValid() || this.ActionRunEndTime.Year != 2015
+                    )
+                {
+                    Request_StopAfterImage.MarkFulfiled(false);
+                }
+            }
+
+            //"START IMAGING AFTER FINISH"
+            if (Request_Start.RequestActive)
+            {
+                //Если "Конец" уже настал по текущему логу (т.е. уже остановились)
+                //и с момента "конца" прошло 5 сек (специальная задаржка)
+                //то запускаем
+                if (
+                    (ActionRunEndTime.Year != 2015 || (DateTime.Now - ActionRunEndTime).TotalSeconds < 30)
+                    && (DateTime.Now - ActionRunEndTime).TotalSeconds > 5)
+                {
+                    Automation_Start();
+                    Thread.Sleep(5000); //ждем
+                    Automation_Start(); //пробуем запустить опять
+
+                    Request_Start.MarkFulfiled();
+                }
+
+                // не запущена программа, лог файл не обновляется, 
+                // --------------по текущему логу еще нет "конца", но уже есть "начало" --- сначала сделал, а потом подумал, что глупая логика (он отключает "требование", например, когда все ждут окончания экспозиции
+                // ну или таймаут
+                else if (
+                    (DateTime.Now - Request_Start.RequestedTime).TotalSeconds > Request_Start.RequestTimeout
+                    || !IsRunning() || !checkLogFileIsValid() || (false && ActionRunStartTime.Year != 2015 && ActionRunEndTime.Year == 2015)
+                    )
+                {
+                    Request_Start.MarkFulfiled(false);
+                }
+
+            }
+
+        }
+
+        public void CheckEvents_async()
+        {
+            Thread childThread = new Thread(delegate () {
+                CheckEvents();
+            });
+            childThread.Start();
+        }
+        //******************************************************************************************************************************************************************
 
 
 

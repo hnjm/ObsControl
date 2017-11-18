@@ -58,6 +58,7 @@ namespace ObservatoryCenter
         Color DisabledColor = Color.LightGray;
         Color InterColor = Color.Yellow;
         Color DefBackColor;
+        Color DefBackColorTextBoxes;
 
 
         // For logging window
@@ -98,6 +99,7 @@ namespace ObservatoryCenter
         {
             //DefBackColor
             DefBackColor = chkMaxim.BackColor;
+            DefBackColorTextBoxes = txtShortAlt.BackColor;
 
             //Load config
             ConfigManagement.Load();
@@ -652,8 +654,17 @@ namespace ObservatoryCenter
 
         private void btnStopCCDC_Click(object sender, EventArgs e)
         {
-             ObsControl.objCCDCApp.Automation_Stop();
-        
+            //Cancel RESTART if waiting
+            ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = false;
+            ObsControl.objCCDCApp.Request_Start.RequestActive = false;
+
+            ObsControl.objCCDCApp.Automation_Stop();
+        }
+
+        private void btnReStartCCDC_Click(object sender, EventArgs e)
+        {
+            ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
+            ObsControl.objCCDCApp.Request_Start.RequestActive = true;
         }
 
 

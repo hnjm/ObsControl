@@ -31,6 +31,8 @@ namespace ObservatoryCenter
         public bool curAtPark = false;
         public bool curTracking = false;
 
+        public bool curSlewing = false;
+
 
         // Threads
         private Thread CheckTelescopeStatusThread;
@@ -45,7 +47,7 @@ namespace ObservatoryCenter
         }
 
 
-
+        //Read values from driver through methods
         private void CheckTelescopeStatus()
         {
             //if device present at all and its ID is set
@@ -65,6 +67,7 @@ namespace ObservatoryCenter
                     curAtPark = this.AtPark;
                     curTracking = this.Tracking;
 
+                    curSlewing = this.Slewing;
                 }
                 catch (Exception ex)
                 {
@@ -567,6 +570,45 @@ namespace ObservatoryCenter
                 return curTracking;
             }
         }
+
+
+        /// Get Telescope Slewing status
+        /// </summary>
+        private bool Slewing
+        {
+            get
+            {
+                //Log enter
+                Logging.AddLog(MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+
+
+                //if device present at all and its ID is set
+                if (Enabled && DRIVER_NAME != "" && objTelescope != null)
+                {
+                    try
+                    {
+                        curSlewing = objTelescope.Slewing;
+                    }
+                    catch (Exception ex)
+                    {
+                        curSlewing = false;
+                        Reset();
+                        Logging.AddLog("Couldn't get telescope Slewing status", LogLevel.Important, Highlight.Error);
+                        Logging.AddLog(MethodBase.GetCurrentMethod().Name + " error! [" + ex.ToString() + "]", LogLevel.Debug, Highlight.Error);
+                    }
+                }
+                else
+                {
+                    curSlewing = false;
+                    //Print if somebody try to connect if device isn't presetn. Mostly for debug
+                    Logging.AddLog("Telescope is not set. Couldn't return Slewing status", LogLevel.Debug, Highlight.Error);
+                }
+
+                Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + ": " + curTracking, LogLevel.Trace);
+                return curSlewing;
+            }
+        }
+
 
         public string DirectAccessGetString(string propertyName)
         {
