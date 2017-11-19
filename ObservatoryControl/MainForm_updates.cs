@@ -821,6 +821,7 @@ namespace ObservatoryCenter
 
 
                     //Request event interface elements
+                    //Restart after end
                     if (ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
                     {
                         btnReStartCCDC.BackColor = InterColor;
@@ -829,7 +830,15 @@ namespace ObservatoryCenter
                     {
                         btnReStartCCDC.BackColor = DefBackColor;
                     }
-
+                    //Abort after end
+                    if (ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive)
+                    {
+                        btnCCDCAbortAtEnd.BackColor = InterColor;
+                    }
+                    else
+                    {
+                        btnCCDCAbortAtEnd.BackColor = DefBackColor;
+                    }
                 }
             }
         }

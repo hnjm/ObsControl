@@ -17,7 +17,7 @@ namespace ObservatoryCenter
     public class CCDC_request_class
     {
         //Максимальное время на исполнение запроса
-        public int RequestTimeout = 650; //sec
+        public int RequestTimeout =1500; //sec
 
         private bool RequestActiveFlag = false;
         public DateTime RequestedTime = new DateTime(2015, 1, 1, 0, 0, 1);
@@ -681,6 +681,7 @@ namespace ObservatoryCenter
             //23:37:55  Take Images Action complete.
 
             //      Saving image...
+            // Пока отключил, так как он реагирует и на PinPoint
             else if (LineSt.Contains("Saving image..."))
             {
                 LastExposureEndTime = LineTime;
@@ -862,11 +863,11 @@ namespace ObservatoryCenter
             if (Request_StartAfterStop.RequestActive)
             {
                 //Если "Конец" уже настал по текущему логу (т.е. уже остановились)
-                //и с момента "конца" прошло 5 сек (специальная задаржка)
+                //и с момента "конца" прошло 6 сек (специальная задаржка)
                 //то запускаем
                 if (
                     (ActionRunEndTime.Year != 2015 || (DateTime.Now - ActionRunEndTime).TotalSeconds < 30)
-                    && (DateTime.Now - ActionRunEndTime).TotalSeconds > 5)
+                    && (DateTime.Now - ActionRunEndTime).TotalSeconds > 6)
                 {
                     Automation_Start();
                     Thread.Sleep(5000); //ждем
