@@ -779,6 +779,7 @@ namespace ObservatoryCenter
 
                         txtCCDCLog_exp.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
                         txtCCDCLog_filter.Text = ObsControl.objCCDCApp.LastExposure_filter;
+                        txtCCDCLog_bin.Text = ObsControl.objCCDCApp.LastExposure_bin;
                         txtCCDCLog_ExpStartTime.Text = (ObsControl.objCCDCApp.LastExposureStartTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureStartTime.ToString("HH:mm:ss"));
                         txtCCDCLog_ExpEndTime.Text = (ObsControl.objCCDCApp.LastExposureEndTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureEndTime.ToString("HH:mm:ss"));
                         if (ObsControl.objCCDCApp.LastExposureStartTime > ObsControl.objCCDCApp.LastExposureEndTime)
@@ -813,6 +814,11 @@ namespace ObservatoryCenter
                     txtCCDC_Request_Stop_Fulfiled_Flag.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestWasFulfiled.ToString();
                     txtCCDC_Request_Stop_Fulfiled_Res.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestWasSuccessful.ToString();
                     txtCCDC_Request_Stop_Fulfiled_Time.Text = ObsControl.objCCDCApp.Request_StopAfterImage.FulfiledTime.ToString("HH:mm:ss");
+
+                    txtCCDC_Request_Abort_Flag.Text = ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive.ToString();
+                    txtCCDC_Request_Abort_Fulfiled_Flag.Text = ObsControl.objCCDCApp.Request_AbortAfterStop.RequestWasFulfiled.ToString();
+                    txtCCDC_Request_Abort_Fulfiled_Res.Text = ObsControl.objCCDCApp.Request_AbortAfterStop.RequestWasSuccessful.ToString();
+
 
                     //Request event interface elements
                     if (ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)

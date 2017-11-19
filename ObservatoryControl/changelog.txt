@@ -3,6 +3,7 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
+- конец экспозиции отличать от снимка для PinPoint
 - "Guiding is active" displaying
 - FocusMax alert button. Refocus button. Alert if focus need to be rechecked
 - implement focusing throug FocusMax
@@ -28,11 +29,12 @@ bugs:
 - unkown exception reason on Dome Connect!!!! to resolve
 
 1.1.8 [19.11.17]
-- CCDC async requests objects
+- light interface optimization
+- Exposure progress displaying
 - CCDC session command: restart after end of image
 - CCDC session command: abort after end of image
+- CCDC async requests objects
 - Telescope "is slewing" displaying
-- Exposure progress displaying
 
 1.1.7 [06.11.17]
  - CCDC log parsing: restart guiding on flip
