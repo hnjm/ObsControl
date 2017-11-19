@@ -838,6 +838,7 @@ namespace ObservatoryCenter
             if ( (DateTime.Now - ObsControl.objCCDCApp.LastExposureStartTime).TotalSeconds < ExpLen)
             {
                 progressBar_Exposure.Maximum = ExpLen;
+                progressBar_CCDCL_exposure.Maximum = progressBar_Exposure.Maximum;
 
                 //Проверить:
                 // - не закончилось ли экспозиция
@@ -847,20 +848,26 @@ namespace ObservatoryCenter
                 {
                     //Поставить на максимум
                     progressBar_Exposure.Value = ExpLen;
+                    progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
                 }
                 else
                 {
                     progressBar_Exposure.Value = Convert.ToInt32((DateTime.Now - ObsControl.objCCDCApp.LastExposureStartTime).TotalSeconds);
+                    progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
                 }
 
                 lblCCDC_Exp_progress.Text = progressBar_Exposure.Value + " of " + ExpLen + " sec";
+                toolTip1.SetToolTip(progressBar_Exposure, lblCCDC_Exp_progress.Text);
             }
             //Если экспозиция закончилась
             else if (ObsControl.objCCDCApp.LastExposureStartTime.Year != 2015)
             {
                 //Поставить на максимум
                 progressBar_Exposure.Value = ExpLen;
+                progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
+
                 lblCCDC_Exp_progress.Text = progressBar_Exposure.Value + " of " + ExpLen + " sec";
+                toolTip1.SetToolTip(progressBar_Exposure, lblCCDC_Exp_progress.Text);
             }
 
 

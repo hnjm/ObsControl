@@ -23,6 +23,7 @@ may be to do:
 - operational observatory tests
 
 bugs:
+- иногда на дату START EXPOSURE он берет дату от следующей строки
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
