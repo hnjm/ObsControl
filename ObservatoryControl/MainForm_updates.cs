@@ -762,12 +762,11 @@ namespace ObservatoryCenter
                         txtShort_HFDLast.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
                         txtCCDCLog_HFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
                         txtCCDCLog_FocusTime.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
-                        txtCCDCL_lastHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString(); //Main
+                        txtLastFocusHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString(); //Main
 
                         //Pointing
                         txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Short
                         txtCCDCLog_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //CCDC tab
-                        txtCCDCL_lastPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Main
 
                         //Obj data
                         txtCCDCLog_Obj.Text = ObsControl.objCCDCApp.ObjName;
@@ -777,7 +776,6 @@ namespace ObservatoryCenter
                         //Imaging
                         txtCCDCL_lastImage.Text = ObsControl.objCCDCApp.LastImageName;
                         txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
-                        txtCCDCL_lastImageTime.Text = ObsControl.objCCDCApp.LastExposureStartTime.ToString();
 
                         txtCCDCLog_exp.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
                         txtCCDCLog_filter.Text = ObsControl.objCCDCApp.LastExposure_filter;
@@ -804,11 +802,11 @@ namespace ObservatoryCenter
                     UpdateCCDCState_progressbar();
 
                     //Debug interface update
-                    txtCCDC_Request_Start_Flag.Text = ObsControl.objCCDCApp.Request_Start.RequestActive.ToString();
-                    txtCCDC_Request_Start_Time.Text = ObsControl.objCCDCApp.Request_Start.RequestedTime.ToString("HH:mm:ss");
-                    txtCCDC_Request_Start_Fulfiled_Flag.Text = ObsControl.objCCDCApp.Request_Start.RequestWasFulfiled.ToString();
-                    txtCCDC_Request_Start_Fulfiled_Res.Text = ObsControl.objCCDCApp.Request_Start.RequestWasSuccessful.ToString();
-                    txtCCDC_Request_Start_Fulfiled_Time.Text = ObsControl.objCCDCApp.Request_Start.FulfiledTime.ToString("HH:mm:ss");
+                    txtCCDC_Request_Start_Flag.Text = ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive.ToString();
+                    txtCCDC_Request_Start_Time.Text = ObsControl.objCCDCApp.Request_StartAfterStop.RequestedTime.ToString("HH:mm:ss");
+                    txtCCDC_Request_Start_Fulfiled_Flag.Text = ObsControl.objCCDCApp.Request_StartAfterStop.RequestWasFulfiled.ToString();
+                    txtCCDC_Request_Start_Fulfiled_Res.Text = ObsControl.objCCDCApp.Request_StartAfterStop.RequestWasSuccessful.ToString();
+                    txtCCDC_Request_Start_Fulfiled_Time.Text = ObsControl.objCCDCApp.Request_StartAfterStop.FulfiledTime.ToString("HH:mm:ss");
 
                     txtCCDC_Request_Stop_Flag.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive.ToString();
                     txtCCDC_Request_Stop_Time.Text = ObsControl.objCCDCApp.Request_StopAfterImage.RequestedTime.ToString("HH:mm:ss");
@@ -817,7 +815,7 @@ namespace ObservatoryCenter
                     txtCCDC_Request_Stop_Fulfiled_Time.Text = ObsControl.objCCDCApp.Request_StopAfterImage.FulfiledTime.ToString("HH:mm:ss");
 
                     //Request event interface elements
-                    if (ObsControl.objCCDCApp.Request_Start.RequestActive)
+                    if (ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
                     {
                         btnReStartCCDC.BackColor = InterColor;
                     }

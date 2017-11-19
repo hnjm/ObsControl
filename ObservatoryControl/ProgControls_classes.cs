@@ -38,7 +38,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Constructor
         /// </summary>
-        public ExternalApplication()
+        public ExternalApplication() 
         { }
 
 

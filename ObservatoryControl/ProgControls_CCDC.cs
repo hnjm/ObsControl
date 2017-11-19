@@ -76,6 +76,8 @@ namespace ObservatoryCenter
     /// </summary>
     public class CCDC_ExternatApplication : ExternalApplication
     {
+        public ObservatoryControls ParentObsControl;
+
         //Path lo log dir
         public string LogPath = @"c:\CCD Commander\Logs";
 
@@ -139,8 +141,14 @@ namespace ObservatoryCenter
 
         //Request events
         public CCDC_request_class Request_StopAfterImage = new CCDC_request_class();
-        public CCDC_request_class Request_Start = new CCDC_request_class();
+        public CCDC_request_class Request_StartAfterStop = new CCDC_request_class();
+        public CCDC_request_class Request_AbortAfterStop = new CCDC_request_class();
 
+
+        public CCDC_ExternatApplication(ObservatoryControls OCLink) : base()
+        {
+            ParentObsControl = OCLink;
+        }
 
         /// <summary>
         /// Init CCDC activity
@@ -851,7 +859,7 @@ namespace ObservatoryCenter
             }
 
             //"START IMAGING AFTER FINISH"
-            if (Request_Start.RequestActive)
+            if (Request_StartAfterStop.RequestActive)
             {
                 //Если "Конец" уже настал по текущему логу (т.е. уже остановились)
                 //и с момента "конца" прошло 5 сек (специальная задаржка)
@@ -864,21 +872,49 @@ namespace ObservatoryCenter
                     Thread.Sleep(5000); //ждем
                     Automation_Start(); //пробуем запустить опять
 
-                    Request_Start.MarkFulfiled();
+                    Request_StartAfterStop.MarkFulfiled();
                 }
 
                 // не запущена программа, лог файл не обновляется, 
                 // --------------по текущему логу еще нет "конца", но уже есть "начало" --- сначала сделал, а потом подумал, что глупая логика (он отключает "требование", например, когда все ждут окончания экспозиции
                 // ну или таймаут
                 else if (
-                    (DateTime.Now - Request_Start.RequestedTime).TotalSeconds > Request_Start.RequestTimeout
+                    (DateTime.Now - Request_StartAfterStop.RequestedTime).TotalSeconds > Request_StartAfterStop.RequestTimeout
                     || !IsRunning() || !checkLogFileIsValid() || (false && ActionRunStartTime.Year != 2015 && ActionRunEndTime.Year == 2015)
                     )
                 {
-                    Request_Start.MarkFulfiled(false);
+                    Request_StartAfterStop.MarkFulfiled(false);
+                }
+            }
+
+            //"ABORT IMAGING AFTER FINISH"
+            if (Request_AbortAfterStop.RequestActive)
+            {
+                //Если "Конец" уже настал по текущему логу (т.е. уже остановились)
+                //и с момента "конца" прошло 5 сек (специальная задаржка)
+                //то запускаем
+                if (
+                    (ActionRunEndTime.Year != 2015 || (DateTime.Now - ActionRunEndTime).TotalSeconds < 30)
+                    && (DateTime.Now - ActionRunEndTime).TotalSeconds > 5)
+                {
+                    ParentObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_ABORT", true);
+
+                    Request_AbortAfterStop.MarkFulfiled();
+                }
+
+                // не запущена программа, лог файл не обновляется, 
+                // --------------по текущему логу еще нет "конца", но уже есть "начало" --- сначала сделал, а потом подумал, что глупая логика (он отключает "требование", например, когда все ждут окончания экспозиции
+                // ну или таймаут
+                else if (
+                    (DateTime.Now - Request_AbortAfterStop.RequestedTime).TotalSeconds > Request_AbortAfterStop.RequestTimeout
+                    || !IsRunning() || !checkLogFileIsValid() || (false && ActionRunStartTime.Year != 2015 && ActionRunEndTime.Year == 2015)
+                    )
+                {
+                    Request_AbortAfterStop.MarkFulfiled(false);
                 }
 
             }
+
 
         }
 

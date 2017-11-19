@@ -30,6 +30,7 @@ bugs:
 1.1.8 [19.11.17]
 - CCDC async requests objects
 - CCDC session command: restart after end of image
+- CCDC session command: abort after end of image
 - Telescope "is slewing" displaying
 - Exposure progress displaying
 

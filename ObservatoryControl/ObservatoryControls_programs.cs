@@ -73,7 +73,7 @@ namespace ObservatoryCenter
             objCCDAPApp.LogPath = ConfigManagement.getString("programsPath", "CCDAP_Logs") ?? @"c:\Users\Emchenko Boris\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs";
 
             //CCDC
-            objCCDCApp = new CCDC_ExternatApplication();
+            objCCDCApp = new CCDC_ExternatApplication(this);
             objCCDCApp.Name = "CCDCommander";
             objCCDCApp.FullName = ConfigManagement.getString("programsPath", "CCDC") ?? @"c:\CCD Commander\CCDCommander.exe";
             objCCDCApp.LogPath = ConfigManagement.getString("programsPath", "CCDC_Logs") ?? @"c:\CCD Commander\Logs";

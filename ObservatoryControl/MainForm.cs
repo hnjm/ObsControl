@@ -656,7 +656,7 @@ namespace ObservatoryCenter
         {
             //Cancel RESTART if waiting
             ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = false;
-            ObsControl.objCCDCApp.Request_Start.RequestActive = false;
+            ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = false;
 
             ObsControl.objCCDCApp.Automation_Stop();
         }
@@ -664,7 +664,13 @@ namespace ObservatoryCenter
         private void btnReStartCCDC_Click(object sender, EventArgs e)
         {
             ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
-            ObsControl.objCCDCApp.Request_Start.RequestActive = true;
+            ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = true;
+        }
+
+        private void btnAbortAtEnd_Click(object sender, EventArgs e)
+        {
+            ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
+            ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive = true;
         }
 
 
