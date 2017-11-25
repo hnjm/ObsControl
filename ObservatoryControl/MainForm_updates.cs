@@ -876,6 +876,8 @@ namespace ObservatoryCenter
             else if (ObsControl.objCCDCApp.LastExposureStartTime.Year != 2015)
             {
                 //Поставить на максимум
+                progressBar_Exposure.Maximum = ExpLen; //а иначе exception
+                progressBar_CCDCL_exposure.Maximum = progressBar_Exposure.Maximum; //а иначе exception
                 progressBar_Exposure.Value = ExpLen;
                 progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
 
