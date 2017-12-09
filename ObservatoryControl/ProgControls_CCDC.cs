@@ -658,11 +658,20 @@ namespace ObservatoryCenter
                 LastImageName = LineSt.Substring(beg1).Trim();
             }
             //      Starting imager exposure(1 of 10).
+            //      but it can be (in case of flats)
+            //      Starting imager exposure...
             else if (LineSt.Contains("Starting imager exposure"))
             {
                 int beg1 = LineSt.LastIndexOf("(") + 1;
                 int end1 = LineSt.LastIndexOf(")");
-                LastSequenceInfo = LineSt.Substring(beg1, end1 - beg1).Trim();
+                if (end1 < 0 || beg1 == 0)
+                {
+                    LastSequenceInfo = "";
+                }
+                else
+                {
+                    LastSequenceInfo = LineSt.Substring(beg1, end1 - beg1).Trim();
+                }
                 LastExposureStartTime = LineTime;
             }
 

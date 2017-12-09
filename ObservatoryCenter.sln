@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObservatoryCenter", "ObservatoryControl\ObservatoryCenter.csproj", "{D60368F3-AD27-459E-BBF8-07944FB4BE5D}"
 EndProject
@@ -13,6 +13,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherControl", "..\WeatherControlEmulation\WeatherControl\WeatherControl.csproj", "{5EAF0786-5DCB-49F9-85A2-2F8165BEDB58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPI.Plot3D", "CPI.Plot3D\CPI.Plot3D\CPI.Plot3D.csproj", "{F41E9717-E4AC-482B-B381-DEAD5A092FA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App1", "App1\App1.csproj", "{4A5A93C6-8D61-40FB-8119-11427ACE30BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +34,17 @@ Global
 		{F41E9717-E4AC-482B-B381-DEAD5A092FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F41E9717-E4AC-482B-B381-DEAD5A092FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F41E9717-E4AC-482B-B381-DEAD5A092FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A5A93C6-8D61-40FB-8119-11427ACE30BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A5A93C6-8D61-40FB-8119-11427ACE30BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A5A93C6-8D61-40FB-8119-11427ACE30BC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4A5A93C6-8D61-40FB-8119-11427ACE30BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A5A93C6-8D61-40FB-8119-11427ACE30BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A5A93C6-8D61-40FB-8119-11427ACE30BC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D6D73BC-AC66-4FE7-8BE4-51307B73352B}
 	EndGlobalSection
 EndGlobal
