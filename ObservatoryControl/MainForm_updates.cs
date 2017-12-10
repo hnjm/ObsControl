@@ -846,7 +846,7 @@ namespace ObservatoryCenter
         //Обновить прогресс бар
         private void UpdateCCDCState_progressbar()
         {
-            int ExpLen = ObsControl.objCCDCApp.LastExposure_ExposureLength;
+            int ExpLen = (Int32)Math.Ceiling(ObsControl.objCCDCApp.LastExposure_ExposureLength);
             //Если все еще идет экспозиция 
             if ( (DateTime.Now - ObsControl.objCCDCApp.LastExposureStartTime).TotalSeconds < ExpLen)
             {

@@ -123,7 +123,7 @@ namespace ObservatoryCenter
         public string LastExposure_ImageType = "";      //Light, Dark, ...
         public string LastExposure_bin = "";       //1x1
         public string LastExposure_filter = "";    //Red
-        public Int32 LastExposure_ExposureLength = 0;  //60 seconds
+        public Double LastExposure_ExposureLength = 0;  //60 seconds
         public DateTime LastExposureStartTime = new DateTime(2015,1,1,0,0,1);
         public string LastImageName = "";       //M33_20171119_Red_60s_1x1_-30degC_0,0degN
         public string LastSequenceInfo = "";    //(1 of 10)
@@ -644,7 +644,8 @@ namespace ObservatoryCenter
                 int beg1 = LineSt.LastIndexOf(" to ") + 4;
                 int end1 = LineSt.LastIndexOf("seconds");
                 string LastExposure_ExposureLength_st= LineSt.Substring(beg1, end1 - beg1).Trim();
-                if (!Int32.TryParse(LastExposure_ExposureLength_st,out LastExposure_ExposureLength))
+
+                if (!Utils.TryParseToDouble(LastExposure_ExposureLength_st,out LastExposure_ExposureLength))
                 {
                     LastExposure_ExposureLength = 0;
                 }

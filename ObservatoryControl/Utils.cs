@@ -411,6 +411,39 @@ namespace ObservatoryCenter
                 return DblRes;
             }
         }
+        public static bool TryParseToDouble(string Val, out double DblRes)
+        {
+            DblRes = double.MinValue;
+            //1. Try to convert
+            if (double.TryParse(Val, out DblRes))
+            {
+                return true;
+            }
+            else
+            {
+                //2.1. Automatic decimal point correction
+                char Separator = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+                char BadSeparator = '.';
+
+                if (Separator == '.') { BadSeparator = ','; }
+                if (Separator == ',') { BadSeparator = '.'; }
+
+                string Val_st = Val.Replace(BadSeparator, Separator);
+
+                //2.2. Try to convert to double. 
+                try
+                {
+                    DblRes = Convert.ToDouble(Val_st);
+                    return true;
+                }
+                catch (Exception Ex)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
 
     }
 
