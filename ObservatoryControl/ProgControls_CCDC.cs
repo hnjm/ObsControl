@@ -780,11 +780,26 @@ namespace ObservatoryCenter
                 }
             }
             //      Slewing to M83...
+            //      Slewing to flat target location.
             else if (LineSt.Contains("Slewing to "))
             {
                 int beg1 = LineSt.LastIndexOf("Slewing to ") + 11;
                 int end1 = LineSt.LastIndexOf("...");
-                ObjName = LineSt.Substring(beg1, end1 - beg1).Trim();
+                //Может оказаться второй вариант, проверим
+                if (end1<0)
+                {
+                    end1 = LineSt.LastIndexOf(".");
+                }
+                //На всякий случай проверим, что получилось, чтобы не было exception
+                if (beg1 >= 11 && end1 >= beg1)
+                {
+                    ObjName = LineSt.Substring(beg1, end1 - beg1).Trim();
+                }
+                else
+                {
+                    ObjName = "";
+                }
+
             }
 
 
