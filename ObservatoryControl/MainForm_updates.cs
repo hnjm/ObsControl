@@ -767,9 +767,11 @@ namespace ObservatoryCenter
                         //Pointing
                         txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Short
                         txtCCDCLog_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //CCDC tab
+                        txtPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Telescope panel
 
                         //Obj data
                         txtCCDCLog_Obj.Text = ObsControl.objCCDCApp.ObjName;
+                        txtObjName.Text = ObsControl.objCCDCApp.ObjName; //Telescope panel
                         txtCCDCLog_ObjRA.Text = ObsControl.objCCDCApp.ObjRA_st;
                         txtCCDCLog_ObjDec.Text = ObsControl.objCCDCApp.ObjDec_st;
 
@@ -778,6 +780,7 @@ namespace ObservatoryCenter
                         txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
 
                         txtCCDCLog_exp.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
+                        txtExposure.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
                         txtCCDCLog_filter.Text = ObsControl.objCCDCApp.LastExposure_filter;
                         txtCCDCLog_bin.Text = ObsControl.objCCDCApp.LastExposure_bin;
                         txtCCDCLog_ExpStartTime.Text = (ObsControl.objCCDCApp.LastExposureStartTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureStartTime.ToString("HH:mm:ss"));

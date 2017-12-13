@@ -673,6 +673,11 @@ namespace ObservatoryCenter
             ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive = true;
         }
 
+        private void tmpNotImplemented_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
 
         #endregion
