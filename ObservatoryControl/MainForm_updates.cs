@@ -273,26 +273,19 @@ namespace ObservatoryCenter
                 {
                     //Camera current status
                     txtCameraStatus.Text = ObsControl.objMaxim.CameraCurrentStatus.ToString();
+                    txtCameraStatus.BackColor = OnColor;
 
                     //Binning
-                    txtCameraBinMode.Text = Convert.ToString(ObsControl.objMaxim.CameraBin) + "x" + Convert.ToString(ObsControl.objMaxim.CameraBin);
+                    if (txtCameraBinMode.Text == "") txtCameraBinMode.Text = Convert.ToString(ObsControl.objMaxim.CameraBin) + "x" + Convert.ToString(ObsControl.objMaxim.CameraBin);
 
                     //Filter
-                    txtFilterName.Text = Convert.ToString(ObsControl.objMaxim.CurrentFilter);
-                    
-                    txtFilterName.BackColor = OnColor;
-                    txtCameraBinMode.BackColor = OnColor;
-                    txtCameraStatus.BackColor = OnColor;
+                    if (txtFilterName.Text == "") txtFilterName.Text = Convert.ToString(ObsControl.objMaxim.CurrentFilter);
 
                 }
                 else
                 {
-                    txtFilterName.Text = "";
-                    txtCameraBinMode.Text = "";
                     txtCameraStatus.Text = "";
 
-                    txtFilterName.BackColor = SystemColors.Control;
-                    txtCameraBinMode.BackColor = SystemColors.Control;
                     txtCameraStatus.BackColor = SystemColors.Control;
                 }
             }
@@ -775,14 +768,19 @@ namespace ObservatoryCenter
                         txtCCDCLog_ObjRA.Text = ObsControl.objCCDCApp.ObjRA_st;
                         txtCCDCLog_ObjDec.Text = ObsControl.objCCDCApp.ObjDec_st;
 
-                        //Imaging
+                        //Image data
+                        txtCCDCImageName.Text = ObsControl.objCCDCApp.LastImageName; // main panel
                         txtCCDCL_lastImage.Text = ObsControl.objCCDCApp.LastImageName;
                         txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
 
                         txtCCDCLog_exp.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
-                        txtExposure.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
+                        txtExposure.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();// main panel
+
+                        txtFilterName.Text = ObsControl.objCCDCApp.LastExposure_filter;// main panel
+                        txtCameraBinMode.Text = ObsControl.objCCDCApp.LastExposure_bin;// main panel
                         txtCCDCLog_filter.Text = ObsControl.objCCDCApp.LastExposure_filter;
                         txtCCDCLog_bin.Text = ObsControl.objCCDCApp.LastExposure_bin;
+
                         txtCCDCLog_ExpStartTime.Text = (ObsControl.objCCDCApp.LastExposureStartTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureStartTime.ToString("HH:mm:ss"));
                         txtCCDCLog_ExpEndTime.Text = (ObsControl.objCCDCApp.LastExposureEndTime.Year == 2015 ? "" : ObsControl.objCCDCApp.LastExposureEndTime.ToString("HH:mm:ss"));
                         if (ObsControl.objCCDCApp.LastExposureStartTime > ObsControl.objCCDCApp.LastExposureEndTime)
@@ -855,6 +853,7 @@ namespace ObservatoryCenter
             {
                 progressBar_Exposure.Maximum = ExpLen;
                 progressBar_CCDCL_exposure.Maximum = progressBar_Exposure.Maximum;
+                progressBar_MainExposure.Maximum = progressBar_Exposure.Maximum;
 
                 //Проверить:
                 // - не закончилось ли экспозиция
@@ -865,11 +864,13 @@ namespace ObservatoryCenter
                     //Поставить на максимум
                     progressBar_Exposure.Value = ExpLen;
                     progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
+                    progressBar_MainExposure.Value = progressBar_Exposure.Value;
                 }
                 else
                 {
                     progressBar_Exposure.Value = Convert.ToInt32((DateTime.Now - ObsControl.objCCDCApp.LastExposureStartTime).TotalSeconds);
                     progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
+                    progressBar_MainExposure.Value = progressBar_Exposure.Value;
                 }
 
                 lblCCDC_Exp_progress.Text = progressBar_Exposure.Value + " of " + ExpLen + " sec";
@@ -881,8 +882,11 @@ namespace ObservatoryCenter
                 //Поставить на максимум
                 progressBar_Exposure.Maximum = ExpLen; //а иначе exception
                 progressBar_CCDCL_exposure.Maximum = progressBar_Exposure.Maximum; //а иначе exception
+                progressBar_MainExposure.Maximum = progressBar_Exposure.Maximum; //а иначе exception
+
                 progressBar_Exposure.Value = ExpLen;
                 progressBar_CCDCL_exposure.Value = progressBar_Exposure.Value;
+                progressBar_MainExposure.Value = progressBar_Exposure.Value;
 
                 lblCCDC_Exp_progress.Text = progressBar_Exposure.Value + " of " + ExpLen + " sec";
                 toolTip1.SetToolTip(progressBar_Exposure, lblCCDC_Exp_progress.Text);

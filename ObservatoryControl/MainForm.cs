@@ -675,7 +675,8 @@ namespace ObservatoryCenter
 
         private void tmpNotImplemented_Click(object sender, EventArgs e)
         {
-
+            //
+            MessageBox.Show("Not implemented");
         }
 
 
@@ -694,7 +695,6 @@ namespace ObservatoryCenter
         {
             DrawTelescope3D(e);
         }
-
 
     }
 }

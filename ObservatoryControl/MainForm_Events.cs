@@ -424,12 +424,6 @@ namespace ObservatoryCenter
         }
 
 
-
-        private void tmpNotImplemented_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Not implemented yet");
-        }
-
         private void btnKILL_Click(object sender, EventArgs e)
         {
             var confirmResult = MessageBox.Show("Будем ждать завершения активностей программ? Если нет - это может привести к непредсказуемым результатам!", "Confirm kill", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button3);

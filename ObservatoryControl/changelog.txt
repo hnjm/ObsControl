@@ -3,6 +3,11 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
+- отмена Abort on end/restart on end
+- индикация Abort/restart on finish в короткой форме
+- режим постепенного охлаждения (интеллектуальная)
+- индикация плохого фокусного / давней фокусировки
+- индикация плохой pointing error
 - конец экспозиции отличать от снимка для PinPoint
 - "Guiding is active" displaying
 - FocusMax alert button. Refocus button. Alert if focus need to be rechecked
@@ -27,6 +32,9 @@ bugs:
 - иногда на дату START EXPOSURE он берет дату от следующей строки
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
+
+1.1.9 [16.12.17]
+- light interface optimization
 
 1.1.8 [19.11.17]
 - light interface optimization
