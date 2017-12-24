@@ -3,8 +3,6 @@ Copyright by Emchenko Boris 2014-2017
 http://astromania.info
 
 to do:
-- отмена Abort on end/restart on end
-- индикация Abort/restart on finish в короткой форме
 - режим постепенного охлаждения (интеллектуальная)
 - индикация плохого фокусного / давней фокусировки
 - индикация плохой pointing error
@@ -30,8 +28,13 @@ may be to do:
 
 bugs:
 - иногда на дату START EXPOSURE он берет дату от следующей строки
+- иногда "подвисает" в состоянии Boltwood bad conditions
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
+
+1.1.10 [24.12.17]
+- отмена Abort on end/restart on end
+- индикация Abort/restart on finish в короткой форме
 
 1.1.9 [16.12.17]
 - light interface optimization

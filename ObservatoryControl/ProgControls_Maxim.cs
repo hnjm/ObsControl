@@ -520,6 +520,11 @@ namespace ObservatoryCenter
             }
         }
 
+
+
+        /// <summary>
+        /// Overload method with string input (from scenarios management)
+        /// </summary>
         public string CameraCoolingOn(string[] CommandString_param_arr)
         {
             double SetTemp = -1234.5;
@@ -528,6 +533,106 @@ namespace ObservatoryCenter
 
             return CameraCoolingOn(SetTemp);
         }
+
+
+        public string CameraCoolingOnGradual_start(double SetTemp = -1234.5)
+        {
+
+            double curTemp = GetCameraTemp();
+
+            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            try
+            {
+                if (CCDCamera.CanSetTemperature)
+                {
+                    CCDCamera.CoolerOn = true;
+                    CCDCamera.TemperatureSetpoint = SetTemp; ////////
+                    Logging.AddLog("Camera cooler set to " + SetTemp + " deg", LogLevel.Activity);
+                    return "Cooler set to " + SetTemp + " deg";
+
+
+
+                }
+                else
+                {
+                    Logging.AddLog("Camera can't set temperature", LogLevel.Debug); //'Debug' to not dublicate messages
+                    return "Camera can't set temperature";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL set camera cooling failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                return "Set camera cooling failed ";
+            }
+
+        }
+
+        /// <summary>
+        /// Switch cooler on, and set main camera cooling temperature
+        /// </summary>
+        public string CameraCoolingOnGradual_step(double SetTemp = -1234.5)
+        {
+            if (SetTemp == -1234.5) SetTemp = TargetCameraSetTemp;
+            CameraWarmpUpNow = false;
+
+            if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
+            try
+            {
+                if (CCDCamera.CanSetTemperature)
+                {
+                    CCDCamera.CoolerOn = true;
+                    CCDCamera.TemperatureSetpoint = SetTemp; ////////
+                    Logging.AddLog("Camera cooler set to " + SetTemp + " deg", LogLevel.Activity);
+                    return "Cooler set to " + SetTemp + " deg";
+                }
+                else
+                {
+                    Logging.AddLog("Camera can't set temperature", LogLevel.Debug); //'Debug' to not dublicate messages
+                    return "Camera can't set temperature";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame[] frames = st.GetFrames();
+                string messstr = "";
+
+                // Iterate over the frames extracting the information you need
+                foreach (StackFrame frame in frames)
+                {
+                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
+                }
+
+                string FullMessage = "MaximDL set camera cooling failed!" + Environment.NewLine;
+                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
+                        + Environment.NewLine + Environment.NewLine + messstr;
+                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
+
+                Logging.AddLog("Set camera cooling failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
+                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                return "Set camera cooling failed ";
+            }
+        }
+
+
 
         /// <summary>
         /// Switch cooler off

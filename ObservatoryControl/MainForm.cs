@@ -289,7 +289,6 @@ namespace ObservatoryCenter
             //check maxim camera temp status
             ObsControl.objMaxim.checkCameraTemperatureStatus_async();
 
-
             //Update weather file
             ObsControl.Boltwood.WriteFile();
             
@@ -307,7 +306,7 @@ namespace ObservatoryCenter
 
             UpdateTelescopeTempControlData();
 
-            UpdateEvents();
+            UpdateAstronomyEvents();
 
         }
 
@@ -663,14 +662,37 @@ namespace ObservatoryCenter
 
         private void btnReStartCCDC_Click(object sender, EventArgs e)
         {
-            ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
-            ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = true;
+            if (ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive && ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
+            {
+                //cancel action if already engaged
+                ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = false;
+                ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = false;
+            }
+            else
+            {
+                //engage action
+                ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
+                ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = true;
+            }
         }
 
         private void btnAbortAtEnd_Click(object sender, EventArgs e)
         {
-            ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
-            ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive = true;
+            if (ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive && ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive)
+            {
+                //cancel action if already engaged
+                ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = false;
+                ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive = false;
+            }
+            else
+            {
+                //engage action
+                ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive = true;
+                ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive = true;
+
+                //cancel restart request in case it was engaged
+                ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = false;
+            }
         }
 
         private void tmpNotImplemented_Click(object sender, EventArgs e)

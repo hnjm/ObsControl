@@ -19,7 +19,7 @@ namespace ObservatoryCenter
 // Block with update elements
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #region *** Update visual elements (Status bar, telescope, etc) *****************************************************************************************************
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// This function updates all elements interconnected with switch state
@@ -94,8 +94,6 @@ namespace ObservatoryCenter
 
             //TelescopeTempControl status
             if (ObsControl.objTTCApp.IsRunning()) { linkTelescopeTempControl.LinkColor = Color.Green; } else { linkTelescopeTempControl.LinkColor = Color.DeepPink; }
-
-
         }
 
 
@@ -636,11 +634,12 @@ namespace ObservatoryCenter
             txtATSolutionRA.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
             txtATSolutionDec.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #endregion *** update visual elements *************************************************************************************************************
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // end of block
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#endregion *** update visual elements *************************************************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// end of block
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region *** Update PHD and CCDAP data *****************************************************************
@@ -826,19 +825,24 @@ namespace ObservatoryCenter
                     if (ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
                     {
                         btnReStartCCDC.BackColor = InterColor;
+                        chkPause.BackColor = InterColor;
                     }
                     else
                     {
                         btnReStartCCDC.BackColor = DefBackColor;
+                        if (chkPause.BackColor == InterColor) chkPause.BackColor = DefBackColor;
+
                     }
                     //Abort after end
                     if (ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive)
                     {
                         btnCCDCAbortAtEnd.BackColor = InterColor;
+                        chkAbort.BackColor = InterColor;
                     }
                     else
                     {
                         btnCCDCAbortAtEnd.BackColor = DefBackColor;
+                        if (chkAbort.BackColor == InterColor) chkAbort.BackColor = DefBackColor;
                     }
                 }
             }
@@ -1202,7 +1206,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Update astro events
         /// </summary>
-        private void UpdateEvents()
+        private void UpdateAstronomyEvents()
         {
             txtEvents_SunSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunSet());
             txtEvents_NautTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightSet());
