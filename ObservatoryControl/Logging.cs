@@ -174,7 +174,7 @@ namespace ObservatoryCenter
             for (var i=0; i < LOGLIST.Count; i++)
             {
                 // if current line wasn't written to file
-                if (!LOGLIST[i].dumpedToFile)
+                if (LOGLIST[i] !=null && !LOGLIST[i].dumpedToFile) //Always check for null due to multithreading!!!
                 {
                     LogListNewAll.Add(LOGLIST[i]); //add to newrecords array
                     if (LOGLIST[i].LogLevel <= LogLevel.Debug)
@@ -272,7 +272,7 @@ namespace ObservatoryCenter
             for(var i=0; i < LOGLIST.Count; i++)
             {
                 // if current line wasn't displayed
-                if (!LOGLIST[i].displayed)
+                if (LOGLIST[i] != null && !LOGLIST[i].displayed) //Always check for null due to multithreading!!!
                 {
                     LogListNew.Add(LOGLIST[i]); //add to newrecords array
                     LOGLIST[i].displayed = true; //mark as written
