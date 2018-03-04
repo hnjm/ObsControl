@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Web.Script.Serialization;
 
+using LoggingLib;
+
 namespace ObservatoryCenter
 {
     /// <summary>

@@ -13,6 +13,7 @@ using System.Threading;
 using System.Resources;
 using System.Configuration;
 using System.Xml;
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

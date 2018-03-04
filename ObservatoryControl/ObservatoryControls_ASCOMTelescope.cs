@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+using System.Threading;
 
 using ASCOM;
 using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
-using System.Reflection;
-using System.Threading;
+
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

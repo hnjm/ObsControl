@@ -10,6 +10,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading;
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

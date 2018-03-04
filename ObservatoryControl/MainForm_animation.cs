@@ -10,6 +10,8 @@ using ASCOM.DeviceInterface;
 using ASCOM.Utilities;
 using CPI.Plot3D;
 
+using LoggingLib;
+
 namespace ObservatoryCenter
 {
     

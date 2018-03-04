@@ -32,6 +32,9 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.2.0 [04.03.17]
+- элементы новой архитектуры (модуль LoggingAndConfig в отдельном проекте)
+
 1.1.10 [24.12.17]
 - отмена Abort on end/restart on end
 - индикация Abort/restart on finish в короткой форме

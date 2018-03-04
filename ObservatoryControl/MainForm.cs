@@ -19,6 +19,8 @@ using System.IO;
 using System.Xml;
 using System.Windows.Forms.DataVisualization.Charting;
 
+using LoggingLib;
+
 public enum FormAppearanceMode { MODE_SHORT, MODE_MAX };
 
 namespace ObservatoryCenter
@@ -78,6 +80,14 @@ namespace ObservatoryCenter
         {
             InitializeComponent();
 
+            //Name settings
+            string ProgDocumentFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ObservatoryControl");
+            ConfigManagement.InitConfig(ProgDocumentFullPath, "ObservatoryControl.config", "ObservatoryControl.defaultconfig.txt");
+            Logging.InitLogging(ProgDocumentFullPath, "observatory_", false); //set log folder and log file name
+            Logging.AddLog("****************************************************************************************", LogLevel.Activity);
+            Logging.AddLog("Observatory Center started", LogLevel.Activity);
+            Logging.AddLog("****************************************************************************************", LogLevel.Activity);
+
             ObsControl = new ObservatoryControls(this);
             SetForm = new SettingsForm(this);
             TestForm = new TestEquipmentForm(this);
@@ -86,10 +96,6 @@ namespace ObservatoryCenter
             //CheckPowerStatusThread_ref = new ThreadStart(ObsControl.CheckPowerDeviceStatus); 
             //CheckPowerStatusThread = new Thread(CheckPowerStatusThread_ref);
             //SetPowerStatusThread = new Thread(ObsControl.SetDeviceStatus(null,null,null,null));
-
-            Logging.AddLog("****************************************************************************************", LogLevel.Activity);
-            Logging.AddLog("Observatory Center started", LogLevel.Activity);
-            Logging.AddLog("****************************************************************************************", LogLevel.Activity);
         }
 
         /// <summary>

@@ -8,6 +8,8 @@ using System.Net.Sockets;
 using System.Collections;
 using System.Diagnostics;
 
+using LoggingLib;
+
 namespace ObservatoryCenter
 {
     public class SocketServerClass : IDisposable

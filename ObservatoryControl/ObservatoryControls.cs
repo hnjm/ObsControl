@@ -15,6 +15,9 @@ using ASCOM.Utilities;
 
 using MaxIm;
 
+using LoggingLib;
+
+
 namespace ObservatoryCenter
 {
     public partial class ObservatoryControls

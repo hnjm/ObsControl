@@ -18,6 +18,7 @@ using ASCOM.Utilities;
 using System.IO;
 using System.Xml;
 using System.Windows.Forms.DataVisualization.Charting;
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

@@ -12,6 +12,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Web;
 using System.Collections.Specialized;
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using LoggingLib;
+
 namespace ObservatoryCenter
 {
     public enum CCDAPCommandType

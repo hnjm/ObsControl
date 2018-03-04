@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
+using LoggingLib;
 
 namespace ObservatoryCenter
 {
@@ -103,7 +104,7 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateStatusbarASCOMStatus()
         {
-            toolStripLogSize.Text = "LogRec: " + Logging.LOGLIST.Count();
+            toolStripLogSize.Text = "LogRec: " + Logging.GetCount();
 
             //SWITCH
             if (ObsControl.ASCOMSwitch.Connected_flag)

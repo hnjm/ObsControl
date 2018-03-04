@@ -7,6 +7,8 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
+using LoggingLib;
+
 namespace ObservatoryCenter
 {
     static class Program
@@ -41,6 +43,8 @@ namespace ObservatoryCenter
                     //if already run - set window to foreground
                     Utils.SetCurrentWindowToForeground();
                 }
+
+                Logging.DumpToFile();
             }
         }
 

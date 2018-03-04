@@ -8,6 +8,7 @@ using ASCOM;
 using System.Collections;
 using ASCOM.Astrometry.AstroUtils;
 using System.Threading;
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 
 using System.Threading;
-
 using System.Diagnostics;
+
+using LoggingLib;
 
 namespace ObservatoryCenter
 {

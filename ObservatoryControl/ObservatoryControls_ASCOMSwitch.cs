@@ -15,6 +15,8 @@ using ASCOM.Utilities;
 
 using MaxIm;
 
+using LoggingLib;
+
 namespace ObservatoryCenter
 {
     public class ObservatoryControls_ASCOMSwitch
