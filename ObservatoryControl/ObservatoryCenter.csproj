@@ -305,6 +305,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ImageQuilityPublisher\IQPEngine\IQPEngine.csproj">
+      <Project>{8bb03dce-91f3-4ebc-879c-b7ecc0642d60}</Project>
+      <Name>IQPEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ImageQuilityPublisher\Logging\BE.LoggingAndConfig.csproj">
       <Project>{31e056ee-0c45-46ea-b20b-fc0b7c3a5292}</Project>
       <Name>BE.LoggingAndConfig</Name>
