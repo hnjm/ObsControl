@@ -1,18 +1,26 @@
 ﻿Observatory control software
-Copyright by Emchenko Boris 2014-2017
+Copyright by Emchenko Boris 2014-2018
 http://astromania.info
 
 to do:
-- режим постепенного охлаждения (интеллектуальная)
+- сохранение стат.гидирования для предыдущего кадра
+- команда "автостарт мониторинга IQP"
+- записывать стат.гидирования строго по времени съемки кадра (без хвостов на дизеринг)
+
+- режим постепенного охлаждения (интеллектуальная?). вообще разобраться, что там с управлением охлаждением (такое ощущение, что он всегда -30 градусов ставит!)
+
 - индикация плохого фокусного / давней фокусировки
-- индикация плохой pointing error
-- конец экспозиции отличать от снимка для PinPoint
-- "Guiding is active" displaying
 - FocusMax alert button. Refocus button. Alert if focus need to be rechecked
 - implement focusing throug FocusMax
-- calculate and set suitable cooling temp
+- индикация плохой pointing error
+- all sky solve
+- конец экспозиции отличать от снимка для PinPoint
+- "Guiding is active" displaying
+
+
 - send CCDC/PHD/Maxim activity  to server
 - web platform for remote control
+
 may be to do:
 - run PAM throug AutoIt
 - SafetyModule: check enviroment for open roof

@@ -62,8 +62,11 @@ namespace ObservatoryCenter
 
         public double RMS_X, RMS_Y, RMS;
         public double LastRAError, LastDecError;
+        public double LastTimestamp = 0.0;
 
-        public int maxNumberOfStoredValues = 100;
+        public int maxNumberOfStoredValues = 3000;
+
+        public DateTime StartDataReceiving = new DateTime(2015, 1, 1, 0, 0, 1);
 
         /// <summary>
         /// Constructor - create from another object
@@ -84,7 +87,9 @@ namespace ObservatoryCenter
             //keep list lenght not more then maxNumberOfStoredValues
             if (ErrorsList.Count > maxNumberOfStoredValues) ErrorsList.RemoveRange(0, ErrorsList.Count - maxNumberOfStoredValues);
 
-            //recalculate RMS
+            if (ErrorsList.Count == 1) StartDataReceiving = DateTime.Now; //store Time when first item received
+
+            //recalculate RMS and set LastValues
             CalculateRMS();
         }
 
@@ -93,6 +98,7 @@ namespace ObservatoryCenter
             if (ErrorsList.Count > 0) {
                 LastRAError = ErrorsList[ErrorsList.Count - 1].Item2;
                 LastDecError = ErrorsList[ErrorsList.Count - 1].Item3;
+                LastTimestamp = ErrorsList[ErrorsList.Count - 1].Item1;
 
                 SUM_XX += LastRAError * LastRAError;
                 NUMX++;
@@ -105,21 +111,64 @@ namespace ObservatoryCenter
             else
             {
                 LastRAError = LastDecError = 0.0;
+                LastTimestamp = 0.0;
                 SUM_XX = SUM_YY = 0; ;
                 NUMX = NUMY = 0;
                 RMS_X = RMS_Y = 0;
+
             }
             RMS = Math.Sqrt(RMS_X * RMS_X + RMS_Y * RMS_Y);
 
         }
 
-        public string GetLastNValuesSt(int N)
+        /// <summary>
+        /// Get last values since TimeStamp
+        /// </summary>
+        /// <param name="TimeStamp">From this time</param>
+        /// <returns>List of Tuple</returns>
+        public List<Tuple<double, double, double>> GetLastValuesSince(double TimeStamp)
+        {
+            List<Tuple<double, double, double>> LastVals = new List<Tuple<double, double, double>>();
+            foreach (Tuple<double, double, double> el in ErrorsList)
+            {
+                if (el.Item1 > TimeStamp)
+                {
+                    LastVals.Add(new Tuple<double, double, double>(el.Item1, el.Item2, el.Item3));
+                }
+            }
+            return LastVals;
+        }
+
+        public List<Tuple<double, double, double>> GetLastNValues(int N)
+        {
+            List<Tuple<double, double, double>> LastVals = new List<Tuple<double, double, double>>();
+            foreach (Tuple<double, double, double> el in ErrorsList.Skip(Math.Max(0, ErrorsList.Count() - N)))
+            {
+                LastVals.Add(new Tuple<double, double, double>(el.Item1, el.Item2, el.Item3));
+            }
+            return LastVals;
+        }
+
+        /// <summary>
+        /// Convert Guide Pairs List to string "x/y" format
+        /// </summary>
+        /// <param name="ValuesList">Guide Pairs List</param>
+        /// <returns></returns>
+        public string ConvertToStringPairs(List<Tuple<double, double, double>> ValuesList)
         {
             string st = "";
-            foreach (Tuple<double, double> el in ErrorsList.Skip(Math.Max(0, ErrorsList.Count() - N)))
+            foreach (Tuple<double, double, double> el in ValuesList)
             {
-                st += el.Item1.ToString() + " / " + el.Item2.ToString() + Environment.NewLine;
+                st += "..."+(el.Item1 % 1000).ToString("N1") + ": " + (el.Item2>=0?" ":"") + el.Item2.ToString("N3") + " | " + (el.Item3 >= 0 ? " " : "") + el.Item3.ToString("N3") + Environment.NewLine;
             }
+            return st;
+
+        }
+
+        public string GetLastNValuesSt(int N)
+        {
+            List<Tuple<double, double, double>> LastVals = GetLastNValues(N);
+            string st = ConvertToStringPairs(LastVals);
             return st;
         }
 
@@ -135,6 +184,8 @@ namespace ObservatoryCenter
 
             LastRAError = 0;
             LastDecError = 0;
+
+            StartDataReceiving = new DateTime(2015, 1, 1, 0, 0, 1);
         }
 
         public void Copy(GuidingStats SourceObj)
@@ -142,12 +193,14 @@ namespace ObservatoryCenter
             //1.Reset
             this.Reset();
             //2.Copy values
-            foreach (Tuple<double, double> PairXY in SourceObj.ErrorsList)
+            foreach (Tuple<double, double, double> PairXY in SourceObj.ErrorsList)
             {
-                this.Add(PairXY.Item1, PairXY.Item2);
+                this.Add(PairXY.Item1, PairXY.Item2, PairXY.Item3);
             }
             //3. Calculate parameters
             this.CalculateRMS();
+            //4. Copy aux information
+            StartDataReceiving = SourceObj.StartDataReceiving;
         }
 
     }
@@ -179,7 +232,7 @@ namespace ObservatoryCenter
         private Thread CheckPHDStatusThread;
         private ThreadStart CheckPHDStatusThread_startref;
 
-        public Double LastRAError, LastDecError;
+        public Double LastRAError, LastDecError, LastTimestamp;
 
         public bool LastCommand_Result = false;
         public string LastCommand_Message="";
@@ -594,8 +647,9 @@ namespace ObservatoryCenter
                 var json = new JavaScriptSerializer().Deserialize<Dictionary<string, dynamic>>(jsonstring);
                 LastRAError = (double)json["RADistanceRaw"];
                 LastDecError = (double)json["DECDistanceRaw"];
+                LastTimestamp = (double)json["Timestamp"];
 
-                curImageGuidingStats.Add(LastRAError, LastDecError); //Сохраним для статистики
+                curImageGuidingStats.Add(LastTimestamp, LastRAError, LastDecError); //Сохраним для статистики
 
                 Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
                 resparsedflag = true;

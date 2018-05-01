@@ -614,17 +614,18 @@ namespace ObservatoryCenter
             txtATSolutionDec.BackColor = (ObsControl.objAstroTortilla.LastAttemptSolvedFlag == false ? OffColor : SystemColors.Control);
         }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion *** update visual elements *************************************************************************************************************
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// end of block
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #endregion *** update visual elements *************************************************************************************************************
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // end of block
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region *** Update PHD and CCDAP data *****************************************************************
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        
+        //LastGuideDataUpdated
+        double LastGuideTimestamp = 0.0;
 
         /// <summary>
         /// Update PHD state
@@ -643,50 +644,65 @@ namespace ObservatoryCenter
                     if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
                     {
                         //Check if new image starts and Guide stats wasn't reset yet
-                        if (ObsControl.objCCDCApp.LastExposureEndTime > ObsControl.objCCDCApp.LastExposureStartTime && ObsControl.objPHD2App.LastGuidingStatResetTime < ObsControl.objCCDCApp.LastExposureStartTime)
+                        if (ObsControl.objCCDCApp.LastExposureEndTime > ObsControl.objCCDCApp.LastExposureStartTime && ObsControl.objPHD2App.LastGuidingStatResetTime < ObsControl.objCCDCApp.LastExposureEndTime)
                         {
                             ObsControl.objPHD2App.prevImageGuidingStats.Copy(ObsControl.objPHD2App.curImageGuidingStats);
                             ObsControl.objPHD2App.curImageGuidingStats.Reset();
                             ObsControl.objPHD2App.LastGuidingStatResetTime = DateTime.Now;
+
+                            //display RMS
+                            txtRMS_X_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_X, 2).ToString();
+                            txtRMS_Y_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_Y, 2).ToString();
+                            txtRMS_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS, 2).ToString();
                         }
-                        
-                        //get values
-                        double XVal = Math.Round(ObsControl.objPHD2App.LastRAError, 2); //* ObsControl.GuidePiexelScale
-                        double YVal = Math.Round(ObsControl.objPHD2App.LastDecError, 2); //* ObsControl.GuidePiexelScale
 
-                        //add values to object
-                        ObsControl.objPHD2App.curImageGuidingStats.Add(XVal, YVal);
-                       
-                        //display in numbers last values
-                        txtGuiderErrorPHD.Text = ObsControl.objPHD2App.curImageGuidingStats.GetLastNValuesSt(10);
-
-                        //draw 
-                        string sername = "SeriesGuideError";
-                        if (Math.Abs(XVal) > 1)
+                        //Add values to controls
+                        if (ObsControl.objPHD2App.curImageGuidingStats.LastTimestamp >LastGuideTimestamp)
                         {
-                            XVal = 2 * Math.Sign(XVal); sername = "SeriesGuideErrorOutOfScale";
-                        }
-                        if (Math.Abs(YVal) > 1)
-                        {
-                            YVal = 2 * Math.Sign(YVal); sername = "SeriesGuideErrorOutOfScale";
-                        }
-                        //add pount
-                        chart1.Series[sername].Points.AddXY(XVal, YVal);
+                            //There is new values!
 
-                        // Keep a constant number of points by removing them from the left
-                        if (chart1.Series[sername].Points.Count > maxNumberOfPointsInChart)
-                        {
-                            chart1.Series[sername].Points.RemoveAt(0);
+                            //Get all values since last read
+                            List<Tuple<double, double, double>> LastGuideValues;// = new List<Tuple<double, double, double>>();
+                            LastGuideValues = ObsControl.objPHD2App.curImageGuidingStats.GetLastValuesSince(LastGuideTimestamp);
+
+                            //display in numbers last values
+                            txtGuiderErrorPHD.Text = ObsControl.objPHD2App.curImageGuidingStats.GetLastNValuesSt(10);
+
+                            //draw 
+                            foreach (Tuple<double, double, double> el in LastGuideValues)
+                            {
+                                string sername = "SeriesGuideError";
+                                double XVal = el.Item2;
+                                double YVal = el.Item3;
+                                if (Math.Abs(XVal) > 1)
+                                {
+                                    XVal = 2 * Math.Sign(XVal); sername = "SeriesGuideErrorOutOfScale";
+                                }
+                                if (Math.Abs(YVal) > 1)
+                                {
+                                    YVal = 2 * Math.Sign(YVal); sername = "SeriesGuideErrorOutOfScale";
+                                }
+                                //add pount
+                                chart1.Series[sername].Points.AddXY(XVal, YVal);
+
+                                // Keep a constant number of points by removing them from the left
+                                if (chart1.Series[sername].Points.Count > maxNumberOfPointsInChart)
+                                {
+                                    chart1.Series[sername].Points.RemoveAt(0);
+                                }
+                            }
+                            // Adjust Y & X axis scale
+                            chart1.ResetAutoValues();
                         }
-
-                        // Adjust Y & X axis scale
-                        chart1.ResetAutoValues();
-
 
                         //display RMS
                         txtRMS_X.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_X, 2).ToString();
                         txtRMS_Y.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_Y, 2).ToString();
                         txtRMS.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS, 2).ToString();
+
+                        //Dispaly other stats
+                        txtGuideStat_SinceReset.Text = (DateTime.Now - ObsControl.objPHD2App.curImageGuidingStats.StartDataReceiving).TotalSeconds.ToString("N0")+" c";
+                        txtGuideStat_CountPoints.Text = ObsControl.objPHD2App.curImageGuidingStats.ErrorsList.Count.ToString();
                     }
                 }
             }
