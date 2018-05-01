@@ -20,21 +20,8 @@
 
 </programsPath>
 
+ <!-- For compatability -->
 <scenarioMainParams>
-    <POWER_ON value="true" />
-    <PHD2_RUN value="false" />
-    <PHD2_CONNECT value="false" />
-    <PHDBROKER_RUN value="false" />
-    <MAXIM_RUN value="true" />
-    <MAXIM_CAMERA_CONNECT value="true" />
-    <MAXIM_CAMERA_SETCOOLING value="true" />
-    <MAXIM_FOCUSER_CONNECT value="false" />
-    <MAXIM_TELESCOPE_CONNECT value="true" />
-    <FOCUSMAX_RUN value="true" />
-    <CdC_RUN value="true" />
-    <CCDC_RUN value="true" />
-    <OBS_TELESCOPE_CONNECT value="true" />
-    <CdC_TELESCOPE_CONNECT value="true" />
     <CDC_CONNECT_PAUSE value="2000" />
     <PHD_CONNECT_PAUSE value="2000" />
 </scenarioMainParams>

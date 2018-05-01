@@ -220,10 +220,8 @@ namespace ObservatoryCenter
             SendKeys.SendWait("T");
             Thread.Sleep(100);
 
+            SendKeys.Flush();
             Logging.AddLog("CCDC stop pressed", LogLevel.Activity);
-
-
-
         }
 
         /// <summary>

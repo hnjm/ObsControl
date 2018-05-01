@@ -83,7 +83,7 @@
     <TargetZone>Internet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>VSFiles\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ASCOM.Astrometry, Version=6.0.0.0, Culture=neutral, PublicKeyToken=565de7938946fba7, processorArchitecture=MSIL">
@@ -144,9 +144,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs" />
-    <Compile Include="AstroUtils.cs" />
-    <Compile Include="BoltwoodClasses.cs" />
+    <Compile Include="MainForm_IQP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\About.cs" />
+    <Compile Include="Modules\AstroUtils.cs" />
+    <Compile Include="Modules\BoltwoodClasses.cs" />
     <Compile Include="ObservatoryControls_boltwood.cs" />
     <Compile Include="MainForm_ShortForm.cs">
       <SubType>Form</SubType>
@@ -164,7 +167,7 @@
     <Compile Include="ProgControls_CCDAP.cs" />
     <Compile Include="ProgControls_classes.cs" />
     <Compile Include="ObservatoryControls_scenarios.cs" />
-    <Compile Include="CommandInterpretator.cs" />
+    <Compile Include="Modules\CommandInterpretator.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,21 +193,21 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="__MainForm_new.cs">
+    <Compile Include="Modules\__MainForm_new.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="__MainForm_new.Designer.cs">
+    <Compile Include="Modules\__MainForm_new.Designer.cs">
       <DependentUpon>__MainForm_new.cs</DependentUpon>
     </Compile>
-    <Compile Include="SocketServer.cs" />
-    <Compile Include="TestEquipmentForm.cs">
+    <Compile Include="Modules\SocketServer.cs" />
+    <Compile Include="Modules\TestEquipmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestEquipmentForm.Designer.cs">
+    <Compile Include="Modules\TestEquipmentForm.Designer.cs">
       <DependentUpon>TestEquipmentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestEquipmentClass.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Modules\TestEquipmentClass.cs" />
+    <Compile Include="Modules\Utils.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -221,18 +224,18 @@
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="__MainForm_new.resx">
+    <EmbeddedResource Include="Modules\__MainForm_new.resx">
       <DependentUpon>__MainForm_new.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestEquipmentForm.resx">
+    <EmbeddedResource Include="Modules\TestEquipmentForm.resx">
       <DependentUpon>TestEquipmentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.manifest">
+    <None Include="VSFiles\app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="_Class Diagram.cd" />
-    <None Include="ObservatoryCenter_TemporaryKey.pfx" />
-    <None Include="packages.config" />
+    <None Include="VSFiles\_Class Diagram.cd" />
+    <None Include="Docs\ObservatoryCenter_TemporaryKey.pfx" />
+    <None Include="VSFiles\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -244,7 +247,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="VSFiles\App.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -264,15 +267,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="changelog.txt">
+    <Content Include="Docs\changelog.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ConfigFormat.txt" />
-    <Content Include="ObservatoryControl.defaultconfig.txt">
+    <Content Include="Docs\ConfigFormat.txt" />
+    <Content Include="Docs\ObservatoryControl.defaultconfig.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="bugreport_1.txt" />
-    <Content Include="Notes.txt" />
+    <Content Include="Docs\bugreport_1.txt" />
+    <Content Include="Docs\Notes.txt" />
     <None Include="Resources\Twilight_chart.png" />
     <None Include="Resources\logo_observ2.ico" />
     <None Include="Resources\logo_observ2.png" />
@@ -308,10 +311,6 @@
     <ProjectReference Include="..\..\ImageQuilityPublisher\IQPEngine\IQPEngine.csproj">
       <Project>{8bb03dce-91f3-4ebc-879c-b7ecc0642d60}</Project>
       <Name>IQPEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ImageQuilityPublisher\Logging\BE.LoggingAndConfig.csproj">
-      <Project>{31e056ee-0c45-46ea-b20b-fc0b7c3a5292}</Project>
-      <Name>BE.LoggingAndConfig</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WeatherControlEmulation\WeatherControl\WeatherControl.csproj">
       <Project>{5eaf0786-5dcb-49f9-85a2-2f8165bedb58}</Project>

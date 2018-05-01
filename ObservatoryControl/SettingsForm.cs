@@ -53,8 +53,6 @@ namespace ObservatoryCenter
             LoadDataIntoGrids("scenarioMain"); //dataGridConfig_scenarioMainParams_name
 
 
-
-
             //Workaround about "Controls contained in a TabPage are not created until the tab page is shown, and any data bindings in these controls are not activated until the tab page is shown."
             foreach (TabPage tp in tabSettings.TabPages)
             {

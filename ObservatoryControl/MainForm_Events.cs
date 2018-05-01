@@ -344,7 +344,7 @@ namespace ObservatoryCenter
         private void btnClearGuidingStat_Click(object sender, EventArgs e)
         {
             txtGuiderErrorPHD.Text = "";
-            GuidingStats.Reset();
+            ObsControl.objPHD2App.curImageGuidingStats.Reset();
 
             chart1.Series["SeriesGuideError"].Points.Clear();
             chart1.Series["SeriesGuideErrorOutOfScale"].Points.Clear();

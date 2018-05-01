@@ -591,28 +591,6 @@ namespace ObservatoryCenter
                 txtSet_Telescope.BackColor = SystemColors.Control;
             }
             
-            //MAXIM DATA
-            if (ObsControl.objMaxim.CameraConnected)
-            {
-                txtSet_Maxim_Camera1.Text = ObsControl.objMaxim.CameraName;
-                txtSet_Maxim_Camera1.BackColor = (ObsControl.objMaxim.CameraConnected ? OnColor : SystemColors.Control);
-
-                txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.GuiderName;
-                txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CameraConnected ? OnColor : SystemColors.Control);
-
-                //txtSet_Maxim_Camera2.Text = ObsControl.objMaxim.CCDCamera.GuiderName;
-                //txtSet_Maxim_Camera2.BackColor = (ObsControl.objMaxim.CCDCamera.LinkEnabled ? OnColor : SystemColors.Control);
-            }
-            else
-            {
-                txtSet_Maxim_Camera1.Text = "";
-                txtSet_Maxim_Camera1.BackColor = SystemColors.Control;
-
-                txtSet_Maxim_Camera2.Text = "";
-                txtSet_Maxim_Camera2.BackColor = SystemColors.Control;
-            }
-
-
             //testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
             //testCamera2 = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled && ObsControl.objMaxim.CCDCamera.GuiderName != "");
 
@@ -664,15 +642,23 @@ namespace ObservatoryCenter
                     //If guiding now, calclulate and display stats
                     if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
                     {
+                        //Check if new image starts and Guide stats wasn't reset yet
+                        if (ObsControl.objCCDCApp.LastExposureEndTime > ObsControl.objCCDCApp.LastExposureStartTime && ObsControl.objPHD2App.LastGuidingStatResetTime < ObsControl.objCCDCApp.LastExposureStartTime)
+                        {
+                            ObsControl.objPHD2App.prevImageGuidingStats.Copy(ObsControl.objPHD2App.curImageGuidingStats);
+                            ObsControl.objPHD2App.curImageGuidingStats.Reset();
+                            ObsControl.objPHD2App.LastGuidingStatResetTime = DateTime.Now;
+                        }
+                        
                         //get values
                         double XVal = Math.Round(ObsControl.objPHD2App.LastRAError, 2); //* ObsControl.GuidePiexelScale
                         double YVal = Math.Round(ObsControl.objPHD2App.LastDecError, 2); //* ObsControl.GuidePiexelScale
 
                         //add values to object
-                        GuidingStats.Add(XVal, YVal);
+                        ObsControl.objPHD2App.curImageGuidingStats.Add(XVal, YVal);
                        
                         //display in numbers last values
-                        txtGuiderErrorPHD.Text = GuidingStats.GetLastNValuesSt(10);
+                        txtGuiderErrorPHD.Text = ObsControl.objPHD2App.curImageGuidingStats.GetLastNValuesSt(10);
 
                         //draw 
                         string sername = "SeriesGuideError";
@@ -698,9 +684,9 @@ namespace ObservatoryCenter
 
 
                         //display RMS
-                        txtRMS_X.Text = Math.Round(GuidingStats.RMS_X, 2).ToString();
-                        txtRMS_Y.Text = Math.Round(GuidingStats.RMS_Y, 2).ToString();
-                        txtRMS.Text = Math.Round(GuidingStats.RMS, 2).ToString();
+                        txtRMS_X.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_X, 2).ToString();
+                        txtRMS_Y.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_Y, 2).ToString();
+                        txtRMS.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS, 2).ToString();
                     }
                 }
             }
@@ -751,7 +737,6 @@ namespace ObservatoryCenter
 
                         //6. Отображаем полученные данные в интерфейсе
                         //Focusing
-                        txtShort_SinceLastFocus.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
                         txtShort_HFDLast.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
                         txtCCDCLog_HFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
                         txtCCDCLog_FocusTime.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
@@ -763,6 +748,7 @@ namespace ObservatoryCenter
                         txtPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Telescope panel
 
                         //Obj data
+                        txtShort_CurrentObj.Text = ObsControl.objCCDCApp.ObjName;
                         txtCCDCLog_Obj.Text = ObsControl.objCCDCApp.ObjName;
                         txtObjName.Text = ObsControl.objCCDCApp.ObjName; //Telescope panel
                         txtCCDCLog_ObjRA.Text = ObsControl.objCCDCApp.ObjRA_st;

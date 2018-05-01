@@ -53,61 +53,67 @@ namespace ObservatoryCenter
         //"dx":-0.019,"dy":-0.003,"RADistanceRaw":0.019,"DECDistanceRaw":0.001,"RADistanceGuide":0.000,"DECDistanceGuide":0.000,"StarMass":89804,"SNR":18.44,"AvgDist":0.13}
     }
 
-    public static class GuidingStats
+    public class GuidingStats
     {
-        internal static List<Tuple<double, double>> ErrorsList = new List<Tuple<double, double>>();
+        public List<Tuple<double, double, double>> ErrorsList = new List<Tuple<double, double, double>>();
 
-        internal static double SUM_XX, SUM_YY;
-        internal static int NUMX, NUMY;
+        internal double SUM_XX, SUM_YY;
+        internal int NUMX, NUMY;
 
-        public static double RMS_X, RMS_Y, RMS;
-        public static double LastRAError, LastDecError;
+        public double RMS_X, RMS_Y, RMS;
+        public double LastRAError, LastDecError;
 
-        public static int maxNumberOfStoredValues = 100;
+        public int maxNumberOfStoredValues = 100;
 
-        public static void Reset()
+        /// <summary>
+        /// Constructor - create from another object
+        /// </summary>
+        /// <param name="SourceGS"></param>
+        public GuidingStats(GuidingStats SourceGS)
         {
-            SUM_XX = 0; NUMX = 0;
-            SUM_YY = 0; NUMY = 0;
-            RMS_X = 0;
-            RMS_Y = 0;
-            RMS = 0;
-
-            LastRAError = 0;
-            LastDecError = 0;
-
-            ErrorsList.Clear();
-
+            Copy(SourceGS);
         }
-        public static void CalculateRMS()
-        {
-            LastRAError = ErrorsList [ErrorsList.Count - 1].Item1;
-            LastDecError = ErrorsList[ErrorsList.Count - 1].Item1;
+        public GuidingStats()
+        { }
 
-            SUM_XX += LastRAError * LastRAError;
-            NUMX++; 
-            SUM_YY += LastDecError * LastDecError;
-            NUMY++;
-
-            RMS_X = Math.Sqrt(SUM_XX/NUMX);
-            RMS_Y = Math.Sqrt(SUM_YY/NUMY);
-
-            RMS = Math.Sqrt(RMS_X * RMS_X + RMS_Y * RMS_Y);
-        }
-
-        public static void Add(double XVal, double YVal)
+        public void Add(double TimeStamp, double XVal, double YVal)
         {
             //add value
-            ErrorsList.Add(new Tuple<double, double>(XVal, YVal));
+            ErrorsList.Add(new Tuple<double, double, double>(TimeStamp, XVal, YVal));
 
             //keep list lenght not more then maxNumberOfStoredValues
-            if (ErrorsList.Count > maxNumberOfStoredValues) ErrorsList.RemoveRange(0, ErrorsList.Count - maxNumberOfStoredValues); 
+            if (ErrorsList.Count > maxNumberOfStoredValues) ErrorsList.RemoveRange(0, ErrorsList.Count - maxNumberOfStoredValues);
 
             //recalculate RMS
             CalculateRMS();
         }
 
-        public static string GetLastNValuesSt(int N)
+        public void CalculateRMS()
+        {
+            if (ErrorsList.Count > 0) {
+                LastRAError = ErrorsList[ErrorsList.Count - 1].Item2;
+                LastDecError = ErrorsList[ErrorsList.Count - 1].Item3;
+
+                SUM_XX += LastRAError * LastRAError;
+                NUMX++;
+                SUM_YY += LastDecError * LastDecError;
+                NUMY++;
+
+                RMS_X = Math.Sqrt(SUM_XX / NUMX);
+                RMS_Y = Math.Sqrt(SUM_YY / NUMY);
+            }
+            else
+            {
+                LastRAError = LastDecError = 0.0;
+                SUM_XX = SUM_YY = 0; ;
+                NUMX = NUMY = 0;
+                RMS_X = RMS_Y = 0;
+            }
+            RMS = Math.Sqrt(RMS_X * RMS_X + RMS_Y * RMS_Y);
+
+        }
+
+        public string GetLastNValuesSt(int N)
         {
             string st = "";
             foreach (Tuple<double, double> el in ErrorsList.Skip(Math.Max(0, ErrorsList.Count() - N)))
@@ -117,8 +123,34 @@ namespace ObservatoryCenter
             return st;
         }
 
-    }
+        public void Reset()
+        {
+            ErrorsList.Clear();
 
+            SUM_XX = 0; NUMX = 0;
+            SUM_YY = 0; NUMY = 0;
+            RMS_X = 0;
+            RMS_Y = 0;
+            RMS = 0;
+
+            LastRAError = 0;
+            LastDecError = 0;
+        }
+
+        public void Copy(GuidingStats SourceObj)
+        {
+            //1.Reset
+            this.Reset();
+            //2.Copy values
+            foreach (Tuple<double, double> PairXY in SourceObj.ErrorsList)
+            {
+                this.Add(PairXY.Item1, PairXY.Item2);
+            }
+            //3. Calculate parameters
+            this.CalculateRMS();
+        }
+
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -136,6 +168,13 @@ namespace ObservatoryCenter
         public PHDState currentState = PHDState.Unknown;
 
         public bool EquipmentConnected = false;
+
+        // Guide stats
+        public GuidingStats curImageGuidingStats;   //Текущее изображение
+        public GuidingStats prevImageGuidingStats;  //Предыдущее изображение
+        public DateTime LastGuidingStatResetTime = new DateTime(2015, 1, 1, 0, 0, 1); //Момент последнего сброса статистики
+
+
         // Threads
         private Thread CheckPHDStatusThread;
         private ThreadStart CheckPHDStatusThread_startref;
@@ -146,7 +185,10 @@ namespace ObservatoryCenter
         public string LastCommand_Message="";
 
         public PHD_ExternatApplication() : base()
-        { }
+        {
+            curImageGuidingStats = new GuidingStats();
+            prevImageGuidingStats = new GuidingStats();
+        }
 
 
         /// <summary>
@@ -288,7 +330,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Run this method to check if there are incoming PHD messages and parse them
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true if new events</returns>
         public bool CheckProgramEvents()
         {
             bool res = false;
@@ -552,6 +594,9 @@ namespace ObservatoryCenter
                 var json = new JavaScriptSerializer().Deserialize<Dictionary<string, dynamic>>(jsonstring);
                 LastRAError = (double)json["RADistanceRaw"];
                 LastDecError = (double)json["DECDistanceRaw"];
+
+                curImageGuidingStats.Add(LastRAError, LastDecError); //Сохраним для статистики
+
                 Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
                 resparsedflag = true;
             }

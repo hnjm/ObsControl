@@ -16,7 +16,7 @@ using ASCOM.Utilities;
 using MaxIm;
 
 using LoggingLib;
-
+using IQPEngineLib;
 
 namespace ObservatoryCenter
 {
@@ -53,6 +53,13 @@ namespace ObservatoryCenter
         internal ObservatoryControls_boltwood Boltwood;
 
         /// <summary>
+        /// IQP Object
+        /// </summary>
+        public IQPEngine IQPEngine;
+
+
+
+        /// <summary>
         /// Conctructor
         /// </summary>
         public ObservatoryControls(MainForm MF)
@@ -67,6 +74,8 @@ namespace ObservatoryCenter
             ASCOMDome = new ObservatoryControls_ASCOMDome(ASCOMSwitch);
 
             Boltwood = new ObservatoryControls_boltwood();
+
+            IQPEngine = new IQPEngine(new IQPEngine.CallBackFunction(ParentMainForm.IQP_PublishFITSData)); //with callbackfunction
 
             //for debug
             //SWITCH_DRIVER_NAME = "SwitchSim.Switch";

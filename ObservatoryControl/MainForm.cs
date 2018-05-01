@@ -20,6 +20,7 @@ using System.Xml;
 using System.Windows.Forms.DataVisualization.Charting;
 
 using LoggingLib;
+using IQPEngineLib;
 
 public enum FormAppearanceMode { MODE_SHORT, MODE_MAX };
 
@@ -112,6 +113,8 @@ namespace ObservatoryCenter
 
             //Load parameters
             LoadParams();
+            //Update interface for current Settings values 
+            IQP_UpdateSettingsDialogFields();
 
 
             //Init programs objects using loaded settings
@@ -217,11 +220,17 @@ namespace ObservatoryCenter
         {
             Properties.Settings.Default.Save(); // Commit changes
 
+            //Stop current processing activity
+            ObsControl.IQPEngine.MonitorObj.AbortThread();
+
             try
             {
                 SocketServer.Dispose();
             }
             catch { };
+
+            Logging.AddLog("Program exit");
+            Logging.DumpToFile();
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,6 +310,24 @@ namespace ObservatoryCenter
             //update AstroTortilla solver status
             UpdateSolverFileds();
 
+            //IQP Quant
+            if (IQP_monitorTimer)
+            { 
+                //Update statistics
+                IQP_UpdateStatistics();
+                //Give time quants to objects
+                if (!IQP_AlreadyRunning)
+                {
+                    IQP_AlreadyRunning = true;
+                    //1. Give some time to MonitorObj
+                    List<string> dirList = cmbIQPMonitorPath.Items.Cast<String>().ToList();
+                    ObsControl.IQPEngine.MonitorObj.CheckForNewFiles_async(dirList);
+                    //2. Give some time to FileQueQue processing
+                    ObsControl.IQPEngine.ProcessingObj.ProcessAll_async();
+                    IQP_AlreadyRunning = false;
+                }
+            }
+
         }
 
         /// <summary>
@@ -358,7 +385,7 @@ namespace ObservatoryCenter
             chkRun.Checked = false;
             chkRun.BackColor = DefBackColor;
 
-            btnStartAll.BackColor = DefBackColor;
+            btnStartAll.BackColor = OnColor; //мне больше нравится когда она green
         }
 
 
@@ -384,8 +411,12 @@ namespace ObservatoryCenter
         public void LoadParams()
         {
             Logging.AddLog("Loading saved parameters", LogLevel.Trace);
+
+            IQP_LoadParamsFromConfigFile();
+
             try
             {
+
                 ObsControl.ASCOMDome.DRIVER_NAME = Properties.Settings.Default.DomeDriverId;
                 ObsControl.ASCOMTelescope.DRIVER_NAME = Properties.Settings.Default.TelescopeDriverId;
                 ObsControl.ASCOMSwitch.DRIVER_NAME = Properties.Settings.Default.SwitchDriverId;
@@ -706,9 +737,6 @@ namespace ObservatoryCenter
             //
             MessageBox.Show("Not implemented");
         }
-
-
-
         #endregion
 
         /// <summary>

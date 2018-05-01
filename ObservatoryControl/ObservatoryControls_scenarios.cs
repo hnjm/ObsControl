@@ -78,10 +78,13 @@ namespace ObservatoryCenter
             //CCDC
             CommandParser.Commands.Add("CCDC_RUN", new Command((a) => this.startCCDC(), "Run CCDCommander"));
 
-            //PHS2 related commands
+            //PHD2 related commands
             CommandParser.Commands.Add("PHD2_RUN", new Command((a) => this.startPHD2(), "Run PHD2"));
             CommandParser.Commands.Add("PHD2_CONNECT", new Command((a) => this.objPHD2App.CMD_ConnectEquipment2(), "Connect equipment in PHD2"));
             CommandParser.Commands.Add("PHDBROKER_RUN", new Command((a) => this.startPHDBroker(), "Run PHD Broker"));
+
+            //IQP commands
+            CommandParser.Commands.Add("IQP_STARTMONITORING", new Command((a) => this.startWS(), "Start built-in IQP monitoring"));
 
             //WS commands
             CommandParser.Commands.Add("WS_RUN", new Command((a) => this.startWS(), "Run WeatherStation monitor"));
@@ -284,7 +287,8 @@ namespace ObservatoryCenter
         }
 
 
-        public void StartUpObservatory()
+        //called from async method
+        private void StartUpObservatory_wrapper()
         {
             Logging.AddLog("StartUp routine initiatied", LogLevel.Activity);
 
@@ -298,7 +302,7 @@ namespace ObservatoryCenter
 
         public void StartUpObservatory_async()
         {
-            ThreadStart RunThreadRef = new ThreadStart(StartUpObservatory);
+            ThreadStart RunThreadRef = new ThreadStart(StartUpObservatory_wrapper);
             Thread childThread = new Thread(RunThreadRef);
             childThread.Start();
             Logging.AddLog("Command 'Prepare run' was initiated", LogLevel.Activity);
@@ -327,6 +331,11 @@ namespace ObservatoryCenter
             return pauseLength.ToString();
         }
 
+        /// <summary>
+        /// Switch weater to BAD
+        /// CCDC will abort imaging run and park
+        /// </summary>
+        /// <returns></returns>
         public string ImagingRun_Pause()
         {
             Logging.AddLog("Imaging run paused", LogLevel.Activity);
@@ -355,10 +364,13 @@ namespace ObservatoryCenter
         {
             Logging.AddLog("Imaging run abortion started", LogLevel.Activity);
 
+            //CCDC will park
             ImagingRun_Pause();
 
+            //Camera warmup
             CommandParser.ParseSingleCommand2("CAMERA_WARMPUP");
 
+            //Wait and check if parked. If not - force parking
             if (objCCDCApp.IsRunning())
             {
                 Thread.Sleep(20000); //wait
