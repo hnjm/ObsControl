@@ -263,7 +263,8 @@ namespace ObservatoryCenter
             UpdateSettingsTabStatusFileds(); // Checked for not quering device / program
 
             UpdateApplicationsRunningStatus();// Checked for not quering device / program
-                       
+
+            UpdateIQPStatus();// Checked for not quering device / program
 
             UpdatePHDstate();// Checked for not quering device / program
 

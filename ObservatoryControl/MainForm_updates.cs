@@ -616,13 +616,13 @@ namespace ObservatoryCenter
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #endregion *** update visual elements *************************************************************************************************************
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // end of block
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// end of block
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region *** Update PHD and CCDAP data *****************************************************************
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#region *** Update PHD and CCDAP data *****************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //LastGuideDataUpdated
         double LastGuideTimestamp = 0.0;
@@ -907,282 +907,294 @@ namespace ObservatoryCenter
         // end of block
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        private void UpdateIQPStatus()
+        {
+            if (IQP_monitorTimer)
+            {
+                btnIQPStart.Text = "IQP:Stop";
+                btnIQPStart.BackColor = OnColor;
+            }
+            else
+            {
+                btnIQPStart.Text = "IQP:Start";
+                btnIQPStart.BackColor = DefBackColor;
+            }
+        }
 
 
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region *** Update Weather And TelescopeTempControl Data *****************************************************************
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private bool HadWeatherData = false; //was at least once data received?
-        /// <summary>
-        /// Update weather state
-        /// </summary>
-        private void UpdateWeatherData()
-        {
+    /// <summary>
+    /// Update weather state
+    /// </summary>
+    private void UpdateWeatherData()
+    {
 
-        double Temp = -100;
-        double Cloud = -100;
-        double RGC = -1;
-        double Wet = 0;
+    double Temp = -100;
+    double Cloud = -100;
+    double RGC = -1;
+    double Wet = 0;
+    DateTime XVal;
+
+    DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
+
+    //Read weather station value
+    if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
+    {
+        if (!HadWeatherData)
+        {
+            Logging.AddLog("Weather Station connected", LogLevel.Activity);
+        }
+        HadWeatherData = true; //flag, that at least one value was received
+
+        //Display small widget
+        Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
+        Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
+        XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
+        RGC = ObsControl.objWSApp.BoltwoodState.RGCVal;
+        Wet = ObsControl.objWSApp.BoltwoodState.WetSensorVal;
+
+
+        //draw value
+        if (Temp > -100)
+        {
+            weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+        }
+        else
+        {
+            weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
+        }
+        if (Cloud > -100)
+        {
+            weatherSmallChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+        }
+        else
+        {
+            weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
+        }
+
+        txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
+
+        //Data in small widget
+        txtTemp.Text = Temp.ToString();
+        txtCloudState.Text = Cloud.ToString();
+
+
+        //Display large widget
+        //draw value
+        if (Temp > -100)
+        {
+            chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+        }
+        else
+        {
+            chartWT.Series["Temp"].Points.Add(EmptyP);
+        }
+        if (Cloud > -100)
+        {
+            chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+        }
+        else
+        {
+            chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+        }
+        if (RGC >= 0)
+        {
+            chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
+        }
+        else
+        {
+            chartWT.Series["RGC"].Points.Add(EmptyP);
+        }
+        if (Wet > 0)
+        {
+            chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), 1024 - Wet);
+        }
+        else
+        {
+            chartWT.Series["Wet"].Points.Add(EmptyP);
+        }
+
+        //Data in large widget
+        txtWTTemp.Text = Temp.ToString();
+        txtWTCloudIdx.Text = Cloud.ToString();
+        txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
+        txtWTPreassure.Text = ObsControl.objWSApp.BoltwoodState.Preassure.ToString();
+        txtWTRGC.Text = RGC.ToString();
+        txtWTWet.Text = Wet.ToString();
+
+    }
+    else if (HadWeatherData)
+    {
+
+        weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
+        weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
+
+        chartWT.Series["Temp"].Points.Add(EmptyP);
+        chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+        chartWT.Series["RGC"].Points.Add(EmptyP);
+        chartWT.Series["Wet"].Points.Add(EmptyP);
+
+        //Data in small widget
+        txtTemp.Text = String.Empty;
+        txtCloudState.Text = String.Empty;
+        //Data in large widget
+        txtWTTemp.Text = String.Empty;
+        txtWTCloudIdx.Text = String.Empty;
+        txtWTCaseTemp.Text = String.Empty;
+        txtWTPreassure.Text = String.Empty;
+        txtWTRGC.Text = String.Empty;
+        txtWTWet.Text = String.Empty;
+    }
+
+    }
+
+    private bool HadTTCData = false; //was at least once data received?
+
+
+    /// <summary>
+    /// Update TelecopeTempControl state
+    /// </summary>
+    private void UpdateTelescopeTempControlData()
+    {
+
         DateTime XVal;
 
         DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
 
-        //Read weather station value
-        if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
+        //Read TTC value
+        if (ObsControl.objTTCApp.IsRunning() && ObsControl.objTTCApp.CMD_GetJSONData())
+        //If there is a fresh data 
         {
-            if (!HadWeatherData)
+            if (!HadTTCData)
             {
-                Logging.AddLog("Weather Station connected", LogLevel.Activity);
+                Logging.AddLog("TelescopeTempControl connected", LogLevel.Activity);
             }
-            HadWeatherData = true; //flag, that at least one value was received
-
-            //Display small widget
-            Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
-            Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
-            XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
-            RGC = ObsControl.objWSApp.BoltwoodState.RGCVal;
-            Wet = ObsControl.objWSApp.BoltwoodState.WetSensorVal;
-
-
-            //draw value
-            if (Temp > -100)
-            {
-                weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-            }
-            else
-            {
-                weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
-            }
-            if (Cloud > -100)
-            {
-                weatherSmallChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
-            }
-            else
-            {
-                weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
-            }
-
-            txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
+            HadTTCData = true; //flag, that at least one value was received
 
             //Data in small widget
-            txtTemp.Text = Temp.ToString();
-            txtCloudState.Text = Cloud.ToString();
-
-
-            //Display large widget
-            //draw value
-            if (Temp > -100)
+            txtTTC_W_MainDelta.Text = (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main >= 0 ? "+" : "") + Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main, 1));
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_FanSpeed)
             {
-                chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                txtTTC_W_MainDelta.BackColor = OnColor;
             }
             else
             {
-                chartWT.Series["Temp"].Points.Add(EmptyP);
+                txtTTC_W_MainDelta.BackColor=SystemColors.Control;
             }
-            if (Cloud > -100)
-            {
-                chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
-            }
-            else
-            {
-                chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-            }
-            if (RGC >= 0)
-            {
-                chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
-            }
-            else
-            {
-                chartWT.Series["RGC"].Points.Add(EmptyP);
-            }
-            if (Wet > 0)
-            {
-                chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), 1024 - Wet);
-            }
-            else
-            {
-                chartWT.Series["Wet"].Points.Add(EmptyP);
-            }
-
-            //Data in large widget
-            txtWTTemp.Text = Temp.ToString();
-            txtWTCloudIdx.Text = Cloud.ToString();
-            txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
-            txtWTPreassure.Text = ObsControl.objWSApp.BoltwoodState.Preassure.ToString();
-            txtWTRGC.Text = RGC.ToString();
-            txtWTWet.Text = Wet.ToString();
-
-        }
-        else if (HadWeatherData)
-        {
-
-            weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
-            weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
-
-            chartWT.Series["Temp"].Points.Add(EmptyP);
-            chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-            chartWT.Series["RGC"].Points.Add(EmptyP);
-            chartWT.Series["Wet"].Points.Add(EmptyP);
-
-            //Data in small widget
-            txtTemp.Text = String.Empty;
-            txtCloudState.Text = String.Empty;
-            //Data in large widget
-            txtWTTemp.Text = String.Empty;
-            txtWTCloudIdx.Text = String.Empty;
-            txtWTCaseTemp.Text = String.Empty;
-            txtWTPreassure.Text = String.Empty;
-            txtWTRGC.Text = String.Empty;
-            txtWTWet.Text = String.Empty;
-        }
-
-        }
-
-        private bool HadTTCData = false; //was at least once data received?
-
-
-        /// <summary>
-        /// Update TelecopeTempControl state
-        /// </summary>
-        private void UpdateTelescopeTempControlData()
-        {
-
-            DateTime XVal;
-
-            DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
-
-            //Read TTC value
-            if (ObsControl.objTTCApp.IsRunning() && ObsControl.objTTCApp.CMD_GetJSONData())
-            //If there is a fresh data 
-            {
-                if (!HadTTCData)
-                {
-                    Logging.AddLog("TelescopeTempControl connected", LogLevel.Activity);
-                }
-                HadTTCData = true; //flag, that at least one value was received
-
-                //Data in small widget
-                txtTTC_W_MainDelta.Text = (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main >= 0 ? "+" : "") + Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main, 1));
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_FanSpeed)
-                {
-                    txtTTC_W_MainDelta.BackColor = OnColor;
-                }
-                else
-                {
-                    txtTTC_W_MainDelta.BackColor=SystemColors.Control;
-                }
                 
-                txtTTC_W_SecondDelta.Text = (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary >= 0 ? "+" : "") + Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary, 1));
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_Heater)
-                {
-                    txtTTC_W_SecondDelta.BackColor = OnColor;
-                }
-                else
-                {
-                    txtTTC_W_SecondDelta.BackColor = SystemColors.Control;
-                }
-
-
-
-                txtTTC_W_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
-                txtTTC_W_Heater.Text = Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower, 0))+"%"; 
-
-                //Graphics
-                XVal = ObsControl.objTTCApp.TelescopeTempControl_State.LastTimeDataParsed;
-                //draw value
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main > -100)
-                {
-                    chartTTC.Series["MainDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main);
-                }
-                else
-                {
-                    chartTTC.Series["MainDelta"].Points.Add(EmptyP);
-                }
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM >= 0)
-                {
-                    chartTTC.Series["FanRPM"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM);
-                }
-                else
-                {
-                    chartTTC.Series["FanRPM"].Points.Add(EmptyP);
-                }
-
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary > -100)
-                {
-                    chartTTC.Series["SecondDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary);
-                }
-                else
-                {
-                    chartTTC.Series["SecondDelta"].Points.Add(EmptyP);
-                }
-                if (ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower >= 0)
-                {
-                    chartTTC.Series["Heater"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower);
-                }
-                else
-                {
-                    chartTTC.Series["Heater"].Points.Add(EmptyP);
-                }
-
-                //Display temp in Weather widget if no weather station detected
-                if (!ObsControl.objWSApp.IsRunning())
-                {
-                    double TempTTC = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
-                    txtTemp.Text = TempTTC.ToString();
-                    //draw value
-                    if (TempTTC > -100)
-                    {
-                        weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), TempTTC);
-                    }
-                    else
-                    {
-                        weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
-                    }
-                }
-
-
-                //Data in large widget
-                txtTTC_Temp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Temp.ToString();
-                txtTTC_Hum.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Humidity.ToString();
-
-                txtTTC_MainMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.MainMirrorTemp.ToString();
-                txtTTC_SecondMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp.ToString();
-
-                txtTTC_MainMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
-                txtTTC_SecondMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
-
-                txtTTC_FanPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_FPWM.ToString();
-                txtTTC_HeaterPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
-                txtTTC_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
+            txtTTC_W_SecondDelta.Text = (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary >= 0 ? "+" : "") + Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary, 1));
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.AutoControl_Heater)
+            {
+                txtTTC_W_SecondDelta.BackColor = OnColor;
             }
-            else if (HadTTCData)
-            //If there is NO fresh data 
+            else
+            {
+                txtTTC_W_SecondDelta.BackColor = SystemColors.Control;
+            }
+
+
+
+            txtTTC_W_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
+            txtTTC_W_Heater.Text = Convert.ToString(Math.Round(ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower, 0))+"%"; 
+
+            //Graphics
+            XVal = ObsControl.objTTCApp.TelescopeTempControl_State.LastTimeDataParsed;
+            //draw value
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main > -100)
+            {
+                chartTTC.Series["MainDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main);
+            }
+            else
             {
                 chartTTC.Series["MainDelta"].Points.Add(EmptyP);
+            }
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM >= 0)
+            {
+                chartTTC.Series["FanRPM"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM);
+            }
+            else
+            {
                 chartTTC.Series["FanRPM"].Points.Add(EmptyP);
-                chartTTC.Series["SecondDelta"].Points.Add(EmptyP);
-                chartTTC.Series["Heater"].Points.Add(EmptyP);
-
-                //Data in small widget
-
-                //Data in large widget
-                txtTTC_Temp.Text = String.Empty;
-                txtTTC_Hum.Text = String.Empty;
-
-                txtTTC_MainMirrorTemp.Text = String.Empty;
-                txtTTC_SecondMirrorTemp.Text = String.Empty;
-
-                txtTTC_MainMirrorDelta.Text = String.Empty;
-                txtTTC_SecondMirrorDelta.Text = String.Empty;
-
-                txtTTC_FanPower.Text = String.Empty;
-                txtTTC_HeaterPower.Text = String.Empty;
-                txtTTC_FanRPM.Text = String.Empty;
             }
 
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary > -100)
+            {
+                chartTTC.Series["SecondDelta"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary);
+            }
+            else
+            {
+                chartTTC.Series["SecondDelta"].Points.Add(EmptyP);
+            }
+            if (ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower >= 0)
+            {
+                chartTTC.Series["Heater"].Points.AddXY(XVal.ToOADate(), ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower);
+            }
+            else
+            {
+                chartTTC.Series["Heater"].Points.Add(EmptyP);
+            }
+
+            //Display temp in Weather widget if no weather station detected
+            if (!ObsControl.objWSApp.IsRunning())
+            {
+                double TempTTC = ObsControl.objTTCApp.TelescopeTempControl_State.Temp;
+                txtTemp.Text = TempTTC.ToString();
+                //draw value
+                if (TempTTC > -100)
+                {
+                    weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), TempTTC);
+                }
+                else
+                {
+                    weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
+                }
+            }
+
+
+            //Data in large widget
+            txtTTC_Temp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Temp.ToString();
+            txtTTC_Hum.Text = ObsControl.objTTCApp.TelescopeTempControl_State.Humidity.ToString();
+
+            txtTTC_MainMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.MainMirrorTemp.ToString();
+            txtTTC_SecondMirrorTemp.Text = ObsControl.objTTCApp.TelescopeTempControl_State.SecondMirrorTemp.ToString();
+
+            txtTTC_MainMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Main.ToString();
+            txtTTC_SecondMirrorDelta.Text = ObsControl.objTTCApp.TelescopeTempControl_State.DeltaTemp_Secondary.ToString();
+
+            txtTTC_FanPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_FPWM.ToString();
+            txtTTC_HeaterPower.Text = ObsControl.objTTCApp.TelescopeTempControl_State.HeaterPower.ToString();
+            txtTTC_FanRPM.Text = ObsControl.objTTCApp.TelescopeTempControl_State.FAN_RPM.ToString();
         }
+        else if (HadTTCData)
+        //If there is NO fresh data 
+        {
+            chartTTC.Series["MainDelta"].Points.Add(EmptyP);
+            chartTTC.Series["FanRPM"].Points.Add(EmptyP);
+            chartTTC.Series["SecondDelta"].Points.Add(EmptyP);
+            chartTTC.Series["Heater"].Points.Add(EmptyP);
+
+            //Data in small widget
+
+            //Data in large widget
+            txtTTC_Temp.Text = String.Empty;
+            txtTTC_Hum.Text = String.Empty;
+
+            txtTTC_MainMirrorTemp.Text = String.Empty;
+            txtTTC_SecondMirrorTemp.Text = String.Empty;
+
+            txtTTC_MainMirrorDelta.Text = String.Empty;
+            txtTTC_SecondMirrorDelta.Text = String.Empty;
+
+            txtTTC_FanPower.Text = String.Empty;
+            txtTTC_HeaterPower.Text = String.Empty;
+            txtTTC_FanRPM.Text = String.Empty;
+        }
+
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion *** Update Weather And TelescopeTempControl Data *****************************************************************
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

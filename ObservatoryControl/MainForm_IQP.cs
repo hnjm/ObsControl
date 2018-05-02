@@ -24,6 +24,9 @@ namespace ObservatoryCenter
         private uint IQP_statImagesFound = 0;
         private uint IQP_statImagesWaiting = 0;
 
+        private double curFWHM = 0.0;
+        private double prevFWHM = 0.0;
+
         //flag to block concurent timer run
         private bool IQP_AlreadyRunning = false;
 
@@ -32,7 +35,7 @@ namespace ObservatoryCenter
         public List<string> IQP_FileMonitorPath = new List<string>();
 
         //monitorTimer
-        private bool IQP_monitorTimer = false;
+        public bool IQP_monitorTimer = false;
 
         public void IQP_PublishFITSData(FileParseResult FileResObj)
         {
@@ -54,11 +57,18 @@ namespace ObservatoryCenter
             DateTime DateObsUTC = DateTime.SpecifyKind(FileResObj.HeaderData.DateObsUTC, DateTimeKind.Utc); //set it to UTC
             dataGridFileData.Rows[curRowIndex].Cells["dataGridData_DateTime"].Value = DateObsUTC.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
 
-            dataGridFileData.Rows[curRowIndex].Cells["dataGridData_FWHM"].Value = FileResObj.FWHM.ToString("N2", CultureInfo.InvariantCulture);
+            prevFWHM = curFWHM;
+            curFWHM = FileResObj.FWHM;
+            dataGridFileData.Rows[curRowIndex].Cells["dataGridData_FWHM"].Value = curFWHM.ToString("N2", CultureInfo.InvariantCulture);
 
             IQP_statImagesProcessed++;
 
             IQP_UpdateStatistics(); // on every invoke
+
+            //publish to short form
+            txtShort_IQP_LastFWHM.Text = curFWHM.ToString("N2", CultureInfo.InvariantCulture);
+            txtShort_IQPtrend.Text = (prevFWHM - curFWHM).ToString("N2", CultureInfo.InvariantCulture);
+
         }
 
         private void IQP_UpdateStatistics()
@@ -150,17 +160,24 @@ namespace ObservatoryCenter
                 //end monitor thread
                 ObsControl.IQPEngine.MonitorObj.AbortThread();
 
-                btnIQPStart.Text = "IQP:Start";
-                btnIQPStart.BackColor = DefBackColor;
                 Logging.AddLog("IQP: Montoring has been stoped", LogLevel.Activity);
             }
             else
             {
-                IQP_monitorTimer = true;
-                btnIQPStart.Text = "IQP:Stop";
-                btnIQPStart.BackColor = OnColor;
-                Logging.AddLog("IQP: Starting monitoring...", LogLevel.Activity);
+                IQPStart();
             }
+        }
+
+        private void chkShort_IQP_Click(object sender, EventArgs e)
+        {
+            btnIQPStart_Click(sender, e);
+        }
+
+
+        public void IQPStart()
+        {
+            IQP_monitorTimer = true;
+            Logging.AddLog("IQP: Starting monitoring...", LogLevel.Activity);
         }
 
         private void btnRecheck_Click(object sender, EventArgs e)

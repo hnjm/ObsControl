@@ -249,7 +249,8 @@ namespace ObservatoryCenter
                 {
                     txtShortAz.BackColor = InterColor;
                     txtShortAlt.BackColor = InterColor;
-                }else
+                }
+                else
                 {
                     txtShortAz.BackColor = DefBackColorTextBoxes;
                     txtShortAlt.BackColor = DefBackColorTextBoxes;
@@ -263,10 +264,16 @@ namespace ObservatoryCenter
                 txtShortAlt.Text = "";
             }
 
-
-
+            //IQP status
+            if (IQP_monitorTimer)
+            {
+                chkShort_IQP.BackColor = OnColor;
+            }
+            else
+            {
+                chkShort_IQP.BackColor = DefBackColor;
+            }
         }
-
 
         // ShortForm interface events
             #region //// ShortForm interface events  //////////////////////////////////////////////////

@@ -178,9 +178,15 @@ namespace ObservatoryCenter
             return objWSApp.ErrorSt;
         }
 
+        public string startIQP()
+        {
+            ParentMainForm.IQPStart();
+            return "IQP started";
+        }
+            
 
         #endregion Program controlling
 
-    }
+        }
 
 }

@@ -84,7 +84,7 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("PHDBROKER_RUN", new Command((a) => this.startPHDBroker(), "Run PHD Broker"));
 
             //IQP commands
-            CommandParser.Commands.Add("IQP_STARTMONITORING", new Command((a) => this.startWS(), "Start built-in IQP monitoring"));
+            CommandParser.Commands.Add("IQP_START", new Command((a) => this.startIQP(), "Start built-in IQP monitoring"));
 
             //WS commands
             CommandParser.Commands.Add("WS_RUN", new Command((a) => this.startWS(), "Run WeatherStation monitor"));
