@@ -13,11 +13,9 @@
     <ASTROTORTILLA_AUTOIT value="c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe" />
     <WS value="c:\Users\Emchenko\Desktop\WeatherStation Monitor autostart.lnk" />
     <TTC value="c:\Users\Emchenko\Desktop\TempControl autostart.lnk" />
-
     <CCDC value="c:\CCD Commander\CCDCommander.exe" />
     <CCDC_Logs value="c:\CCD Commander\Logs" />
     <CCDC_Actions value="c:\CCD Commander\Actions" />
-
 </programsPath>
 
  <!-- For compatability -->
@@ -37,26 +35,43 @@ RUN:
  -->
 <scenarioMain>
     <POWER_ON type="command" run="true" />
-    <PHD2_RUN type="command" run="false" />
-    <PHD2_CONNECT type="command" run="false" />
-    <PHDBROKER_RUN type="command" run="false" />
+    <PHD2_RUN type="command" run="True" />
     <MAXIM_RUN type="command" run="true" />
-    <WAIT argument="2000" />
+    <WAIT argument="7000" run="true" type="command" />
     <MAXIM_CAMERA_CONNECT type="command" run="true" />
-    <WAIT argument="2000" />
-    <MAXIM_CAMERA_SETCOOLING type="command" run="true" />
-    <MAXIM_FOCUSER_CONNECT type="command" run="false" />
+    <WAIT argument="7000" run="true" type="command" />
+    <MAXIM_CAMERA_SETCOOLING type="command" run="True" />
+    <MAXIM_FOCUSER_CONNECT type="command" run="True" />
     <MAXIM_TELESCOPE_CONNECT type="command" run="true" />
-    <WAIT argument="2000" />
+    <WAIT argument="7000" run="true" type="command" />
+    <PHD2_CONNECT type="command" run="True" />
+    <PHDBROKER_RUN type="command" run="True" />
     <FOCUSMAX_RUN type="command" run="true" />
     <CdC_RUN type="command" run="true" />
-    <CCDC_RUN type="command" run="true" />
     <OBS_TELESCOPE_CONNECT type="command" run="true" />
-    <WAIT argument="2000" />
+    <TTC_RUN type="command" run="False" />
+    <WAIT argument="7000" run="true" type="command" />
+    <TTC_FANAUTO_ON type="command" run="False" />
+    <TTC_HEATERAUTO_ON type="command" run="False" />
+    <CCDC_RUN type="command" run="true" />
+    <WAIT argument="7000" run="true" type="command" />
     <CdC_TELESCOPE_CONNECT type="command" run="true" />
-	<TTC_RUN type="command" run="true" />
-	<TTC_FANAUTO_ON type="command" run="true" />
-	<TTC_HEATERAUTO_ON type="command" run="true" />
+    <IQP_START type="command" run="true" />
 </scenarioMain>
+<publishURL>
+</publishURL>
+<IQP_options>
+	<DSS_PATH value="C:\Program Files (x86)\DeepSkyStacker\DeepSkyStackerCL.exe" />
+	<PUBLISHTOGROUP value="True" />
+	<PUBLISHTOPRIVATE value="True" />
+	<ScanSubDirs value="False" />
+	<extensionsToSearch value="*.fit*" />
+	<checkThreads_max value="1" />
+	<checkDirIMS value="True" />
+	<alwaysRebuildDSSInfoFile value="False" />
+	<RunDSSHidden value="True" />
+	<autoDeleteDSSInfoFile value="True" />
+	<publishLightFramesOnly value="True" />
+</IQP_options>
 
 </configuration>

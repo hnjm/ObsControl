@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObservatoryCenter", "ObservatoryControl\ObservatoryCenter.csproj", "{D60368F3-AD27-459E-BBF8-07944FB4BE5D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F17582A-8F09-46CB-8018-B07C83182421}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{4F17582A-8F09-46CB-8018-B07C83182421}"
 	ProjectSection(SolutionItems) = preProject
 		ObservatoryControl\astrotortilla_solve_12.au3 = ObservatoryControl\astrotortilla_solve_12.au3
 	EndProjectSection
@@ -50,6 +50,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5EAF0786-5DCB-49F9-85A2-2F8165BEDB58} = {4F17582A-8F09-46CB-8018-B07C83182421}
+		{F41E9717-E4AC-482B-B381-DEAD5A092FA8} = {4F17582A-8F09-46CB-8018-B07C83182421}
 		{8BB03DCE-91F3-4EBC-879C-B7ECC0642D60} = {4F17582A-8F09-46CB-8018-B07C83182421}
 		{31E056EE-0C45-46EA-B20B-FC0B7C3A5292} = {4F17582A-8F09-46CB-8018-B07C83182421}
 	EndGlobalSection
