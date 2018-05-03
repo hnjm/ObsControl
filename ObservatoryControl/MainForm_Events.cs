@@ -339,45 +339,6 @@ namespace ObservatoryCenter
 
 
 
-        // Guiding interface events 
-        #region //// Guiding interface events  //////////////////////////////////////////////////
-        private void btnClearGuidingStat_Click(object sender, EventArgs e)
-        {
-            txtGuiderErrorPHD.Text = "";
-            ObsControl.objPHD2App.curImageGuidingStats.Reset();
-
-            chart1.Series["SeriesGuideError"].Points.Clear();
-            chart1.Series["SeriesGuideErrorOutOfScale"].Points.Clear();
-
-            txtRMS_X.Text = "";
-            txtRMS_Y.Text = "";
-            txtRMS.Text = "";
-
-        }
-
-
-        private void btnGuiderConnect_Click(object sender, EventArgs e)
-        {
-            if (ObsControl.objPHD2App.IsRunning())
-            {
-                ObsControl.objPHD2App.CMD_ConnectEquipment(); //connect equipment
-            }
-        }
-
-        private void btnGuide_Click(object sender, EventArgs e)
-        {
-            if (ObsControl.objPHD2App.IsRunning())
-            {
-                ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_GetPixelScale(); //connect equipment
-                Thread.Sleep(100);
-                ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_StartGuiding(); //start  quiding
-            }
-        }
-        #endregion // Guiding interface events ////////////////////////////////////////////////
-        // End of Guiding interface events 
-
-
-
 
         // Telescope interface events 
         #region //// Telescope interface events  //////////////////////////////////////////////////
@@ -400,8 +361,6 @@ namespace ObservatoryCenter
         }
         #endregion // Telescope interface events ////////////////////////////////////////////////
         // End of Telescope interface events 
-
-
 
 
 

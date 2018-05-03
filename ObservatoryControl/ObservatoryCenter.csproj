@@ -31,8 +31,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>90</ApplicationRevision>
-    <ApplicationVersion>1.3.1.%2a</ApplicationVersion>
+    <ApplicationRevision>91</ApplicationRevision>
+    <ApplicationVersion>1.3.2.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -145,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainForm_IQP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm_Guiding.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\About.cs" />

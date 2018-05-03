@@ -37,6 +37,25 @@ namespace ObservatoryCenter
         //monitorTimer
         public bool IQP_monitorTimer = false;
 
+
+        /// <summary>
+        /// Update visual elements on given time quant
+        /// </summary>
+        private void UpdateIQPStatus()
+        {
+            if (IQP_monitorTimer)
+            {
+                btnIQPStart.Text = "IQP:Stop";
+                btnIQPStart.BackColor = OnColor;
+            }
+            else
+            {
+                btnIQPStart.Text = "IQP:Start";
+                btnIQPStart.BackColor = DefBackColor;
+            }
+        }
+
+
         public void IQP_PublishFITSData(FileParseResult FileResObj)
         {
             this.Invoke(new Action(() => this.IQP_PublishFITSDataInvoke(FileResObj)));
