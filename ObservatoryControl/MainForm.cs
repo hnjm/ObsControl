@@ -83,7 +83,7 @@ namespace ObservatoryCenter
 
             //Name settings
             string ProgDocumentFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ObservatoryControl");
-            ConfigManagement.InitConfig(ProgDocumentFullPath, "ObservatoryControl.config", "ObservatoryControl.defaultconfig.txt");
+            ConfigManagement.InitConfig(ProgDocumentFullPath, "ObservatoryControl.config", "Docs//ObservatoryControl.defaultconfig.txt");
             Logging.InitLogging(ProgDocumentFullPath, "observatory_", false); //set log folder and log file name
             Logging.AddLog("****************************************************************************************", LogLevel.Activity);
             Logging.AddLog("Observatory Center started", LogLevel.Activity);
@@ -738,6 +738,7 @@ namespace ObservatoryCenter
             //
             MessageBox.Show("Not implemented");
         }
+
         #endregion
 
         /// <summary>

@@ -30,6 +30,39 @@ namespace ObservatoryCenter
                 string curstate = ObsControl.objPHD2App.currentState.ToString();
                 txtPHDState.Text = curstate;
 
+                //Short interface color indicator
+                if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
+                {
+                    chkShort_Guiding.BackColor = OnColor;
+                }
+                else if (ObsControl.objPHD2App.currentState == PHDState.Looping
+                            || ObsControl.objPHD2App.currentState == PHDState.Dithered 
+                            || ObsControl.objPHD2App.currentState == PHDState.StarSelected 
+                            || ObsControl.objPHD2App.currentState == PHDState.Calibrating 
+                            || ObsControl.objPHD2App.currentState == PHDState.Looping 
+                            || ObsControl.objPHD2App.currentState == PHDState.Settling 
+                            || ObsControl.objPHD2App.currentState == PHDState.Dithered
+                            )
+                {
+                    /*        
+                    Stopped     = 1,
+                    StarSelected = 2,
+                    Calibrating = 3,
+                    Guiding = 4,
+                    LostLock = 5,
+                    Paused = 6,
+                    Looping = 7,
+                    Settling = 8,
+                    StarLost = 9,
+                    Dithered = 10
+                    */
+                    chkShort_Guiding.BackColor = InterColor;
+                }
+                else
+                {
+                    chkShort_Guiding.BackColor = OffColor;
+                }
+
                 //If guiding now, CHECK IF NEED TO RISE EVENTS
                 if (ObsControl.objPHD2App.currentState == PHDState.Guiding)
                 {
@@ -46,6 +79,7 @@ namespace ObservatoryCenter
                         Guiding_StopRecording();
                     }
                 }
+
 
                 //Check if any pending events
                 if (ObsControl.objPHD2App.CheckProgramEvents())
@@ -97,6 +131,9 @@ namespace ObservatoryCenter
                         txtRMS_Y.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_Y, 2).ToString();
                         txtRMS.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS, 2).ToString();
 
+                        //dispaly in short form
+                        txtShort_curRMS.Text = Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_X, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS_Y, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.curImageGuidingStats.RMS, 2).ToString();
+
                         //Dispaly other stats
                         txtGuideStat_SinceReset.Text = (DateTime.Now - ObsControl.objPHD2App.curImageGuidingStats.StartDataReceiving).TotalSeconds.ToString("N0") + " c";
                         txtGuideStat_CountPoints.Text = ObsControl.objPHD2App.curImageGuidingStats.ErrorsList.Count.ToString();
@@ -106,6 +143,7 @@ namespace ObservatoryCenter
             else
             {
                 txtPHDState.Text = "Not running";
+                chkShort_Guiding.BackColor = DefaultBackColor;
             }
         }
 
@@ -137,6 +175,9 @@ namespace ObservatoryCenter
             txtRMS_X_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_X, 2).ToString();
             txtRMS_Y_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_Y, 2).ToString();
             txtRMS_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS, 2).ToString();
+
+            //dispaly in short form
+            txtShort_prevRMS.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_X, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_Y, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS, 2).ToString();
 
             txtGuiderErrorPHD.AppendText("---end---" + Environment.NewLine);
         }
@@ -173,6 +214,12 @@ namespace ObservatoryCenter
             txtRMS_X.Text = "";
             txtRMS_Y.Text = "";
             txtRMS.Text = "";
+
+        }
+
+
+        private void chkShort_Guiding_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
 

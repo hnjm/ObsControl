@@ -86,7 +86,33 @@ namespace ObservatoryCenter
 
             //publish to short form
             txtShort_IQP_LastFWHM.Text = curFWHM.ToString("N2", CultureInfo.InvariantCulture);
-            txtShort_IQPtrend.Text = (prevFWHM - curFWHM).ToString("N2", CultureInfo.InvariantCulture);
+            txtShort_IQP_LastFWHM.Text = txtShort_IQP_LastFWHM.Text + "(" + ((curFWHM - prevFWHM) > 0 ? "+" : "") + (curFWHM - prevFWHM).ToString("N1", CultureInfo.InvariantCulture)+")";
+            if (curFWHM > 5)
+            {
+                txtShort_IQP_LastFWHM.BackColor = OffColor;
+            }
+            else if (curFWHM > prevFWHM)
+            {
+                txtShort_IQP_LastFWHM.BackColor = InterColor;
+            }
+            else
+            {
+                txtShort_IQP_LastFWHM.BackColor = DefBackColorTextBoxes;
+            }
+
+            txtShort_IQPbg.Text = FileResObj.QualityData.SkyBackground.ToString("P", CultureInfo.InvariantCulture);
+            if (FileResObj.QualityData.SkyBackground > 0.05)
+            {
+                txtShort_IQP_LastFWHM.BackColor = InterColor;
+            }
+            else if (FileResObj.QualityData.SkyBackground > 0.1)
+            {
+                txtShort_IQP_LastFWHM.BackColor = OffColor;
+            }
+            else
+            { 
+                txtShort_IQP_LastFWHM.BackColor = DefBackColorTextBoxes;
+            }
 
         }
 
