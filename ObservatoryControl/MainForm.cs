@@ -713,6 +713,10 @@ namespace ObservatoryCenter
                 ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = true;
             }
         }
+        private void chkShort_Restart_Click(object sender, EventArgs e)
+        {
+            btnReStartCCDC_Click(sender, e);
+        }
 
         private void btnAbortAtEnd_Click(object sender, EventArgs e)
         {
@@ -739,7 +743,9 @@ namespace ObservatoryCenter
             MessageBox.Show("Not implemented");
         }
 
-         #endregion
+
+
+        #endregion
 
         /// <summary>
         /// Separate thread for socket server

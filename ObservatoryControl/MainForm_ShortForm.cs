@@ -268,10 +268,12 @@ namespace ObservatoryCenter
             if (IQP_monitorTimer)
             {
                 chkShort_IQP.BackColor = OnColor;
+                chkShort_IQP.Checked = true;
             }
             else
             {
                 chkShort_IQP.BackColor = DefBackColor;
+                chkShort_IQP.Checked = false;
             }
         }
 

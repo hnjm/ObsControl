@@ -740,13 +740,18 @@ namespace ObservatoryCenter
                     if (ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
                     {
                         btnReStartCCDC.BackColor = InterColor;
+                        chkShort_Restart.BackColor = InterColor;
+                        chkShort_Restart.Checked = true;
+
                         chkPause.BackColor = InterColor;
                     }
                     else
                     {
                         btnReStartCCDC.BackColor = DefBackColor;
-                        if (chkPause.BackColor == InterColor) chkPause.BackColor = DefBackColor;
+                        chkShort_Restart.BackColor = DefBackColor;
+                        chkShort_Restart.Checked = false;
 
+                        if (chkPause.BackColor == InterColor) chkPause.BackColor = DefBackColor;
                     }
                     //Abort after end
                     if (ObsControl.objCCDCApp.Request_AbortAfterStop.RequestActive)

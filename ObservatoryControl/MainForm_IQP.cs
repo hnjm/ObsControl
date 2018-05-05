@@ -47,6 +47,7 @@ namespace ObservatoryCenter
             {
                 btnIQPStart.Text = "IQP:Stop";
                 btnIQPStart.BackColor = OnColor;
+
             }
             else
             {
