@@ -73,5 +73,17 @@ RUN:
 	<autoDeleteDSSInfoFile value="True" />
 	<publishLightFramesOnly value="True" />
 </IQP_options>
+<IQP_filters>
+    <excludedirs value="bad;ифв" />
+    <excludefiles value="---;--+;+--" />
+    <observer value="Boris Emchenko" />
+    <telescop value="" />
+    <instrume value="" />
+    <historycount value="1" />
+    <minstars value="2" />
+    <maxfwhm value="10" />
+    <minaltitude value="19" />
+    <maxbackground value="0,3" />
+</IQP_filters>
 
 </configuration>

@@ -224,7 +224,7 @@ namespace ObservatoryCenter
 
         // Guide stats
         public GuidingStats curImageGuidingStats;   //Текущее изображение
-        public GuidingStats prevImageGuidingStats;  //Предыдущее изображение
+        public List<GuidingStats> prevImageGuidingStats;  //Предыдущее изображение
         public DateTime LastGuidingStatResetTime = new DateTime(2015, 1, 1, 0, 0, 1); //Момент последнего сброса статистики и начала записи
         public DateTime LastGuidingStatSaveTime = new DateTime(2015, 1, 1, 0, 0, 1); //Момент последнего сохранения статистики и конца записи
 
@@ -241,7 +241,7 @@ namespace ObservatoryCenter
         public PHD_ExternatApplication() : base()
         {
             curImageGuidingStats = new GuidingStats();
-            prevImageGuidingStats = new GuidingStats();
+            prevImageGuidingStats = new List<GuidingStats>();
         }
 
 

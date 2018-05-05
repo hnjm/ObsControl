@@ -167,17 +167,48 @@ namespace ObservatoryCenter
 
         private void Guiding_StopRecording()
         {
-            ObsControl.objPHD2App.prevImageGuidingStats.Copy(ObsControl.objPHD2App.curImageGuidingStats);
+            //Add current guiding stats to list
+            GuidingStats saveCurGuidingStats = new GuidingStats();
+            saveCurGuidingStats.Copy(ObsControl.objPHD2App.curImageGuidingStats);
+            ObsControl.objPHD2App.prevImageGuidingStats.Add(saveCurGuidingStats);
+
+            //Reset current stats
             ObsControl.objPHD2App.curImageGuidingStats.Reset();
             ObsControl.objPHD2App.LastGuidingStatSaveTime = DateTime.Now;
 
             //display prev frame RMS
-            txtRMS_X_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_X, 2).ToString();
-            txtRMS_Y_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_Y, 2).ToString();
-            txtRMS_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS, 2).ToString();
+            if (ObsControl.objPHD2App.prevImageGuidingStats.Count > 0)
+            {
+                int j = 0;
+                for (int i = ObsControl.objPHD2App.prevImageGuidingStats.Count-1; i >= 0; i--)
+                {
+                    j++;
+                    if (j==1)
+                    { 
+                        txtRMS_X_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString();
+                        txtRMS_Y_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString();
+                        txtRMS_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
 
-            //dispaly in short form
-            txtShort_prevRMS.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_X, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS_Y, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats.RMS, 2).ToString();
+                        //dispaly in short form
+                        txtShort_prevRMS.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
+
+                    }
+                    else if (j == 2)
+                    {
+                        txtRMS_X_prevframe2.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString();
+                        txtRMS_Y_prevframe2.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString();
+                        txtRMS_prevframe2.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
+                    }
+                    else if (j == 3)
+                    {
+                        txtRMS_X_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString();
+                        txtRMS_Y_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString();
+                        txtRMS_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
+                    }
+
+                }
+            }
+
 
             txtGuiderErrorPHD.AppendText("---end---" + Environment.NewLine);
         }
