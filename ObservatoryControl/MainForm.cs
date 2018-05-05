@@ -739,7 +739,7 @@ namespace ObservatoryCenter
             MessageBox.Show("Not implemented");
         }
 
-        #endregion
+         #endregion
 
         /// <summary>
         /// Separate thread for socket server
