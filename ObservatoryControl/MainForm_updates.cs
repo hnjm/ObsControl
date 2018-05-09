@@ -672,6 +672,19 @@ namespace ObservatoryCenter
 
                         //Pointing
                         txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Short
+                        if (ObsControl.objCCDCApp.LastPointingError > 30)
+                        {
+                            txtShort_PointingError.BackColor = OffColor;
+                        }
+                        else if (ObsControl.objCCDCApp.LastPointingError > 15)
+                        {
+                            txtShort_PointingError.BackColor = InterColor;
+                        }
+                        else
+                        {
+                            txtShort_PointingError.BackColor = DefBackColorTextBoxes;
+                        }
+
                         txtCCDCLog_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //CCDC tab
                         txtPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Telescope panel
 
