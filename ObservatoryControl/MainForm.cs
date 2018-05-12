@@ -120,6 +120,10 @@ namespace ObservatoryCenter
             //Init programs objects using loaded settings
             ObsControl.InitProgramsObj();
 
+            //Load parameters after all objects was initialized
+            LoadOtherParamsFromXML();
+
+
             //Dump log, because interface may hang wating for connection
             Logging.DumpToFile();
 
@@ -219,9 +223,10 @@ namespace ObservatoryCenter
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Properties.Settings.Default.Save(); // Commit changes
+            SaveXMLSettingsToConfigFile();
 
             //Stop current processing activity
-            ObsControl.IQPEngine.MonitorObj.AbortThread();
+            ObsControl.objIQPEngine.MonitorObj.AbortThread();
 
             try
             {
@@ -306,7 +311,7 @@ namespace ObservatoryCenter
             ObsControl.objMaxim.checkCameraTemperatureStatus_async();
 
             //Update weather file
-            ObsControl.Boltwood.WriteFile();
+            ObsControl.objBoltwoodControl.WriteFile();
             
             //update AstroTortilla solver status
             UpdateSolverFileds();
@@ -322,9 +327,9 @@ namespace ObservatoryCenter
                     IQP_AlreadyRunning = true;
                     //1. Give some time to MonitorObj
                     List<string> dirList = cmbIQPMonitorPath.Items.Cast<String>().ToList();
-                    ObsControl.IQPEngine.MonitorObj.CheckForNewFiles_async(dirList);
+                    ObsControl.objIQPEngine.MonitorObj.CheckForNewFiles_async(dirList);
                     //2. Give some time to FileQueQue processing
-                    ObsControl.IQPEngine.ProcessingObj.ProcessAll_async();
+                    ObsControl.objIQPEngine.ProcessingObj.ProcessAll_async();
                     IQP_AlreadyRunning = false;
                 }
             }
@@ -413,7 +418,7 @@ namespace ObservatoryCenter
         {
             Logging.AddLog("Loading saved parameters", LogLevel.Trace);
 
-            IQP_LoadParamsFromConfigFile();
+            IQP_LoadParamsFromXML();
 
             try
             {
@@ -463,8 +468,43 @@ namespace ObservatoryCenter
             Logging.AddLog("Saved parameters loaded", LogLevel.Activity);
         }
 
-
         #endregion /// Settings block ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        #region /// Settings XML block ////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void SaveXMLSettingsToConfigFile()
+        {
+            //1. Update ConfigXML
+            ConfigManagement.UpdateConfigValue("Options", "lastsettemp", ObsControl.objMaxim.CameraSetPoint.ToString());
+
+            //2. Save ConfigXML to disk
+            ConfigManagement.Save();
+
+            //3. Load config from disk
+            ConfigManagement.Load();
+            LoadOtherParamsFromXML();
+        }
+
+        private void LoadOtherParamsFromXML()
+        {
+            try
+            {
+                //Filter settings
+                ObsControl.objMaxim.TargetCameraSetTemp = ConfigManagement.getDouble("Options", "lastsettemp") ?? ObsControl.objMaxim.DefaultCameraSetTemp;
+
+                Logging.AddLog("Program parameters were set according to XML configuration file", LogLevel.Activity);
+            }
+            catch (Exception ex)
+            {
+                Logging.AddLog("Couldn't load XML options" + ex.Message, LogLevel.Important, Highlight.Error);
+                Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Error);
+            }
+        }
+
+
+        #endregion /// Settings XML block ////////////////////////////////////////////////////////////////////////////////////////////////
+
         // End of settings block
 
         // Telescope routines
@@ -742,8 +782,6 @@ namespace ObservatoryCenter
             //
             MessageBox.Show("Not implemented");
         }
-
-
 
         #endregion
 

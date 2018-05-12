@@ -31,11 +31,6 @@ namespace ObservatoryCenter
         //public ASCOM.DriverAccess.Focuser objFocuser = null;
         //public ASCOM.DriverAccess.Camera objCamera = null;
 
-        public double GuiderFocalLen;
-        public double CamPixelSizeX;
-        public double CamPixelSizeY;
-        public double GuidePiexelScale = 1; //value will br received from PHD2
-
         public ASCOM.Utilities.Util ASCOMUtils=new ASCOM.Utilities.Util();
 
         /// <summary>
@@ -50,12 +45,12 @@ namespace ObservatoryCenter
         /// <summary>
         /// Boltwood file generation object
         /// </summary>
-        internal ObservatoryControls_boltwood Boltwood;
+        internal ObservatoryControls_boltwood objBoltwoodControl;
 
         /// <summary>
         /// IQP Object
         /// </summary>
-        public IQPEngine IQPEngine;
+        public IQPEngine objIQPEngine;
 
 
 
@@ -73,9 +68,10 @@ namespace ObservatoryCenter
             ASCOMTelescope = new ObservatoryControls_ASCOMTelescope();
             ASCOMDome = new ObservatoryControls_ASCOMDome(ASCOMSwitch);
 
-            Boltwood = new ObservatoryControls_boltwood();
+            objBoltwoodControl = new ObservatoryControls_boltwood();
 
-            IQPEngine = new IQPEngine(new IQPEngine.CallBackFunction(ParentMainForm.IQP_PublishFITSData)); //with callbackfunction
+            objIQPEngine = new IQPEngine(new IQPEngine.CallBackFunction(ParentMainForm.IQP_PublishFITSData)); //with callbackfunction
+
 
             //for debug
             //SWITCH_DRIVER_NAME = "SwitchSim.Switch";

@@ -120,7 +120,7 @@ namespace ObservatoryCenter
         private void IQP_UpdateStatistics()
         {
             //calc
-            IQP_statImagesWaiting = ObsControl.IQPEngine.ProcessingObj.QuequeLen();
+            IQP_statImagesWaiting = ObsControl.objIQPEngine.ProcessingObj.QuequeLen();
             IQP_statImagesFound = IQP_statImagesProcessed + IQP_statImagesWaiting; //пока так
 
             //status 
@@ -204,7 +204,7 @@ namespace ObservatoryCenter
                 //stop timer
                 IQP_monitorTimer = false;
                 //end monitor thread
-                ObsControl.IQPEngine.MonitorObj.AbortThread();
+                ObsControl.objIQPEngine.MonitorObj.AbortThread();
 
                 Logging.AddLog("IQP: Montoring has been stoped", LogLevel.Activity);
             }
@@ -234,7 +234,7 @@ namespace ObservatoryCenter
 
         private void chkSearchSubdirs_CheckedChanged(object sender, EventArgs e)
         {
-            ObsControl.IQPEngine.MonitorObj.settingsScanSubdirs = chkSearchSubdirs.Checked;
+            ObsControl.objIQPEngine.MonitorObj.settingsScanSubdirs = chkSearchSubdirs.Checked;
         }
 
         /// <summary>
@@ -254,14 +254,14 @@ namespace ObservatoryCenter
         public void IQP_ResetData()
         {
             //Stop current processing activity
-            ObsControl.IQPEngine.MonitorObj.AbortThread();
+            ObsControl.objIQPEngine.MonitorObj.AbortThread();
             //reset already monitored filelist
-            ObsControl.IQPEngine.MonitorObj.ClearFileList();
+            ObsControl.objIQPEngine.MonitorObj.ClearFileList();
             //Clear queque
-            ObsControl.IQPEngine.ProcessingObj.Clear();
+            ObsControl.objIQPEngine.ProcessingObj.Clear();
 
             //Clear IMS data
-            ObsControl.IQPEngine.MonitorObj.ClearDirIMSData();
+            ObsControl.objIQPEngine.MonitorObj.ClearDirIMSData();
 
             //clear Grid block
             dataGridFileData.Rows.Clear();
@@ -274,7 +274,7 @@ namespace ObservatoryCenter
         }
 
 
-        private void IQP_LoadParamsFromConfigFile()
+        private void IQP_LoadParamsFromXML()
         {
             try
             {
@@ -284,41 +284,41 @@ namespace ObservatoryCenter
                     IQP_FileMonitorPath.Add(ConfigManagement.getString("monitorPath", curDirNode));
                 }
 
-                ObsControl.IQPEngine.MonitorObj.settingsScanSubdirs = ConfigManagement.getBool("IQP_options", "ScanSubDirs") ?? false;
+                ObsControl.objIQPEngine.MonitorObj.settingsScanSubdirs = ConfigManagement.getBool("IQP_options", "ScanSubDirs") ?? false;
                 settingsAutoStartMonitoring = ConfigManagement.getBool("IQP_options", "AUTOSTARTMONITORING") ?? false;
-                ObsControl.IQPEngine.ProcessingObj.settingsDSSCLPath = ConfigManagement.getString("IQP_options", "DSS_PATH") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"\DeepSkyStacker\DeepSkyStackerCL.exe");
+                ObsControl.objIQPEngine.ProcessingObj.settingsDSSCLPath = ConfigManagement.getString("IQP_options", "DSS_PATH") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"\DeepSkyStacker\DeepSkyStackerCL.exe");
 
-                ObsControl.IQPEngine.ProcessingObj.settingsPublishToGroup = ConfigManagement.getBool("IQP_options", "PUBLISHTOGROUP") ?? true;
-                ObsControl.IQPEngine.WebPublishObj.SetURL(ConfigManagement.getString("publishURL", "url1") ?? "http://localhost");
-                ObsControl.IQPEngine.WebPublishObj.ServerKey = ConfigManagement.getString("publishURL", "key1") ?? "";
+                ObsControl.objIQPEngine.ProcessingObj.settingsPublishToGroup = ConfigManagement.getBool("IQP_options", "PUBLISHTOGROUP") ?? true;
+                ObsControl.objIQPEngine.WebPublishObj.SetURL(ConfigManagement.getString("publishURL", "url1") ?? "http://localhost");
+                ObsControl.objIQPEngine.WebPublishObj.ServerKey = ConfigManagement.getString("publishURL", "key1") ?? "";
 
-                ObsControl.IQPEngine.ProcessingObj.settingsPublishToPrivate = ConfigManagement.getBool("IQP_options", "PUBLISHTOPRIVATE") ?? true;
-                ObsControl.IQPEngine.WebPublishObj2.SetURL(ConfigManagement.getString("publishURL", "url2") ?? "http://localhost");
-                ObsControl.IQPEngine.WebPublishObj2.ServerKey = ConfigManagement.getString("publishURL", "key2") ?? "";
+                ObsControl.objIQPEngine.ProcessingObj.settingsPublishToPrivate = ConfigManagement.getBool("IQP_options", "PUBLISHTOPRIVATE") ?? true;
+                ObsControl.objIQPEngine.WebPublishObj2.SetURL(ConfigManagement.getString("publishURL", "url2") ?? "http://localhost");
+                ObsControl.objIQPEngine.WebPublishObj2.ServerKey = ConfigManagement.getString("publishURL", "key2") ?? "";
 
                 //hidden settings
-                ObsControl.IQPEngine.MonitorObj.settingsExtensionToSearch = ConfigManagement.getString("IQP_options", "extensionsToSearch") ?? "*.fit*";
-                ObsControl.IQPEngine.ProcessingObj.settingsMaxThreads = (uint)(ConfigManagement.getInt("IQP_options", "checkThreads_max") ?? 1);
-                ObsControl.IQPEngine.ProcessingObj.settingsSkipIMSfiles = ConfigManagement.getBool("IQP_options", "checkDirIMS") ?? true;
-                ObsControl.IQPEngine.ProcessingObj.settingsDSSForceRecheck = ConfigManagement.getBool("IQP_options", "alwaysRebuildDSSInfoFile") ?? false;
-                ObsControl.IQPEngine.ProcessingObj.settingsDSSForceRunHidden = ConfigManagement.getBool("IQP_options", "RunDSSHidden") ?? false;
-                ObsControl.IQPEngine.ProcessingObj.settingsPublishLightFramesOnly = ConfigManagement.getBool("IQP_options", "publishLightFramesOnly") ?? true;
-                ObsControl.IQPEngine.ProcessingObj.settingsDSSInfoFileAutoDelete = ConfigManagement.getBool("IQP_options", "autoDeleteDSSInfoFile") ?? false;
+                ObsControl.objIQPEngine.MonitorObj.settingsExtensionToSearch = ConfigManagement.getString("IQP_options", "extensionsToSearch") ?? "*.fit*";
+                ObsControl.objIQPEngine.ProcessingObj.settingsMaxThreads = (uint)(ConfigManagement.getInt("IQP_options", "checkThreads_max") ?? 1);
+                ObsControl.objIQPEngine.ProcessingObj.settingsSkipIMSfiles = ConfigManagement.getBool("IQP_options", "checkDirIMS") ?? true;
+                ObsControl.objIQPEngine.ProcessingObj.settingsDSSForceRecheck = ConfigManagement.getBool("IQP_options", "alwaysRebuildDSSInfoFile") ?? false;
+                ObsControl.objIQPEngine.ProcessingObj.settingsDSSForceRunHidden = ConfigManagement.getBool("IQP_options", "RunDSSHidden") ?? false;
+                ObsControl.objIQPEngine.ProcessingObj.settingsPublishLightFramesOnly = ConfigManagement.getBool("IQP_options", "publishLightFramesOnly") ?? true;
+                ObsControl.objIQPEngine.ProcessingObj.settingsDSSInfoFileAutoDelete = ConfigManagement.getBool("IQP_options", "autoDeleteDSSInfoFile") ?? false;
 
                 //Filter settings
                 string st = ConfigManagement.getString("IQP_filters", "excludedirs") ?? "";
-                ObsControl.IQPEngine.MonitorObj.settingsFilterDirName_ExcludeSt = new List<string>(st.Split(';'));
+                ObsControl.objIQPEngine.MonitorObj.settingsFilterDirName_ExcludeSt = new List<string>(st.Split(';'));
                 st = ConfigManagement.getString("IQP_filters", "excludefiles") ?? "";
-                ObsControl.IQPEngine.MonitorObj.settingsFilterFileName_ExcludeSt = new List<string>(st.Split(';'));
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterObserverTag_Contains = ConfigManagement.getString("IQP_filters", "observer") ?? "";
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterTelescopTag_Contains = ConfigManagement.getString("IQP_filters", "telescop") ?? "";
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterInstrumeTag_Contains = ConfigManagement.getString("IQP_filters", "instrume") ?? "";
+                ObsControl.objIQPEngine.MonitorObj.settingsFilterFileName_ExcludeSt = new List<string>(st.Split(';'));
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterObserverTag_Contains = ConfigManagement.getString("IQP_filters", "observer") ?? "";
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterTelescopTag_Contains = ConfigManagement.getString("IQP_filters", "telescop") ?? "";
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterInstrumeTag_Contains = ConfigManagement.getString("IQP_filters", "instrume") ?? "";
                 //Filter settings: quality
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterHistoryTag_MaxCount = (UInt16)(ConfigManagement.getInt("IQP_filters", "historycount") ?? 1);
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterStarsNum_MinCount = (UInt16)(ConfigManagement.getInt("IQP_filters", "minstars") ?? 1);
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterFWHM_MaxVal = ConfigManagement.getDouble("IQP_filters", "maxfwhm") ?? 10.0;
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterMinAltitude_MinVal = ConfigManagement.getDouble("IQP_filters", "minaltitude") ?? 19.0;
-                ObsControl.IQPEngine.ProcessingObj.settingsFilterBackground_MaxVal = ConfigManagement.getDouble("IQP_filters", "maxbackground") ?? 0.30;
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterHistoryTag_MaxCount = (UInt16)(ConfigManagement.getInt("IQP_filters", "historycount") ?? 1);
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterStarsNum_MinCount = (UInt16)(ConfigManagement.getInt("IQP_filters", "minstars") ?? 1);
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterFWHM_MaxVal = ConfigManagement.getDouble("IQP_filters", "maxfwhm") ?? 10.0;
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterMinAltitude_MinVal = ConfigManagement.getDouble("IQP_filters", "minaltitude") ?? 19.0;
+                ObsControl.objIQPEngine.ProcessingObj.settingsFilterBackground_MaxVal = ConfigManagement.getDouble("IQP_filters", "maxbackground") ?? 0.30;
 
                 Logging.AddLog("Program parameters were set according to configuration file", LogLevel.Activity);
             }
@@ -354,32 +354,32 @@ namespace ObservatoryCenter
             //ConfigManagement.UpdateConfigValue("publishURL", "key2", txtServerKey_Private.Text);
 
             //hidden settings
-            ConfigManagement.UpdateConfigValue("IQP_options", "extensionsToSearch", ObsControl.IQPEngine.MonitorObj.settingsExtensionToSearch);
-            ConfigManagement.UpdateConfigValue("IQP_options", "checkThreads_max", ObsControl.IQPEngine.ProcessingObj.settingsMaxThreads.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_options", "checkDirIMS", ObsControl.IQPEngine.ProcessingObj.settingsSkipIMSfiles.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_options", "alwaysRebuildDSSInfoFile", ObsControl.IQPEngine.ProcessingObj.settingsDSSForceRecheck.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_options", "RunDSSHidden", ObsControl.IQPEngine.ProcessingObj.settingsDSSForceRunHidden.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_options", "autoDeleteDSSInfoFile", ObsControl.IQPEngine.ProcessingObj.settingsDSSInfoFileAutoDelete.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_options", "publishLightFramesOnly", ObsControl.IQPEngine.ProcessingObj.settingsPublishLightFramesOnly.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_options", "extensionsToSearch", ObsControl.objIQPEngine.MonitorObj.settingsExtensionToSearch);
+            ConfigManagement.UpdateConfigValue("IQP_options", "checkThreads_max", ObsControl.objIQPEngine.ProcessingObj.settingsMaxThreads.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_options", "checkDirIMS", ObsControl.objIQPEngine.ProcessingObj.settingsSkipIMSfiles.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_options", "alwaysRebuildDSSInfoFile", ObsControl.objIQPEngine.ProcessingObj.settingsDSSForceRecheck.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_options", "RunDSSHidden", ObsControl.objIQPEngine.ProcessingObj.settingsDSSForceRunHidden.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_options", "autoDeleteDSSInfoFile", ObsControl.objIQPEngine.ProcessingObj.settingsDSSInfoFileAutoDelete.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_options", "publishLightFramesOnly", ObsControl.objIQPEngine.ProcessingObj.settingsPublishLightFramesOnly.ToString());
 
             //Filter settings
-            ConfigManagement.UpdateConfigValue("IQP_filters", "excludedirs", String.Join(";", ObsControl.IQPEngine.MonitorObj.settingsFilterDirName_ExcludeSt.ToArray()));
-            ConfigManagement.UpdateConfigValue("IQP_filters", "excludefiles", string.Join(";", ObsControl.IQPEngine.MonitorObj.settingsFilterFileName_ExcludeSt.ToArray()));
-            ConfigManagement.UpdateConfigValue("IQP_filters", "observer", ObsControl.IQPEngine.ProcessingObj.settingsFilterObserverTag_Contains);
-            ConfigManagement.UpdateConfigValue("IQP_filters", "telescop", ObsControl.IQPEngine.ProcessingObj.settingsFilterTelescopTag_Contains);
-            ConfigManagement.UpdateConfigValue("IQP_filters", "instrume", ObsControl.IQPEngine.ProcessingObj.settingsFilterInstrumeTag_Contains);
-            ConfigManagement.UpdateConfigValue("IQP_filters", "historycount", ObsControl.IQPEngine.ProcessingObj.settingsFilterHistoryTag_MaxCount.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_filters", "minstars", ObsControl.IQPEngine.ProcessingObj.settingsFilterStarsNum_MinCount.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_filters", "maxfwhm", ObsControl.IQPEngine.ProcessingObj.settingsFilterFWHM_MaxVal.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_filters", "minaltitude", ObsControl.IQPEngine.ProcessingObj.settingsFilterMinAltitude_MinVal.ToString());
-            ConfigManagement.UpdateConfigValue("IQP_filters", "maxbackground", ObsControl.IQPEngine.ProcessingObj.settingsFilterBackground_MaxVal.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_filters", "excludedirs", String.Join(";", ObsControl.objIQPEngine.MonitorObj.settingsFilterDirName_ExcludeSt.ToArray()));
+            ConfigManagement.UpdateConfigValue("IQP_filters", "excludefiles", string.Join(";", ObsControl.objIQPEngine.MonitorObj.settingsFilterFileName_ExcludeSt.ToArray()));
+            ConfigManagement.UpdateConfigValue("IQP_filters", "observer", ObsControl.objIQPEngine.ProcessingObj.settingsFilterObserverTag_Contains);
+            ConfigManagement.UpdateConfigValue("IQP_filters", "telescop", ObsControl.objIQPEngine.ProcessingObj.settingsFilterTelescopTag_Contains);
+            ConfigManagement.UpdateConfigValue("IQP_filters", "instrume", ObsControl.objIQPEngine.ProcessingObj.settingsFilterInstrumeTag_Contains);
+            ConfigManagement.UpdateConfigValue("IQP_filters", "historycount", ObsControl.objIQPEngine.ProcessingObj.settingsFilterHistoryTag_MaxCount.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_filters", "minstars", ObsControl.objIQPEngine.ProcessingObj.settingsFilterStarsNum_MinCount.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_filters", "maxfwhm", ObsControl.objIQPEngine.ProcessingObj.settingsFilterFWHM_MaxVal.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_filters", "minaltitude", ObsControl.objIQPEngine.ProcessingObj.settingsFilterMinAltitude_MinVal.ToString());
+            ConfigManagement.UpdateConfigValue("IQP_filters", "maxbackground", ObsControl.objIQPEngine.ProcessingObj.settingsFilterBackground_MaxVal.ToString());
 
             //2. Save ConfigXML to disk
             ConfigManagement.Save();
 
             //3. Load config from disk
             ConfigManagement.Load();
-            IQP_LoadParamsFromConfigFile();
+            IQP_LoadParamsFromXML();
 
         }
 
@@ -398,7 +398,7 @@ namespace ObservatoryCenter
             if (cmbIQPMonitorPath.Items.Count >= 1) cmbIQPMonitorPath.SelectedIndex = 0;
 
             lblDirsMonitoringCount.Text = cmbIQPMonitorPath.Items.Count.ToString();
-            chkSearchSubdirs.Checked = ObsControl.IQPEngine.MonitorObj.settingsScanSubdirs;
+            chkSearchSubdirs.Checked = ObsControl.objIQPEngine.MonitorObj.settingsScanSubdirs;
         }
 
     }

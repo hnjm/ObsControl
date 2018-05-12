@@ -9,7 +9,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>/ze/ndL3uXU/qn/ffjv+3yj+v9/L6d/L/G/693d17f0=</HashCode>
+      <HashCode>/ze///3//f//+n/f/vv//2n+v9/P/f/7+e/7//d/7/8=</HashCode>
       <FileName>MainForm.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -22,23 +22,8 @@
   </Class>
   <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMSwitch" Collapsed="true">
     <Position X="11.5" Y="4.25" Width="5" />
-    <Members>
-      <Field Name="Camera_power_flag" Hidden="true" />
-      <Field Name="DRIVER_NAME" Hidden="true" />
-      <Field Name="Enabled" Hidden="true" />
-      <Field Name="Focuser_power_flag" Hidden="true" />
-      <Field Name="objSwitch" Hidden="true" />
-      <Field Name="POWER_CAMERA_PORT" Hidden="true" />
-      <Field Name="POWER_FOCUSER_PORT" Hidden="true" />
-      <Field Name="POWER_ROOFPOWER_PORT" Hidden="true" />
-      <Field Name="POWER_ROOFSWITCH_PORT" Hidden="true" />
-      <Field Name="POWER_TELESCOPE_PORT" Hidden="true" />
-      <Field Name="Roof_power_flag" Hidden="true" />
-      <Field Name="SWITCH_MAX_RECCONNECT_ATTEMPTS" Hidden="true" />
-      <Field Name="Telescope_power_flag" Hidden="true" />
-    </Members>
     <TypeIdentifier>
-      <HashCode>AoAAACAQIAgFBIAAAAAIgJMAAAikkAAAQSoAAAAAABA=</HashCode>
+      <HashCode>AoACgCAAIAgFBIAAwAAAgJIAAgCEkAIAYQoAEAACABA=</HashCode>
       <FileName>ObservatoryControls_ASCOMSwitch.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -53,14 +38,14 @@
     <Position X="48.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAQEAAA0BAhgCAQACIEAAAAgCgAgYAQEIAQQAUAEA=</HashCode>
-      <FileName>AstroUtils.cs</FileName>
+      <FileName>Modules\AstroUtils.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.CommandInterpretator">
     <Position X="11.5" Y="1.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>CommandInterpretator.cs</FileName>
+      <HashCode>BAEAAgEAAAAAEAAAAAQAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Modules\CommandInterpretator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.WeatherStation" Collapsed="true">
@@ -73,7 +58,7 @@
   <Class Name="ObservatoryCenter.CCDC_ExternatApplication" Collapsed="true">
     <Position X="24" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QEAABAQAAAABABAAAgIwAgAAgAAgAQABADgCAAAECBA=</HashCode>
+      <HashCode>oFAAAARJxCARQhSggisTAiAAgEABAQCBADgKCSIECBc=</HashCode>
       <FileName>ProgControls_CCDC.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -101,7 +86,7 @@
   <Class Name="ObservatoryCenter.Maxim_ExternalApplication" Collapsed="true">
     <Position X="16.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CQCgIQAABAAADCAAAAAgAkAAABEAAAAAAAgSAAAAAMA=</HashCode>
+      <HashCode>CwCgAQCAZAIEjCAACAEBgkAACFFAhCBAQioShBAACEg=</HashCode>
       <FileName>ProgControls_Maxim.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -130,7 +115,7 @@
     <Position X="48.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAgAAQRAAEAAAAEAABAAIAAgAAAAABAAAA=</HashCode>
-      <FileName>About.cs</FileName>
+      <FileName>Modules\About.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.ObsSettings_old" Collapsed="true">
@@ -185,14 +170,14 @@
   <Class Name="ObservatoryCenter.GuidingStats" Collapsed="true">
     <Position X="59" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAEBAAgAAQAgAQAAAAAAAAADAAACAAAAAE=</HashCode>
+      <HashCode>AAIAEEAAAgAEBAAgIAQAgARAAgAAAAgJDAAACEAAAAE=</HashCode>
       <FileName>ProgControls_PHD.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.PHD_ExternatApplication" Collapsed="true">
     <Position X="18.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAIAAACAAAEAAAAIAJAAAAQAAYBAAAAGABACAAKAAA=</HashCode>
+      <HashCode>IABIAACCBAAEAQAiIgJAAAAQAIIBCEABGABAKAACAAA=</HashCode>
       <FileName>ProgControls_PHD.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -223,15 +208,15 @@
   <Class Name="ObservatoryCenter.SettingsForm" Collapsed="true">
     <Position X="34.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>VoNSQ4IAAiAKABFABBDAAfASCGAkhEEEEzgAAQKAFAQ=</HashCode>
+      <HashCode>VoNSQ4IAAiAKABFABBDAAfASCGAkhEEAEzgAAQKAFAQ=</HashCode>
       <FileName>SettingsForm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.SocketServerClass" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="37.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AwAQAAAAACAAAUAAAEAAAAQAAAAgQwAAAAAAQAAABAA=</HashCode>
-      <FileName>SocketServer.cs</FileName>
+      <HashCode>AwIQAAAAACAAAUAAAEAAAAQAAAAgQwAAAAAAQAAABAA=</HashCode>
+      <FileName>Modules\SocketServer.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -239,63 +224,63 @@
     <Position X="38" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QgAQAAAAAAAAACAIEAAAAAAAADAAAAAAAAAgABAAAAA=</HashCode>
-      <FileName>SocketServer.cs</FileName>
+      <FileName>Modules\SocketServer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.TestSequenceElement" Collapsed="true">
     <Position X="41.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>TestEquipmentClass.cs</FileName>
+      <FileName>Modules\TestEquipmentClass.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.TestResultUserStateClass" Collapsed="true">
     <Position X="42" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAA=</HashCode>
-      <FileName>TestEquipmentClass.cs</FileName>
+      <FileName>Modules\TestEquipmentClass.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.TestResultClass" Collapsed="true">
     <Position X="41" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AYAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TestEquipmentClass.cs</FileName>
+      <FileName>Modules\TestEquipmentClass.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.TestEquipmentClass" Collapsed="true">
     <Position X="40" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAQAAAAAlAAABAAAAEEAEAIAAACAEAAQAAgQQ=</HashCode>
-      <FileName>TestEquipmentClass.cs</FileName>
+      <FileName>Modules\TestEquipmentClass.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.TestEquipmentForm" Collapsed="true">
     <Position X="40.5" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>4AMDMAEQBGJAUABAAAiAAEQGAIAMABIDACAASAGgBwA=</HashCode>
-      <FileName>TestEquipmentForm.cs</FileName>
+      <FileName>Modules\TestEquipmentForm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.AuxilaryProc" Collapsed="true">
     <Position X="48.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAg=</HashCode>
-      <FileName>Utils.cs</FileName>
+      <FileName>Modules\Utils.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.Utils" Collapsed="true">
     <Position X="48.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAQBAAAAAABAggAAA=</HashCode>
-      <FileName>Utils.cs</FileName>
+      <HashCode>AAEQAAAAAAIAEAAAAQQAAABAAAAAQBAAAAAABAhgAAA=</HashCode>
+      <FileName>Modules\Utils.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.ShellLink" Collapsed="true">
     <Position X="48.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Utils.cs</FileName>
+      <FileName>Modules\Utils.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.Properties.Settings" Collapsed="true">
@@ -307,24 +292,21 @@
   <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMTelescope" Collapsed="true">
     <Position X="13.5" Y="5.5" Width="5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAACkFKQAAAAAgIAEAACEBAwAAAAAIAgACAA=</HashCode>
+      <HashCode>QAAAAQAEAACkdKwAAAAAgIgEAACERAwAAAgAIAgACAA=</HashCode>
       <FileName>ObservatoryControls_ASCOMTelescope.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMDome" Collapsed="true">
     <Position X="16" Y="6.25" Width="5.25" />
     <TypeIdentifier>
-      <HashCode>AQBACAABAAEEBIgAAAAgAIAAAACAAAAAAABAAAAAAAA=</HashCode>
+      <HashCode>AQBgCAABAAEEBIgECAAoAIAIAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ObservatoryControls_ASCOMDome.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.ObservatoryControls">
     <Position X="5.75" Y="1.25" Width="4.75" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
     <TypeIdentifier>
-      <HashCode>JgQAAgBAhBAEIAAA0lACAIAGAEEAEgEUoIEE4AAAwAQ=</HashCode>
+      <HashCode>JgQAIgBAhBAEYAAw0lICAAAAAEEUEgEEoJEEwAAAgAQ=</HashCode>
       <FileName>ObservatoryControls.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -332,7 +314,7 @@
     <Position X="48.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAMIIEQAACAAIAAIAgCAIAAAgACIAAAAAAAAAAACAA=</HashCode>
-      <FileName>Utils.cs</FileName>
+      <FileName>Modules\Utils.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="ObservatoryCenter.Highlight" Collapsed="true">
@@ -367,49 +349,49 @@
     <Position X="57.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAQAA=</HashCode>
-      <FileName>BoltwoodClasses.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ObservatoryCenter.CloudCond" Collapsed="true">
+  <Enum Name="ObservatoryCenter.Enum_CloudCond" Collapsed="true">
     <Position X="57.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAA=</HashCode>
-      <FileName>ProgControls_WS.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ObservatoryCenter.WindCond" Collapsed="true">
+  <Enum Name="ObservatoryCenter.Enum_WindCond" Collapsed="true">
     <Position X="57.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAASACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ProgControls_WS.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ObservatoryCenter.RainCond" Collapsed="true">
+  <Enum Name="ObservatoryCenter.Enum_RainCond" Collapsed="true">
     <Position X="57.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAAAAAAEAAAQAAAAAAAAAAQAAAAA=</HashCode>
-      <FileName>ProgControls_WS.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ObservatoryCenter.DayCond" Collapsed="true">
+  <Enum Name="ObservatoryCenter.Enum_DayCond" Collapsed="true">
     <Position X="57.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAQAAAAAA=</HashCode>
-      <FileName>ProgControls_WS.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ObservatoryCenter.RainFlag" Collapsed="true">
+  <Enum Name="ObservatoryCenter.Enum_RainFlag" Collapsed="true">
     <Position X="57.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ProgControls_WS.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="ObservatoryCenter.WetFlag" Collapsed="true">
+  <Enum Name="ObservatoryCenter.Enum_WetFlag" Collapsed="true">
     <Position X="57.5" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAAQAAAAA=</HashCode>
-      <FileName>ProgControls_WS.cs</FileName>
+      <FileName>Modules\BoltwoodClasses.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="ObservatoryCenter.WetSensorsMode" Collapsed="true">

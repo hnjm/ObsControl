@@ -411,8 +411,14 @@
             this.PHDGuiding = new System.Windows.Forms.GroupBox();
             this.txtGuideStat_SinceReset = new System.Windows.Forms.TextBox();
             this.txtGuideStat_CountPoints = new System.Windows.Forms.TextBox();
+            this.txtRMS_prevframe3 = new System.Windows.Forms.TextBox();
+            this.txtRMS_prevframe2 = new System.Windows.Forms.TextBox();
             this.txtRMS_prevframe = new System.Windows.Forms.TextBox();
+            this.txtRMS_Y_prevframe3 = new System.Windows.Forms.TextBox();
+            this.txtRMS_Y_prevframe2 = new System.Windows.Forms.TextBox();
             this.txtRMS_Y_prevframe = new System.Windows.Forms.TextBox();
+            this.txtRMS_X_prevframe3 = new System.Windows.Forms.TextBox();
+            this.txtRMS_X_prevframe2 = new System.Windows.Forms.TextBox();
             this.txtRMS_X_prevframe = new System.Windows.Forms.TextBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtGuiderErrorPHD = new System.Windows.Forms.RichTextBox();
@@ -460,12 +466,6 @@
             this.chkShort_IQP = new System.Windows.Forms.CheckBox();
             this.panelMaximum = new System.Windows.Forms.Panel();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.txtRMS_X_prevframe2 = new System.Windows.Forms.TextBox();
-            this.txtRMS_Y_prevframe2 = new System.Windows.Forms.TextBox();
-            this.txtRMS_prevframe2 = new System.Windows.Forms.TextBox();
-            this.txtRMS_X_prevframe3 = new System.Windows.Forms.TextBox();
-            this.txtRMS_Y_prevframe3 = new System.Windows.Forms.TextBox();
-            this.txtRMS_prevframe3 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageLog.SuspendLayout();
             this.MaximGuider.SuspendLayout();
@@ -544,7 +544,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(893, 295);
+            this.tabControl1.Size = new System.Drawing.Size(891, 316);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageLog
@@ -555,7 +555,7 @@
             this.tabPageLog.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPageLog.Name = "tabPageLog";
             this.tabPageLog.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tabPageLog.Size = new System.Drawing.Size(885, 269);
+            this.tabPageLog.Size = new System.Drawing.Size(883, 290);
             this.tabPageLog.TabIndex = 0;
             this.tabPageLog.Text = "Log";
             this.tabPageLog.UseVisualStyleBackColor = true;
@@ -578,7 +578,7 @@
             this.MaximGuider.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaximGuider.Name = "MaximGuider";
             this.MaximGuider.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.MaximGuider.Size = new System.Drawing.Size(608, 129);
+            this.MaximGuider.Size = new System.Drawing.Size(606, 129);
             this.MaximGuider.TabIndex = 4;
             this.MaximGuider.TabStop = false;
             this.MaximGuider.Text = "MaximGuider";
@@ -815,7 +815,7 @@
             this.txtLog.Location = new System.Drawing.Point(-2, 0);
             this.txtLog.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(892, 261);
+            this.txtLog.Size = new System.Drawing.Size(890, 289);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "";
             // 
@@ -2711,7 +2711,7 @@
             this.tabPageIQP.Location = new System.Drawing.Point(4, 22);
             this.tabPageIQP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPageIQP.Name = "tabPageIQP";
-            this.tabPageIQP.Size = new System.Drawing.Size(885, 269);
+            this.tabPageIQP.Size = new System.Drawing.Size(883, 290);
             this.tabPageIQP.TabIndex = 9;
             this.tabPageIQP.Text = "IQP";
             this.tabPageIQP.UseVisualStyleBackColor = true;
@@ -2738,7 +2738,7 @@
             this.dataGridFileData.Name = "dataGridFileData";
             this.dataGridFileData.RowHeadersVisible = false;
             this.dataGridFileData.RowHeadersWidth = 10;
-            this.dataGridFileData.Size = new System.Drawing.Size(881, 263);
+            this.dataGridFileData.Size = new System.Drawing.Size(879, 284);
             this.dataGridFileData.TabIndex = 5;
             // 
             // dataGridData_filename
@@ -2823,7 +2823,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettings.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Size = new System.Drawing.Size(885, 269);
+            this.tabPageSettings.Size = new System.Drawing.Size(883, 290);
             this.tabPageSettings.TabIndex = 4;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -3117,7 +3117,7 @@
             this.tabPageAbout.Location = new System.Drawing.Point(4, 22);
             this.tabPageAbout.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.tabPageAbout.Name = "tabPageAbout";
-            this.tabPageAbout.Size = new System.Drawing.Size(885, 269);
+            this.tabPageAbout.Size = new System.Drawing.Size(883, 290);
             this.tabPageAbout.TabIndex = 5;
             this.tabPageAbout.Text = "About";
             this.tabPageAbout.UseVisualStyleBackColor = true;
@@ -3325,11 +3325,11 @@
             this.toolStripStatus_FilesFound,
             this.toolStripStatus_FilesProcessed,
             this.toolStripStatus_FilesWaiting});
-            this.statusBar.Location = new System.Drawing.Point(0, 684);
+            this.statusBar.Location = new System.Drawing.Point(0, 695);
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(2, 0, 14, 0);
             this.statusBar.ShowItemToolTips = true;
-            this.statusBar.Size = new System.Drawing.Size(1099, 25);
+            this.statusBar.Size = new System.Drawing.Size(1101, 22);
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusBar";
             // 
@@ -3337,7 +3337,7 @@
             // 
             this.toolStripStatus_Switch.DoubleClickEnabled = true;
             this.toolStripStatus_Switch.Name = "toolStripStatus_Switch";
-            this.toolStripStatus_Switch.Size = new System.Drawing.Size(51, 20);
+            this.toolStripStatus_Switch.Size = new System.Drawing.Size(50, 17);
             this.toolStripStatus_Switch.Text = "SWITCH";
             this.toolStripStatus_Switch.DoubleClick += new System.EventHandler(this.toolStripStatus_Switch_DoubleClick);
             // 
@@ -3345,7 +3345,7 @@
             // 
             this.toolStripStatus_Dome.DoubleClickEnabled = true;
             this.toolStripStatus_Dome.Name = "toolStripStatus_Dome";
-            this.toolStripStatus_Dome.Size = new System.Drawing.Size(41, 20);
+            this.toolStripStatus_Dome.Size = new System.Drawing.Size(41, 17);
             this.toolStripStatus_Dome.Text = "DOME";
             this.toolStripStatus_Dome.DoubleClick += new System.EventHandler(this.toolStripStatus_Dome_Click);
             // 
@@ -3353,7 +3353,7 @@
             // 
             this.toolStripStatus_Telescope.DoubleClickEnabled = true;
             this.toolStripStatus_Telescope.Name = "toolStripStatus_Telescope";
-            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(68, 20);
+            this.toolStripStatus_Telescope.Size = new System.Drawing.Size(68, 17);
             this.toolStripStatus_Telescope.Text = "TELESCOPE";
             this.toolStripStatus_Telescope.ToolTipText = "test";
             this.toolStripStatus_Telescope.DoubleClick += new System.EventHandler(this.toolStripStatus_Telescope_DoubleClick);
@@ -3361,13 +3361,13 @@
             // toolStripStatus_Focuser
             // 
             this.toolStripStatus_Focuser.Name = "toolStripStatus_Focuser";
-            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(57, 20);
+            this.toolStripStatus_Focuser.Size = new System.Drawing.Size(57, 17);
             this.toolStripStatus_Focuser.Text = "FOCUSER";
             // 
             // toolStripStatus_Camera
             // 
             this.toolStripStatus_Camera.Name = "toolStripStatus_Camera";
-            this.toolStripStatus_Camera.Size = new System.Drawing.Size(55, 20);
+            this.toolStripStatus_Camera.Size = new System.Drawing.Size(55, 17);
             this.toolStripStatus_Camera.Text = "CAMERA";
             this.toolStripStatus_Camera.Click += new System.EventHandler(this.toolStripStatus_Camera_Click);
             // 
@@ -3375,7 +3375,7 @@
             // 
             this.toolStripStatus_Connection.AutoSize = false;
             this.toolStripStatus_Connection.Name = "toolStripStatus_Connection";
-            this.toolStripStatus_Connection.Size = new System.Drawing.Size(200, 20);
+            this.toolStripStatus_Connection.Size = new System.Drawing.Size(200, 17);
             this.toolStripStatus_Connection.Text = "CONNECTIONS: 0";
             // 
             // toolStripDropDownLogLevel
@@ -3384,21 +3384,21 @@
             this.toolStripDropDownLogLevel.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownLogLevel.Image")));
             this.toolStripDropDownLogLevel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownLogLevel.Name = "toolStripDropDownLogLevel";
-            this.toolStripDropDownLogLevel.Size = new System.Drawing.Size(169, 23);
+            this.toolStripDropDownLogLevel.Size = new System.Drawing.Size(169, 20);
             this.toolStripDropDownLogLevel.Text = "toolStripDropDownLogLevel";
             this.toolStripDropDownLogLevel.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripDropDownLogLevel_DropDownItemClicked);
             // 
             // toolStripLogSize
             // 
             this.toolStripLogSize.Name = "toolStripLogSize";
-            this.toolStripLogSize.Size = new System.Drawing.Size(49, 20);
+            this.toolStripLogSize.Size = new System.Drawing.Size(49, 17);
             this.toolStripLogSize.Text = "LogRec:";
             // 
             // toolStripStatus_FilesFound
             // 
             this.toolStripStatus_FilesFound.AutoSize = false;
             this.toolStripStatus_FilesFound.Name = "toolStripStatus_FilesFound";
-            this.toolStripStatus_FilesFound.Size = new System.Drawing.Size(100, 20);
+            this.toolStripStatus_FilesFound.Size = new System.Drawing.Size(100, 17);
             this.toolStripStatus_FilesFound.Text = "Files found: 0";
             this.toolStripStatus_FilesFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -3406,7 +3406,7 @@
             // 
             this.toolStripStatus_FilesProcessed.AutoSize = false;
             this.toolStripStatus_FilesProcessed.Name = "toolStripStatus_FilesProcessed";
-            this.toolStripStatus_FilesProcessed.Size = new System.Drawing.Size(120, 20);
+            this.toolStripStatus_FilesProcessed.Size = new System.Drawing.Size(120, 17);
             this.toolStripStatus_FilesProcessed.Text = "Processed: 0";
             this.toolStripStatus_FilesProcessed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -3414,7 +3414,7 @@
             // 
             this.toolStripStatus_FilesWaiting.AutoSize = false;
             this.toolStripStatus_FilesWaiting.Name = "toolStripStatus_FilesWaiting";
-            this.toolStripStatus_FilesWaiting.Size = new System.Drawing.Size(100, 20);
+            this.toolStripStatus_FilesWaiting.Size = new System.Drawing.Size(100, 17);
             this.toolStripStatus_FilesWaiting.Text = "Waiting: 0";
             this.toolStripStatus_FilesWaiting.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -3434,7 +3434,7 @@
             this.panel4.Location = new System.Drawing.Point(0, 1);
             this.panel4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(198, 630);
+            this.panel4.Size = new System.Drawing.Size(198, 650);
             this.panel4.TabIndex = 2;
             // 
             // groupBox7
@@ -4061,7 +4061,7 @@
             // btnMaximize
             // 
             this.btnMaximize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMaximize.Location = new System.Drawing.Point(2156, 1148);
+            this.btnMaximize.Location = new System.Drawing.Point(2557, 1321);
             this.btnMaximize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnMaximize.Name = "btnMaximize";
             this.btnMaximize.Size = new System.Drawing.Size(20, 20);
@@ -4313,6 +4313,8 @@
             this.updownCameraSetPoint.Size = new System.Drawing.Size(50, 20);
             this.updownCameraSetPoint.TabIndex = 4;
             this.updownCameraSetPoint.ValueChanged += new System.EventHandler(this.up_down_SetPoint_ValueChanged);
+            this.updownCameraSetPoint.Enter += new System.EventHandler(this.updownCameraSetPoint_Enter);
+            this.updownCameraSetPoint.Leave += new System.EventHandler(this.updownCameraSetPoint_Leave);
             // 
             // txtCCDAutomationStatus
             // 
@@ -4705,6 +4707,24 @@
             this.txtGuideStat_CountPoints.Size = new System.Drawing.Size(46, 20);
             this.txtGuideStat_CountPoints.TabIndex = 1;
             // 
+            // txtRMS_prevframe3
+            // 
+            this.txtRMS_prevframe3.Location = new System.Drawing.Point(205, 128);
+            this.txtRMS_prevframe3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtRMS_prevframe3.Name = "txtRMS_prevframe3";
+            this.txtRMS_prevframe3.ReadOnly = true;
+            this.txtRMS_prevframe3.Size = new System.Drawing.Size(46, 20);
+            this.txtRMS_prevframe3.TabIndex = 1;
+            // 
+            // txtRMS_prevframe2
+            // 
+            this.txtRMS_prevframe2.Location = new System.Drawing.Point(205, 106);
+            this.txtRMS_prevframe2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtRMS_prevframe2.Name = "txtRMS_prevframe2";
+            this.txtRMS_prevframe2.ReadOnly = true;
+            this.txtRMS_prevframe2.Size = new System.Drawing.Size(46, 20);
+            this.txtRMS_prevframe2.TabIndex = 1;
+            // 
             // txtRMS_prevframe
             // 
             this.txtRMS_prevframe.Location = new System.Drawing.Point(205, 84);
@@ -4714,6 +4734,24 @@
             this.txtRMS_prevframe.Size = new System.Drawing.Size(46, 20);
             this.txtRMS_prevframe.TabIndex = 1;
             // 
+            // txtRMS_Y_prevframe3
+            // 
+            this.txtRMS_Y_prevframe3.Location = new System.Drawing.Point(157, 128);
+            this.txtRMS_Y_prevframe3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtRMS_Y_prevframe3.Name = "txtRMS_Y_prevframe3";
+            this.txtRMS_Y_prevframe3.ReadOnly = true;
+            this.txtRMS_Y_prevframe3.Size = new System.Drawing.Size(46, 20);
+            this.txtRMS_Y_prevframe3.TabIndex = 1;
+            // 
+            // txtRMS_Y_prevframe2
+            // 
+            this.txtRMS_Y_prevframe2.Location = new System.Drawing.Point(157, 106);
+            this.txtRMS_Y_prevframe2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtRMS_Y_prevframe2.Name = "txtRMS_Y_prevframe2";
+            this.txtRMS_Y_prevframe2.ReadOnly = true;
+            this.txtRMS_Y_prevframe2.Size = new System.Drawing.Size(46, 20);
+            this.txtRMS_Y_prevframe2.TabIndex = 1;
+            // 
             // txtRMS_Y_prevframe
             // 
             this.txtRMS_Y_prevframe.Location = new System.Drawing.Point(157, 84);
@@ -4722,6 +4760,24 @@
             this.txtRMS_Y_prevframe.ReadOnly = true;
             this.txtRMS_Y_prevframe.Size = new System.Drawing.Size(46, 20);
             this.txtRMS_Y_prevframe.TabIndex = 1;
+            // 
+            // txtRMS_X_prevframe3
+            // 
+            this.txtRMS_X_prevframe3.Location = new System.Drawing.Point(108, 128);
+            this.txtRMS_X_prevframe3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtRMS_X_prevframe3.Name = "txtRMS_X_prevframe3";
+            this.txtRMS_X_prevframe3.ReadOnly = true;
+            this.txtRMS_X_prevframe3.Size = new System.Drawing.Size(46, 20);
+            this.txtRMS_X_prevframe3.TabIndex = 1;
+            // 
+            // txtRMS_X_prevframe2
+            // 
+            this.txtRMS_X_prevframe2.Location = new System.Drawing.Point(108, 106);
+            this.txtRMS_X_prevframe2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.txtRMS_X_prevframe2.Name = "txtRMS_X_prevframe2";
+            this.txtRMS_X_prevframe2.ReadOnly = true;
+            this.txtRMS_X_prevframe2.Size = new System.Drawing.Size(46, 20);
+            this.txtRMS_X_prevframe2.TabIndex = 1;
             // 
             // txtRMS_X_prevframe
             // 
@@ -4986,7 +5042,7 @@
             this.PanelShort.Controls.Add(this.chkCCDC);
             this.PanelShort.Controls.Add(this.chkPHD);
             this.PanelShort.Controls.Add(this.chkMaxim);
-            this.PanelShort.Location = new System.Drawing.Point(1, 650);
+            this.PanelShort.Location = new System.Drawing.Point(1, 668);
             this.PanelShort.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.PanelShort.Name = "PanelShort";
             this.PanelShort.Size = new System.Drawing.Size(1097, 26);
@@ -5356,68 +5412,14 @@
             this.panelMaximum.Location = new System.Drawing.Point(1, 1);
             this.panelMaximum.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.panelMaximum.Name = "panelMaximum";
-            this.panelMaximum.Size = new System.Drawing.Size(1097, 640);
+            this.panelMaximum.Size = new System.Drawing.Size(1097, 660);
             this.panelMaximum.TabIndex = 6;
-            // 
-            // txtRMS_X_prevframe2
-            // 
-            this.txtRMS_X_prevframe2.Location = new System.Drawing.Point(108, 106);
-            this.txtRMS_X_prevframe2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtRMS_X_prevframe2.Name = "txtRMS_X_prevframe2";
-            this.txtRMS_X_prevframe2.ReadOnly = true;
-            this.txtRMS_X_prevframe2.Size = new System.Drawing.Size(46, 20);
-            this.txtRMS_X_prevframe2.TabIndex = 1;
-            // 
-            // txtRMS_Y_prevframe2
-            // 
-            this.txtRMS_Y_prevframe2.Location = new System.Drawing.Point(157, 106);
-            this.txtRMS_Y_prevframe2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtRMS_Y_prevframe2.Name = "txtRMS_Y_prevframe2";
-            this.txtRMS_Y_prevframe2.ReadOnly = true;
-            this.txtRMS_Y_prevframe2.Size = new System.Drawing.Size(46, 20);
-            this.txtRMS_Y_prevframe2.TabIndex = 1;
-            // 
-            // txtRMS_prevframe2
-            // 
-            this.txtRMS_prevframe2.Location = new System.Drawing.Point(205, 106);
-            this.txtRMS_prevframe2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtRMS_prevframe2.Name = "txtRMS_prevframe2";
-            this.txtRMS_prevframe2.ReadOnly = true;
-            this.txtRMS_prevframe2.Size = new System.Drawing.Size(46, 20);
-            this.txtRMS_prevframe2.TabIndex = 1;
-            // 
-            // txtRMS_X_prevframe3
-            // 
-            this.txtRMS_X_prevframe3.Location = new System.Drawing.Point(108, 128);
-            this.txtRMS_X_prevframe3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtRMS_X_prevframe3.Name = "txtRMS_X_prevframe3";
-            this.txtRMS_X_prevframe3.ReadOnly = true;
-            this.txtRMS_X_prevframe3.Size = new System.Drawing.Size(46, 20);
-            this.txtRMS_X_prevframe3.TabIndex = 1;
-            // 
-            // txtRMS_Y_prevframe3
-            // 
-            this.txtRMS_Y_prevframe3.Location = new System.Drawing.Point(157, 128);
-            this.txtRMS_Y_prevframe3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtRMS_Y_prevframe3.Name = "txtRMS_Y_prevframe3";
-            this.txtRMS_Y_prevframe3.ReadOnly = true;
-            this.txtRMS_Y_prevframe3.Size = new System.Drawing.Size(46, 20);
-            this.txtRMS_Y_prevframe3.TabIndex = 1;
-            // 
-            // txtRMS_prevframe3
-            // 
-            this.txtRMS_prevframe3.Location = new System.Drawing.Point(205, 128);
-            this.txtRMS_prevframe3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.txtRMS_prevframe3.Name = "txtRMS_prevframe3";
-            this.txtRMS_prevframe3.ReadOnly = true;
-            this.txtRMS_prevframe3.Size = new System.Drawing.Size(46, 20);
-            this.txtRMS_prevframe3.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1099, 709);
+            this.ClientSize = new System.Drawing.Size(1101, 717);
             this.Controls.Add(this.btnMaximize);
             this.Controls.Add(this.panelMaximum);
             this.Controls.Add(this.PanelShort);
@@ -5426,7 +5428,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(872, 467);
+            this.MinimumSize = new System.Drawing.Size(704, 456);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Observatory Control";

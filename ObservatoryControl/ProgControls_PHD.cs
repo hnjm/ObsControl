@@ -222,6 +222,9 @@ namespace ObservatoryCenter
 
         public bool EquipmentConnected = false;
 
+        public double GuidePiexelScale = 1; //value will br received from PHD2
+
+
         // Guide stats
         public GuidingStats curImageGuidingStats;   //Текущее изображение
         public List<GuidingStats> prevImageGuidingStats;  //Предыдущее изображение

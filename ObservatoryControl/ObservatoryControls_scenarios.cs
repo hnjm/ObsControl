@@ -61,7 +61,7 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("MAXIM_FOCUSER_CONNECT", new Command((a) => objMaxim.ConnectFocuser(), "Connect focuser in Maxim DL"));
 
             CommandParser.Commands.Add("MAXIM_CAMERA_SETCOOLING", new Command((a) => objMaxim.CameraCoolingOn(), "Switch cooling on and set to def temp")); //switch cooling on and set to def temp
-            CommandParser.Commands.Add("CAMERA_SET_COOLER_TEMP", new Command((a) => objMaxim.CameraCoolingOn(a), "switch cooling on and set to specified double <TEMP>", "TEMP"));//switch cooling on and set to specified temp
+            CommandParser.Commands.Add("CAMERA_SET_COOLER_TEMP", new Command((a) => objMaxim.CameraCoolingChangeSetTemp(a), "switch cooling on and set to specified double <TEMP>", "TEMP"));//switch cooling on and set to specified temp
             CommandParser.Commands.Add("CAMERA_WARMPUP", new Command((a) => objMaxim.CameraCoolingOff(true), "Camera warmp up")); //warmup
 
 
@@ -340,8 +340,8 @@ namespace ObservatoryCenter
         {
             Logging.AddLog("Imaging run paused", LogLevel.Activity);
 
-            Boltwood.Switch_to_BAD();
-            Boltwood.WriteFile();
+            objBoltwoodControl.Switch_to_BAD();
+            objBoltwoodControl.WriteFile();
 
             return "RETURN: Imaging run paused";
         }
@@ -350,8 +350,8 @@ namespace ObservatoryCenter
         {
             Logging.AddLog("Imaging run resumed", LogLevel.Activity);
 
-            Boltwood.Switch_to_GOOD();
-            Boltwood.WriteFile();
+            objBoltwoodControl.Switch_to_GOOD();
+            objBoltwoodControl.WriteFile();
 
             return "RETURN: Imaging run resumed";
         }

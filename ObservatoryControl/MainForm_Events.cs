@@ -312,6 +312,17 @@ namespace ObservatoryCenter
 
         // Camera control events 
         #region //// Camera control events //////////////////////////////////////////////////
+        bool canUpdate_updownCameraSetPoint = true; //Should the control be updated on timer events
+
+        private void updownCameraSetPoint_Enter(object sender, EventArgs e)
+        {
+            canUpdate_updownCameraSetPoint = false;
+        }
+
+        private void updownCameraSetPoint_Leave(object sender, EventArgs e)
+        {
+            canUpdate_updownCameraSetPoint = true;
+        }
 
         private void btnCoolerOn_Click(object sender, EventArgs e)
         {
@@ -330,7 +341,8 @@ namespace ObservatoryCenter
 
         private void up_down_SetPoint_ValueChanged(object sender, EventArgs e)
         {
-            ObsControl.objMaxim.CameraCoolingOn(Convert.ToDouble(updownCameraSetPoint.Value));
+            //2. Set new set point (or change TargetSetPoint if maxim is not running
+            ObsControl.objMaxim.CameraCoolingChangeSetTemp(Convert.ToDouble(updownCameraSetPoint.Value));
         }
         #endregion // Camera control events ////////////////////////////////////////////////
         // End of Camera control events 

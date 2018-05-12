@@ -3,7 +3,7 @@ Copyright by Emchenko Boris 2014-2018
 http://astromania.info
 
 to do:
-- режим постепенного охлаждения (интеллектуальная?). вообще разобраться, что там с управлением охлаждением (такое ощущение, что он всегда -30 градусов ставит!)
+- режим постепенного охлаждения (интеллектуальная?). 
 
 - индикация плохого фокусного / давней фокусировки
 - FocusMax alert button. Refocus button. Alert if focus need to be rechecked
@@ -35,6 +35,11 @@ bugs:
 - иногда "подвисает" в состоянии Boltwood bad conditions
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
+
+1.4.0 [11.05.18]
+- переделан алгоримт и реализация управления охлаждением камеры: выделение управление TargetSetTemp и фактичекий SetTemp
+- теперь настройки программы могут сохраняться и в XML (начал с TargetSetTemp)
+- оптимизация структуры кода
 
 1.3.3 [06.05.18]
 - restart кнопка на короткой панели

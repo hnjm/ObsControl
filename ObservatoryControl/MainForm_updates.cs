@@ -304,7 +304,8 @@ namespace ObservatoryCenter
                 {
                     //Large form
                     txtCameraTemp.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp);
-                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraSetPoint);
+                    if (canUpdate_updownCameraSetPoint)
+                        updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraSetPoint);
                     txtCameraCoolerPower.Text = String.Format("{0:0}%", ObsControl.objMaxim.CameraCoolerPower);
 
                     //Short form
@@ -368,9 +369,11 @@ namespace ObservatoryCenter
                     }
                 }
                 else
+                //If camera is not connected
                 {
                     txtCameraTemp.Text = "";
-                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.TargetCameraSetTemp);
+                    if (canUpdate_updownCameraSetPoint)
+                        updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.TargetCameraSetTemp);
                     txtCameraCoolerPower.Text = "";
                     txtCameraStatus.Text = "";
 
@@ -389,9 +392,11 @@ namespace ObservatoryCenter
                 }
             }
             else
+            //If MaximDL isn't running
             {
                 txtCameraTemp.Text = "";
-                updownCameraSetPoint.Text = "";
+                if (canUpdate_updownCameraSetPoint)
+                    updownCameraSetPoint.Text = String.Format("{0:0.0}", ObsControl.objMaxim.TargetCameraSetTemp);
                 txtCameraCoolerPower.Text = "";
                 txtCameraStatus.Text = "";
 
@@ -406,12 +411,11 @@ namespace ObservatoryCenter
                 panelShortTemp.BackColor = DefBackColor;
 
                 txtShortTemp.Text = "";
-                txtShortSetPoint.Text = "";
+                txtShortSetPoint.Text = String.Format("{0:0}", ObsControl.objMaxim.TargetCameraSetTemp);
                 txtShortPower.Text = "";
 
                 chkCoolerFlag.Checked = false;
                 chkCoolerFlag.BackColor = DefBackColor;
-
             }
 
         }

@@ -228,9 +228,7 @@ namespace ObservatoryCenter
         {
             if (ObsControl.objPHD2App.IsRunning())
             {
-                ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_GetPixelScale(); //connect equipment
-                Thread.Sleep(100);
-                ObsControl.GuidePiexelScale = ObsControl.objPHD2App.CMD_StartGuiding(); //start  quiding
+                ObsControl.objPHD2App.CMD_StartGuiding(); //start  quiding
             }
         }
 
