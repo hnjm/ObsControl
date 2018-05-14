@@ -380,6 +380,11 @@ namespace ObservatoryCenter
             //2. Set new set point (or change TargetSetPoint if maxim is not running
             ObsControl.objMaxim.CameraCoolingChangeSetTemp(Convert.ToDouble(updownCameraSetPoint.Value));
         }
+
+        private void btnSetPoint_UseRecommended_Click(object sender, EventArgs e)
+        {
+            updownCameraSetPoint.Value = Convert.ToInt16(ObsControl.objMaxim.CalcRecommendedCoolerTemp());
+        }
         #endregion // Camera control events ////////////////////////////////////////////////
         // End of Camera control events 
 

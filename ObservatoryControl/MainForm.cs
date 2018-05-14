@@ -487,12 +487,17 @@ namespace ObservatoryCenter
             ConfigManagement.UpdateConfigValue("Devices", "FocuserDriverName", ObsControl.ASCOMFocuser.DRIVER_NAME); //focuser driver name
             ConfigManagement.UpdateConfigValue("Devices", "FocuserAutoConnect", ObsControl.ASCOMFocuser.Enabled.ToString()); //auto connect focuser
 
+            IQP_SaveSettingsToConfigFile();
+
             //2. Save ConfigXML to disk
             ConfigManagement.Save();
 
             //3. Load config from disk
             ConfigManagement.Load();
             LoadOtherParamsFromXML();
+
+            //4. Side settings
+
         }
 
         private void LoadOtherParamsFromXML()
@@ -507,6 +512,8 @@ namespace ObservatoryCenter
                 ObsControl.ASCOMFocuser.Enabled = ConfigManagement.getBool("Devices", "FocuserAutoConnect") ?? false;
 
                 Logging.AddLog("Program parameters were set according to XML configuration file", LogLevel.Activity);
+
+                IQP_LoadParamsFromXML();
             }
             catch (Exception ex)
             {
@@ -796,10 +803,7 @@ namespace ObservatoryCenter
             MessageBox.Show("Not implemented");
         }
 
-        private void btnSetPoint_UseRecommended_Click(object sender, EventArgs e)
-        {
-            updownCameraSetPoint.Value = txt;
-        }
+
 
         #endregion
 

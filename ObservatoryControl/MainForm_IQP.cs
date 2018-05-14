@@ -244,8 +244,7 @@ namespace ObservatoryCenter
         /// <param name="e"></param>
         private void btnIQPSettings_Save_Click(object sender, EventArgs e)
         {
-            IQP_SaveSettingsToConfigFile();
-
+            SaveXMLSettingsToConfigFile();
         }
 
         /// <summary>
@@ -320,7 +319,7 @@ namespace ObservatoryCenter
                 ObsControl.objIQPEngine.ProcessingObj.settingsFilterMinAltitude_MinVal = ConfigManagement.getDouble("IQP_filters", "minaltitude") ?? 19.0;
                 ObsControl.objIQPEngine.ProcessingObj.settingsFilterBackground_MaxVal = ConfigManagement.getDouble("IQP_filters", "maxbackground") ?? 0.30;
 
-                Logging.AddLog("Program parameters were set according to configuration file", LogLevel.Activity);
+                Logging.AddLog("IQP parameters were set according to configuration file", LogLevel.Activity);
             }
             catch (Exception ex)
             {
@@ -373,14 +372,6 @@ namespace ObservatoryCenter
             ConfigManagement.UpdateConfigValue("IQP_filters", "maxfwhm", ObsControl.objIQPEngine.ProcessingObj.settingsFilterFWHM_MaxVal.ToString());
             ConfigManagement.UpdateConfigValue("IQP_filters", "minaltitude", ObsControl.objIQPEngine.ProcessingObj.settingsFilterMinAltitude_MinVal.ToString());
             ConfigManagement.UpdateConfigValue("IQP_filters", "maxbackground", ObsControl.objIQPEngine.ProcessingObj.settingsFilterBackground_MaxVal.ToString());
-
-            //2. Save ConfigXML to disk
-            ConfigManagement.Save();
-
-            //3. Load config from disk
-            ConfigManagement.Load();
-            IQP_LoadParamsFromXML();
-
         }
 
         /// <summary>
