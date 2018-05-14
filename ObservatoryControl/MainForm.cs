@@ -796,6 +796,11 @@ namespace ObservatoryCenter
             MessageBox.Show("Not implemented");
         }
 
+        private void btnSetPoint_UseRecommended_Click(object sender, EventArgs e)
+        {
+            updownCameraSetPoint.Value = txt;
+        }
+
         #endregion
 
         /// <summary>

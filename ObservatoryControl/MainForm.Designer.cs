@@ -29,30 +29,30 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series19 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series20 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series21 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series22 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series23 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series24 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageLog = new System.Windows.Forms.TabPage();
             this.MaximGuider = new System.Windows.Forms.GroupBox();
@@ -264,6 +264,7 @@
             this.label100 = new System.Windows.Forms.Label();
             this.label99 = new System.Windows.Forms.Label();
             this.label97 = new System.Windows.Forms.Label();
+            this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
             this.txtFocuser_Temp = new System.Windows.Forms.TextBox();
             this.txtFocuser_pos = new System.Windows.Forms.TextBox();
@@ -493,7 +494,7 @@
             this.chkShort_IQP = new System.Windows.Forms.CheckBox();
             this.panelMaximum = new System.Windows.Forms.Panel();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.btnSetPoint_UseRecommended = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageLog.SuspendLayout();
             this.MaximGuider.SuspendLayout();
@@ -2239,81 +2240,81 @@
             // 
             // chartWT
             // 
-            chartArea7.AxisX.IsLabelAutoFit = false;
-            chartArea7.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea7.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea7.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea7.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea7.AxisY.Interval = 5D;
-            chartArea7.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea7.AxisY.IsLabelAutoFit = false;
-            chartArea7.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea7.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            chartArea7.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea7.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea7.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea7.InnerPlotPosition.Auto = false;
-            chartArea7.InnerPlotPosition.Height = 90F;
-            chartArea7.InnerPlotPosition.Width = 93F;
-            chartArea7.InnerPlotPosition.X = 4F;
-            chartArea7.InnerPlotPosition.Y = 4F;
-            chartArea7.Name = "TempCA";
-            chartArea7.Position.Auto = false;
-            chartArea7.Position.Height = 46F;
-            chartArea7.Position.Width = 97F;
-            chartArea7.Position.X = 2F;
-            chartArea7.Position.Y = 2F;
-            chartArea8.AxisX.IsLabelAutoFit = false;
-            chartArea8.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea8.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea8.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea8.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea8.AxisY.Interval = 5D;
-            chartArea8.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea8.AxisY.IsLabelAutoFit = false;
-            chartArea8.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea8.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea8.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea8.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea8.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea8.AxisY2.IsLabelAutoFit = false;
-            chartArea8.AxisY2.LabelAutoFitMaxFontSize = 6;
-            chartArea8.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea8.AxisY2.MajorGrid.Enabled = false;
-            chartArea8.AxisY2.MajorTickMark.Size = 0.2F;
-            chartArea8.InnerPlotPosition.Auto = false;
-            chartArea8.InnerPlotPosition.Height = 90F;
-            chartArea8.InnerPlotPosition.Width = 93F;
-            chartArea8.InnerPlotPosition.X = 4F;
-            chartArea8.InnerPlotPosition.Y = 4F;
-            chartArea8.Name = "WetCA";
-            chartArea8.Position.Auto = false;
-            chartArea8.Position.Height = 46F;
-            chartArea8.Position.Width = 97F;
-            chartArea8.Position.X = 2F;
-            chartArea8.Position.Y = 52F;
-            this.chartWT.ChartAreas.Add(chartArea7);
-            this.chartWT.ChartAreas.Add(chartArea8);
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.Interval = 5D;
+            chartArea1.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea1.InnerPlotPosition.Auto = false;
+            chartArea1.InnerPlotPosition.Height = 90F;
+            chartArea1.InnerPlotPosition.Width = 93F;
+            chartArea1.InnerPlotPosition.X = 4F;
+            chartArea1.InnerPlotPosition.Y = 4F;
+            chartArea1.Name = "TempCA";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 46F;
+            chartArea1.Position.Width = 97F;
+            chartArea1.Position.X = 2F;
+            chartArea1.Position.Y = 2F;
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea2.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea2.AxisY.Interval = 5D;
+            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea2.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea2.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea2.AxisY2.IsLabelAutoFit = false;
+            chartArea2.AxisY2.LabelAutoFitMaxFontSize = 6;
+            chartArea2.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea2.AxisY2.MajorGrid.Enabled = false;
+            chartArea2.AxisY2.MajorTickMark.Size = 0.2F;
+            chartArea2.InnerPlotPosition.Auto = false;
+            chartArea2.InnerPlotPosition.Height = 90F;
+            chartArea2.InnerPlotPosition.Width = 93F;
+            chartArea2.InnerPlotPosition.X = 4F;
+            chartArea2.InnerPlotPosition.Y = 4F;
+            chartArea2.Name = "WetCA";
+            chartArea2.Position.Auto = false;
+            chartArea2.Position.Height = 46F;
+            chartArea2.Position.Width = 97F;
+            chartArea2.Position.X = 2F;
+            chartArea2.Position.Y = 52F;
+            this.chartWT.ChartAreas.Add(chartArea1);
+            this.chartWT.ChartAreas.Add(chartArea2);
             this.chartWT.Location = new System.Drawing.Point(6, 58);
             this.chartWT.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chartWT.Name = "chartWT";
-            series13.ChartArea = "TempCA";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series13.Name = "CloudIdx";
-            series14.ChartArea = "TempCA";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series14.Name = "Temp";
-            series15.ChartArea = "WetCA";
-            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
-            series15.Name = "RGC";
-            series15.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            series16.ChartArea = "WetCA";
-            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series16.Name = "Wet";
-            this.chartWT.Series.Add(series13);
-            this.chartWT.Series.Add(series14);
-            this.chartWT.Series.Add(series15);
-            this.chartWT.Series.Add(series16);
+            series1.ChartArea = "TempCA";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Name = "CloudIdx";
+            series2.ChartArea = "TempCA";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series2.Name = "Temp";
+            series3.ChartArea = "WetCA";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
+            series3.Name = "RGC";
+            series3.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series4.ChartArea = "WetCA";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series4.Name = "Wet";
+            this.chartWT.Series.Add(series1);
+            this.chartWT.Series.Add(series2);
+            this.chartWT.Series.Add(series3);
+            this.chartWT.Series.Add(series4);
             this.chartWT.Size = new System.Drawing.Size(624, 207);
             this.chartWT.TabIndex = 5;
             this.chartWT.Text = "chart2";
@@ -2637,83 +2638,83 @@
             this.chartTTC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea9.AxisX.IsLabelAutoFit = false;
-            chartArea9.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea9.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea9.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea9.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea9.AxisY.Interval = 2D;
-            chartArea9.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea9.AxisY.IsLabelAutoFit = false;
-            chartArea9.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea9.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            chartArea9.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea9.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea9.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea9.AxisY2.MajorGrid.Enabled = false;
-            chartArea9.InnerPlotPosition.Auto = false;
-            chartArea9.InnerPlotPosition.Height = 90F;
-            chartArea9.InnerPlotPosition.Width = 93F;
-            chartArea9.InnerPlotPosition.X = 4F;
-            chartArea9.InnerPlotPosition.Y = 4F;
-            chartArea9.Name = "MainMirrror";
-            chartArea9.Position.Auto = false;
-            chartArea9.Position.Height = 46F;
-            chartArea9.Position.Width = 97F;
-            chartArea9.Position.X = 2F;
-            chartArea9.Position.Y = 2F;
-            chartArea10.AxisX.IsLabelAutoFit = false;
-            chartArea10.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea10.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea10.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea10.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea10.AxisY.Interval = 5D;
-            chartArea10.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea10.AxisY.IsLabelAutoFit = false;
-            chartArea10.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea10.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea10.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea10.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea10.AxisY.MajorTickMark.Size = 0.2F;
-            chartArea10.AxisY2.IsLabelAutoFit = false;
-            chartArea10.AxisY2.LabelAutoFitMaxFontSize = 6;
-            chartArea10.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea10.AxisY2.MajorGrid.Enabled = false;
-            chartArea10.AxisY2.MajorTickMark.Size = 0.2F;
-            chartArea10.InnerPlotPosition.Auto = false;
-            chartArea10.InnerPlotPosition.Height = 90F;
-            chartArea10.InnerPlotPosition.Width = 93F;
-            chartArea10.InnerPlotPosition.X = 4F;
-            chartArea10.InnerPlotPosition.Y = 4F;
-            chartArea10.Name = "SeconMirror";
-            chartArea10.Position.Auto = false;
-            chartArea10.Position.Height = 46F;
-            chartArea10.Position.Width = 97F;
-            chartArea10.Position.X = 2F;
-            chartArea10.Position.Y = 52F;
-            this.chartTTC.ChartAreas.Add(chartArea9);
-            this.chartTTC.ChartAreas.Add(chartArea10);
+            chartArea3.AxisX.IsLabelAutoFit = false;
+            chartArea3.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea3.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea3.AxisY.Interval = 2D;
+            chartArea3.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea3.AxisY.IsLabelAutoFit = false;
+            chartArea3.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea3.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea3.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea3.AxisY2.MajorGrid.Enabled = false;
+            chartArea3.InnerPlotPosition.Auto = false;
+            chartArea3.InnerPlotPosition.Height = 90F;
+            chartArea3.InnerPlotPosition.Width = 93F;
+            chartArea3.InnerPlotPosition.X = 4F;
+            chartArea3.InnerPlotPosition.Y = 4F;
+            chartArea3.Name = "MainMirrror";
+            chartArea3.Position.Auto = false;
+            chartArea3.Position.Height = 46F;
+            chartArea3.Position.Width = 97F;
+            chartArea3.Position.X = 2F;
+            chartArea3.Position.Y = 2F;
+            chartArea4.AxisX.IsLabelAutoFit = false;
+            chartArea4.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea4.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisY.Interval = 5D;
+            chartArea4.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.IsLabelAutoFit = false;
+            chartArea4.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea4.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea4.AxisY.MajorTickMark.Size = 0.2F;
+            chartArea4.AxisY2.IsLabelAutoFit = false;
+            chartArea4.AxisY2.LabelAutoFitMaxFontSize = 6;
+            chartArea4.AxisY2.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea4.AxisY2.MajorGrid.Enabled = false;
+            chartArea4.AxisY2.MajorTickMark.Size = 0.2F;
+            chartArea4.InnerPlotPosition.Auto = false;
+            chartArea4.InnerPlotPosition.Height = 90F;
+            chartArea4.InnerPlotPosition.Width = 93F;
+            chartArea4.InnerPlotPosition.X = 4F;
+            chartArea4.InnerPlotPosition.Y = 4F;
+            chartArea4.Name = "SeconMirror";
+            chartArea4.Position.Auto = false;
+            chartArea4.Position.Height = 46F;
+            chartArea4.Position.Width = 97F;
+            chartArea4.Position.X = 2F;
+            chartArea4.Position.Y = 52F;
+            this.chartTTC.ChartAreas.Add(chartArea3);
+            this.chartTTC.ChartAreas.Add(chartArea4);
             this.chartTTC.Location = new System.Drawing.Point(2, 62);
             this.chartTTC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chartTTC.Name = "chartTTC";
-            series17.ChartArea = "MainMirrror";
-            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series17.Name = "MainDelta";
-            series18.ChartArea = "MainMirrror";
-            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series18.Name = "FanRPM";
-            series18.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            series19.ChartArea = "SeconMirror";
-            series19.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series19.Name = "SecondDelta";
-            series20.ChartArea = "SeconMirror";
-            series20.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series20.Name = "Heater";
-            series20.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            this.chartTTC.Series.Add(series17);
-            this.chartTTC.Series.Add(series18);
-            this.chartTTC.Series.Add(series19);
-            this.chartTTC.Series.Add(series20);
+            series5.ChartArea = "MainMirrror";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series5.Name = "MainDelta";
+            series6.ChartArea = "MainMirrror";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series6.Name = "FanRPM";
+            series6.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series7.ChartArea = "SeconMirror";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series7.Name = "SecondDelta";
+            series8.ChartArea = "SeconMirror";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series8.Name = "Heater";
+            series8.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            this.chartTTC.Series.Add(series5);
+            this.chartTTC.Series.Add(series6);
+            this.chartTTC.Series.Add(series7);
+            this.chartTTC.Series.Add(series8);
             this.chartTTC.Size = new System.Drawing.Size(696, 209);
             this.chartTTC.TabIndex = 6;
             this.chartTTC.Text = "chart2";
@@ -2756,17 +2757,18 @@
             // groupBox6
             // 
             this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox6.Controls.Add(this.btnSetPoint_UseRecommended);
             this.groupBox6.Controls.Add(this.label29);
             this.groupBox6.Controls.Add(this.label27);
             this.groupBox6.Controls.Add(this.label16);
             this.groupBox6.Controls.Add(this.txtCameraTemp_Recommended);
             this.groupBox6.Controls.Add(this.txtCameraTemp_Max);
             this.groupBox6.Controls.Add(this.txtCameraTemp_Min);
-            this.groupBox6.Location = new System.Drawing.Point(684, 3);
+            this.groupBox6.Location = new System.Drawing.Point(635, 3);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox6.Size = new System.Drawing.Size(191, 73);
+            this.groupBox6.Size = new System.Drawing.Size(240, 132);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "CameraTemp";
@@ -2774,7 +2776,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(102, 20);
+            this.label29.Location = new System.Drawing.Point(9, 99);
             this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(79, 13);
@@ -2784,7 +2786,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(5, 44);
+            this.label27.Location = new System.Drawing.Point(15, 42);
             this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(27, 13);
@@ -2794,7 +2796,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(5, 21);
+            this.label16.Location = new System.Drawing.Point(15, 19);
             this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(24, 13);
@@ -2803,7 +2805,7 @@
             // 
             // txtCameraTemp_Recommended
             // 
-            this.txtCameraTemp_Recommended.Location = new System.Drawing.Point(133, 34);
+            this.txtCameraTemp_Recommended.Location = new System.Drawing.Point(102, 96);
             this.txtCameraTemp_Recommended.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtCameraTemp_Recommended.Name = "txtCameraTemp_Recommended";
             this.txtCameraTemp_Recommended.ReadOnly = true;
@@ -2812,7 +2814,7 @@
             // 
             // txtCameraTemp_Max
             // 
-            this.txtCameraTemp_Max.Location = new System.Drawing.Point(37, 43);
+            this.txtCameraTemp_Max.Location = new System.Drawing.Point(47, 41);
             this.txtCameraTemp_Max.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtCameraTemp_Max.Name = "txtCameraTemp_Max";
             this.txtCameraTemp_Max.ReadOnly = true;
@@ -2821,7 +2823,7 @@
             // 
             // txtCameraTemp_Min
             // 
-            this.txtCameraTemp_Min.Location = new System.Drawing.Point(37, 21);
+            this.txtCameraTemp_Min.Location = new System.Drawing.Point(47, 19);
             this.txtCameraTemp_Min.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtCameraTemp_Min.Name = "txtCameraTemp_Min";
             this.txtCameraTemp_Min.ReadOnly = true;
@@ -2883,7 +2885,7 @@
             this.txtFocusMax_FocusAsyncStatus.Margin = new System.Windows.Forms.Padding(2);
             this.txtFocusMax_FocusAsyncStatus.Name = "txtFocusMax_FocusAsyncStatus";
             this.txtFocusMax_FocusAsyncStatus.ReadOnly = true;
-            this.txtFocusMax_FocusAsyncStatus.Size = new System.Drawing.Size(56, 20);
+            this.txtFocusMax_FocusAsyncStatus.Size = new System.Drawing.Size(121, 20);
             this.txtFocusMax_FocusAsyncStatus.TabIndex = 1;
             // 
             // txtFocusMax_FocuserPosition
@@ -2935,6 +2937,17 @@
             this.label97.TabIndex = 0;
             this.label97.Text = "Position";
             // 
+            // groupBox22
+            // 
+            this.groupBox22.Location = new System.Drawing.Point(297, 4);
+            this.groupBox22.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox22.Name = "groupBox22";
+            this.groupBox22.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox22.Size = new System.Drawing.Size(335, 150);
+            this.groupBox22.TabIndex = 0;
+            this.groupBox22.TabStop = false;
+            this.groupBox22.Text = "Maxim";
+            // 
             // groupBox23
             // 
             this.groupBox23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2942,11 +2955,11 @@
             this.groupBox23.Controls.Add(this.txtFocuser_pos);
             this.groupBox23.Controls.Add(this.label98);
             this.groupBox23.Controls.Add(this.label31);
-            this.groupBox23.Location = new System.Drawing.Point(684, 80);
+            this.groupBox23.Location = new System.Drawing.Point(635, 139);
             this.groupBox23.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox23.Size = new System.Drawing.Size(191, 73);
+            this.groupBox23.Size = new System.Drawing.Size(239, 73);
             this.groupBox23.TabIndex = 0;
             this.groupBox23.TabStop = false;
             this.groupBox23.Text = "Focuser data";
@@ -2972,7 +2985,7 @@
             // label98
             // 
             this.label98.AutoSize = true;
-            this.label98.Location = new System.Drawing.Point(4, 48);
+            this.label98.Location = new System.Drawing.Point(11, 44);
             this.label98.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(34, 13);
@@ -2982,7 +2995,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(8, 22);
+            this.label31.Location = new System.Drawing.Point(11, 22);
             this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(44, 13);
@@ -3036,10 +3049,10 @@
             // 
             // dataGridData_DateTime
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Format = "G";
-            dataGridViewCellStyle5.NullValue = null;
-            this.dataGridData_DateTime.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Format = "G";
+            dataGridViewCellStyle1.NullValue = null;
+            this.dataGridData_DateTime.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridData_DateTime.HeaderText = "DateTime";
             this.dataGridData_DateTime.MinimumWidth = 50;
             this.dataGridData_DateTime.Name = "dataGridData_DateTime";
@@ -3049,8 +3062,8 @@
             // 
             // dataGridData_Alt
             // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridData_Alt.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridData_Alt.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridData_Alt.HeaderText = "Alt";
             this.dataGridData_Alt.Name = "dataGridData_Alt";
             this.dataGridData_Alt.ReadOnly = true;
@@ -3059,8 +3072,8 @@
             // 
             // dataGridData_Stars
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridData_Stars.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridData_Stars.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridData_Stars.HeaderText = "Stars";
             this.dataGridData_Stars.Name = "dataGridData_Stars";
             this.dataGridData_Stars.ReadOnly = true;
@@ -3069,8 +3082,8 @@
             // 
             // dataGridData_FWHM
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridData_FWHM.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridData_FWHM.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridData_FWHM.HeaderText = "FWHM\"";
             this.dataGridData_FWHM.Name = "dataGridData_FWHM";
             this.dataGridData_FWHM.ReadOnly = true;
@@ -3847,29 +3860,29 @@
             // 
             // weatherSmallChart
             // 
-            chartArea11.AxisX.IsLabelAutoFit = false;
-            chartArea11.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea11.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea11.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea11.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea11.AxisY.Interval = 5D;
-            chartArea11.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea11.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea11.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea11.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea11.Name = "ChartArea1";
-            this.weatherSmallChart.ChartAreas.Add(chartArea11);
+            chartArea5.AxisX.IsLabelAutoFit = false;
+            chartArea5.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea5.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea5.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea5.AxisY.Interval = 5D;
+            chartArea5.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea5.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea5.Name = "ChartArea1";
+            this.weatherSmallChart.ChartAreas.Add(chartArea5);
             this.weatherSmallChart.Location = new System.Drawing.Point(4, 39);
             this.weatherSmallChart.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.weatherSmallChart.Name = "weatherSmallChart";
-            series21.ChartArea = "ChartArea1";
-            series21.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series21.Name = "CloudIdx";
-            series22.ChartArea = "ChartArea1";
-            series22.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series22.Name = "Temp";
-            this.weatherSmallChart.Series.Add(series21);
-            this.weatherSmallChart.Series.Add(series22);
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series9.Name = "CloudIdx";
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series10.Name = "Temp";
+            this.weatherSmallChart.Series.Add(series9);
+            this.weatherSmallChart.Series.Add(series10);
             this.weatherSmallChart.Size = new System.Drawing.Size(186, 99);
             this.weatherSmallChart.TabIndex = 5;
             this.weatherSmallChart.Text = "chart2";
@@ -5120,56 +5133,56 @@
             // chart1
             // 
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea12.AxisX.Crossing = 0D;
-            chartArea12.AxisX.Interval = 1D;
-            chartArea12.AxisX.IsLabelAutoFit = false;
-            chartArea12.AxisX.IsStartedFromZero = false;
-            chartArea12.AxisX.LabelAutoFitMaxFontSize = 6;
-            chartArea12.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea12.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea12.AxisX.LabelStyle.IsStaggered = true;
-            chartArea12.AxisX.MajorGrid.Interval = 1D;
-            chartArea12.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea12.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea12.AxisX.Maximum = 2D;
-            chartArea12.AxisX.Minimum = -2D;
-            chartArea12.AxisX.MinorTickMark.Enabled = true;
-            chartArea12.AxisX.MinorTickMark.Interval = 0.5D;
-            chartArea12.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
-            chartArea12.AxisY.Crossing = 0D;
-            chartArea12.AxisY.Interval = 1D;
-            chartArea12.AxisY.IsLabelAutoFit = false;
-            chartArea12.AxisY.IsStartedFromZero = false;
-            chartArea12.AxisY.LabelAutoFitMaxFontSize = 6;
-            chartArea12.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea12.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
-            chartArea12.AxisY.MajorGrid.Interval = 1D;
-            chartArea12.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea12.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea12.AxisY.Maximum = 2D;
-            chartArea12.AxisY.Minimum = -2D;
-            chartArea12.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
-            chartArea12.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea12);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea6.AxisX.Crossing = 0D;
+            chartArea6.AxisX.Interval = 1D;
+            chartArea6.AxisX.IsLabelAutoFit = false;
+            chartArea6.AxisX.IsStartedFromZero = false;
+            chartArea6.AxisX.LabelAutoFitMaxFontSize = 6;
+            chartArea6.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea6.AxisX.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea6.AxisX.LabelStyle.IsStaggered = true;
+            chartArea6.AxisX.MajorGrid.Interval = 1D;
+            chartArea6.AxisX.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea6.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea6.AxisX.Maximum = 2D;
+            chartArea6.AxisX.Minimum = -2D;
+            chartArea6.AxisX.MinorTickMark.Enabled = true;
+            chartArea6.AxisX.MinorTickMark.Interval = 0.5D;
+            chartArea6.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea6.AxisY.Crossing = 0D;
+            chartArea6.AxisY.Interval = 1D;
+            chartArea6.AxisY.IsLabelAutoFit = false;
+            chartArea6.AxisY.IsStartedFromZero = false;
+            chartArea6.AxisY.LabelAutoFitMaxFontSize = 6;
+            chartArea6.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea6.AxisY.LabelStyle.ForeColor = System.Drawing.Color.DimGray;
+            chartArea6.AxisY.MajorGrid.Interval = 1D;
+            chartArea6.AxisY.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea6.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea6.AxisY.Maximum = 2D;
+            chartArea6.AxisY.Minimum = -2D;
+            chartArea6.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis;
+            chartArea6.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea6);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(548, 9);
             this.chart1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.chart1.Name = "chart1";
-            series23.ChartArea = "ChartArea1";
-            series23.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series23.Legend = "Legend1";
-            series23.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
-            series23.Name = "SeriesGuideError";
-            series24.ChartArea = "ChartArea1";
-            series24.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series24.Color = System.Drawing.Color.Red;
-            series24.Legend = "Legend1";
-            series24.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
-            series24.Name = "SeriesGuideErrorOutOfScale";
-            this.chart1.Series.Add(series23);
-            this.chart1.Series.Add(series24);
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series11.Legend = "Legend1";
+            series11.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Diamond;
+            series11.Name = "SeriesGuideError";
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series12.Color = System.Drawing.Color.Red;
+            series12.Legend = "Legend1";
+            series12.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Cross;
+            series12.Name = "SeriesGuideErrorOutOfScale";
+            this.chart1.Series.Add(series11);
+            this.chart1.Series.Add(series12);
             this.chart1.Size = new System.Drawing.Size(142, 142);
             this.chart1.TabIndex = 6;
             this.chart1.Text = "chart1";
@@ -5744,16 +5757,15 @@
             this.panelMaximum.Size = new System.Drawing.Size(1097, 660);
             this.panelMaximum.TabIndex = 6;
             // 
-            // groupBox22
+            // btnSetPoint_UseRecommended
             // 
-            this.groupBox22.Location = new System.Drawing.Point(297, 4);
-            this.groupBox22.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox22.Name = "groupBox22";
-            this.groupBox22.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox22.Size = new System.Drawing.Size(383, 150);
-            this.groupBox22.TabIndex = 0;
-            this.groupBox22.TabStop = false;
-            this.groupBox22.Text = "Maxim";
+            this.btnSetPoint_UseRecommended.Location = new System.Drawing.Point(162, 96);
+            this.btnSetPoint_UseRecommended.Name = "btnSetPoint_UseRecommended";
+            this.btnSetPoint_UseRecommended.Size = new System.Drawing.Size(47, 21);
+            this.btnSetPoint_UseRecommended.TabIndex = 3;
+            this.btnSetPoint_UseRecommended.Text = "Use";
+            this.btnSetPoint_UseRecommended.UseVisualStyleBackColor = true;
+            this.btnSetPoint_UseRecommended.Click += new System.EventHandler(this.btnSetPoint_UseRecommended_Click);
             // 
             // MainForm
             // 
@@ -6328,6 +6340,7 @@
         private System.Windows.Forms.TextBox txtFocuser_Temp;
         private System.Windows.Forms.Label label98;
         private System.Windows.Forms.GroupBox groupBox22;
+        private System.Windows.Forms.Button btnSetPoint_UseRecommended;
     }
 }
 
