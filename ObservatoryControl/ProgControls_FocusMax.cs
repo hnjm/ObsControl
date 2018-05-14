@@ -70,6 +70,9 @@ namespace ObservatoryCenter
         /// </summary>
         public void Focus()
         {
+            //Reinit objects (just in case)
+            Init();
+
             //1.1. Check if connected 
             if (FocusControlObj == null)
             {
