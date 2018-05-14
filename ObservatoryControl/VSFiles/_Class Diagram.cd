@@ -9,15 +9,8 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>/ze///3//f//+n/f/vv//2n+v9/P/f/7+e/7//d/7/8=</HashCode>
+      <HashCode>/7e///3//f//+n/f/vv//2n+v9/P/f/7+e/7//d/7/8=</HashCode>
       <FileName>MainForm.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ObservatoryCenter.Logging" Collapsed="true">
-    <Position X="50.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAQAQCAQAACAAAEAgAAABAgAAEIQCAAAQAMCAQAAAI=</HashCode>
-      <FileName>Logging.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.ObservatoryControls_ASCOMSwitch" Collapsed="true">
@@ -25,13 +18,6 @@
     <TypeIdentifier>
       <HashCode>AoACgCAAIAgFBIAAwAAAgJIAAgCEkAIAYQoAEAACABA=</HashCode>
       <FileName>ObservatoryControls_ASCOMSwitch.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ObservatoryCenter.ConfigManagement" Collapsed="true">
-    <Position X="34.5" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QKAAgIAAiAgAAAAAACAAAAAAFAQAAABAAAAAogAAAAA=</HashCode>
-      <FileName>ConfigManaging.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.AstroUtilsClass" Collapsed="true">
@@ -86,7 +72,7 @@
   <Class Name="ObservatoryCenter.Maxim_ExternalApplication" Collapsed="true">
     <Position X="16.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CwCgAQCAZAIEjCAACAEBgkAACFFAhCBAQioShBAACEg=</HashCode>
+      <HashCode>CwCgAQCIZAIEjCAASAEBgkAACFFAhCBBAioWhBAACEg=</HashCode>
       <FileName>ProgControls_Maxim.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -116,20 +102,6 @@
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAgAAQRAAEAAAAEAABAAIAAgAAAAABAAAA=</HashCode>
       <FileName>Modules\About.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ObservatoryCenter.ObsSettings_old" Collapsed="true">
-    <Position X="35.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AKACAIAAiBAAAAAAgAAAAAgAhAQAAAAAAAACAAAAAAA=</HashCode>
-      <FileName>ConfigManaging.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ObservatoryCenter.LogRecord" Collapsed="true">
-    <Position X="50.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAgAAAAAAAAAAQAAEIAAAAAIAAAAYA=</HashCode>
-      <FileName>Logging.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ObservatoryCenter.CCDAP_Command_class" Collapsed="true">
@@ -306,7 +278,7 @@
   <Class Name="ObservatoryCenter.ObservatoryControls">
     <Position X="5.75" Y="1.25" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>JgQAIgBAhBAEYAAw0lICAAAAAEEUEgEEoJEEwAAAgAQ=</HashCode>
+      <HashCode>JgQAIgBAhBAEYAAw0lICAAAAAGEEkgEEoJEAwAAAgQA=</HashCode>
       <FileName>ObservatoryControls.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -317,20 +289,6 @@
       <FileName>Modules\Utils.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="ObservatoryCenter.Highlight" Collapsed="true">
-    <Position X="50.25" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAYAAAAAAAAEAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Logging.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="ObservatoryCenter.LogLevel" Collapsed="true">
-    <Position X="50.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAQAABgAAIAAAEAAAAA=</HashCode>
-      <FileName>Logging.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Enum Name="ObservatoryCenter.CCDAPCommandType" Collapsed="true">
     <Position X="52" Y="3.75" Width="1.5" />
     <TypeIdentifier>

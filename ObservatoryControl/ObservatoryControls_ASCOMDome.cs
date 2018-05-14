@@ -22,20 +22,20 @@ namespace ObservatoryCenter
 {
     public class ObservatoryControls_ASCOMDome
     {
-
         public bool Enabled = false;
         public bool Connected_flag = false;
 
         public string DRIVER_NAME = "";
+
+        public ShutterState curShutterStatus = ShutterState.shutterError;
+        public DateTime RoofRoutine_StartTime;
+        public int curRoofRoutineDuration_Seconds;
+
+        //ASCOM Object
         private ASCOM.DriverAccess.Dome objDome = null;
 
         //Optional external reference to switch object to check if roof power switched on
-        internal ObservatoryControls_ASCOMSwitch ExtASCOMSiwitchObj = null;
-
-        internal ShutterState curShutterStatus = ShutterState.shutterError;
-
-        internal DateTime RoofRoutine_StartTime;
-        internal int curRoofRoutineDuration_Seconds;
+        private ObservatoryControls_ASCOMSwitch ExtASCOMSiwitchObj = null;
 
         // Threads
         private Thread CheckDomeStatusThread;
@@ -295,10 +295,5 @@ namespace ObservatoryCenter
             curShutterStatus = ShutterState.shutterError;
             objDome = null;
         }
-
-
-
-
-
     }
 }

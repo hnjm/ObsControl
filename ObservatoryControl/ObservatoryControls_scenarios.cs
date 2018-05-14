@@ -40,7 +40,7 @@ namespace ObservatoryCenter
             //Internal commands
             CommandParser.Commands.Add("VERSION", new Command((a) => VersionData.getVersionString(), "Get current program version")); //Pring version
             CommandParser.Commands.Add("HELP", new Command((a) => this.CommandParser.ListCommandsFormated2(), "List all available commands")); //list of commands
-            CommandParser.Commands.Add("WAIT", new Command((a) => this.pauseExecution(a), "Pause execution for <N> milliseconds", "N")); //Pause execution for ... milliseconds
+            CommandParser.Commands.Add("WAIT", new Command((a) => this.pauseScenarioExecution(a), "Pause execution for <N> milliseconds", "N")); //Pause execution for ... milliseconds
 
             //Self control commands
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", new Command((a) => this.OBS_connectTelescope(), "Connect telescope in Observatory control software"));
@@ -314,10 +314,10 @@ namespace ObservatoryCenter
         #region /// Special Commands //////////////////////
 
         /// <summary>
-        /// Pause scenario execution for specified number of seconds
+        /// Scenario element: Pause scenario execution for specified number of seconds
         /// </summary>
         /// <param name="CommandString_param_arr">1st param - number of milliseconds</param>
-        public string pauseExecution(string[] CommandString_param_arr)
+        public string pauseScenarioExecution(string[] CommandString_param_arr)
         {
             int pauseLength = 0;
 
@@ -332,8 +332,7 @@ namespace ObservatoryCenter
         }
 
         /// <summary>
-        /// Switch weater to BAD
-        /// CCDC will abort imaging run and park
+        /// CCDC will abort imaging run and park. Using switch weather to BAD
         /// </summary>
         /// <returns></returns>
         public string ImagingRun_Pause()
@@ -341,23 +340,25 @@ namespace ObservatoryCenter
             Logging.AddLog("Imaging run paused", LogLevel.Activity);
 
             objBoltwoodControl.Switch_to_BAD();
-            objBoltwoodControl.WriteFile();
 
             return "RETURN: Imaging run paused";
         }
 
+        /// <summary>
+        /// CCDC will resume imaging run. Using switch weather back to GOOD
+        /// </summary>
+        /// <returns></returns>
         public string ImagingRun_Resume()
         {
             Logging.AddLog("Imaging run resumed", LogLevel.Activity);
 
             objBoltwoodControl.Switch_to_GOOD();
-            objBoltwoodControl.WriteFile();
 
             return "RETURN: Imaging run resumed";
         }
 
         /// <summary>
-        /// Imaging run ABORT SCENARIO
+        /// CCDC will abort imaging run, park and cooler warmup. Using switch weather to BAD and controlling this
         /// </summary>
         /// <returns></returns>
         public string ImagingRun_Abort()

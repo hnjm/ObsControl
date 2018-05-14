@@ -367,6 +367,7 @@ namespace ObservatoryCenter
                         chkCoolerFlag.Checked = false;
                         chkCoolerFlag.BackColor = OffColor;
                     }
+
                 }
                 else
                 //If camera is not connected
@@ -417,6 +418,12 @@ namespace ObservatoryCenter
                 chkCoolerFlag.Checked = false;
                 chkCoolerFlag.BackColor = DefBackColor;
             }
+
+            //UpdateMinMax Temp
+            txtCameraTemp_Min.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp_MinRecorded);
+            txtCameraTemp_Max.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CameraTemp_MaxRecorded);
+
+            txtCameraTemp_Recommended.Text = String.Format("{0:0.0}", ObsControl.objMaxim.CalcRecommendedCoolerTemp());
 
         }
 
@@ -470,7 +477,6 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateTelescopeStatus()
         {
-
             if (ObsControl.ASCOMTelescope.Enabled)
             {
                 txtTelescopeAz.Enabled = true;
@@ -536,6 +542,24 @@ namespace ObservatoryCenter
         }
 
 
+        public void UpdateFocuserStatus()
+        {
+
+            if (ObsControl.ASCOMFocuser.Enabled)
+            {
+                txtFocuser_pos.Enabled = true;
+                txtFocuser_Temp.Enabled = true;
+
+                txtFocuser_pos.Text = ObsControl.ASCOMFocuser.FocuserPos.ToString();
+                txtFocuser_Temp.Text = ObsControl.ASCOMFocuser.FocuserTemp.ToString();
+            }
+            else
+            {
+                txtFocuser_pos.Enabled = false;
+                txtFocuser_Temp.Enabled = false;
+            }
+        }
+
         /// <summary>
         /// Update values on settings tab
         /// </summary>
@@ -552,14 +576,14 @@ namespace ObservatoryCenter
                 }
                 else
                 {
-                    txtSet_Switch.BackColor = SystemColors.Control;
+                    txtSet_Switch.BackColor = DefBackColorTextBoxes;
                 }
                 chkASCOM_Enable_Switch.Checked = true;
             }
             else
             {
                 txtSet_Switch.Enabled = false;
-                txtSet_Switch.BackColor = SystemColors.Control;
+                txtSet_Switch.BackColor = DefBackColorTextBoxes;
                 chkASCOM_Enable_Switch.Checked = false;
             }
 
@@ -574,31 +598,81 @@ namespace ObservatoryCenter
                 }
                 else
                 {
-                    txtSet_Dome.BackColor = SystemColors.Control;
+                    txtSet_Dome.BackColor = DefBackColorTextBoxes;
                 }
                 chkASCOM_Enable_Dome.Checked = true;
             }
             else
             {
                 txtSet_Dome.Enabled = false;
-                txtSet_Dome.BackColor = SystemColors.Control;
+                txtSet_Dome.BackColor = DefBackColorTextBoxes;
                 chkASCOM_Enable_Dome.Checked = false;
             }
 
+
+            //TELESCOPE
             txtSet_Telescope.Text = ObsControl.ASCOMTelescope.DRIVER_NAME;
-            if (ObsControl.ASCOMTelescope.Connected_flag == true)
+            if (ObsControl.ASCOMTelescope.Enabled)
             {
-                txtSet_Telescope.BackColor = OnColor;
+                txtSet_Telescope.Enabled = true;
+                if (ObsControl.ASCOMTelescope.Connected_flag == true)
+                {
+                    txtSet_Telescope.BackColor = OnColor;
+                }
+                else
+                {
+                    txtSet_Telescope.BackColor = DefBackColorTextBoxes;
+                }
+                chkASCOM_Enable_Telescope.Checked = true;
             }
             else
             {
-                txtSet_Telescope.BackColor = SystemColors.Control;
+                txtSet_Telescope.Enabled = false;
+                txtSet_Telescope.BackColor = DefBackColorTextBoxes;
+                chkASCOM_Enable_Telescope.Checked = false;
             }
-            
+
+            //FOCUSER
+            txtSet_Focuser.Text = ObsControl.ASCOMFocuser.DRIVER_NAME;
+            if (ObsControl.ASCOMFocuser.Enabled)
+            {
+                txtSet_Focuser.Enabled = true;
+                if (ObsControl.ASCOMFocuser.Connected_flag == true)
+                {
+                    txtSet_Focuser.BackColor = OnColor;
+                }
+                else
+                {
+                    txtSet_Focuser.BackColor = DefBackColorTextBoxes;
+                }
+                chkASCOM_Enable_Focuser.Checked = true;
+            }
+            else
+            {
+                txtSet_Focuser.Enabled = false;
+                txtSet_Focuser.BackColor = DefBackColorTextBoxes;
+                chkASCOM_Enable_Focuser.Checked = false;
+            }
+
+
             //testFocus = (ObsControl.objMaxim.MaximApplicationObj != null && ObsControl.objMaxim.MaximApplicationObj.FocuserConnected);
             //testCamera2 = (ObsControl.objMaxim.CCDCamera != null && ObsControl.objMaxim.CCDCamera.LinkEnabled && ObsControl.objMaxim.CCDCamera.GuiderName != "");
 
 
+        }
+
+
+
+        public void UpdateFocusMaxStatus()
+        {
+            ObsControl.objFocusMaxApp.CheckFocusMaxFocusStatus();
+
+            txtFocusMax_FocusStartTime.Text = ObsControl.objFocusMaxApp.FocusAsync_StartTime.ToString();
+            txtFocusMax_FocusStartTimeElapsed.Text = (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString();
+
+            txtFocusMax_FocusAsyncStatus.Text = ObsControl.objFocusMaxApp.FocusAsyncStatus.ToString();
+            txtFocusMax_FocuserPosition.Text = ObsControl.objFocusMaxApp.FM_FocuserPos.ToString();
+            txtFocusMax_Debug.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString();
         }
 
 

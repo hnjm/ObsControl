@@ -302,6 +302,42 @@ namespace ObservatoryCenter
             Update_TELESCOPE_related_elements();
         }
 
+        private void chkASCOM_Enable_Focuser_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (((CheckBox)sender).Checked == false)
+            {
+                //disconnect
+                ObsControl.ASCOMFocuser.Connect = false;
+                ObsControl.ASCOMFocuser.Enabled = false;
+                ObsControl.ASCOMFocuser.Reset();
+            }
+            else
+            {
+                //connect
+                ObsControl.ASCOMFocuser.Enabled = true;
+                ObsControl.ASCOMFocuser.Connect = true;
+            }
+            
+            //todo: do we need smth similiar for focuser
+            //Update_TELESCOPE_related_elements(); 
+            
+            //todo: save to XML config
+            //Properties.Settings.Default.DeviceEnabled_Telescope = ObsControl.ASCOMTelescope.Enabled; 
+        }
+        private void btnASCOM_Choose_Focuser_Click(object sender, EventArgs e)
+        {
+            ObsControl.ASCOMFocuser.DRIVER_NAME = ASCOM.DriverAccess.Focuser.Choose(ObsControl.ASCOMFocuser.DRIVER_NAME); //todo : saving and loading to XML config
+            txtSet_Focuser.Text = ObsControl.ASCOMFocuser.DRIVER_NAME;
+            if (ObsControl.ASCOMFocuser.DRIVER_NAME != "")
+            {
+                chkASCOM_Enable_Focuser.Checked = true;
+            }
+            ObsControl.ASCOMFocuser.Reset();
+            ObsControl.ASCOMFocuser.Connect = true;
+            //todo: do we need smth similiar for focuser
+            //Update_TELESCOPE_related_elements();
+        }
         #endregion /// Settings tab ASCOM Devices /////////////////////////////////////////////////////////////////
         // End of Settings tab ASCOM Devices block
 
@@ -349,6 +385,10 @@ namespace ObservatoryCenter
 
 
 
+        private void btnFocus_Click(object sender, EventArgs e)
+        {
+            ObsControl.objFocusMaxApp.Focus();
+        }
 
 
 

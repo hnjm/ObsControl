@@ -22,16 +22,21 @@ namespace ObservatoryCenter
     /// </summary>
     public partial class Maxim_ExternalApplication
     {
+        public const double TEMP_MIN = -99.0;
+        public const double TEMP_MAX = 99.0;
+
         //Cooling status
-        public double CameraTemp = -99;
-        public double CameraSetPoint = -99;
+        public double CameraTemp = TEMP_MIN;
+        public double CameraSetPoint = TEMP_MIN;
         public double CameraCoolerPower = 0;
         public bool CameraCoolerOnStatus = false;
         public bool CameraWarmpUpNow = false;
 
-        public double TargetCameraSetTemp = -30;
-        public double DefaultCameraSetTemp = -20.0;
+        public const double DefaultCameraSetTemp = -20.0;
+        public double TargetCameraSetTemp = DefaultCameraSetTemp;
 
+        public double CameraTemp_MaxRecorded = TEMP_MIN; //for recording max temp in session
+        public double CameraTemp_MinRecorded = TEMP_MAX; //for recording min temp in session
 
         // Threads
         private Thread CheckMaximCoolerStatusThread;
@@ -76,6 +81,9 @@ namespace ObservatoryCenter
             CameraTemp = GetCameraTemp();
             CameraSetPoint = GetCameraSetpoint();
             CameraCoolerPower = GetCoolerPower();
+
+            if (CameraTemp != TEMP_MAX && CameraTemp > CameraTemp_MaxRecorded) CameraTemp_MaxRecorded = CameraTemp;
+            if (CameraTemp != TEMP_MIN && CameraTemp < CameraTemp_MinRecorded) CameraTemp_MinRecorded = CameraTemp;
         }
 
 
@@ -84,9 +92,9 @@ namespace ObservatoryCenter
         /// </summary>
         public string CameraCoolingChangeSetTemp(string[] CommandString_param_arr)
         {
-            double SetTemp = -99;
+            double SetTemp;
             if (!Double.TryParse(CommandString_param_arr[0], out SetTemp))
-                SetTemp = -99;
+                SetTemp = TEMP_MIN;
 
             bool res = CameraCoolingChangeSetTemp(SetTemp);
             string resst = "";
@@ -110,7 +118,7 @@ namespace ObservatoryCenter
         {
             bool res = false;
 
-            if (SetTemp == -99)
+            if (SetTemp == TEMP_MIN)
                 SetTemp = TargetCameraSetTemp;
 
             if (CameraConnected)
@@ -137,9 +145,10 @@ namespace ObservatoryCenter
         /// Switch cooler on, and set main camera cooling temperature
         /// If Maxim isn't running then use it as a TragetSetTemp changing
         /// </summary>
-        public string CameraCoolingOn(double SetTemp = -99)
+        public string CameraCoolingOn(double SetTemp = TEMP_MIN)
         {
-            if (SetTemp == -99) SetTemp = TargetCameraSetTemp;
+            if (SetTemp == TEMP_MIN)
+                SetTemp = TargetCameraSetTemp;
             CameraWarmpUpNow = false;
 
             if (IsRunning() && MaximApplicationObj != null)
@@ -246,7 +255,7 @@ namespace ObservatoryCenter
         /// <returns></returns>
         public double GetCameraSetpoint()
         {
-            double setTemp = -99.0;
+            double setTemp = TEMP_MIN;
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try
             {
@@ -263,7 +272,7 @@ namespace ObservatoryCenter
 
         public double GetCameraTemp()
         {
-            double getTemp = 200.0;
+            double getTemp = TEMP_MAX;
             if (CCDCamera == null) CCDCamera = new MaxIm.CCDCamera();
             try
             {
@@ -316,7 +325,21 @@ namespace ObservatoryCenter
         }
 
 
-#region in development
+        #region in development
+        public double CalcRecommendedCoolerTemp()
+        {
+            double SetPointCalc = TEMP_MAX;
+            if (CameraTemp_MaxRecorded != TEMP_MIN)
+            {
+                SetPointCalc = CameraTemp_MaxRecorded - 35.0;
+                SetPointCalc = Math.Ceiling(SetPointCalc/5.0) * 5.0;
+            }
+            else
+            {
+                SetPointCalc = DefaultCameraSetTemp;
+            }
+            return SetPointCalc;
+        }
 
         public void ToggleCameraCoolingAuto()
         {

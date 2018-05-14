@@ -13,6 +13,9 @@ namespace ObservatoryCenter
         private BoltwoodFields BoltwoodObj_GoodState;
         private BoltwoodFields BoltwoodObj_BadState;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ObservatoryControls_boltwood()
         {
             BoltwoodFileClass.BoltwoodFilePath = ConfigManagement.ProgDocumentsPath;
@@ -31,8 +34,14 @@ namespace ObservatoryCenter
             Switch_to_GOOD();
         }
 
+        public void UpdateFile()
+        {
+            //Update boltwood file
+            WriteFile();
+        }
 
-        public void WriteFile()
+
+        private void WriteFile()
         {
             BoltwoodObj.SetMeasurement(); //update measured time
             BoltwoodFileClass.WirteBoltwoodData(BoltwoodObj.getBoltwoodString());
@@ -41,16 +50,16 @@ namespace ObservatoryCenter
         public void Switch_to_GOOD()
         {
             BoltwoodObj.CopyEssentialParameters(BoltwoodObj_GoodState);
-
+            WriteFile();
         }
 
         public void Switch_to_BAD()
         {
             BoltwoodObj.CopyEssentialParameters(BoltwoodObj_BadState);
-
+            WriteFile();
         }
 
-        public void Load_Presets()
+        private void Load_Presets()
         {
 
             //good

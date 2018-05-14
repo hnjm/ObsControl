@@ -250,11 +250,10 @@ namespace ObservatoryCenter
         /// <summary>
         /// Main timer tick
         /// </summary>
-        private void mainTimerShort_Tick(object sender, EventArgs e)
+        private void timerInterfaceUpdate_Short_Tick(object sender, EventArgs e)
         {
             //check telscope status
             ObsControl.ASCOMTelescope.CheckTelescopeStatus_async();
-
 
             UpdatePowerButtonsStatus(); //checked for not quering device/program
             UpdateStatusbarASCOMStatus(); //checked for not quering device/program
@@ -264,6 +263,9 @@ namespace ObservatoryCenter
             UpdateCCDCameraCoolerStatus(); //Check for not quering device/program
 
             UpdateTelescopeStatus(); //Checked for not quering device/program
+
+            UpdateFocuserStatus(); //direct ASCOM connection
+            UpdateFocusMaxStatus();//FocusMax Data
 
             UpdateSettingsTabStatusFileds(); // Checked for not quering device / program
 
@@ -291,15 +293,20 @@ namespace ObservatoryCenter
         /// <summary>
         /// Second main timer tick. More slower to not overload hardware
         /// </summary>
-        private void mainTimer_Long_Tick(object sender, EventArgs e)
+        private void timerHardwarePooling_Long_Tick(object sender, EventArgs e)
         {
             //check power switch status
             ObsControl.ASCOMSwitch.CheckPowerDeviceStatus_async();
+
             //check dome status
             ObsControl.ASCOMDome.CheckDomeShutterStatus_async();
 
             //check telscope status
-            //ObsControl.ASCOMTelescope.CheckTelescopeStatus_async();
+            //Moved to timerInterfaceShort because of need more often data pooling
+
+            //check foucser status
+            ObsControl.ASCOMFocuser.CheckDeviceStatus_async();
+
 
             //check phd status
             ObsControl.objPHD2App.CMD_GetConnectEquipmentStatus();
@@ -311,7 +318,7 @@ namespace ObservatoryCenter
             ObsControl.objMaxim.checkCameraTemperatureStatus_async();
 
             //Update weather file
-            ObsControl.objBoltwoodControl.WriteFile();
+            ObsControl.objBoltwoodControl.UpdateFile();
             
             //update AstroTortilla solver status
             UpdateSolverFileds();
@@ -339,21 +346,20 @@ namespace ObservatoryCenter
         /// <summary>
         /// Third main timer tick. Very slow for updating information
         /// </summary>
-        private void mainTime_VeryLong_Tick(object sender, EventArgs e)
+        private void timerLongCylceThings_VeryLong_Tick(object sender, EventArgs e)
         {
             UpdateWeatherData();
 
             UpdateTelescopeTempControlData();
 
             UpdateAstronomyEvents();
-
         }
 
 
         /// <summary>
         /// Timer to work with log information (save it, display, etc)
         /// </summary>
-        private void logRefreshTimer_Tick(object sender, EventArgs e)
+        private void timerLogRefresh_Tick(object sender, EventArgs e)
         {
             //Get current loglevel value
             LogLevel CurLogLevel = LogLevel.Activity;
@@ -478,6 +484,9 @@ namespace ObservatoryCenter
             //1. Update ConfigXML
             ConfigManagement.UpdateConfigValue("Options", "lastsettemp", ObsControl.objMaxim.CameraSetPoint.ToString());
 
+            ConfigManagement.UpdateConfigValue("Devices", "FocuserDriverName", ObsControl.ASCOMFocuser.DRIVER_NAME); //focuser driver name
+            ConfigManagement.UpdateConfigValue("Devices", "FocuserAutoConnect", ObsControl.ASCOMFocuser.Enabled.ToString()); //auto connect focuser
+
             //2. Save ConfigXML to disk
             ConfigManagement.Save();
 
@@ -491,7 +500,11 @@ namespace ObservatoryCenter
             try
             {
                 //Filter settings
-                ObsControl.objMaxim.TargetCameraSetTemp = ConfigManagement.getDouble("Options", "lastsettemp") ?? ObsControl.objMaxim.DefaultCameraSetTemp;
+                ObsControl.objMaxim.TargetCameraSetTemp = ConfigManagement.getDouble("Options", "lastsettemp") ?? Maxim_ExternalApplication.DefaultCameraSetTemp;
+
+                //Devices
+                ObsControl.ASCOMFocuser.DRIVER_NAME = ConfigManagement.getString("Devices", "FocuserDriverName") ?? "";
+                ObsControl.ASCOMFocuser.Enabled = ConfigManagement.getBool("Devices", "FocuserAutoConnect") ?? false;
 
                 Logging.AddLog("Program parameters were set according to XML configuration file", LogLevel.Activity);
             }

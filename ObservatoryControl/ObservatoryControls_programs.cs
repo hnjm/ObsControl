@@ -85,7 +85,7 @@ namespace ObservatoryCenter
 
 
             //FocusMax
-            objFocusMaxApp = new FocusMax_ExternalApplication();
+            objFocusMaxApp = new FocusMax_ExternalApplication(this);
             objFocusMaxApp.Name = "FocusMax";
             objFocusMaxApp.FullName = ConfigManagement.getString("programsPath", "FOCUSMAX") ?? @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 

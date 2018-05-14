@@ -153,6 +153,7 @@
     <Compile Include="Modules\About.cs" />
     <Compile Include="Modules\AstroUtils.cs" />
     <Compile Include="Modules\BoltwoodClasses.cs" />
+    <Compile Include="ObservatoryControls_ASCOMFocuser.cs" />
     <Compile Include="ObservatoryControls_boltwood.cs" />
     <Compile Include="MainForm_ShortForm.cs">
       <SubType>Form</SubType>

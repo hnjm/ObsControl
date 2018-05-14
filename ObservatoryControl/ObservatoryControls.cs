@@ -31,6 +31,9 @@ namespace ObservatoryCenter
         //public ASCOM.DriverAccess.Focuser objFocuser = null;
         //public ASCOM.DriverAccess.Camera objCamera = null;
 
+        /// <summary>
+        /// ASCOM Utils wrapper
+        /// </summary>
         public ASCOM.Utilities.Util ASCOMUtils=new ASCOM.Utilities.Util();
 
         /// <summary>
@@ -41,6 +44,8 @@ namespace ObservatoryCenter
         public ObservatoryControls_ASCOMSwitch ASCOMSwitch;
         public ObservatoryControls_ASCOMTelescope ASCOMTelescope;
         public ObservatoryControls_ASCOMDome ASCOMDome;
+        public ObservatoryControls_ASCOMFocuser ASCOMFocuser;
+
 
         /// <summary>
         /// Boltwood file generation object
@@ -67,6 +72,7 @@ namespace ObservatoryCenter
             ASCOMSwitch = new ObservatoryControls_ASCOMSwitch();
             ASCOMTelescope = new ObservatoryControls_ASCOMTelescope();
             ASCOMDome = new ObservatoryControls_ASCOMDome(ASCOMSwitch);
+            ASCOMFocuser = new ObservatoryControls_ASCOMFocuser();
 
             objBoltwoodControl = new ObservatoryControls_boltwood();
 
@@ -82,12 +88,6 @@ namespace ObservatoryCenter
         }
 
 
-
-
-        public double CalcRecommendedCoolerTemp()
-        {
-            return -20.0;
-        }
 
         public string OBS_connectTelescope()
         {
