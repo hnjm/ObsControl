@@ -24,12 +24,15 @@ namespace ObservatoryCenter
         /// <summary>
         /// FOCUS MAX Object
         /// </summary>
-        public FocusMax.FocusControl FocusControlObj;       //Application object
+        private FocusMax.FocusControl FocusControlObj;       //Application object
+        internal FocusMax.FocusControl _FocusControlObj;     //todo: remove this temp reference
+
 
         /// <summary>
         /// FOCUS MAX Direct access to ASCOM Focuser object
         /// </summary>
         public FocusMax.Focuser FocuserObj;                 //Focuser object
+        internal FocusMax.Focuser _FocuserObj;              //todo: remove this temp reference
 
         /// <summary>
         /// Current Focus Status when running Focus Async
@@ -38,7 +41,10 @@ namespace ObservatoryCenter
         public DateTime FocusAsync_StartTime;
 
         public int FM_FocuserPos;
+        public double FM_FocuserTemp= Maxim_ExternalApplication.TEMP_MIN;
+
         public double HalfFluxDiameter;
+
 
         private ObservatoryControls ParentObsControl;
 
@@ -117,6 +123,7 @@ namespace ObservatoryCenter
                 Init();
 
                 FM_FocuserPos = FocuserObj.Position;
+                FM_FocuserTemp = FocuserObj.Temperature;
                 HalfFluxDiameter = FocusControlObj.HalfFluxDiameter;
                 FocusAsyncStatus = FocusControlObj.FocusAsyncStatus;
             }

@@ -498,7 +498,7 @@ namespace ObservatoryCenter
             //check result
             try
             {
-                string ver = ObsControl.objFocusMaxApp.FocusControlObj.Version;
+                string ver = ObsControl.objFocusMaxApp._FocusControlObj.Version;
                 TestResult.AddStr("TestEquipment: FocusMax version " + ver);
                 TestResult.res = true;
                 TestResult.AddStr("TestEquipment: FocusMax run test passed");

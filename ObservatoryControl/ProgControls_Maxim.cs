@@ -45,10 +45,12 @@ namespace ObservatoryCenter
         private Thread CheckMaximStatusThread;
         private ThreadStart CheckMaximStatusThread_startref;
 
+        private ObservatoryControls ParentObsControls;
 
-
-        public Maxim_ExternalApplication() : base()
-        { }
+        public Maxim_ExternalApplication(ObservatoryControls ExtObsControls) : base()
+        {
+            ParentObsControls = ExtObsControls;
+        }
 
         public void Init()
         {

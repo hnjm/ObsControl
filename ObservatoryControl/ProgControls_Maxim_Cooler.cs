@@ -324,22 +324,48 @@ namespace ObservatoryCenter
             return res;
         }
 
-
-        #region in development
+        /// <summary>
+        /// Calcualte SetTemp based on external temperature
+        /// </summary>
+        /// <returns></returns>
         public double CalcRecommendedCoolerTemp()
         {
             double SetPointCalc = TEMP_MAX;
-            if (CameraTemp_MaxRecorded != TEMP_MIN)
+            double ExternalTemp = TEMP_MIN;
+
+            if (ParentObsControls.ASCOMFocuser.FocuserTemp != TEMP_MIN)
             {
-                SetPointCalc = CameraTemp_MaxRecorded - 35.0;
-                SetPointCalc = Math.Ceiling(SetPointCalc/5.0) * 5.0;
+                ExternalTemp = ParentObsControls.ASCOMFocuser.FocuserTemp;
+            }
+            else if (ParentObsControls.objFocusMaxApp.FM_FocuserTemp != TEMP_MIN)
+            {
+                ExternalTemp = ParentObsControls.objFocusMaxApp.FM_FocuserTemp;
+            }
+            else if (CameraTemp_MaxRecorded != TEMP_MIN)
+            {
+                ExternalTemp = CameraTemp_MaxRecorded;
+            }
+
+            //Расчитаем рекомендуемую температуру
+            if (ExternalTemp != TEMP_MIN)
+            {
+                SetPointCalc = ExternalTemp - 35.0;
+                SetPointCalc = Math.Ceiling(SetPointCalc / 5.0) * 5.0;
             }
             else
             {
                 SetPointCalc = DefaultCameraSetTemp;
             }
+
             return SetPointCalc;
         }
+
+
+        
+        
+        
+        
+        #region in development
 
         public void ToggleCameraCoolingAuto()
         {

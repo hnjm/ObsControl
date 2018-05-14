@@ -90,7 +90,7 @@ namespace ObservatoryCenter
             objFocusMaxApp.FullName = ConfigManagement.getString("programsPath", "FOCUSMAX") ?? @"c:\Program Files (x86)\FocusMax\FocusMax.exe";
 
             //MaxIm_DL
-            objMaxim = new Maxim_ExternalApplication();
+            objMaxim = new Maxim_ExternalApplication(this);
             objMaxim.Name = "MaxIm_DL";
             objMaxim.FullName = ConfigManagement.getString("programsPath", "MAXIMDL") ?? @"c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe";
 

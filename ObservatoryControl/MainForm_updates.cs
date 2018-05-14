@@ -550,13 +550,16 @@ namespace ObservatoryCenter
                 txtFocuser_pos.Enabled = true;
                 txtFocuser_Temp.Enabled = true;
 
-                txtFocuser_pos.Text = ObsControl.ASCOMFocuser.FocuserPos.ToString();
-                txtFocuser_Temp.Text = ObsControl.ASCOMFocuser.FocuserTemp.ToString();
+                txtFocuser_pos.Text = ObsControl.ASCOMFocuser.FocuserPos.ToString("N0");
+                txtFocuser_Temp.Text = ObsControl.ASCOMFocuser.FocuserTemp.ToString("N1");
             }
             else
             {
                 txtFocuser_pos.Enabled = false;
                 txtFocuser_Temp.Enabled = false;
+
+                txtFocuser_pos.Text = "";
+                txtFocuser_Temp.Text = "";
             }
         }
 
@@ -671,11 +674,11 @@ namespace ObservatoryCenter
                 ObsControl.objFocusMaxApp.CheckFocusMaxFocusStatus();
 
                 txtFocusMax_FocusStartTime.Text = ObsControl.objFocusMaxApp.FocusAsync_StartTime.ToString();
-                txtFocusMax_FocusStartTimeElapsed.Text = (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString();
+                txtFocusMax_FocusStartTimeElapsed.Text = (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString("N0");
 
                 txtFocusMax_FocusAsyncStatus.Text = ObsControl.objFocusMaxApp.FocusAsyncStatus.ToString();
-                txtFocusMax_FocuserPosition.Text = ObsControl.objFocusMaxApp.FM_FocuserPos.ToString();
-                txtFocusMax_Debug.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString();
+                txtFocusMax_FocuserPosition.Text = ObsControl.objFocusMaxApp.FM_FocuserPos.ToString("N0");
+                txtFocusMax_Debug.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString("N2");
             }
             else
             {
