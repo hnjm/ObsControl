@@ -525,13 +525,13 @@ namespace ObservatoryCenter
             try
             {
                 //connect
-                ObsControl.objFocusMaxApp.FocuserObj.Link = true;
+                ObsControl.objFocusMaxApp._FocuserObj.Link = true;
                 
                 //Read current pos
-                int startpos = ObsControl.objFocusMaxApp.FocuserObj.Position;
+                int startpos = ObsControl.objFocusMaxApp._FocuserObj.Position;
                 int curpos = startpos;
                 //Move +500 pos
-                ObsControl.objFocusMaxApp.FocuserObj.Move(startpos + 500);
+                ObsControl.objFocusMaxApp._FocuserObj.Move(startpos + 500);
 
                 for (int i = 1; i < 5; i++)
                 {
@@ -539,8 +539,8 @@ namespace ObservatoryCenter
                     Thread.Sleep(500);
 
                     //check result
-                    bool focuserready = !ObsControl.objFocusMaxApp.FocuserObj.IsMoving;
-                    curpos = ObsControl.objFocusMaxApp.FocuserObj.Position;
+                    bool focuserready = !ObsControl.objFocusMaxApp._FocuserObj.IsMoving;
+                    curpos = ObsControl.objFocusMaxApp._FocuserObj.Position;
                     TestResult.AddStr("TestEquipment: FocusMax foucser: is moving = " + !focuserready + ", start pos = " + startpos + ", current pos = " + curpos);
 
                     if (focuserready)
@@ -555,7 +555,7 @@ namespace ObservatoryCenter
                     TestResult.AddStr("TestEquipment: FocusMax foucser move test passed");
 
                     //Return focuser to start pos
-                    ObsControl.objFocusMaxApp.FocuserObj.Move(startpos);
+                    ObsControl.objFocusMaxApp._FocuserObj.Move(startpos);
                 }
                 else
                 {

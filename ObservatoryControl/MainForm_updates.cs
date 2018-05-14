@@ -674,9 +674,9 @@ namespace ObservatoryCenter
                 ObsControl.objFocusMaxApp.CheckFocusMaxFocusStatus();
 
                 txtFocusMax_FocusStartTime.Text = ObsControl.objFocusMaxApp.FocusAsync_StartTime.ToString();
-                txtFocusMax_FocusStartTimeElapsed.Text = (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString("N0");
+                txtFocusMax_FocusStartTimeElapsed.Text = ((DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds> 10000 ? "" : (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString("N0"));
 
-                txtFocusMax_FocusAsyncStatus.Text = ObsControl.objFocusMaxApp.FocusAsyncStatus.ToString();
+                txtFocusMax_FocusAsyncStatus.Text = ObsControl.objFocusMaxApp.FocusAsyncStatusSt;
                 txtFocusMax_FocuserPosition.Text = ObsControl.objFocusMaxApp.FM_FocuserPos.ToString("N0");
                 txtFocusMax_Debug.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString("N2");
             }

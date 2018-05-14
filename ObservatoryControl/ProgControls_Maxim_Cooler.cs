@@ -349,7 +349,7 @@ namespace ObservatoryCenter
             //Расчитаем рекомендуемую температуру
             if (ExternalTemp != TEMP_MIN)
             {
-                SetPointCalc = ExternalTemp - 35.0;
+                SetPointCalc = ExternalTemp - 37.5;
                 SetPointCalc = Math.Ceiling(SetPointCalc / 5.0) * 5.0;
             }
             else

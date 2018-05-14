@@ -149,7 +149,7 @@ namespace ObservatoryCenter
         public string startFocusMax()
         {
             objFocusMaxApp.Run();
-            objFocusMaxApp.Init();
+            objFocusMaxApp.InitObjects();
             return objFocusMaxApp.ErrorSt;
         }
 

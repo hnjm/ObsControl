@@ -31,13 +31,16 @@ namespace ObservatoryCenter
         /// <summary>
         /// FOCUS MAX Direct access to ASCOM Focuser object
         /// </summary>
-        public FocusMax.Focuser FocuserObj;                 //Focuser object
+        private FocusMax.Focuser FocuserObj;                 //Focuser object
         internal FocusMax.Focuser _FocuserObj;              //todo: remove this temp reference
 
         /// <summary>
         /// Current Focus Status when running Focus Async
         /// </summary>
         public int FocusAsyncStatus = -2;
+        public string FocusAsyncStatusSt = "";
+        private Dictionary<int, string> FocusAsyncStatusDictionary = new Dictionary<int, string> { { -1, "operation is in progress" }, { 0, "operation failed" }, { 1, "operation succeeded" } };
+
         public DateTime FocusAsync_StartTime;
 
         public int FM_FocuserPos;
@@ -57,7 +60,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// Init main COM objects for FOCUS MAX
         /// </summary>
-        public void Init()
+        public void InitObjects()
         {
             try { 
                 if (FocusControlObj == null)  FocusControlObj = new FocusMax.FocusControl();
@@ -77,7 +80,7 @@ namespace ObservatoryCenter
         public void Focus()
         {
             //Reinit objects (just in case)
-            Init();
+            InitObjects();
 
             //1.1. Check if connected 
             if (FocusControlObj == null)
@@ -94,10 +97,10 @@ namespace ObservatoryCenter
             }
 
             //1.3. Check if Camera isn't busy
-            if (ParentObsControl.objMaxim.CameraCurrentStatus != MaxIm.CameraStatusCode.csIdle)
+            if (ParentObsControl.objMaxim.CameraConnected && ParentObsControl.objMaxim.CameraCurrentStatus != MaxIm.CameraStatusCode.csError && ParentObsControl.objMaxim.CameraCurrentStatus != MaxIm.CameraStatusCode.csIdle)
             {
-                Logging.AddLog("Camera is busy [camera status=" + ParentObsControl.objMaxim.CameraCurrentStatus + "], try again later", LogLevel.Important, Highlight.Normal);
-                //return; //todo: check maxim camera is busy
+                Logging.AddLog("Camera is busy [camera status=" + ParentObsControl.objMaxim.CameraCurrentStatus.ToString() + "], try again later", LogLevel.Important, Highlight.Normal);
+                return;
             }
 
             //2. Start focusing
@@ -108,7 +111,7 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                Logging.AddLog("Exception during  FocusAsync method [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
+                Logging.AddLog("Exception during FocusAsync method [" + ex.ToString() + "]", LogLevel.Important, Highlight.Error);
             }
             Logging.AddLog("Start focusing...", LogLevel.Activity, Highlight.Normal);
         }
@@ -120,12 +123,19 @@ namespace ObservatoryCenter
         {
             try
             {
-                Init();
+                InitObjects();
 
                 FM_FocuserPos = FocuserObj.Position;
-                FM_FocuserTemp = FocuserObj.Temperature;
+                FM_FocuserTemp = FocusControlObj.Temperature;
+
                 HalfFluxDiameter = FocusControlObj.HalfFluxDiameter;
+
                 FocusAsyncStatus = FocusControlObj.FocusAsyncStatus;
+                if (!FocusAsyncStatusDictionary.TryGetValue(FocusControlObj.FocusAsyncStatus, out FocusAsyncStatusSt))
+                {
+                    FocusAsyncStatusSt = "Status: " + FocusAsyncStatus;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -141,7 +151,7 @@ namespace ObservatoryCenter
         /// <returns></returns>
         public string ConnectFocuser()
         {
-            Init();
+            InitObjects();
 
             try
             {
