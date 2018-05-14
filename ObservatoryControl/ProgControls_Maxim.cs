@@ -56,7 +56,7 @@ namespace ObservatoryCenter
             MaximApplicationObj = new MaxIm.Application();
         }
 
-        private void MaximLogError(string message, Exception ex)
+        private void MaximLogError(string message, Exception ex, LogLevel ForceLogLevel = LogLevel.Debug)
         {
             //1. Get some reflection information
             StackTrace st = new StackTrace(ex, true);
@@ -75,7 +75,7 @@ namespace ObservatoryCenter
                     + Environment.NewLine + Environment.NewLine + messstr;
             //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
 
-            Logging.AddLog(message + " [" + ex.Message + "]", LogLevel.Debug, Highlight.Error);
+            Logging.AddLog(message + " [" + ex.Message + "]", ForceLogLevel, Highlight.Error);
             Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
         }
 
@@ -119,85 +119,9 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                string FullMessage = "CheckMaximStatus exception!" + Environment.NewLine;
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
-
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("CheckMaximStatus exception [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                MaximLogError("CheckMaximStatus exception!", ex, LogLevel.Important);
             }
         }
-
-
-        public void CheckCameraStatus()
-        {
-            try
-            {
-                if (IsRunning() && MaximApplicationObj != null && CCDCamera != null && this.CameraConnected)
-                {
-                    //Read camera current status
-                    CameraCurrentStatus = CCDCamera.CameraStatus;
-
-                    if (CameraCurrentStatus == MaxIm.CameraStatusCode.csError)
-                    {
-                        ConnectCamera(false); // disconnect
-                        return;
-                    }
-
-                    //Camera name
-                    CameraName = CCDCamera.CameraName;
-                    GuiderName = CCDCamera.GuiderName;
-
-                    //Binning
-                    CameraBin = CCDCamera.BinX;
-
-                    //Filters
-                    try
-                    {
-                        var st = CCDCamera.FilterNames;
-                        CurrentFilter = Convert.ToString(st[CCDCamera.Filter]);
-                    }
-                    catch (Exception ex)
-                    {
-                        CurrentFilter = "";
-                        Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Trace, Highlight.Error);
-                        //Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string FullMessage = "CheckCameraStatus exception!" + Environment.NewLine;
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
-
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("CheckCameraStatus exception [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
-            }
-        }
-
         #endregion
 
 
@@ -205,7 +129,7 @@ namespace ObservatoryCenter
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        #region Connect devices
+        #region Connect devices and get its status
 
         /// <summary>
         /// Connect cameras in MaximDL
@@ -231,23 +155,8 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
+                MaximLogError("MaximDL camera connection failed", ex, LogLevel.Important);
 
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "MaximDL camera connection failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("Camera connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "Camera connection failed";
             }
         }
@@ -265,26 +174,13 @@ namespace ObservatoryCenter
                 try
                 {
                     res = (CCDCamera.LinkEnabled && CCDCamera.CameraStatus != MaxIm.CameraStatusCode.csError);
+
+                    //Read camera current status
+                    ReadCameraStatus();
                 }
                 catch (Exception ex)
                 {
-                    StackTrace st = new StackTrace(ex, true);
-                    StackFrame[] frames = st.GetFrames();
-                    string messstr = "";
-
-                    // Iterate over the frames extracting the information you need
-                    foreach (StackFrame frame in frames)
-                    {
-                        messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                    }
-
-                    string FullMessage = "MaximDL camera check connection failed!" + Environment.NewLine;
-                    FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                            + Environment.NewLine + Environment.NewLine + messstr;
-                    //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                    Logging.AddLog("Camera check connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                    MaximLogError("MaximDL camera check connection failed", ex, LogLevel.Important);
                 }
             }
 
@@ -308,23 +204,8 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
+                MaximLogError("MaximDL telescope connection failed", ex, LogLevel.Important);
 
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "MaximDL telescope connection failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("MaximDL telescope connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "MaximDL telescope connection failed ";
             }
         }
@@ -344,23 +225,7 @@ namespace ObservatoryCenter
                 }
                 catch (Exception ex)
                 {
-                    StackTrace st = new StackTrace(ex, true);
-                    StackFrame[] frames = st.GetFrames();
-                    string messstr = "";
-
-                    // Iterate over the frames extracting the information you need
-                    foreach (StackFrame frame in frames)
-                    {
-                        messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                    }
-
-                    string FullMessage = "MaximDL telescope check connection failed!" + Environment.NewLine;
-                    FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                            + Environment.NewLine + Environment.NewLine + messstr;
-                    //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                    Logging.AddLog("MaximDL telescope check connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                    MaximLogError("MaximDL telescope check connection failed", ex, LogLevel.Important);
                 }
             }
             return res;
@@ -383,23 +248,8 @@ namespace ObservatoryCenter
             }
             catch (Exception ex)
             {
-                StackTrace st = new StackTrace(ex, true);
-                StackFrame[] frames = st.GetFrames();
-                string messstr = "";
+                MaximLogError("MaximDL focuser connection failed", ex, LogLevel.Important);
 
-                // Iterate over the frames extracting the information you need
-                foreach (StackFrame frame in frames)
-                {
-                    messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                }
-
-                string FullMessage = "MaximDL focuser connection failed!" + Environment.NewLine;
-                FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                        + Environment.NewLine + Environment.NewLine + messstr;
-                //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                Logging.AddLog("MaximDL focuser connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
                 return "MaximDL focuser connection failed";
             }
         }
@@ -419,26 +269,54 @@ namespace ObservatoryCenter
                 }
                 catch (Exception ex)
                 {
-                    StackTrace st = new StackTrace(ex, true);
-                    StackFrame[] frames = st.GetFrames();
-                    string messstr = "";
-
-                    // Iterate over the frames extracting the information you need
-                    foreach (StackFrame frame in frames)
-                    {
-                        messstr += String.Format("{0}:{1}({2},{3})", frame.GetFileName(), frame.GetMethod().Name, frame.GetFileLineNumber(), frame.GetFileColumnNumber());
-                    }
-
-                    string FullMessage = "MaximDL focuser check connection failed!" + Environment.NewLine;
-                    FullMessage += Environment.NewLine + Environment.NewLine + "Debug information:" + Environment.NewLine + "IOException source: " + ex.Data + " " + ex.Message
-                            + Environment.NewLine + Environment.NewLine + messstr;
-                    //MessageBox.Show(this, FullMessage, "Invalid value", MessageBoxButtons.OK);
-
-                    Logging.AddLog("MaximDL focuser check connection failed [" + ex.Message + "]", LogLevel.Important, Highlight.Error);
-                    Logging.AddLog(FullMessage, LogLevel.Debug, Highlight.Error);
+                    MaximLogError("MaximDL focuser check connection failed", ex, LogLevel.Important);
                 }
             }
             return res;
+        }
+
+
+
+        public void ReadCameraStatus()
+        {
+            try
+            {
+                if (IsRunning() && MaximApplicationObj != null && CCDCamera != null && this.CameraConnected)
+                {
+                    //Read camera current status
+                    CameraCurrentStatus = CCDCamera.CameraStatus;
+
+                    //if (CameraCurrentStatus == MaxIm.CameraStatusCode.csError)
+                    //{
+                    //    ConnectCamera(false); // disconnect
+                    //    return;
+                    //}
+
+                    //Camera name
+                    CameraName = CCDCamera.CameraName;
+                    GuiderName = CCDCamera.GuiderName;
+
+                    //Binning
+                    CameraBin = CCDCamera.BinX;
+
+                    //Filters
+                    try
+                    {
+                        var st = CCDCamera.FilterNames;
+                        CurrentFilter = Convert.ToString(st[CCDCamera.Filter]);
+                    }
+                    catch (Exception ex)
+                    {
+                        CurrentFilter = "";
+                        Logging.AddLog("Read filters exception: " + ex.Message, LogLevel.Trace, Highlight.Error);
+                        //Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MaximLogError("CheckCameraStatus exception!", ex, LogLevel.Important);
+            }
         }
         #endregion /// connections ///
 
