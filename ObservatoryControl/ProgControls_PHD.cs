@@ -420,7 +420,7 @@ namespace ObservatoryCenter
 
             //1. Split into lines
             string[] lines = responsest.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            Logging.AddLog("PHD2_ParseServerResponse: response lines count = " + lines.Count(), LogLevel.Debug, Highlight.Error);
+            Logging.AddLog("PHD2_ParseServerResponse: response lines count = " + lines.Count(), LogLevel.Trace);
 
             //2. Loop through lines
             foreach (string curline in lines)
@@ -429,7 +429,7 @@ namespace ObservatoryCenter
                 string attribs = "", id = "", st_event = "";
                 st_event = Parse_PHD_ResponseString(curline, out attribs, out id);
 
-                Logging.AddLog("PHD2_ParseResponseString result: st_event = " + st_event + ", attributes = " + attribs + "", LogLevel.Debug, Highlight.Error);
+                Logging.AddLog("PHD2_ParseResponseString result: st_event = " + st_event + ", attributes = " + attribs + "", LogLevel.Debug);
 
                 //in case ID is given
                 //search and exit after evaluation
@@ -635,7 +635,7 @@ namespace ObservatoryCenter
             {
             //LoopingExposures
                 currentState = PHDState.Looping;
-                Logging.AddLog("PHD2 message: "+ eventst, LogLevel.Debug);
+                Logging.AddLog("PHD2 message: "+ eventst, LogLevel.Trace);
                 resparsedflag = true;
             }
             else if (eventst == "StartGuiding")
@@ -655,7 +655,7 @@ namespace ObservatoryCenter
 
                 curImageGuidingStats.Add(LastTimestamp, LastRAError, LastDecError); //Сохраним для статистики
 
-                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Trace);
                 resparsedflag = true;
             }
             else if (eventst == "GuidingStopped")
@@ -681,7 +681,7 @@ namespace ObservatoryCenter
             else if (eventst == "StarLost")
             {
                 currentState = PHDState.StarLost;
-                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Debug);
+                Logging.AddLog("PHD2 message: " + eventst, LogLevel.Activity, Highlight.Error);
                 resparsedflag = true;
             }
             else if (eventst == "GuidingDithered")
