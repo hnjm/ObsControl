@@ -938,130 +938,151 @@ namespace ObservatoryCenter
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private bool HadWeatherData = false; //was at least once data received?
-    /// <summary>
-    /// Update weather state
-    /// </summary>
-    private void UpdateWeatherData()
-    {
-
-    double Temp = -100;
-    double Cloud = -100;
-    double RGC = -1;
-    double Wet = 0;
-    DateTime XVal;
-
-    DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
-
-    //Read weather station value
-    if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
-    {
-        if (!HadWeatherData)
+        /// <summary>
+        /// Update weather state
+        /// </summary>
+        private void UpdateWeatherData()
         {
-            Logging.AddLog("Weather Station connected", LogLevel.Activity);
-        }
-        HadWeatherData = true; //flag, that at least one value was received
 
-        //Display small widget
-        Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
-        Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
-        XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
-        RGC = ObsControl.objWSApp.BoltwoodState.RGCVal;
-        Wet = ObsControl.objWSApp.BoltwoodState.WetSensorVal;
+            double Temp = -100;
+            double Cloud = -100;
+            double RGC = -1;
+            double Wet = 0;
+            DateTime XVal;
 
+            DataPoint EmptyP = new DataPoint { IsEmpty = true, XValue = DateTime.Now.AddSeconds(-5).ToOADate(), YValues = new double[] { 0 } };
 
-        //draw value
-        if (Temp > -100)
-        {
-            weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-        }
-        else
-        {
-            weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
-        }
-        if (Cloud > -100)
-        {
-            weatherSmallChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
-        }
-        else
-        {
-            weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
-        }
+            //Read weather station value
+            if (ObsControl.objWSApp.IsRunning() && ObsControl.objWSApp.CMD_GetBoltwoodString())
+            {
+                if (!HadWeatherData)
+                {
+                    Logging.AddLog("Weather Station connected", LogLevel.Activity);
+                }
+                HadWeatherData = true; //flag, that at least one value was received
 
-        txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
-
-        //Data in small widget
-        txtTemp.Text = Temp.ToString();
-        txtCloudState.Text = Cloud.ToString();
+                //Display small widget
+                Temp = ObsControl.objWSApp.BoltwoodState.Bolt_Temp;
+                Cloud = ObsControl.objWSApp.BoltwoodState.Bolt_CloudIdx;
+                XVal = ObsControl.objWSApp.BoltwoodState.LastMeasure;
+                RGC = ObsControl.objWSApp.BoltwoodState.RGCVal;
+                Wet = ObsControl.objWSApp.BoltwoodState.WetSensorVal;
 
 
-        //Display large widget
-        //draw value
-        if (Temp > -100)
-        {
-            chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
-        }
-        else
-        {
-            chartWT.Series["Temp"].Points.Add(EmptyP);
-        }
-        if (Cloud > -100)
-        {
-            chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
-        }
-        else
-        {
-            chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-        }
-        if (RGC >= 0)
-        {
-            chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
-        }
-        else
-        {
-            chartWT.Series["RGC"].Points.Add(EmptyP);
-        }
-        if (Wet > 0)
-        {
-            chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), 1024 - Wet);
-        }
-        else
-        {
-            chartWT.Series["Wet"].Points.Add(EmptyP);
-        }
+                //draw value
+                if (Temp > -100)
+                {
+                    weatherSmallChart.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                }
+                else
+                {
+                    weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
+                }
+                if (Cloud > -100)
+                {
+                    weatherSmallChart.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                }
+                else
+                {
+                    weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
+                }
 
-        //Data in large widget
-        txtWTTemp.Text = Temp.ToString();
-        txtWTCloudIdx.Text = Cloud.ToString();
-        txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
-        txtWTPreassure.Text = ObsControl.objWSApp.BoltwoodState.Preassure.ToString();
-        txtWTRGC.Text = RGC.ToString();
-        txtWTWet.Text = Wet.ToString();
+                txtRainCondition.Text = ObsControl.objWSApp.BoltwoodState.Bolt_RainFlag.ToString();
 
-    }
-    else if (HadWeatherData)
-    {
+                //Data in small widget
+                txtTemp.Text = Temp.ToString();
+                txtCloudState.Text = Cloud.ToString();
 
-        weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
-        weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
 
-        chartWT.Series["Temp"].Points.Add(EmptyP);
-        chartWT.Series["CloudIdx"].Points.Add(EmptyP);
-        chartWT.Series["RGC"].Points.Add(EmptyP);
-        chartWT.Series["Wet"].Points.Add(EmptyP);
+                //Display large widget
+                //draw value
+                if (Temp > -100)
+                {
+                    chartWT.Series["Temp"].Points.AddXY(XVal.ToOADate(), Temp);
+                }
+                else
+                {
+                    chartWT.Series["Temp"].Points.Add(EmptyP);
+                }
+                if (Cloud > -100)
+                {
+                    chartWT.Series["CloudIdx"].Points.AddXY(XVal.ToOADate(), Cloud);
+                }
+                else
+                {
+                    chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+                }
+                if (RGC >= 0)
+                {
+                    chartWT.Series["RGC"].Points.AddXY(XVal.ToOADate(), RGC);
+                }
+                else
+                {
+                    chartWT.Series["RGC"].Points.Add(EmptyP);
+                }
+                if (Wet > 0)
+                {
+                    chartWT.Series["Wet"].Points.AddXY(XVal.ToOADate(), 1024 - Wet);
+                }
+                else
+                {
+                    chartWT.Series["Wet"].Points.Add(EmptyP);
+                }
 
-        //Data in small widget
-        txtTemp.Text = String.Empty;
-        txtCloudState.Text = String.Empty;
-        //Data in large widget
-        txtWTTemp.Text = String.Empty;
-        txtWTCloudIdx.Text = String.Empty;
-        txtWTCaseTemp.Text = String.Empty;
-        txtWTPreassure.Text = String.Empty;
-        txtWTRGC.Text = String.Empty;
-        txtWTWet.Text = String.Empty;
-    }
+                //Data in large widget
+                txtWTTemp.Text = Temp.ToString();
+                txtWTCloudIdx.Text = Cloud.ToString();
+                txtWTCaseTemp.Text = ObsControl.objWSApp.BoltwoodState.Bolt_Heater.ToString();
+                txtWTPreassure.Text = ObsControl.objWSApp.BoltwoodState.Preassure.ToString();
+                txtWTRGC.Text = RGC.ToString();
+                txtWTWet.Text = Wet.ToString();
 
-    }
+            }
+            else if (HadWeatherData)
+            {
+
+                weatherSmallChart.Series["Temp"].Points.Add(EmptyP);
+                weatherSmallChart.Series["CloudIdx"].Points.Add(EmptyP);
+
+                chartWT.Series["Temp"].Points.Add(EmptyP);
+                chartWT.Series["CloudIdx"].Points.Add(EmptyP);
+                chartWT.Series["RGC"].Points.Add(EmptyP);
+                chartWT.Series["Wet"].Points.Add(EmptyP);
+
+                //Data in small widget
+                txtTemp.Text = String.Empty;
+                txtCloudState.Text = String.Empty;
+                //Data in large widget
+                txtWTTemp.Text = String.Empty;
+                txtWTCloudIdx.Text = String.Empty;
+                txtWTCaseTemp.Text = String.Empty;
+                txtWTPreassure.Text = String.Empty;
+                txtWTRGC.Text = String.Empty;
+                txtWTWet.Text = String.Empty;
+            }
+            else
+            {
+                double ExternalTemp = Maxim_ExternalApplication.TEMP_MIN;
+                if (ObsControl.ASCOMFocuser.FocuserTemp != Maxim_ExternalApplication.TEMP_MIN)
+                {
+                    ExternalTemp = ObsControl.ASCOMFocuser.FocuserTemp;
+                }
+                else if (ObsControl.objFocusMaxApp.FM_FocuserTemp!= Maxim_ExternalApplication.TEMP_MIN)
+                {
+                    ExternalTemp = ObsControl.objFocusMaxApp.FM_FocuserTemp;
+                }
+
+                if (ExternalTemp != Maxim_ExternalApplication.TEMP_MIN)
+                {
+                    weatherSmallChart.Series["Temp"].Points.AddXY(DateTime.Now.ToOADate(), ExternalTemp);
+                    chartWT.Series["Temp"].Points.AddXY(DateTime.Now.ToOADate(), ExternalTemp);
+
+                    txtTemp.Text = ExternalTemp.ToString("N1");
+                    txtWTTemp.Text = ExternalTemp.ToString("N1");
+                }
+            }
+
+        }
 
     private bool HadTTCData = false; //was at least once data received?
 
