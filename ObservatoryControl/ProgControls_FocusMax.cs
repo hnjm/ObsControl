@@ -114,6 +114,8 @@ namespace ObservatoryCenter
         {
             try
             {
+                Init();
+
                 FM_FocuserPos = FocuserObj.Position;
                 HalfFluxDiameter = FocusControlObj.HalfFluxDiameter;
                 FocusAsyncStatus = FocusControlObj.FocusAsyncStatus;

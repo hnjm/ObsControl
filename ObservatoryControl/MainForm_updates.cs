@@ -665,14 +665,27 @@ namespace ObservatoryCenter
 
         public void UpdateFocusMaxStatus()
         {
-            ObsControl.objFocusMaxApp.CheckFocusMaxFocusStatus();
+            if (ObsControl.objFocusMaxApp.IsRunning())
+            {
+                //Check status
+                ObsControl.objFocusMaxApp.CheckFocusMaxFocusStatus();
 
-            txtFocusMax_FocusStartTime.Text = ObsControl.objFocusMaxApp.FocusAsync_StartTime.ToString();
-            txtFocusMax_FocusStartTimeElapsed.Text = (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString();
+                txtFocusMax_FocusStartTime.Text = ObsControl.objFocusMaxApp.FocusAsync_StartTime.ToString();
+                txtFocusMax_FocusStartTimeElapsed.Text = (DateTime.Now - ObsControl.objFocusMaxApp.FocusAsync_StartTime).TotalSeconds.ToString();
 
-            txtFocusMax_FocusAsyncStatus.Text = ObsControl.objFocusMaxApp.FocusAsyncStatus.ToString();
-            txtFocusMax_FocuserPosition.Text = ObsControl.objFocusMaxApp.FM_FocuserPos.ToString();
-            txtFocusMax_Debug.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString();
+                txtFocusMax_FocusAsyncStatus.Text = ObsControl.objFocusMaxApp.FocusAsyncStatus.ToString();
+                txtFocusMax_FocuserPosition.Text = ObsControl.objFocusMaxApp.FM_FocuserPos.ToString();
+                txtFocusMax_Debug.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString();
+            }
+            else
+            {
+                txtFocusMax_FocusStartTime.Text = "";
+                txtFocusMax_FocusStartTimeElapsed.Text = "" ;
+
+                txtFocusMax_FocusAsyncStatus.Text = "";
+                txtFocusMax_FocuserPosition.Text = "";
+                txtFocusMax_Debug.Text = "";
+            }
         }
 
 
