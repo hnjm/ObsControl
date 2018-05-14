@@ -185,9 +185,9 @@ namespace ObservatoryCenter
                     j++;
                     if (j==1)
                     { 
-                        txtRMS_X_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString();
-                        txtRMS_Y_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString();
-                        txtRMS_prevframe3.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
+                        txtRMS_X_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString();
+                        txtRMS_Y_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString();
+                        txtRMS_prevframe.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
 
                         //dispaly in short form
                         txtShort_prevRMS.Text = Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_X, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS_Y, 2).ToString() + "/" + Math.Round(ObsControl.objPHD2App.prevImageGuidingStats[i].RMS, 2).ToString();
