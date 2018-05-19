@@ -147,8 +147,9 @@ namespace ObservatoryCenter
         /// </summary>
         public string CameraCoolingOn(double SetTemp = TEMP_MIN)
         {
-            if (SetTemp == TEMP_MIN)
-                SetTemp = TargetCameraSetTemp;
+            //Changed logic - no temp given, no settemp
+            //if (SetTemp == TEMP_MIN)
+            //    SetTemp = TargetCameraSetTemp;
             CameraWarmpUpNow = false;
 
             if (IsRunning() && MaximApplicationObj != null)
@@ -159,7 +160,7 @@ namespace ObservatoryCenter
                     if (CCDCamera.CanSetTemperature)
                     {
                         CCDCamera.CoolerOn = true;
-                        CCDCamera.TemperatureSetpoint = SetTemp; ////////
+                        //CCDCamera.TemperatureSetpoint = SetTemp; ////////
                         Logging.AddLog("Camera cooler set to " + SetTemp + " deg", LogLevel.Activity);
                         return "Cooler set to " + SetTemp + " deg";
                     }
@@ -178,7 +179,7 @@ namespace ObservatoryCenter
             else
             {
                 //Change target temperature
-                TargetCameraSetTemp = SetTemp;
+                //TargetCameraSetTemp = SetTemp;
 
                 return "MaximDL is not running";
             }

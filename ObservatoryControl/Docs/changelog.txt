@@ -36,6 +36,10 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.4.3 [20.05.18]
+- баг при нажатии на кнопку Abort
+- изменена логика при включении кулера - теперь программа не устанавливает SetTemp
+
 1.4.2 [14.05.18]
 - Если даже нет погодной станции, температура фокусера показывается на графике
 - Исправлено чтение Maxim camera status
