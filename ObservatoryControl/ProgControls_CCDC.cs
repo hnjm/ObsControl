@@ -128,6 +128,7 @@ namespace ObservatoryCenter
         public DateTime LastExposureStartTime = new DateTime(2015,1,1,0,0,1);
         public string LastImageName = "";       //M33_20171119_Red_60s_1x1_-30degC_0,0degN
         public string LastSequenceInfo = "";    //(1 of 10)
+        public int LastSequence_Iteration = 0;      //Running Action List Iteration #7
 
         //End imaging exposure event
         public DateTime LastExposureEndTime = new DateTime(2015, 1, 1, 0, 0, 1);
@@ -608,6 +609,20 @@ namespace ObservatoryCenter
                 LastFocusTime = LineTime;
                 Logging.AddLog("CCDC Focus succeeded detected", LogLevel.Debug);
             }
+
+            //02:45:46  Running Action List Iteration #7
+            //02:45:46  Comment: -----------------Expose L------------ -
+            //02:45:46  Running script from D:\ASCOMscripts\phdbroker\Broker_end_slew.vbs
+            else if (LineSt.Contains("Running Action List Iteration"))
+            {
+                int beg1 = LineSt.LastIndexOf("#") + 1;
+                string LastSequence_Iteration_st = LineSt.Substring(beg1).Trim();
+                if (!int.TryParse(LastSequence_Iteration_st, out LastSequence_Iteration))
+                {
+                    LastSequence_Iteration = 0;
+                }
+            }
+
 
             //Start imaging
             //23:27:35  Setting image type to Light.

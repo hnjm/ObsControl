@@ -36,6 +36,10 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.4.4 [27.05.18]
+- logging buxfix 1.0.4
+- отоборажение CCDC Iteration Num 
+
 1.4.3 [20.05.18]
 - баг при нажатии на кнопку Abort
 - изменена логика при включении кулера - теперь программа не устанавливает SetTemp

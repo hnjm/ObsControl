@@ -793,6 +793,7 @@ namespace ObservatoryCenter
                         txtCCDCImageName.Text = ObsControl.objCCDCApp.LastImageName; // main panel
                         txtCCDCL_lastImage.Text = ObsControl.objCCDCApp.LastImageName;
                         txtCCDCL_lastSequence.Text = ObsControl.objCCDCApp.LastSequenceInfo;
+                        txtCCDC_SeriesNum.Text = "#" + ObsControl.objCCDCApp.LastSequence_Iteration.ToString();
 
                         txtCCDCLog_exp.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();
                         txtExposure.Text = ObsControl.objCCDCApp.LastExposure_ExposureLength.ToString();// main panel
