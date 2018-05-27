@@ -65,6 +65,8 @@ namespace ObservatoryCenter
             try { 
                 if (FocusControlObj == null)  FocusControlObj = new FocusMax.FocusControl();
                 if (FocuserObj == null) FocuserObj = new FocusMax.Focuser();
+                _FocusControlObj = FocusControlObj;
+                _FocuserObj = FocuserObj;
             }
             catch (Exception ex)
             {

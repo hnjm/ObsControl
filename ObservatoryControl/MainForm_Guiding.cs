@@ -145,6 +145,29 @@ namespace ObservatoryCenter
                 txtPHDState.Text = "Not running";
                 chkShort_Guiding.BackColor = DefaultBackColor;
             }
+
+            //SHORT PANNLE: PHD status
+            Color tmpPHDColor = new Color();
+            if (ObsControl.objPHD2App.IsRunning())
+            {
+                chkPHD.Checked = true;
+                tmpPHDColor = InterColor;
+                if (ObsControl.objPHDBrokerApp.IsRunning())
+                {
+                    bool res = ObsControl.objPHD2App.EquipmentConnected;
+                    if (res)
+                    {
+                        tmpPHDColor = OnColor;
+                    }
+                }
+            }
+            else
+            {
+                chkPHD.Checked = false;
+                tmpPHDColor = OffColor;
+            }
+            chkPHD.BackColor = tmpPHDColor;
+
         }
 
 

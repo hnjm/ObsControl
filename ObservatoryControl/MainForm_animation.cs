@@ -272,7 +272,7 @@ namespace ObservatoryCenter
         /// Draw roof position whenever needed
         /// called only also from - form_load
         /// </summary>
-        private void UpdateRoofPicture()
+        private void UpdateRoofStatus()
         {
             //Draw roof status
             if (ObsControl.ASCOMDome.Enabled && ObsControl.ASCOMDome.DRIVER_NAME != "" && ObsControl.ASCOMDome.Connected_flag)
@@ -295,6 +295,26 @@ namespace ObservatoryCenter
                 rectBase.BackColor = Color.WhiteSmoke;
                 btnOpenRoof.Enabled = false;
             }
+
+            //ShortPannel RoofStatus
+            if (ObsControl.ASCOMDome.Connected_flag)
+            {
+                chkRoof.Checked = true;
+                if (ObsControl.ASCOMDome.curShutterStatus == ShutterState.shutterOpen)
+                {
+                    chkRoof.BackColor = OnColor;
+                }
+                else
+                {
+                    chkRoof.BackColor = OffColor;
+                }
+            }
+            else
+            {
+                chkRoof.Checked = false;
+                chkRoof.BackColor = DefBackColor;
+            }
+
         }
         #endregion draw roof
 

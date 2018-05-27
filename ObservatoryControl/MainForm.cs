@@ -157,7 +157,7 @@ namespace ObservatoryCenter
             //init graphic elements
             ROOF_startPos = rectRoof.Location;
             //Update visual Roof Status
-            UpdateRoofPicture();
+            UpdateRoofStatus();
 
             //Start tcp server
             SocketServer = new SocketServerClass(this);
@@ -257,7 +257,7 @@ namespace ObservatoryCenter
 
             UpdatePowerButtonsStatus(); //checked for not quering device/program
             UpdateStatusbarASCOMStatus(); //checked for not quering device/program
-            UpdateRoofPicture(); //Checked for not quering device/program
+            UpdateRoofStatus(); //Checked for not quering device/program
 
             UpdateCCDCameraStatus();//Checked for not quering device/program
             UpdateCCDCameraCoolerStatus(); //Check for not quering device/program
@@ -278,11 +278,9 @@ namespace ObservatoryCenter
 
             UpdateCCDCstate();
 
+            UpdateFocusAndPointAccuracy();
+
             UpdateTimePannel(); //ok
-
-            //Short form
-            UpdateShortPanelButtonsStatus(); //ok
-
 
             //UpdateGuiderFieldsStatus(); //Maxim Guider
             //UpdateCCDAPstate(); //CCDAP

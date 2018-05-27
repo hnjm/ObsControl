@@ -43,6 +43,7 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateIQPStatus()
         {
+            //MAINFORM:
             if (IQP_monitorTimer)
             {
                 btnIQPStart.Text = "IQP:Stop";
@@ -53,6 +54,18 @@ namespace ObservatoryCenter
             {
                 btnIQPStart.Text = "IQP:Start";
                 btnIQPStart.BackColor = DefBackColor;
+            }
+
+            //SHORT PANNEL: IQP status
+            if (IQP_monitorTimer)
+            {
+                chkShort_IQP.BackColor = OnColor;
+                chkShort_IQP.Checked = true;
+            }
+            else
+            {
+                chkShort_IQP.BackColor = DefBackColor;
+                chkShort_IQP.Checked = false;
             }
         }
 

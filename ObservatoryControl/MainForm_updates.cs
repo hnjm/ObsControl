@@ -38,7 +38,7 @@ namespace ObservatoryCenter
         /// </summary>
         private void Update_DOME_related_elements()
         {
-            UpdateRoofPicture();
+            UpdateRoofStatus();
             UpdateStatusbarASCOMStatus();
             UpdateSettingsTabStatusFileds();
         }
@@ -259,6 +259,26 @@ namespace ObservatoryCenter
 
             */
 
+            //SHORT PANNEL: Power buttons
+            if (ObsControl.ASCOMSwitch.Connected_flag)
+            {
+                chkPower.Checked = true;
+                if (ObsControl.ASCOMSwitch.Telescope_power_flag == true)
+                {
+                    chkPower.BackColor = OnColor;
+                }
+                else
+                {
+                    chkPower.BackColor = OffColor;
+                }
+            }
+            else
+            {
+                chkPower.Checked = false;
+                chkPower.BackColor = DefBackColor;
+            }
+
+
         }
 
         /// <summary>
@@ -288,6 +308,28 @@ namespace ObservatoryCenter
                     txtCameraStatus.BackColor = SystemColors.Control;
                 }
             }
+
+            //SHORT PANNEL: Maxim DL status
+            Color tmpMaximColor = new Color();
+            if (ObsControl.objMaxim.IsRunning())
+            {
+                chkMaxim.Checked = true;
+                tmpMaximColor = InterColor;
+                if (ObsControl.objMaxim.CameraConnected)
+                {
+                    if (ObsControl.objMaxim.TelescopeConnected)
+                    {
+                        tmpMaximColor = OnColor;
+                    }
+                }
+            }
+            else
+            {
+                chkMaxim.Checked = false;
+                tmpMaximColor = OffColor;
+            }
+            chkMaxim.BackColor = tmpMaximColor;
+
         }
 
 
@@ -539,6 +581,55 @@ namespace ObservatoryCenter
                 btnTrack.Enabled = false;
             }
 
+
+
+            //SHORT PANNEL: Telescope park & track status
+            if (ObsControl.ASCOMTelescope.Connected_flag)
+            {
+                if (ObsControl.ASCOMTelescope.curAtPark)
+                {
+                    //btnPark.Text = "Parked";
+                    chkMountPark.BackColor = OffColor;
+                }
+                else
+                {
+                    //btnPark.Text = "UnParked";
+                    chkMountPark.BackColor = OnColor;
+                }
+
+                if (ObsControl.ASCOMTelescope.curTracking)
+                {
+                    //btnTrack.Text = "Parked";
+                    chkMountTrack.BackColor = OnColor;
+                }
+                else
+                {
+                    //btnTrack.Text = "UnParked";
+                    chkMountTrack.BackColor = OffColor;
+                }
+
+                txtShortAz.Text = String.Format("{0:0}", ObsControl.ASCOMTelescope.curAzimuth);
+                txtShortAlt.Text = String.Format("{0:0}", ObsControl.ASCOMTelescope.curAltitude);
+                if (ObsControl.ASCOMTelescope.curSlewing)
+                {
+                    txtShortAz.BackColor = InterColor;
+                    txtShortAlt.BackColor = InterColor;
+                }
+                else
+                {
+                    txtShortAz.BackColor = DefBackColorTextBoxes;
+                    txtShortAlt.BackColor = DefBackColorTextBoxes;
+                }
+            }
+            else
+            {
+                chkMountPark.BackColor = DefBackColor;
+                chkMountTrack.BackColor = DefBackColor;
+                txtShortAz.Text = "";
+                txtShortAlt.Text = "";
+            }
+
+
         }
 
 
@@ -665,7 +756,9 @@ namespace ObservatoryCenter
         }
 
 
-
+        /// <summary>
+        /// Called from InterfaceUpdateTimer
+        /// </summary>
         public void UpdateFocusMaxStatus()
         {
             if (ObsControl.objFocusMaxApp.IsRunning())
@@ -758,29 +851,6 @@ namespace ObservatoryCenter
                         foreach (string st in NewLogLines) txtCCDAutomationStatus.Text = st + txtCCDAutomationStatus.Text;
 
                         //6. Отображаем полученные данные в интерфейсе
-                        //Focusing
-                        txtShort_HFDLast.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
-                        txtCCDCLog_HFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
-                        txtCCDCLog_FocusTime.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
-                        txtLastFocusHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString(); //Main
-
-                        //Pointing
-                        txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Short
-                        if (ObsControl.objCCDCApp.LastPointingError > 30)
-                        {
-                            txtShort_PointingError.BackColor = OffColor;
-                        }
-                        else if (ObsControl.objCCDCApp.LastPointingError > 15)
-                        {
-                            txtShort_PointingError.BackColor = InterColor;
-                        }
-                        else
-                        {
-                            txtShort_PointingError.BackColor = DefBackColorTextBoxes;
-                        }
-
-                        txtCCDCLog_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //CCDC tab
-                        txtPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Telescope panel
 
                         //Obj data
                         txtShort_CurrentObj.Text = ObsControl.objCCDCApp.ObjName;
@@ -874,6 +944,21 @@ namespace ObservatoryCenter
                     }
                 }
             }
+
+
+            //SHORT PANNEL: CCDC status
+            Color tmpCCDCColor = new Color();
+            if (ObsControl.objCCDCApp.IsRunning())
+            {
+                chkCCDC.Checked = true;
+                tmpCCDCColor = OnColor;
+            }
+            else
+            {
+                chkCCDC.Checked = false;
+                tmpCCDCColor = OffColor;
+            }
+            chkCCDC.BackColor = tmpCCDCColor;
         }
 
         //Обновить прогресс бар
@@ -927,6 +1012,68 @@ namespace ObservatoryCenter
 
         }
 
+        /// <summary>
+        /// Update Pointing accuracy and Foucsing stat
+        /// </summary>
+        private void UpdateFocusAndPointAccuracy()
+        {
+            //From CCCDC
+            if (ObsControl.objCCDCApp.IsRunning())
+            {
+                //FOCUSING
+                //short pannel
+                txtShort_HFDLast.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
+                if (ObsControl.objCCDCApp.LastFocusHFD > 3.5)
+                {
+                    txtShort_HFDLast.BackColor = OffColor;
+                }
+                else if (ObsControl.objCCDCApp.LastFocusHFD >= 3.0)
+                {
+                    txtShort_HFDLast.BackColor = InterColor;
+                }
+                else
+                {
+                    txtShort_HFDLast.BackColor = DefBackColorTextBoxes;
+                }
+                
+
+                //ccdc pannel
+                txtCCDCLog_HFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString();
+                txtCCDCLog_FocusTime.Text = ObsControl.objCCDCApp.LastFocusTime.ToString("HH:mm:ss");
+
+                //main pannel
+                txtLastFocusHFD.Text = ObsControl.objCCDCApp.LastFocusHFD.ToString(); //Main
+
+                //POINTING
+                //short
+                txtShort_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Short
+                if (ObsControl.objCCDCApp.LastPointingError > 30)
+                {
+                    txtShort_PointingError.BackColor = OffColor;
+                }
+                else if (ObsControl.objCCDCApp.LastPointingError > 15)
+                {
+                    txtShort_PointingError.BackColor = InterColor;
+                }
+                else
+                {
+                    txtShort_PointingError.BackColor = DefBackColorTextBoxes;
+                }
+
+                //ccdc pannel
+                txtCCDCLog_PointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //CCDC tab
+
+                //main pannel
+                txtPointingError.Text = ObsControl.objCCDCApp.LastPointingError.ToString(); //Telescope panel
+            }
+
+            //From FocusMax
+            if (ObsControl.objFocusMaxApp.IsRunning())
+            {
+                txtLastFocusHFD.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString("N2");
+            }
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #endregion *** The end of Update PHD and CCDAP data *****************************************************************
         // end of block
@@ -934,7 +1081,7 @@ namespace ObservatoryCenter
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #region *** Update Weather And TelescopeTempControl Data *****************************************************************
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
