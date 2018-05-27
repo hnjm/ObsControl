@@ -187,6 +187,17 @@ namespace ObservatoryCenter
             }
             toolStripDropDownLogLevel.Text = Enum.GetName(typeof(LogLevel), LogLevel.Activity);
 
+            //Fill in Combobox Boltwood
+            comboBoxRainFlag.DataSource = Enum.GetNames(typeof(Enum_RainFlag));
+            comboBoxWetFlag.DataSource = Enum.GetNames(typeof(Enum_WetFlag));
+
+            comboBoxCloudCond.DataSource = Enum.GetNames(typeof(Enum_CloudCond));
+            comboBoxWindCond.DataSource = Enum.GetNames(typeof(Enum_WindCond));
+            comboBoxRainCond.DataSource = Enum.GetNames(typeof(Enum_RainCond));
+            comboBoxDaylightCond.DataSource = Enum.GetNames(typeof(Enum_DayCond));
+
+            comboBoxRoofCloseFlag.DataSource = Enum.GetNames(typeof(Enum_RoofFlag));
+            comboBoxAlertFlag.DataSource = Enum.GetNames(typeof(Enum_AlertFlag));
 
             //Run all timers at the end
             mainTimer_Short.Enabled = true;
@@ -275,10 +286,11 @@ namespace ObservatoryCenter
 
             UpdatePHDstate();// Checked for not quering device / program
 
-
             UpdateCCDCstate();
 
             UpdateFocusAndPointAccuracy();
+
+            UpdateBoltwoodStatus();
 
             UpdateTimePannel(); //ok
 

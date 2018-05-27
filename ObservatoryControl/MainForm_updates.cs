@@ -1074,6 +1074,31 @@ namespace ObservatoryCenter
             }
         }
 
+
+        private void UpdateBoltwoodStatus()
+        {
+            //Update weather file
+            ObsControl.objBoltwoodControl.UpdateFile();
+
+            //Update fields
+            txtDewPoint.Text = ObsControl.objBoltwoodControl.BoltwoodObj.DewPoint.ToString("0.#");
+            txtSkyTemp.Text = ObsControl.objBoltwoodControl.BoltwoodObj.SkyTemp.ToString();
+            txtWindSpeed.Text = ObsControl.objBoltwoodControl.BoltwoodObj.WindSpeed.ToString();
+
+            comboBoxCloudCond.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.CloudCond.ToString();
+            comboBoxWindCond.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.WindCond.ToString();
+            //comboBoxRainCond.SelectedItem = BoltwoodObj.RainCond.ToString();
+            comboBoxDaylightCond.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.DaylightCond.ToString();
+
+            comboBoxRoofCloseFlag.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.RoofCloseFlag.ToString();
+            comboBoxAlertFlag.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.AlertFlag.ToString();
+
+            comboBoxRainCond.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.RainCond.ToString();
+            comboBoxRainFlag.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.RainFlag.ToString();
+            comboBoxWetFlag.SelectedItem = ObsControl.objBoltwoodControl.BoltwoodObj.WetFlag.ToString();
+        }
+
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         #endregion *** The end of Update PHD and CCDAP data *****************************************************************
         // end of block

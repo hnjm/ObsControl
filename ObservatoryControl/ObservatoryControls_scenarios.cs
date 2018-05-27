@@ -103,6 +103,7 @@ namespace ObservatoryCenter
             CommandParser.Commands.Add("IMAGING_RUN_PAUSE", new Command((a) => this.ImagingRun_Pause(), "Pause current imaging run, i.e. send pause command to CCDC through boltwood interface"));
             CommandParser.Commands.Add("IMAGING_RUN_RESUME", new Command((a) => this.ImagingRun_Resume(), "Resume current imaging run, i.e. release pause through boltwood interface"));
             CommandParser.Commands.Add("IMAGING_RUN_ABORT", new Command((a) => this.ImagingRun_Abort(),"Abort current image run. i.e. send pause command to CCDC through boltwood interface and engage camera warmup"));
+            CommandParser.Commands.Add("IMAGING_RUN_ABORT_CANCEL", new Command((a) => this.ImagingRun_CancelAbort(), "Cancel aborting current image run. i.e. send resume command to CCDC through boltwood interface and set camera cooling"));
 
             //CommandParser.Commands.Add("IMAGING_RUN_ABORT_ASYNC", (a) => this.ImagingRun_Abort_async());
             //CommandParser.Commands2.Add("IMAGING_RUN_ABORT_ASYNC", new Command((a) => this.ImagingRun_Abort_async(), "Abort current image run (async mode). i.e. send pause command to CCDC through boltwood interface and engage camera warmup"));
@@ -389,6 +390,24 @@ namespace ObservatoryCenter
 
 
             return "RETURN: Imaging run aborted";
+        }
+
+        /// <summary>
+        /// CCDC will abort imaging run, park and cooler warmup. Using switch weather to BAD and controlling this
+        /// </summary>
+        /// <returns></returns>
+        public string ImagingRun_CancelAbort()
+        {
+            Logging.AddLog("Imaging run abortion canceling...", LogLevel.Activity);
+
+            //CCDC resume
+            ImagingRun_Resume();
+
+            //Camera set cool
+            CommandParser.ParseSingleCommand2("MAXIM_CAMERA_SETCOOLING");
+            
+
+            return "RETURN: Imaging run abortion canceled";
         }
 
         #endregion

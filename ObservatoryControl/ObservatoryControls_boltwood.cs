@@ -44,7 +44,7 @@ namespace ObservatoryCenter
         private void WriteFile()
         {
             BoltwoodObj.SetMeasurement(); //update measured time
-            BoltwoodFileClass.WirteBoltwoodData(BoltwoodObj.getBoltwoodString());
+            BoltwoodFileClass.WriteBoltwoodData(BoltwoodObj.getBoltwoodString());
         }
 
         public void Switch_to_GOOD()

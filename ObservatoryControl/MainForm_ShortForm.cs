@@ -160,13 +160,28 @@ namespace ObservatoryCenter
         /// </summary>
         private void chkAbort_Click(object sender, EventArgs e)
         {
-            ((CheckBox)sender).BackColor = OffColor;
-            btnEmergencyStop.BackColor = OffColor;
+            if (((CheckBox)sender).Checked)
+            {
+                ((CheckBox)sender).BackColor = DefaultBackColor;
+                ((CheckBox)sender).Checked = false;
+                btnEmergencyStop.BackColor = DefaultBackColor;
 
-            //toogle pause buttons
-            chkPause.Checked = false;
-            chkPause_CheckedChanged(chkPause, e);
-            ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_ABORT",true);
+                //toogle pause buttons
+                chkPause.Checked = true;
+                chkPause_CheckedChanged(chkPause, e);
+                ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_ABORT_CANCEL", true);
+            }
+            else
+            { 
+                ((CheckBox)sender).BackColor = OffColor;
+                ((CheckBox)sender).Checked = true;
+                btnEmergencyStop.BackColor = OffColor;
+
+                //toogle pause buttons
+                chkPause.Checked = false;
+                chkPause_CheckedChanged(chkPause, e);
+                ObsControl.CommandParser.ParseSingleCommand2("IMAGING_RUN_ABORT",true);
+            }
         }
 
         private void chkKill_Click(object sender, EventArgs e)
