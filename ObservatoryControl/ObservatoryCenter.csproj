@@ -31,7 +31,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>obscontrolinstall.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>112</ApplicationRevision>
+    <ApplicationRevision>113</ApplicationRevision>
     <ApplicationVersion>1.4.5.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
