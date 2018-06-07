@@ -151,7 +151,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\About.cs" />
-    <Compile Include="Modules\AstroUtils.cs" />
     <Compile Include="Modules\BoltwoodClasses.cs" />
     <Compile Include="ObservatoryControls_ASCOMFocuser.cs" />
     <Compile Include="ObservatoryControls_boltwood.cs" />
@@ -314,6 +313,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AstroUtils\AstroUtils\BE.AstroUtils.csproj">
+      <Project>{98bfef34-399c-4578-8764-79047f55d78f}</Project>
+      <Name>BE.AstroUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ImageQuilityPublisher\IQPEngine\IQPEngine.csproj">
       <Project>{8bb03dce-91f3-4ebc-879c-b7ecc0642d60}</Project>
       <Name>IQPEngine</Name>
