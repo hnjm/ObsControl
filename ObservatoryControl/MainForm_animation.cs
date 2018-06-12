@@ -11,6 +11,7 @@ using ASCOM.Utilities;
 using CPI.Plot3D;
 
 using LoggingLib;
+using AsrtoUtils;
 
 namespace ObservatoryCenter
 {
@@ -323,7 +324,7 @@ namespace ObservatoryCenter
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Широта
-        public float LatitudeGrad = 90.0F - (float)AstroUtilsClass.Latitude; //CHANGE TO OBS in FUTURE
+        public float LatitudeGrad = 90.0F - (float)AstroUtilsASCOM.Latitude; //CHANGE TO OBS in FUTURE
 
         //DEC ось
         int PARAM_DecAxix_Len = 50;

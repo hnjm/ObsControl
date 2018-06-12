@@ -313,8 +313,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AstroUtils\AstroUtils\BE.AstroUtils.csproj">
+    <ProjectReference Include="..\..\AstroUtils\AstroUtilsASCOM\BE.AstroUtilsASCOM.csproj">
       <Project>{98bfef34-399c-4578-8764-79047f55d78f}</Project>
+      <Name>BE.AstroUtilsASCOM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AstroUtils\AstroUtils\BE.AstroUtils.csproj">
+      <Project>{6bd11111-178e-4624-b209-f04b69c06571}</Project>
       <Name>BE.AstroUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ImageQuilityPublisher\IQPEngine\IQPEngine.csproj">

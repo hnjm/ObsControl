@@ -31,6 +31,9 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.4.6 [11.06.18]
+- расчеты по астрономии вынесены в отдельный проект AstroUtils (сам он переработан)
+
 1.4.5 [27.05.18]
 - индикация плохого фокусного 
 - индикация плохой pointing error

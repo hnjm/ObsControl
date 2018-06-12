@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms.DataVisualization.Charting;
 using LoggingLib;
+using AsrtoUtils;
 
 namespace ObservatoryCenter
 {
@@ -1417,10 +1418,10 @@ namespace ObservatoryCenter
         {
             txtTime_local.Text = DateTime.Now.ToString("HH:mm:ss");
             txtTime_UTC.Text = DateTime.UtcNow.ToString("HH:mm:ss");
-            txtTime_sideral.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NowLAST());
+            txtTime_sideral.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.NowLAST());
 
             txtTime_CurDate.Text = DateTime.Now.ToString("dd.MM.yyyy");
-            txtTime_JD.Text = Math.Truncate(AstroUtilsClass.GetJD()).ToString("N0");
+            txtTime_JD.Text = Math.Truncate(AstroUtilsASCOM.GetJD()).ToString("N0");
         }
 
         /// <summary>
@@ -1428,19 +1429,19 @@ namespace ObservatoryCenter
         /// </summary>
         private void UpdateAstronomyEvents()
         {
-            txtEvents_SunSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunSet());
-            txtEvents_NautTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightSet());
-            txtEvents_AstrTwilBeg.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.AstronTwilightSet());
+            txtEvents_SunSet.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.SunSet());
+            txtEvents_NautTwilBeg.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.NautTwilightSet());
+            txtEvents_AstrTwilBeg.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.AstronTwilightSet());
 
-            txtEvents_AstrTwilEnd.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.AstronTwilightRise(1));
-            txtEvents_NautTwilEnd.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.NautTwilightRise(1));
+            txtEvents_AstrTwilEnd.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.AstronTwilightRise(1));
+            txtEvents_NautTwilEnd.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.NautTwilightRise(1));
 
-            txtEvents_SunRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.SunRise(1));
+            txtEvents_SunRise.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.SunRise(1));
 
 
-            txtEvents_MoonRise.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonRise());
-            txtEvents_MoonSet.Text = AstroUtilsClass.ConvertToTimeString(AstroUtilsClass.MoonSet());
-            txtEvents_MoonPhase.Text = AstroUtilsClass.MoonIllumination().ToString("P0");
+            txtEvents_MoonRise.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.MoonRise());
+            txtEvents_MoonSet.Text = AstroUtilsASCOM.ConvertToTimeString(AstroUtilsASCOM.MoonSet());
+            txtEvents_MoonPhase.Text = AstroUtilsASCOM.MoonIllumination().ToString("P0");
         }
 
 #endregion *** Update AstroEvents *****************************************************************
