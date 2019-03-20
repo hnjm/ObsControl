@@ -3,6 +3,9 @@ Copyright by Emchenko Boris 2014-2018
 http://astromania.info
 
 to do:
+- minimize после Run
+- проверить, что значит RUn на свернутом формате
+- считать количество starlost 
 - all sky solve
 - конец экспозиции отличать от снимка для PinPoint
 - "Guiding is active" displaying
