@@ -26,6 +26,10 @@ namespace ObservatoryCenter
                 {
                     try
                     {
+                        //If it is first run chek for setup
+                        AuxilaryProc.CreateAutoStartLink();
+
+
                         if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
                         Application.EnableVisualStyles();
                         Application.SetCompatibleTextRenderingDefault(false);
@@ -37,6 +41,7 @@ namespace ObservatoryCenter
                         Logging.AddLog("Exception details: " + ex.ToString(), LogLevel.Debug, Highlight.Debug);
                         MessageBox.Show("Unhandled exception: " + ex.ToString());
                     }
+                    mutex.ReleaseMutex();
                 }
                 else
                 {

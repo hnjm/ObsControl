@@ -34,6 +34,9 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.4.7 [06.05.19]
+- autostart параметр (как в TempControl)
+
 1.4.6 [11.06.18]
 - расчеты по астрономии вынесены в отдельный проект AstroUtils (сам он переработан)
 

@@ -24,7 +24,7 @@ namespace ObservatoryCenter
          */
 
 
-        const string _PROGRAM_AUTOSTART_SHORTCUT_NAME = "TempControl autostart";
+        const string _PROGRAM_AUTOSTART_SHORTCUT_NAME = "ObsControl autostart";
 
         /// <summary>
         /// Create .lnk to ClickOnce shortcut with autostart parameters
@@ -117,6 +117,9 @@ namespace ObservatoryCenter
         }
 
 
+        const string CMD1 = "start";
+        const string CMD2 = "com";
+
         /// <summary>
         /// Test and Parse command line arguments, including usual coomand line and ClickOnce URI parameters passing
         /// </summary>
@@ -124,9 +127,63 @@ namespace ObservatoryCenter
         /// <param name="outComport">(out) Returns comport name</param>
         public static void CheckStartParams(out bool outAutoStart, out string outComport)
         {
-            outAutoStart = false;
-            outComport = "";
-            //contents deleted
+            bool autostart = false;
+            string Comport = string.Empty;
+
+            //1. USUAL COMMAND LINE ARGUMENTS
+            string[] args = Environment.GetCommandLineArgs();
+            for (int i = 1; i < args.Length; i++)
+            {
+                if (args[i].IndexOf(CMD1) >= 0)
+                {
+                    //AUTOSTART MONITORING
+                    autostart = true;
+                }
+                else if (args[i].ToLower().Substring(0, CMD2.Length) == CMD2)
+                {
+                    //RESET COM PORT NAME
+                    Comport = args[i].ToLower();
+                }
+            }
+
+            //2. ClickOnce parameters pass algorithm
+            try
+            {
+                string cmdLine = AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData[0];
+
+                if (cmdLine != "")
+                {
+                    ////// for debug
+                    //MessageBox.Show(cmdLine);
+                    /////////
+                    NameValueCollection nvc = HttpUtility.ParseQueryString(cmdLine);
+                    string[] theKeys = nvc.AllKeys;
+
+                    // if cmdline wasn't in GetQuery format, then force it to be one string delimetered by space
+                    if (theKeys.Count() == 1 && string.IsNullOrEmpty(theKeys[0]))
+                    {
+                        theKeys = cmdLine.Split(' ');
+                    }
+
+                    foreach (string theKey in theKeys)
+                    {
+                        if (theKey.IndexOf(CMD1) >= 0)
+                        {
+                            //AUTOSTART MONITORING
+                            autostart = true;
+                        }
+                        else if (theKey.ToLower().Substring(0, CMD2.Length) == CMD2)
+                        {
+                            //RESET COM PORT NAME
+                            Comport = theKey.ToLower();
+                        }
+                    }
+                }
+            }
+            catch { }
+
+            outAutoStart = autostart;
+            outComport = Comport;
         }
     }
 
