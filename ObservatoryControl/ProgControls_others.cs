@@ -24,8 +24,10 @@ namespace ObservatoryCenter
         public CdC_ExternatApplication() : base()
         { }
 
-        public string ConnectTelescope()
+        public string ConnectTelescope_old(string ChartName = "")
         {
+            //Select CHART or use default (i thing it will always be Chart_1
+
             string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, "CONNECTTELESCOPE\r\n", out Error);
             ErrorSt = output;
             //Error = 0;
@@ -40,18 +42,56 @@ namespace ObservatoryCenter
             return output;
         }
 
+        public string ConnectTelescopeInChart1()
+        {
+            string output = SelectChart("Chart_1");
+            output = output + Environment.NewLine + ConnectTelescope();
+            return output;
+        }
+        public string ConnectTelescopeInChart2()
+        {
+            string output = SelectChart("Chart_2");
+            output = output + Environment.NewLine + ConnectTelescope();
+            return output;
+        }
+
+        public string SelectChart(string ChartName)
+        {
+            string output = PerformCommand("SELECTCHART " + ChartName);
+            return output;
+        }
+        public string ConnectTelescope()
+        {
+            string output = PerformCommand("CONNECTTELESCOPE");
+            return output;
+        }
+
         public string GET_TelescopePos()
         {
             string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, "GETSCOPERADEC\r\n", out Error);
             ErrorSt = output;
-            Logging.AddLog("GET_TelescopePos: "+ output, LogLevel.Debug, Highlight.Error);
+            Logging.AddLog("GET_TelescopePos: " + output, LogLevel.Debug, Highlight.Error);
 
             return output;
         }
 
+        public string PerformCommand(string CommandName)
+        {
+            string output = SocketServerClass.ConnectToServerAndSendMessage(IPAddress.Parse("127.0.0.1"), ServerPort, CommandName + "\r\n", out Error);
+            ErrorSt = output;
+            //Error = 0;
+            if (Error < 0)
+            {
+                Logging.AddLog("Error for CdC command [" + CommandName + "]", LogLevel.Important, Highlight.Error);
+            }
+            else
+            {
+                Logging.AddLog("CdC command [" + CommandName + "] ok", LogLevel.Activity);
+            }
+            return output;
+        }
+
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

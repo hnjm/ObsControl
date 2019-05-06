@@ -627,7 +627,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// MINIMUM mode
         /// </summary>
-        private void Form_SwitchTo_Short_Mode()
+        public void Form_SwitchTo_Short_Mode()
         {
             if (!bMinModeEnabled) return;
 
@@ -667,7 +667,7 @@ namespace ObservatoryCenter
         /// <summary>
         /// MAXIMUM mode
         /// </summary>
-        private void Form_SwitchTo_Maximum_Mode()
+        public void Form_SwitchTo_Maximum_Mode()
         {
             //if (!bMinModeEnabled) return;
 

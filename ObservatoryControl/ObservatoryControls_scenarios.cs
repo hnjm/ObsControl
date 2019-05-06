@@ -44,6 +44,8 @@ namespace ObservatoryCenter
 
             //Self control commands
             CommandParser.Commands.Add("OBS_TELESCOPE_CONNECT", new Command((a) => this.OBS_connectTelescope(), "Connect telescope in Observatory control software"));
+            CommandParser.Commands.Add("OBS_MINIMIZE", new Command((a) => this.OBS_FormSwitchToShort(), "Switch main form of Observatory control software to minimum mode"));
+            CommandParser.Commands.Add("OBS_MAXIMIZE", new Command((a) => this.OBS_FormSwitchToMax(), "Switch main form of Observatory control software to usual (maximum) mode"));
 
             //Power commands
             CommandParser.Commands.Add("POWER_ON", new Command((a) => this.ASCOMSwitch.PowerMainRelaysOn(), "Power on all switch channels")); //Power Mount, Camera, Focuser
@@ -70,7 +72,9 @@ namespace ObservatoryCenter
 
             //Cartes du Ciel
             CommandParser.Commands.Add("CdC_RUN", new Command((a) => this.startPlanetarium(), "Run Cartes du Ciel"));
-            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", new Command((a) => this.objCdCApp.ConnectTelescope(), "Connect telescope in Cartes du Ciel"));
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", new Command((a) => this.objCdCApp.ConnectTelescope(), "Connect telescope in Cartes du Ciel current chart"));
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT1", new Command((a) => this.objCdCApp.ConnectTelescopeInChart1(), "Connect telescope in Cartes du Ciel Chart_1"));
+            CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT2", new Command((a) => this.objCdCApp.ConnectTelescopeInChart2(), "Connect telescope in Cartes du Ciel Chart_2"));
 
             //CCDAP
             CommandParser.Commands.Add("CCDAP_RUN", new Command((a) => this.startCCDAP(), "Run CCDAutopilot"));

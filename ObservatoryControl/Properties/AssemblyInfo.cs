@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Observatory Control Center for ASTROMANIA observatory")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("astromania.info")]
-[assembly: AssemblyProduct("Observatory Control Center")]
+[assembly: AssemblyProduct("Observatory Control")]
 [assembly: AssemblyCopyright("Copyright ©  2013-2019 by Boris Emchenko")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.7.*")]
-[assembly: AssemblyFileVersion("1.4.7")]
+[assembly: AssemblyVersion("1.4.8.*")]
+[assembly: AssemblyFileVersion("1.4.8")]

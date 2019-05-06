@@ -34,6 +34,10 @@ bugs:
 - roof animation strange flickering
 - unkown exception reason on Dome Connect!!!! to resolve
 
+1.4.8 [06.05.19]
+- новые команды OBS_MINIMIZE|OBS_MAXIMIZE
+- новые команды CdC_TELESCOPE_CONNECT1 и CdC_TELESCOPE_CONNECT2 (подключение телескопов на карте 1 и карте 2)
+
 1.4.7 [06.05.19]
 - autostart параметр (как в TempControl)
 

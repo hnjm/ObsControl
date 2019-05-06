@@ -96,7 +96,20 @@ namespace ObservatoryCenter
             return "Telescope in ObsContrtol connected";
         }
 
+        public string OBS_FormSwitchToShort()
+        {
+            Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+            ParentMainForm.Invoke(new Action(() => ParentMainForm.Form_SwitchTo_Short_Mode()));
+            return "MainForm switched to short mode";
+        }
 
+        public string OBS_FormSwitchToMax()
+        {
+            Logging.AddLog(System.Reflection.MethodBase.GetCurrentMethod().Name + " enter", LogLevel.Trace);
+            ParentMainForm.Invoke(new Action(() => ParentMainForm.Form_SwitchTo_Maximum_Mode()));
+            return "MainForm switched to maximum mode";
+        }
+        
     }
 
 }
