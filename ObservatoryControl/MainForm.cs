@@ -230,6 +230,17 @@ namespace ObservatoryCenter
             Form_SwitchTo_Maximum_Mode();
 
 
+            // TEST COMMAND LINE PARAMETERS
+            bool autostart = false;
+            string comport_over = string.Empty;
+            AuxilaryProc.CheckStartParams(out autostart, out comport_over);
+
+
+            if (autostart)
+            {
+                this.btnStartAll.PerformClick();
+            }
+
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
