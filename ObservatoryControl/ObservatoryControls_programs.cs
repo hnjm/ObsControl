@@ -116,6 +116,8 @@ namespace ObservatoryCenter
         public string startPlanetarium()
         {
             objCdCApp.Run();
+            objCdCApp.ConnectTelescopeInChart1();
+            objCdCApp.ConnectTelescopeInChart2();
             return objCdCApp.ErrorSt;
         }
 
