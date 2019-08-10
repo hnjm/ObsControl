@@ -108,7 +108,86 @@ namespace ObservatoryCenter
         { }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // All Sky Plate Solver APP class
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// All Sky Plate Solver  class
+    /// </summary>
+    public class ASPS_PlateSolver_ExternatApplication : ExternalApplication
+    {
+        public ASPS_PlateSolver_ExternatApplication() : base()
+        { }
 
+        public string ResultPath = ""; //Path were res files are stored [c:\Users\Administrator\AppData\Local\Astrometry\temp]
+        public string ResultFilename = "stars.log";
+        public string ResultOKFlagFilename = "stars.solved";
+
+        private bool SolvedFlag = false;
+        private bool SolvedFlag_CurrentAttempt = false;
+        private bool SolvedFlag_PreviousCheck = false;
+
+        internal string Solution_RA, Solution_Dec, Current_RA, Current_Dec, Target_RA, Target_Dec;
+
+
+        public string GetResultText()
+        {
+            SolvedFlag_CurrentAttempt = CheckSolved();
+            string ret = "";
+            if (SolvedFlag_CurrentAttempt && !SolvedFlag_PreviousCheck)
+            {
+                ret = "Synced";
+            }
+            else
+            {
+                ret = "";
+            }
+            SolvedFlag_PreviousCheck = SolvedFlag_CurrentAttempt;
+            return ret;
+        }
+
+        private bool CheckSolved()
+        {
+            string FileFull = ResultPath + "\\" + ResultOKFlagFilename;
+            return System.IO.File.Exists(FileFull);
+        }
+
+        private void ReadResultDetails()
+        {
+            /*end of file:
+                Field 1: solved with index index-4205-00.fits.
+                Field 1 solved: writing to file /temp/stars.solved to indicate this.
+                Field: /temp/stars.fit
+                Field center: (RA,Dec) = (28.78, 18.02) deg.
+                Field center: (RA H:M:S, Dec D:M:S) = (01:55:07.025, +18:01:19.448).
+                Field size: 52.1044 x 39.2873 arcminutes
+  
+             */
+
+            string FullResultFilename = ResultPath + ResultFilename;
+
+            try
+            {
+                string LastLine = System.IO.File.ReadLines(FullResultFilename).Last();
+                if (LastLine == "Did not solve (or no WCS file was written).")
+                {
+                    SolvedFlag = false;
+                }
+                //@TODO: file parsing
+            }
+            catch (System.IO.IOException Ex)
+            {
+                Logging.AddLog("Astrotortilla result file read error [" + Ex.Message + "]", LogLevel.Important, Highlight.Error);
+            }
+            catch (Exception Ex)
+            {
+                Logging.AddLog("Astrotortilla result file read error [" + Ex.Message + "]", LogLevel.Important, Highlight.Error);
+            }
+
+        }
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //

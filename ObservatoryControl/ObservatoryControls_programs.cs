@@ -43,6 +43,7 @@ namespace ObservatoryCenter
         public WeatherStation objWSApp;
         public TelescopeTempControl objTTCApp;
         public AstroTortilla objAstroTortilla;
+        public ASPS_PlateSolver_ExternatApplication objASPSApp;
 
 
         //public Process MaximDL_Process = new Process();
@@ -110,6 +111,9 @@ namespace ObservatoryCenter
             objAstroTortilla.FullName = ConfigManagement.getString("programsPath", "ASTROTORTILLA") ?? @"c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe";
             objAstroTortilla.FullNameAutoIt= ConfigManagement.getString("programsPath", "ASTROTORTILLA_AUTOIT") ?? @"c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe";
 
+            objASPSApp = new ASPS_PlateSolver_ExternatApplication();
+            objASPSApp.Name = "PlateSolver";
+            objASPSApp.FullName = ConfigManagement.getString("programsPath", "ASPS") ?? @"C:\Program Files(x86)\PlateSolver\PlateSolver.exe";
         }
 
         #region Programs Controlling  ///////////////////////////////////////////////////////////////////
@@ -118,6 +122,11 @@ namespace ObservatoryCenter
             objCdCApp.Run();
             objCdCApp.ConnectTelescopeInChart1();
             objCdCApp.ConnectTelescopeInChart2();
+            return objCdCApp.ErrorSt;
+        }
+        public string startPlanetarium2()
+        {
+            objCdCApp.Run();
             return objCdCApp.ErrorSt;
         }
 
@@ -167,6 +176,12 @@ namespace ObservatoryCenter
             objAstroTortilla.Solve(); //Run solving
         }
 
+        public string startASPS_Solve()
+        {
+            objASPSApp.ParameterString = "/solve";
+            objASPSApp.Run();
+            return objASPSApp.ErrorSt;
+        }
 
         public string startTTC()
         {

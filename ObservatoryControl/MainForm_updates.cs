@@ -918,7 +918,7 @@ namespace ObservatoryCenter
                     //Restart after end
                     if (ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
                     {
-                        btnReStartCCDC.BackColor = InterColor;
+                        btnReStartAtEndCCDC.BackColor = InterColor;
                         chkShort_Restart.BackColor = InterColor;
                         chkShort_Restart.Checked = true;
 
@@ -926,7 +926,7 @@ namespace ObservatoryCenter
                     }
                     else
                     {
-                        btnReStartCCDC.BackColor = DefBackColor;
+                        btnReStartAtEndCCDC.BackColor = DefBackColor;
                         chkShort_Restart.BackColor = DefBackColor;
                         chkShort_Restart.Checked = false;
 
@@ -1072,6 +1072,17 @@ namespace ObservatoryCenter
             if (ObsControl.objFocusMaxApp.IsRunning())
             {
                 txtLastFocusHFD.Text = ObsControl.objFocusMaxApp.HalfFluxDiameter.ToString("N2");
+            }
+
+            //If All Sky Plate Solver Running - check if was solved
+            if (ObsControl.objASPSApp.IsRunning())
+            {
+                string res= ObsControl.objASPSApp.GetResultText();
+                if (res != "")
+                {
+                    txtShort_PointingError.Text = res;
+                    txtShort_PointingError.BackColor = OffColor;
+                }
             }
         }
 

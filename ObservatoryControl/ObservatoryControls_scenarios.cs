@@ -72,6 +72,7 @@ namespace ObservatoryCenter
 
             //Cartes du Ciel
             CommandParser.Commands.Add("CdC_RUN", new Command((a) => this.startPlanetarium(), "Run Cartes du Ciel"));
+            CommandParser.Commands.Add("CdC_RUNONLY", new Command((a) => this.startPlanetarium2(), "Run Cartes du Ciel, but don't connect Telescope"));
             CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT", new Command((a) => this.objCdCApp.ConnectTelescope(), "Connect telescope in Cartes du Ciel current chart"));
             CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT1", new Command((a) => this.objCdCApp.ConnectTelescopeInChart1(), "Connect telescope in Cartes du Ciel Chart_1"));
             CommandParser.Commands.Add("CdC_TELESCOPE_CONNECT2", new Command((a) => this.objCdCApp.ConnectTelescopeInChart2(), "Connect telescope in Cartes du Ciel Chart_2"));
@@ -89,6 +90,10 @@ namespace ObservatoryCenter
 
             //IQP commands
             CommandParser.Commands.Add("IQP_START", new Command((a) => this.startIQP(), "Start built-in IQP monitoring"));
+
+            //SOLVER
+            CommandParser.Commands.Add("ASPS_SOLVE", new Command((a) => this.startASPS_Solve(), "Run All Sky Plate Solver and try to solve&sync current telescope position"));
+            
 
             //WS commands
             CommandParser.Commands.Add("WS_RUN", new Command((a) => this.startWS(), "Run WeatherStation monitor"));

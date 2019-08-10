@@ -780,7 +780,12 @@ namespace ObservatoryCenter
             ObsControl.objCCDCApp.Automation_Stop();
         }
 
-        private void btnReStartCCDC_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Restart after image exposure end
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnReStartAtEndCCDC_Click(object sender, EventArgs e)
         {
             if (ObsControl.objCCDCApp.Request_StopAfterImage.RequestActive && ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive)
             {
@@ -795,9 +800,14 @@ namespace ObservatoryCenter
                 ObsControl.objCCDCApp.Request_StartAfterStop.RequestActive = true;
             }
         }
+        /// <summary>
+        /// Just wrapper for btnReStartCCDC_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chkShort_Restart_Click(object sender, EventArgs e)
         {
-            btnReStartCCDC_Click(sender, e);
+            btnReStartAtEndCCDC_Click(sender, e);
         }
 
         private void btnAbortAtEnd_Click(object sender, EventArgs e)
@@ -824,8 +834,6 @@ namespace ObservatoryCenter
             //
             MessageBox.Show("Not implemented");
         }
-
-
 
         #endregion
 

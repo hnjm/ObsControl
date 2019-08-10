@@ -2,15 +2,18 @@
 <configuration>
 
 <programsPath>
-    <PHDBROKER value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe" />
-    <CdC value="c:\Program Files (x86)\Ciel\skychart.exe" />
-    <PHD2 value="c:\Program Files (x86)\PHDGuiding2\phd2.exe" />
-    <CCDAP value="c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe" />
-    <CCDAP_Logs value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs" />
     <MAXIMDL value="c:\Program Files (x86)\Diffraction Limited\MaxIm DL V5\MaxIm_DL.exe" />
     <FOCUSMAX value="c:\Program Files (x86)\FocusMax\FocusMax.exe" />
+    <CdC value="c:\Program Files (x86)\Ciel\skychart.exe" />
+    <PHD2 value="c:\Program Files (x86)\PHDGuiding2\phd2.exe" />
+    <PHDBROKER value="c:\Users\Administrator\Documents\CCDWare\CCDAutoPilot5\Scripts\PHDBroker_Server.exe" />
+	<PHDBrokerGuideStart value="d:\ASCOMscripts\phdbroker\phd_broker_end_slew.bat" run="false" type="command" />
+    <CCDAP value="c:\Program Files (x86)\CCDWare\CCDAutoPilot5\CCDAutoPilot5.exe" />
+    <CCDAP_Logs value="c:\Users\Emchenko\Documents\CCDWare\CCDAutoPilot5\Images\CCDAutoPilot_Logs" />
     <ASTROTORTILLA value="c:\Program Files (x86)\AstroTortilla\AstroTortilla.exe" />
     <ASTROTORTILLA_AUTOIT value="c:\Program Files (x86)\AstroTortilla\astrotortilla_solve.exe" />
+    <ASPS value="c:\Program Files (x86)\PlateSolver\PlateSolver.exe" />
+    <ASPS_CHECKRES_PATH value="c:\Users\Administrator\AppData\Local\Astrometry\temp"/>
     <WS value="c:\Users\Emchenko\Desktop\WeatherStation Monitor autostart.lnk" />
     <TTC value="c:\Users\Emchenko\Desktop\TempControl autostart.lnk" />
     <CCDC value="c:\CCD Commander\CCDCommander.exe" />
@@ -47,17 +50,22 @@ RUN:
     <PHD2_CONNECT type="command" run="True" />
     <PHDBROKER_RUN type="command" run="True" />
     <FOCUSMAX_RUN type="command" run="true" />
-    <CdC_RUN type="command" run="true" />
+    <CdC_RUNONLY type="command" run="true" />
+    <CCDC_RUN type="command" run="true" />
     <OBS_TELESCOPE_CONNECT type="command" run="true" />
     <TTC_RUN type="command" run="False" />
     <WAIT argument="7000" run="true" type="command" />
     <TTC_FANAUTO_ON type="command" run="False" />
     <TTC_HEATERAUTO_ON type="command" run="False" />
-    <CCDC_RUN type="command" run="true" />
     <WAIT argument="7000" run="true" type="command" />
-    <CdC_TELESCOPE_CONNECT type="command" run="true" />
+    <CdC_TELESCOPE_CONNECT1 type="command" run="true" />
+    <CdC_TELESCOPE_CONNECT2 type="command" run="true" />
     <IQP_START type="command" run="true" />
+	<OBS_MINIMIZE type="command" run="true" />
 </scenarioMain>
+<monitorPath>
+	<Dir1 value="C:\CCD Commander\Images" />
+</monitorPath>
 <publishURL>
 </publishURL>
 <IQP_options>
@@ -76,7 +84,7 @@ RUN:
 <IQP_filters>
     <excludedirs value="bad;ифв" />
     <excludefiles value="---;--+;+--" />
-    <observer value="Boris Emchenko" />
+    <observer value="" />
     <telescop value="" />
     <instrume value="" />
     <historycount value="1" />

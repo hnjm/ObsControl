@@ -189,7 +189,11 @@ namespace ObservatoryCenter
             btnKILL_Click(sender, e);
         }
 
+        private void chkSyncMount_Click(object sender, EventArgs e)
+        {
+            ObsControl.CommandParser.ParseSingleCommand2("ASPS_SOLVE", true);
 
+        }
 
         #endregion // ShortForm interface events ////////////////////////////////////////////////
         // End of ShortForm interface events
